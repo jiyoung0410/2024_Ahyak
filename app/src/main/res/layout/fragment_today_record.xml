@@ -1,14 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     tools:context=".TodayRecordFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="fragment_today_record" />
+        android:layout_height="wrap_content"
+        android:background="@color/point"
+        android:orientation="vertical"
+        tools:ignore="MissingClass">
 
-</FrameLayout>
+        <TextView
+            android:id="@+id/today_yy_mm_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2024년 1월"
+            android:fontFamily="@font/nanum_barun_gothic_bold"
+            android:textSize="18dp"
+            android:textColor="@color/white"
+            android:layout_marginTop="28dp"
+            android:layout_marginBottom="18dp"
+            android:layout_marginStart="12dp"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_gravity="center"
+            android:id="@+id/today_week_calender_rv"
+            android:layout_marginBottom="23dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+</LinearLayout>
+
