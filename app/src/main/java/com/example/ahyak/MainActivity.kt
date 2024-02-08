@@ -3,6 +3,7 @@ package com.example.ahyak
 import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -17,7 +18,33 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
+
         setContentView(binding.root)
+
+        fun replaceFragment(fragment: Fragment) {
+            val fragmentTransaction = supportFragmentManager.beginTransaction()
+            fragmentTransaction.replace(R.id.containers, fragment)
+            fragmentTransaction.commit()
+        }
+
+        replaceFragment(TodayRecordFragment())
+
+        binding.bottomNavigationview.setOnNavigationItemSelectedListener { item ->
+            when(item.itemId){
+                R.id.navigation_today -> {
+                    replaceFragment(TodayRecordFragment())
+                    return@setOnNavigationItemSelectedListener true
+                }
+                R.id.navigation_statistics -> {
+                    replaceFragment(StatisticsFragment())
+                    return@setOnNavigationItemSelectedListener true
+                }
+                R.id.navigation_calender -> {
+                    replaceFragment(CalenderFragment())
+                    return@setOnNavigationItemSelectedListener true
+                }else -> return@setOnNavigationItemSelectedListener false
+            }
+        }
 
     }
 }
