@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.ahyak.databinding.FragmentTodayRecordBinding
+import com.google.android.material.tabs.TabLayoutMediator
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -18,6 +19,7 @@ class TodayRecordFragment : Fragment() {
     lateinit var binding : FragmentTodayRecordBinding
     lateinit var calendarAdapter : CalendarAdapter
     private var calendarList = ArrayList<CalendarVO>()
+    private val tabItems = arrayOf<String>("기상 직후","아침","점심","저녁","취침 전")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -50,5 +52,10 @@ class TodayRecordFragment : Fragment() {
         }
         binding.todayRecordCalendarRv.adapter = calendarAdapter
         binding.todayRecordCalendarRv.layoutManager = GridLayoutManager(context,7)
+
+        binding.todayRecordVp.adapter = TodayRecordSliderVPAdapter(requireActivity())
+        TabLayoutMediator(binding.todayRecordTab,binding.todayRecordVp) { tab, position ->
+            tab.text = tabItems[position]
+        }.attach()
     }
 }
