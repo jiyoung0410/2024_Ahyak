@@ -23,7 +23,7 @@ class CalendarAdapter(private val cList: List<CalendarVO>) :
 
             // 오늘 날짜
             val now = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                LocalDate.now().format(DateTimeFormatter.ofPattern("dd").withLocale(Locale.forLanguageTag("ko")))
+                LocalDate.now().format(DateTimeFormatter.ofPattern("d").withLocale(Locale.forLanguageTag("ko")))
             } else {
                 TODO("VERSION.SDK_INT < O")
             }
