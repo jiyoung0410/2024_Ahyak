@@ -10,10 +10,12 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
-class CalendarAdapter(private val cList: List<CalendarVO>) :
+class CalendarAdapter(private val cList: List<CalendarVO>, val onClick: (CalendarVO)->(Unit)) :
     RecyclerView.Adapter<CalendarAdapter.CalendarViewHolder>() {
 
-    class CalendarViewHolder(private val binding: ItemTodayWeekCalenderBinding) :
+    private var selectedItemPosition: Int = RecyclerView.NO_POSITION
+
+    inner class CalendarViewHolder(private val binding: ItemTodayWeekCalenderBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: CalendarVO) {
             binding.date.text = item.cl_date
@@ -27,11 +29,29 @@ class CalendarAdapter(private val cList: List<CalendarVO>) :
             } else {
                 TODO("VERSION.SDK_INT < O")
             }
+
             // 오늘 날짜와 캘린더의 오늘 날짜가 같을 경우 background_blue 적용하기
-            if (today == now) {
+            if (selectedItemPosition == RecyclerView.NO_POSITION && binding.date.text == now) {
+                // 클릭된 아이템의 경우
+                selectedItemPosition = adapterPosition
                 binding.weekCardview.setBackgroundResource(R.drawable.today_week_calender_style_select)
                 binding.date.setTextColor(ContextCompat.getColor(binding.root.context, R.color.point))
                 binding.day.setTextColor(ContextCompat.getColor(binding.root.context, R.color.point))
+            } else {
+                // 클릭되지 않은 아이템의 경우
+                binding.weekCardview.setBackgroundResource(R.drawable.today_week_calender_style)
+                binding.date.setTextColor(ContextCompat.getColor(binding.root.context,R.color.white))
+                binding.day.setTextColor(ContextCompat.getColor(binding.root.context,R.color.white))
+            }
+
+            binding.root.setOnClickListener {
+                notifyItemChanged(selectedItemPosition)
+                selectedItemPosition = adapterPosition
+
+                binding.weekCardview.setBackgroundResource(R.drawable.today_week_calender_style_select)
+                binding.date.setTextColor(ContextCompat.getColor(binding.root.context, R.color.point))
+                binding.day.setTextColor(ContextCompat.getColor(binding.root.context, R.color.point))
+                onClick(item)
             }
         }
     }

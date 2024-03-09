@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ahyak.databinding.FragmentTodayRecordBinding
 import com.google.android.material.tabs.TabLayoutMediator
 import java.time.DayOfWeek
@@ -34,7 +35,9 @@ class TodayRecordFragment : Fragment() {
 
         var week_day: ArrayList<String> = arrayListOf("월","화","수","목","금","토","일")
 
-        calendarAdapter = CalendarAdapter(calendarList)
+        calendarAdapter = CalendarAdapter(calendarList) { item ->
+            //캘린더 click event 내용
+        }
 
         calendarList.apply {
             val dateFormat = DateTimeFormatter.ofPattern("d").withLocale(Locale.forLanguageTag("ko"))
@@ -52,6 +55,7 @@ class TodayRecordFragment : Fragment() {
         }
         binding.todayRecordCalendarRv.adapter = calendarAdapter
         binding.todayRecordCalendarRv.layoutManager = GridLayoutManager(context,7)
+        binding.todayRecordCalendarRv.isNestedScrollingEnabled = false
 
         binding.todayRecordVp.adapter = TodayRecordSliderVPAdapter(requireActivity())
         TabLayoutMediator(binding.todayRecordTab,binding.todayRecordVp) { tab, position ->
