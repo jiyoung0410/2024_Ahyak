@@ -1,10 +1,11 @@
-package com.example.ahyak
+package com.example.ahyak.Calendar
 
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.example.ahyak.R
 import com.example.ahyak.databinding.ItemTodayWeekCalenderBinding
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -30,7 +31,9 @@ class CalendarAdapter(private val cList: List<CalendarVO>) :
             // 오늘 날짜와 캘린더의 오늘 날짜가 같을 경우 background_blue 적용하기
             if (today == now) {
                 binding.weekCardview.setBackgroundResource(R.drawable.today_week_calender_style_select)
-                binding.date.setTextColor(ContextCompat.getColor(binding.root.context, R.color.point))
+                binding.date.setTextColor(ContextCompat.getColor(binding.root.context,
+                    R.color.point
+                ))
                 binding.day.setTextColor(ContextCompat.getColor(binding.root.context, R.color.point))
             }
         }

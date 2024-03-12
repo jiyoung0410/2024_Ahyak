@@ -6,10 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.ahyak.Calendar.CalendarAdapter
+import com.example.ahyak.Calendar.CalendarVO
 import com.example.ahyak.databinding.FragmentTodayRecordBinding
 import com.google.android.material.tabs.TabLayoutMediator
 import java.time.DayOfWeek
-import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.temporal.TemporalAdjusters

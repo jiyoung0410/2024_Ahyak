@@ -45,6 +45,7 @@
         app:tabIndicatorColor="@color/point"
         app:tabIndicatorHeight="3dp"
         app:tabIndicatorFullWidth="true"
+        android:background="@color/bg"
         app:tabRippleColor="@color/point"
         app:tabTextColor="@color/black"
         app:tabGravity="fill"
