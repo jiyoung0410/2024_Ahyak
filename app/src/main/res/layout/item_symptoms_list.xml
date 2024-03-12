@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="49dp"
+        android:text="증상"
+        android:textSize="14dp"
+        android:gravity="left|center"
+        android:layout_marginStart="33dp"
+        android:background="@color/white"
+        android:textColor="@color/black"
+        android:fontFamily="@font/nanum_barun_gothic_bold" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray1" />
+
+
+</LinearLayout>
