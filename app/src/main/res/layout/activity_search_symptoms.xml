@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".RecordSymptoms.SearchSymptomsFragment">
+    tools:context=".RecordSymptoms.SearchSymptomsActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -67,7 +67,7 @@
                 android:background="@color/white"
                 android:textColor="@color/gray1"
                 android:fontFamily="@font/nanum_barun_gothic" />
-            
+
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="9dp"
@@ -78,7 +78,7 @@
                 android:src="@drawable/ic_triangle"/>
 
         </LinearLayout>
-        
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -87,9 +87,10 @@
             android:layout_marginEnd="30dp"/>
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/search_symptoms_rv"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="30dp"/>
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"/>
 
 
     </LinearLayout>

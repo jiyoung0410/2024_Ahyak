@@ -1,5 +1,7 @@
 package com.example.ahyak.Calendar
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,8 +9,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.ahyak.R
+import com.example.ahyak.RecordSymptoms.RecordSymptomsActivity
 import com.example.ahyak.databinding.FragmentCalendarAfterwakeBinding
-import com.example.ahyak.databinding.FragmentTodayRecordBinding
 
 class CalendarAfterwakeFragment : Fragment() {
 
@@ -26,12 +29,17 @@ class CalendarAfterwakeFragment : Fragment() {
         extrapillListInit()
         initextrapilladapter()
 
+        //오늘의 증상 기록하기 누르면
+        binding.calendarAfterwakeRecordLl.setOnClickListener {
+            val intent = Intent(getActivity(), RecordSymptomsActivity::class.java)
+            startActivity(intent)
+        }
+
         binding.calendarAfterwakeChangeSymptomRv.apply {
             // 어댑터를 미리 초기화하고 리사이클러뷰에 설정
             val adapter = CalendarItemSympotmAdapter(
                 onClick = { ->
                     // 선택된 아이템 클릭 이벤트
-                    // Toast.makeText(requireActivity(), "까꿍", Toast.LENGTH_SHORT).show()
                 },
                 onAddPillClick = { symptom ->
                     // 새로운 약 추가 이벤트
