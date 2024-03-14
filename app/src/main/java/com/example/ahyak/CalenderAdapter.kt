@@ -69,4 +69,5 @@ class CalendarAdapter(private val cList: List<CalendarVO>, val onClick: (Calenda
         return cList.size
     }
 
+    fun getSelectedPosition() = selectedItemPosition
 }

@@ -1,5 +1,6 @@
 package com.example.ahyak
 
+import OnSwipeTouchListener
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -14,6 +15,7 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.temporal.TemporalAdjusters
+import java.util.Calendar
 import java.util.Locale
 
 class TodayRecordFragment : Fragment() {
@@ -33,7 +35,8 @@ class TodayRecordFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        var week_day: ArrayList<String> = arrayListOf("월","화","수","목","금","토","일")
+        var week_day : ArrayList<String> = arrayListOf("월","화","수","목","금","토","일")
+        var nowMonday : LocalDateTime? = null
 
         calendarAdapter = CalendarAdapter(calendarList) { item ->
             //캘린더 click event 내용
@@ -47,6 +50,8 @@ class TodayRecordFragment : Fragment() {
             binding.todayRecordYearmonthTv.text = localDate
 
             var thisMonday : LocalDateTime = LocalDateTime.now().with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY))
+            nowMonday = thisMonday
+
             for(i in 0..6) {
                 calendarList.apply {
                     add(CalendarVO(thisMonday.plusDays(i.toLong()).format(dateFormat),week_day[i]))
@@ -56,6 +61,34 @@ class TodayRecordFragment : Fragment() {
         binding.todayRecordCalendarRv.adapter = calendarAdapter
         binding.todayRecordCalendarRv.layoutManager = GridLayoutManager(context,7)
         binding.todayRecordCalendarRv.isNestedScrollingEnabled = false
+
+        binding.todayRecordCalendarRv.setOnTouchListener(object : OnSwipeTouchListener(requireContext()) {
+            val dateFormat = DateTimeFormatter.ofPattern("d").withLocale(Locale.forLanguageTag("ko"))
+
+            override fun onSwipeLeft() {
+                super.onSwipeLeft()
+                nowMonday = nowMonday?.minusDays(7)
+                calendarList = ArrayList<CalendarVO>()
+                for(i in 0..6) {
+                    calendarList.apply {
+                        add(CalendarVO(nowMonday!!.plusDays(i.toLong()).format(dateFormat),week_day[i]))
+                    }
+                }
+                binding.todayRecordCalendarRv.adapter = calendarAdapter
+            }
+
+            override fun onSwipeRight() {
+                super.onSwipeRight()
+                nowMonday = nowMonday?.plusDays(7)
+                calendarList = ArrayList<CalendarVO>()
+                for(i in 0..6) {
+                    calendarList.apply {
+                        add(CalendarVO(nowMonday!!.plusDays(i.toLong()).format(dateFormat),week_day[i]))
+                    }
+                }
+                binding.todayRecordCalendarRv.adapter = calendarAdapter
+            }
+        })
 
         binding.todayRecordVp.adapter = TodayRecordSliderVPAdapter(requireActivity())
         TabLayoutMediator(binding.todayRecordTab,binding.todayRecordVp) { tab, position ->
