@@ -113,7 +113,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="150dp"
             android:layout_marginTop="15dp"
             android:background="@drawable/white_radi_10dp_gray1_stroke"
             android:layout_marginStart="30dp"
@@ -123,23 +123,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
-                android:hint="증상에 관해 자유롭게 기록해보세요!\n\n"
-                android:textSize="12dp"
                 android:background="@color/white"
+                android:fontFamily="@font/nanum_barun_gothic"
+                android:hint="증상에 관해 자유롭게 기록해보세요"
+                android:gravity="top"
                 android:textColor="@color/gray1"
-                android:fontFamily="@font/nanum_barun_gothic" />
+                android:textSize="12dp" />
 
 
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/record_symptoms_save_ll"
             android:layout_width="match_parent"
             android:gravity="bottom"
             android:layout_marginBottom="30dp"
             android:layout_height="match_parent">
 
             <LinearLayout
+                android:id="@+id/record_symptoms_save_ll"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="@drawable/point_radi_15dp"

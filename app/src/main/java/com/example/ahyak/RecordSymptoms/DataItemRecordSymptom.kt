@@ -4,6 +4,6 @@ import java.io.Serializable
 
 data class DataItemRecordSymptom(
     val recordsympotmName : String,
-    val recordsympotmColor : String
+    val recordsympotmNum : Int
 ):Serializable
 

@@ -1,12 +1,13 @@
 package com.example.ahyak.RecordSymptoms
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ahyak.R
 import com.example.ahyak.databinding.ActivitySearchSymptomsBinding
 
-class SearchSymptomsActivity : AppCompatActivity() {
+class SearchSymptomsActivity : AppCompatActivity(), OnItemClickListener {
 
     private lateinit var binding : ActivitySearchSymptomsBinding
 
@@ -29,7 +30,7 @@ class SearchSymptomsActivity : AppCompatActivity() {
     }
 
     private fun initsearchSymptomsadapter() {
-        searchSymptomsadapter = SearchSymptomsAdapter(searchSymptoms)
+        searchSymptomsadapter = SearchSymptomsAdapter(searchSymptoms, this)
         binding.searchSymptomsRv.adapter = searchSymptomsadapter
         binding.searchSymptomsRv.layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL, false )
     }
@@ -77,5 +78,11 @@ class SearchSymptomsActivity : AppCompatActivity() {
                 DataItemSearchSymptom("눈부심")
             )
         )
+    }
+
+    override fun onItemClick(searchSymptom: DataItemSearchSymptom) {
+        val intent = Intent(this, DegreeSymptomsActivity::class.java)
+        intent.putExtra("searchText", searchSymptom.searchsympotmName)
+        startActivity(intent)
     }
 }

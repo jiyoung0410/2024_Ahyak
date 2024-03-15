@@ -4,11 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.ahyak.Calendar.CalendarItemExtraPillAdapter
-import com.example.ahyak.Calendar.DataItemExtraPill
-import com.example.ahyak.Calendar.DataItemSymptom
 import com.example.ahyak.MainActivity
-import com.example.ahyak.R
 import com.example.ahyak.databinding.ActivityRecordSymptomsBinding
 
 class RecordSymptomsActivity : AppCompatActivity() {
@@ -29,22 +25,31 @@ class RecordSymptomsActivity : AppCompatActivity() {
         binding.recordSymptomsAddLl.setOnClickListener {
             val intent = Intent(this, SearchSymptomsActivity::class.java)
             startActivity(intent)
-            //원형 증상 추가하는 코드
-//            val newRecordSymptom = DataItemRecordSymptom("두드러기", "#2222")
-//            recordSymptoms.add(newRecordSymptom)
-//            recordSymptomsadapter?.notifyItemInserted(recordSymptoms.size-1)
+        }
+
+        val degreeColorData = intent.getSerializableExtra("degreeColor") as? DataItemRecordSymptom
+        if (degreeColorData != null) {
+            val searchText = degreeColorData.recordsympotmName
+            val degreeColorNum = degreeColorData.recordsympotmNum
+
+            // 받은 데이터를 사용하여 작업 수행
+            val newRecordSymptom = DataItemRecordSymptom("$searchText", degreeColorNum)
+            recordSymptoms.add(newRecordSymptom)
+            recordSymptomsadapter?.notifyItemInserted(recordSymptoms.size-1)
         }
 
         //저장 누르면
         binding.recordSymptomsSaveLl.setOnClickListener {
-//            val intent = Intent(this, MainActivity::class.java)
-//            startActivity(intent)
             finish()
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
         }
 
         //'x'누르면
         binding.recordSymptomsCancleIv.setOnClickListener {
             finish()
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
         }
 
         setContentView(binding.root)

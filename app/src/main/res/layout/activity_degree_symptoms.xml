@@ -50,7 +50,8 @@
             android:textColor="@color/black"
             android:textSize="18dp" />
 
-        <EditText
+        <TextView
+            android:id="@+id/degree_symptoms_name_tv"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:textSize="14dp"
@@ -78,6 +79,7 @@
             android:orientation="horizontal">
 
             <LinearLayout
+                android:id="@+id/degree_1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/light_point"
@@ -95,6 +97,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/degree_2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
@@ -112,6 +115,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/degree_3"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
@@ -129,6 +133,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/degree_4"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
@@ -146,6 +151,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/degree_5"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
@@ -180,6 +186,7 @@
             android:layout_height="match_parent">
 
             <LinearLayout
+                android:id="@+id/degree_symptoms_add_ll"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="@drawable/point_radi_15dp"
