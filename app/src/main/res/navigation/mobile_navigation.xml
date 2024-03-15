@@ -20,7 +20,7 @@
 
     <fragment
         android:id="@+id/navigation_calender"
-        android:name="com.example.ahyak.CalenderFragment"
+        android:name="com.example.ahyak.Calendar.CalenderFragment"
         android:label="캘린더"
         tools:layout="@layout/fragment_calender" />
 </navigation>

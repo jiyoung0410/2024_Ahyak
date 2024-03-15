@@ -1,10 +1,11 @@
-package com.example.ahyak
+package com.example.ahyak.Calendar
 
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.example.ahyak.R
 import com.example.ahyak.databinding.ItemTodayWeekCalenderBinding
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -35,7 +36,9 @@ class CalendarAdapter(private val cList: List<CalendarVO>, val onClick: (Calenda
                 // 클릭된 아이템의 경우
                 selectedItemPosition = adapterPosition
                 binding.weekCardview.setBackgroundResource(R.drawable.today_week_calender_style_select)
-                binding.date.setTextColor(ContextCompat.getColor(binding.root.context, R.color.point))
+                binding.date.setTextColor(ContextCompat.getColor(binding.root.context,
+                    R.color.point
+                ))
                 binding.day.setTextColor(ContextCompat.getColor(binding.root.context, R.color.point))
             } else {
                 // 클릭되지 않은 아이템의 경우

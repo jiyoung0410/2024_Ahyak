@@ -7,11 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.ahyak.Calendar.CalendarAdapter
+import com.example.ahyak.Calendar.CalendarVO
 import com.example.ahyak.databinding.FragmentTodayRecordBinding
 import com.google.android.material.tabs.TabLayoutMediator
 import java.time.DayOfWeek
-import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.temporal.TemporalAdjusters
@@ -62,33 +62,33 @@ class TodayRecordFragment : Fragment() {
         binding.todayRecordCalendarRv.layoutManager = GridLayoutManager(context,7)
         binding.todayRecordCalendarRv.isNestedScrollingEnabled = false
 
-        binding.todayRecordCalendarRv.setOnTouchListener(object : OnSwipeTouchListener(requireContext()) {
-            val dateFormat = DateTimeFormatter.ofPattern("d").withLocale(Locale.forLanguageTag("ko"))
-
-            override fun onSwipeLeft() {
-                super.onSwipeLeft()
-                nowMonday = nowMonday?.minusDays(7)
-                calendarList = ArrayList<CalendarVO>()
-                for(i in 0..6) {
-                    calendarList.apply {
-                        add(CalendarVO(nowMonday!!.plusDays(i.toLong()).format(dateFormat),week_day[i]))
-                    }
-                }
-                binding.todayRecordCalendarRv.adapter = calendarAdapter
-            }
-
-            override fun onSwipeRight() {
-                super.onSwipeRight()
-                nowMonday = nowMonday?.plusDays(7)
-                calendarList = ArrayList<CalendarVO>()
-                for(i in 0..6) {
-                    calendarList.apply {
-                        add(CalendarVO(nowMonday!!.plusDays(i.toLong()).format(dateFormat),week_day[i]))
-                    }
-                }
-                binding.todayRecordCalendarRv.adapter = calendarAdapter
-            }
-        })
+//        binding.todayRecordCalendarRv.setOnTouchListener(object : OnSwipeTouchListener(requireContext()) {
+//            val dateFormat = DateTimeFormatter.ofPattern("d").withLocale(Locale.forLanguageTag("ko"))
+//
+//            override fun onSwipeLeft() {
+//                super.onSwipeLeft()
+//                nowMonday = nowMonday?.minusDays(7)
+//                calendarList = ArrayList<CalendarVO>()
+//                for(i in 0..6) {
+//                    calendarList.apply {
+//                        add(CalendarVO(nowMonday!!.plusDays(i.toLong()).format(dateFormat),week_day[i]))
+//                    }
+//                }
+//                binding.todayRecordCalendarRv.adapter = calendarAdapter
+//            }
+//
+//            override fun onSwipeRight() {
+//                super.onSwipeRight()
+//                nowMonday = nowMonday?.plusDays(7)
+//                calendarList = ArrayList<CalendarVO>()
+//                for(i in 0..6) {
+//                    calendarList.apply {
+//                        add(CalendarVO(nowMonday!!.plusDays(i.toLong()).format(dateFormat),week_day[i]))
+//                    }
+//                }
+//                binding.todayRecordCalendarRv.adapter = calendarAdapter
+//            }
+//        })
 
         binding.todayRecordVp.adapter = TodayRecordSliderVPAdapter(requireActivity())
         TabLayoutMediator(binding.todayRecordTab,binding.todayRecordVp) { tab, position ->

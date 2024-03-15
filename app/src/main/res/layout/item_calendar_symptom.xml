@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_calendar_symptom_cl"
+    android:layout_width="335dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/white_radi_10dp"
+    android:layout_marginBottom="18dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="17dp">
+
+        <ImageView
+            android:id="@+id/ic_hospital"
+            android:layout_width="21sp"
+            android:layout_height="21sp"
+            android:src="@drawable/ic_hospital"
+            android:layout_marginStart="17dp"
+            android:layout_marginTop="17dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/item_calendar_symptom_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="환절기 피부 질환"
+            android:fontFamily="@font/nanum_barun_gothic_bold"
+            android:textSize="18dp"
+            app:layout_constraintStart_toEndOf="@id/ic_hospital"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="17dp"
+            android:layout_marginStart="25dp"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/item_calendar_symptom_hospital_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="연세대학교 원주세브란스 기독 병원"
+            android:fontFamily="@font/nanum_barun_gothic_bold"
+            android:textSize="12dp"
+            app:layout_constraintStart_toEndOf="@id/ic_hospital"
+            app:layout_constraintTop_toBottomOf="@id/item_calendar_symptom_name"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="3dp"
+            android:textColor="@color/gray1"/>
+
+        <TextView
+            android:id="@+id/item_calendar_symptom_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2023.12.26"
+            android:fontFamily="@font/nanum_barun_gothic"
+            android:textSize="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginEnd="17dp"
+            android:layout_marginTop="12dp"
+            android:textColor="@color/gray1"/>
+
+        <LinearLayout
+            android:id="@+id/item_calendar_add_symptom_pill_ll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="23dp"
+            android:layout_marginEnd="20dp"
+            android:gravity="center"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="약 추가하기"
+                android:fontFamily="@font/nanum_barun_gothic_bold"
+                android:textSize="12sp"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" +"
+                android:fontFamily="@font/nanum_barun_gothic_bold"
+                android:textSize="20sp"
+                android:textColor="@color/point" />
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/item_calendar_symptom_pill_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/item_calendar_symptom_name"
+            android:layout_marginTop="19dp"/>
+
+        <LinearLayout
+            android:id="@+id/item_calendar_symptom_pill_all_take_ll"
+            android:layout_width="188dp"
+            android:layout_height="29dp"
+            app:layout_constraintTop_toBottomOf="@id/item_calendar_symptom_pill_rv"
+            android:background="@drawable/white_radi_50dp_point_stroke"
+            app:layout_constraintStart_toStartOf="parent"
+            android:gravity="center"
+            android:layout_marginTop="17dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="모두 복약"
+                android:fontFamily="@font/nanum_barun_gothic_bold"
+                android:textColor="@color/point"/>
+
+        </LinearLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,4 +8,9 @@
     <color name="point">#10C2C0</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="bg">#F9F9FA</color>
+    <color name="gray1">#A1A1A1</color>
+    <color name="gray2">#DBDBDB</color>
+    <color name="gray3">#EEEEEE</color>
+
 </resources>
