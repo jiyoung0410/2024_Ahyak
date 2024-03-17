@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/point"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".RecordSymptoms.DegreeSymptomsActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:fontFamily="@font/nanum_barun_gothic_bold"
+            android:gravity="center"
+            android:text="증상 정도"
+            android:textSize="15dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="9"
+        android:background="@drawable/white_radi_top_30dp"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/record_symptoms_cancle_iv"
+            android:layout_width="28.5dp"
+            android:layout_height="28.5dp"
+            android:src="@drawable/ic_cancle"
+            android:layout_gravity="right"
+            android:layout_marginTop="17dp"
+            android:layout_marginEnd="22dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:fontFamily="@font/nanum_barun_gothic_bold"
+            android:text="증상 정도"
+            android:textColor="@color/black"
+            android:textSize="18dp" />
+
+        <LinearLayout
+            android:id="@+id/degree_symptoms_ll"
+            android:layout_width="120dp"
+            android:layout_height="32dp"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/white_radi_15dp_gray1_stroke">
+
+            <TextView
+                android:id="@+id/degree_symptoms_name_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="불규칙한 심박"
+                android:textSize="14dp"
+                android:textColor="@color/black"
+                android:fontFamily="@font/nanum_barun_gothic_bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginStart="30dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/degree_1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/light_point"
+                android:gravity="center"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="1 : 증상 약함"
+                    android:textSize="8dp"
+                    android:textColor="@color/deep_green"
+                    android:fontFamily="@font/nanum_barun_gothic_bold"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/degree_2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:background="@color/point"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="2"
+                    android:textSize="8dp"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/nanum_barun_gothic_bold"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/degree_3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:background="@color/light_deep_point"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="3"
+                    android:textSize="8dp"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/nanum_barun_gothic_bold"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/degree_4"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:background="@color/regular_deep_point"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="4"
+                    android:textSize="8dp"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/nanum_barun_gothic_bold"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/degree_5"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:background="@color/deep_green"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="5 : 증상 심함"
+                    android:textSize="8dp"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/nanum_barun_gothic_bold"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center"
+            android:fontFamily="@font/nanum_barun_gothic_bold"
+            android:text="불편함의 강도에 해당하는 숫자를 눌러주세요"
+            android:textColor="@color/gray1"
+            android:textSize="10dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:gravity="bottom"
+            android:layout_marginBottom="30dp"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/degree_symptoms_add_ll"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/point_radi_15dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:gravity="center"
+                android:layout_marginTop="30dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="추가"
+                    android:textSize="14dp"
+                    android:fontFamily="@font/nanum_barun_gothic_bold"
+                    android:textColor="@color/white"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
+
+

@@ -19,6 +19,18 @@
             android:name=".AddSymptomsActivity"
             android:exported="false" />
         <activity
+            android:name=".RecordSymptoms.SearchSymptomsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RecordSymptoms.DegreeSymptomsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RecordSymptoms.RecordSymptomsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity2"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name" >
