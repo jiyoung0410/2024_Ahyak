@@ -9,6 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.ahyak.AddSymptomsActivity
+import com.example.ahyak.MedicationTimeActivity
 import com.example.ahyak.R
 import com.example.ahyak.RecordSymptoms.RecordSymptomsActivity
 import com.example.ahyak.databinding.FragmentCalendarAfterwakeBinding
@@ -53,7 +55,15 @@ class CalendarAfterwakeFragment : Fragment() {
             this.adapter = adapter
         }
 
+        binding.calendarAfterwakeChangeTimeLl.setOnClickListener {
+            val intent = Intent(requireContext(), MedicationTimeActivity::class.java)
+            startActivity(intent)
+        }
+
         binding.calendarAfterwakeAddSymptomLl.setOnClickListener {
+            val intent = Intent(requireContext(), AddSymptomsActivity::class.java)
+            startActivity(intent)
+
             // 새로운 아이템을 생성하거나 기존 데이터를 수정
             val newSymptomItem = DataItemSymptom("새로운 증상", "새로운 병원", "2024.03.09",
                 ItemAddPill = arrayListOf(DataItemSymptom.DataItemAddPill("10mg", "새로운 약")))
