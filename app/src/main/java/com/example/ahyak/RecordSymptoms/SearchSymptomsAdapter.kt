@@ -7,12 +7,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.ahyak.databinding.ItemCalendarExtraPillBinding
 import com.example.ahyak.databinding.ItemSymptomsSearchBinding
 
-class SearchSymptomsAdapter(val searchSymptoms:ArrayList<DataItemSearchSymptom>, private val itemClickListener: OnItemClickListener):RecyclerView.Adapter<SearchSymptomsAdapter.ViewHolder>() {
+class SearchSymptomsAdapter(var searchSymptoms:ArrayList<DataItemSearchSymptom>, private val itemClickListener: OnItemClickListener):RecyclerView.Adapter<SearchSymptomsAdapter.ViewHolder>() {
     inner class ViewHolder(val binding : ItemSymptomsSearchBinding) : RecyclerView.ViewHolder(binding.root), View.OnClickListener{
 
         init {
             binding.root.setOnClickListener(this)
         }
+
         fun bind(searchSymptom: DataItemSearchSymptom){
             binding.itemSymptomSearchNameTv.text = searchSymptom.searchsympotmName
         }
@@ -36,5 +37,10 @@ class SearchSymptomsAdapter(val searchSymptoms:ArrayList<DataItemSearchSymptom>,
 
     override fun getItemCount(): Int {
         return searchSymptoms.size
+    }
+    // 필터링된 목록 설정 메서드
+    fun filterList(filteredList: ArrayList<DataItemSearchSymptom>) {
+        searchSymptoms = filteredList
+        notifyDataSetChanged()
     }
 }
