@@ -29,6 +29,7 @@ class CalendarItemSympotmAdapter(val onClick: ()->(Unit), val onAddPillClick: (D
         fun bind(sympotm:DataItemSymptom){
 
             binding.itemCalendarAddSymptomPillLl.setOnClickListener {
+
                 // 아이템 추가 이벤트 발생
                 onAddPillClick(sympotm)
             }

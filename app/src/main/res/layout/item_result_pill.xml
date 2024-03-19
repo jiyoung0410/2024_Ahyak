@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:orientation="horizontal"
+    android:background="@drawable/white_radi_5dp_gray1_stroke"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:layout_margin="10dp"
+        app:cardCornerRadius="5dp">
+
+        <ImageView
+            android:id="@+id/item_result_pill_img"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/pill_example_img"/>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:layout_margin="10dp">
+        
+        <TextView
+            android:id="@+id/item_result_pill_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="가네듀오캡슐"
+            android:fontFamily="@font/nanum_barun_gothic_bold"
+            app:layout_constraintStart_toStartOf="parent"
+            android:textSize="14dp"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/item_result_pill_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="식별 표시 : "
+            android:textSize="12dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:fontFamily="@font/nanum_barun_gothic"/>
+
+        <TextView
+            android:id="@+id/item_result_pill_code_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="UDDB NTB"
+            android:textSize="12dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/item_result_pill_tv"
+            android:fontFamily="@font/nanum_barun_gothic"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

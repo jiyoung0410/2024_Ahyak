@@ -11,6 +11,8 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ahyak.AddSymptomsActivity
 import com.example.ahyak.MedicationTimeActivity
+import com.example.ahyak.PillRegister.ExtraRegisterPillActivity
+import com.example.ahyak.PillRegister.RegisterPillActivity
 import com.example.ahyak.R
 import com.example.ahyak.RecordSymptoms.RecordSymptomsActivity
 import com.example.ahyak.databinding.FragmentCalendarAfterwakeBinding
@@ -44,10 +46,13 @@ class CalendarAfterwakeFragment : Fragment() {
                     // 선택된 아이템 클릭 이벤트
                 },
                 onAddPillClick = { symptom ->
+                    //약 추가하기 버튼 누르면
                     // 새로운 약 추가 이벤트
-                    val newPillItem = DataItemSymptom.DataItemAddPill("10mg", "새로운 약")
-                    symptom.ItemAddPill.add(newPillItem)
-                    adapter?.notifyDataSetChanged()
+//                    val newPillItem = DataItemSymptom.DataItemAddPill("10mg", "새로운 약")
+//                    symptom.ItemAddPill.add(newPillItem)
+//                    adapter?.notifyDataSetChanged()
+                    val intent = Intent(requireContext(), RegisterPillActivity::class.java)
+                    startActivity(intent)
                 }
             ).build(sympotmList)
 
@@ -75,14 +80,17 @@ class CalendarAfterwakeFragment : Fragment() {
             binding.calendarAfterwakeChangeSymptomRv.adapter?.notifyItemInserted(sympotmList.size - 1)
         }
 
+        //추가 약 기록에서 약 추가하기 눌렀을 때
         binding.calendarAfterwakeChangeAddPillLl.setOnClickListener {
-            val newExtraPillItem = DataItemExtraPill("새로운약", "1정", "오전 12:00")
-
-            // 기존 데이터에 새로운 아이템을 추가
-            extrapillList.add(newExtraPillItem)
-
-            // 추가된 아이템을 리사이클러뷰에 반영
-            extrapilladapter?.notifyItemInserted(extrapillList.size - 1)
+            val intent = Intent(requireContext(), ExtraRegisterPillActivity::class.java)
+            startActivity(intent)
+//            val newExtraPillItem = DataItemExtraPill("새로운약", "1정", "오전 12:00")
+//
+//            // 기존 데이터에 새로운 아이템을 추가
+//            extrapillList.add(newExtraPillItem)
+//
+//            // 추가된 아이템을 리사이클러뷰에 반영
+//            extrapilladapter?.notifyItemInserted(extrapillList.size - 1)
         }
 
         return binding.root

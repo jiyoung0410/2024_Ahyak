@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/point"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".PillRegister.ResultPillActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:fontFamily="@font/nanum_barun_gothic_bold"
+            android:gravity="center"
+            android:text="검색 결과"
+            android:textSize="15dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="9"
+        android:background="@drawable/white_radi_top_30dp"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/record_symptoms_cancle_iv"
+            android:layout_width="28.5dp"
+            android:layout_height="28.5dp"
+            android:src="@drawable/ic_cancle"
+            android:layout_gravity="right"
+            android:layout_marginTop="17dp"
+            android:layout_marginEnd="22dp"/>
+        
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/result_pill_rv"
+            android:layout_marginTop="35dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginTop="15dp"
+            android:orientation="vertical"
+            android:background="@drawable/bg_radi_5dp_gray1_stroke"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="찾으시는 약이 없으신가요?"
+                android:textColor="@color/black"
+                android:fontFamily="@font/nanum_barun_gothic_bold"
+                android:textSize="14dp"
+                android:layout_marginBottom="3dp"
+                android:gravity="center" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="나중에라도 찾으실 수 있게 약의 특징을 기록해보세요!"
+                android:fontFamily="@font/nanum_barun_gothic"
+                android:textSize="12dp"
+                android:gravity="center" />
+
+            <LinearLayout
+                android:id="@+id/result_pill_free_record_ll"
+                android:layout_width="200dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/point_radi_50dp"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="자유 기록하기"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/nanum_barun_gothic_bold"
+                    android:textSize="14dp"
+                    android:layout_gravity="center"/>
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:gravity="bottom"
+            android:layout_marginBottom="30dp"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/result_pill_select_ll"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/point_radi_15dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:gravity="center"
+                android:layout_marginTop="30dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="선택"
+                    android:textSize="14dp"
+                    android:fontFamily="@font/nanum_barun_gothic_bold"
+                    android:textColor="@color/white"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+
+
+    </LinearLayout>
+
+</LinearLayout>
+
+
