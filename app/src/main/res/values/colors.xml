@@ -16,5 +16,6 @@
     <color name="gray1">#A1A1A1</color>
     <color name="gray2">#DBDBDB</color>
     <color name="gray3">#EEEEEE</color>
+    <color name="transparent">#00000000</color>
 
 </resources>

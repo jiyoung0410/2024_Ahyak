@@ -117,3 +117,6 @@ class CalendarAfterwakeFragment : Fragment() {
         )
     }
 }
+
+//// Intent를 통해 전달된 데이터를 받음
+//        val searchText = intent.getStringExtra("searchText")

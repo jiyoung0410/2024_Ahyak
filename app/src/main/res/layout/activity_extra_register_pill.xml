@@ -59,31 +59,24 @@
             android:layout_marginTop="17dp"
             android:background="@drawable/white_radi_5dp_gray1_stroke">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="약의 이름을 입력해주세요"
-                android:textSize="12dp"
-                android:fontFamily="@font/nanum_barun_gothic_light"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="10dp"/>
-
             <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="약의 이름을 입력해주세요"
+                android:id="@+id/extra_register_pill_name_input_et"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="약의 이름을 검색해주세요"
                 android:textSize="12dp"
-                android:background="@color/white"
+                android:inputType="text"
+                android:background="@color/transparent"
                 android:fontFamily="@font/nanum_barun_gothic_light"
                 app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginEnd="30dp"
+                app:layout_constraintEnd_toStartOf="@id/extra_register_pill_search_iv"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                android:visibility="gone"
                 android:layout_marginStart="10dp"/>
 
             <ImageView
+                android:id="@+id/extra_register_pill_search_iv"
                 android:layout_width="18dp"
                 android:layout_height="20dp"
                 android:src="@drawable/point_search_ic"
@@ -93,7 +86,6 @@
                 android:layout_marginEnd="10dp"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 
         <TextView
@@ -120,28 +112,18 @@
                 android:layout_marginTop="17dp"
                 android:background="@drawable/white_radi_5dp_gray1_stroke">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="약의 용량을 입력해주세요"
-                    android:textSize="12dp"
-                    android:fontFamily="@font/nanum_barun_gothic_light"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginStart="10dp"/>
-
                 <EditText
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/extra_register_pill_dosage_input_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:hint="약의 용량을 입력해주세요"
                     android:textSize="12dp"
-                    android:background="@color/white"
+                    android:background="@color/transparent"
+                    android:inputType="number"
                     android:fontFamily="@font/nanum_barun_gothic_light"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    android:visibility="gone"
                     android:layout_marginStart="10dp"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -155,13 +137,14 @@
                 android:orientation="horizontal"
                 android:layout_marginTop="17dp">
 
-                <androidx.cardview.widget.CardView
+                <LinearLayout
+                    android:id="@+id/extra_register_pill_dosage_mg_cv"
                     android:layout_width="match_parent"
                     android:layout_margin="3dp"
-                    app:cardElevation="0dp"
                     android:layout_height="27dp"
-                    android:layout_weight="1"
-                    app:cardCornerRadius="5dp">
+                    android:gravity="center"
+                    android:background="@drawable/white_radi_5dp"
+                    android:layout_weight="1">
 
                     <TextView
                         android:layout_gravity="center"
@@ -171,16 +154,16 @@
                         android:textColor="@color/black"
                         android:fontFamily="@font/nanum_barun_gothic"/>
 
-                </androidx.cardview.widget.CardView>
+                </LinearLayout>
 
-                <androidx.cardview.widget.CardView
+                <LinearLayout
+                    android:id="@+id/extra_register_pill_dosage_tablet_cv"
                     android:layout_width="match_parent"
                     android:layout_height="27dp"
                     android:layout_margin="3dp"
-                    android:backgroundTint="@color/gray2"
-                    app:cardElevation="0dp"
-                    android:layout_weight="1"
-                    app:cardCornerRadius="5dp">
+                    android:gravity="center"
+                    android:background="@drawable/gray2_radi_5dp"
+                    android:layout_weight="1">
 
                     <TextView
                         android:layout_gravity="center"
@@ -190,7 +173,7 @@
                         android:textColor="@color/black"
                         android:fontFamily="@font/nanum_barun_gothic"/>
 
-                </androidx.cardview.widget.CardView>
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -203,7 +186,7 @@
             android:layout_height="match_parent">
 
             <LinearLayout
-                android:id="@+id/register_pill_save_ll"
+                android:id="@+id/extra_register_pill_save_ll"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="@drawable/point_radi_15dp"
@@ -223,8 +206,5 @@
 
         </LinearLayout>
 
-    </LinearLayout>
-
+        </LinearLayout>
 </LinearLayout>
-
-
