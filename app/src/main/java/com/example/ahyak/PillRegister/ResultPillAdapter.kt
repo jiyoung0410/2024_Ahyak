@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.ahyak.R
 import com.example.ahyak.databinding.ItemResultPillBinding
 
-class ResultPillAdapter(val onClick: () -> Unit) : RecyclerView.Adapter<ResultPillAdapter.ViewHolder>() {
+class ResultPillAdapter(val onClick: (pillName: String) -> Unit) : RecyclerView.Adapter<ResultPillAdapter.ViewHolder>() {
     lateinit var resultPillList : ArrayList<DataItemResultPill>
     private var selectedPosition = -1 // 선택된 아이템의 위치를 저장하는 변수 추가
 
@@ -27,7 +27,10 @@ class ResultPillAdapter(val onClick: () -> Unit) : RecyclerView.Adapter<ResultPi
                 selectedPosition = adapterPosition // 현재 선택된 아이템의 위치 저장
                 notifyItemChanged(previousPosition) // 이전에 선택된 아이템의 가시성 변경 갱신
                 notifyItemChanged(selectedPosition) // 현재 선택된 아이템의 가시성 변경 갱신
-                onClick() // 생성자 파라미터로 받은 람다함수 onClick 실행
+
+                val resultpillName = binding.itemResultPillNameTv.text
+
+                onClick(resultpillName.toString()) // 생성자 파라미터로 받은 람다함수 onClick 실행
             }
             if (adapterPosition ==selectedPosition){
                 binding.resultPillItem.setBackgroundResource(R.drawable.white_radi_5dp_point_stroke)

@@ -6,6 +6,6 @@
         android:color="@color/white"/>
     <stroke
         android:color="@color/point"
-        android:width="2dp" />
+        android:width="3dp" />
 
 </shape>
