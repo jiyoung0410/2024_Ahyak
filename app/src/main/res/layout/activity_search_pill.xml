@@ -614,7 +614,7 @@
                                 android:layout_marginTop="3dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="기"
+                                android:text="기타"
                                 android:textSize="8dp"
                                 android:fontFamily="@font/nanum_barun_gothic"
                                 android:textColor="@color/gray1"/>

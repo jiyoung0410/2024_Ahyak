@@ -1,6 +1,6 @@
 package com.example.ahyak.Calendar
 
-import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -13,24 +13,64 @@ import com.example.ahyak.AddSymptomsActivity
 import com.example.ahyak.MedicationTimeActivity
 import com.example.ahyak.PillRegister.ExtraRegisterPillActivity
 import com.example.ahyak.PillRegister.RegisterPillActivity
-import com.example.ahyak.R
 import com.example.ahyak.RecordSymptoms.RecordSymptomsActivity
 import com.example.ahyak.databinding.FragmentCalendarAfterwakeBinding
+import com.google.gson.Gson
 
 class CalendarAfterwakeFragment : Fragment() {
 
     private lateinit var binding: FragmentCalendarAfterwakeBinding
     private var extrapillList : ArrayList<DataItemExtraPill> = arrayListOf()
     private var extrapilladapter : CalendarItemExtraPillAdapter?= null
+    private var symptomList: MutableList<DataItemSymptom> = mutableListOf()
 
     var extraPillInpoName: String? = null
     var extraPillInpoDosageSize:String? = null
     var extraPillInpoDosage:String? = null
     var extraPillformattedTime:String? = null
 
-    companion object {
-        const val ADD_PILL_REQUEST_CODE = 1001
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        //나중에 증상 추가하기 제대로 구현되면 삭제하기
+
+        // 최초 실행 여부를 확인하기 위해 SharedPreferences에서 isFirstRun 값을 가져옴
+        val preferences = requireActivity().getSharedPreferences("mySharedPreferences", Context.MODE_PRIVATE)
+        val isFirstRun = preferences.getBoolean("isFirstRun", true)
+
+        if (isFirstRun) {
+            // 최초 실행 시에만 증상 추가 작업 수행
+
+            // SharedPreferences에서 기존 데이터 불러오기
+            val gson = Gson()
+            val json = preferences.getString("symptomList", null)
+            symptomList = if (json != null) {
+                gson.fromJson(json, Array<DataItemSymptom>::class.java).toMutableList()
+            } else {
+                mutableListOf()
+            }
+
+            // 새로운 증상 생성
+            val newSymptom = DataItemSymptom("환절기 피부 질환", "연세대학교 원주 세브란스 기독병원", "2024.03.08", arrayListOf(
+                DataItemSymptom.DataItemAddPill("18mg", "콘서타"),
+                DataItemSymptom.DataItemAddPill("10mg", "인테놀정")
+            ))
+
+            // 새로운 증상 추가
+            symptomList.add(newSymptom)
+
+            // SharedPreferences에 새로운 데이터 저장
+            val editor = preferences.edit()
+            editor.putString("symptomList", gson.toJson(symptomList))
+
+            // 최초 실행 여부를 false로 설정하여 다음 실행에서는 이 작업을 수행하지 않도록 함
+            editor.putBoolean("isFirstRun", false)
+            editor.apply()
+
+        }
     }
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,6 +82,8 @@ class CalendarAfterwakeFragment : Fragment() {
 
         extrapillListInit()
         initextrapilladapter()
+
+        loadSymptomList()
 
         //오늘의 증상 기록하기 누르면
         binding.calendarAfterwakeRecordLl.setOnClickListener {
@@ -59,9 +101,10 @@ class CalendarAfterwakeFragment : Fragment() {
                     //약 추가하기 버튼 누르면
                     // 새로운 약 추가 이벤트
                     val intent = Intent(requireContext(), RegisterPillActivity::class.java)
+                    intent.putExtra("putsymptomName", symptom.sympotmname) // 예시로 증상의 이름을 넘김
                     startActivity(intent)
                 }
-            ).build(sympotmList)
+            ).build(symptomList)
 
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             this.adapter = adapter
@@ -80,11 +123,11 @@ class CalendarAfterwakeFragment : Fragment() {
             val newSymptomItem = DataItemSymptom("새로운 증상", "새로운 병원", "2024.03.09",
                 ItemAddPill = arrayListOf(DataItemSymptom.DataItemAddPill("10mg", "새로운 약")))
 
-            // 기존 데이터에 새로운 아이템을 추가
-            sympotmList.add(newSymptomItem)
+//            // 기존 데이터에 새로운 아이템을 추가
+//            sympotmList.add(newSymptomItem)
 
             // 추가된 아이템을 리사이클러뷰에 반영
-            binding.calendarAfterwakeChangeSymptomRv.adapter?.notifyItemInserted(sympotmList.size - 1)
+//            binding.calendarAfterwakeChangeSymptomRv.adapter?.notifyItemInserted(sympotmList.size - 1)
         }
 
         //추가 약 기록에서 약 추가하기 눌렀을 때
@@ -116,11 +159,6 @@ class CalendarAfterwakeFragment : Fragment() {
             }
         }
 
-        val registerPillInpoName = intent!!.getStringExtra("registerPillInpoName") ?: ""
-        val registerPillInpoDosageSize = intent.getStringExtra("registerPillInpoDosageSize") ?: ""
-        val registerPillInpoDosage = intent.getStringExtra("registerPillInpoDosage") ?: ""
-
-
         return binding.root
     }
     private fun initextrapilladapter() {
@@ -129,19 +167,23 @@ class CalendarAfterwakeFragment : Fragment() {
         binding.calendarAfterwakeChangeExtraPillRv.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
     }
 
-    val sympotmList = arrayListOf<DataItemSymptom>(
-        DataItemSymptom("환절기 피부 질환", "연세대학교 원주 세브란스 기독병원", "2024.03.08",
-            ItemAddPill = arrayListOf(DataItemSymptom.DataItemAddPill("18mg", "콘서타"), DataItemSymptom.DataItemAddPill("10mg", "인테놀정"))),
-        DataItemSymptom("특발성 돌풍", "건국대학교 병원", "2024.05.08",
-            ItemAddPill = arrayListOf(DataItemSymptom.DataItemAddPill("20mg", "경동파니틴정"), DataItemSymptom.DataItemAddPill("10mg", "트리부틴서방정"), DataItemSymptom.DataItemAddPill("20mg", "포타겔현탁액")))
-    )
-
     private fun extrapillListInit() {
         extrapillList.addAll(
             arrayListOf(
                 DataItemExtraPill("타이레놀", "1정", "오전 11:00")
             )
         )
+    }
+
+    private fun loadSymptomList() {
+        val preferences = requireActivity().getSharedPreferences("mySharedPreferences", Context.MODE_PRIVATE)
+        val gson = Gson()
+        val json = preferences.getString("symptomList", null)
+        symptomList = if (json != null) {
+            gson.fromJson(json, Array<DataItemSymptom>::class.java).toMutableList()
+        } else {
+            mutableListOf()
+        }
     }
 
 }

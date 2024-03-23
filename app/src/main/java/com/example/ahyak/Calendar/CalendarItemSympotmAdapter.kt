@@ -4,17 +4,15 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Adapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.ahyak.R
 import com.example.ahyak.databinding.ItemCalendarSymptomBinding
 
 class CalendarItemSympotmAdapter(val onClick: ()->(Unit), val onAddPillClick: (DataItemSymptom) -> Unit) : RecyclerView.Adapter<CalendarItemSympotmAdapter.ViewHolder>() {
 
-    lateinit var sympotms: ArrayList<DataItemSymptom>
+    lateinit var sympotms: MutableList<DataItemSymptom>
     private var selectedPosition = -1 // 선택된 아이템의 위치를 저장하는 변수 추가
-    fun build(i:ArrayList<DataItemSymptom>) : CalendarItemSympotmAdapter{
+    fun build(i: MutableList<DataItemSymptom>) : CalendarItemSympotmAdapter{
         sympotms = i
         return this
     }

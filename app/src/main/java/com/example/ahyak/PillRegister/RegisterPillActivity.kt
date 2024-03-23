@@ -9,10 +9,15 @@ import android.os.Bundle
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Adapter
+import android.widget.Toast
 import androidx.core.content.ContentProviderCompat.requireContext
 import com.example.ahyak.Calendar.DataItemExtraPill
+import com.example.ahyak.Calendar.DataItemSymptom
+import com.example.ahyak.MainActivity
 import com.example.ahyak.R
+import com.example.ahyak.RecordSymptoms.RecordSymptomsActivity
 import com.example.ahyak.databinding.ActivityRegisterPillBinding
+import com.google.gson.Gson
 
 class RegisterPillActivity : AppCompatActivity() {
 
@@ -110,17 +115,52 @@ class RegisterPillActivity : AppCompatActivity() {
 
         //저장 눌렀을 때
         binding.registerPillSaveLl.setOnClickListener {
-            val resultIntent = Intent()
-            registerpillDosageSize = binding.registerPillDosageInputEt.getText().toString()
-            registerpillName = binding.registerPillNameInputEt.getText().toString()
+            registerpillDosageSize = binding.registerPillDosageInputEt.text.toString()
+            registerpillName = binding.registerPillNameInputEt.text.toString()
 
-            resultIntent.putExtra("extraPillInpoName", registerpillName)
-            resultIntent.putExtra("extraPillInpoDosageSize", registerpillDosageSize)
-            resultIntent.putExtra("extraPillInpoDosage", registerpillDosage)
-            setResult(Activity.RESULT_OK, resultIntent)
+            // Intent를 통해 전달된 데이터를 받을 때 Extra 키 값을 "putsymptomName"으로 설정
+            val symptomName = intent.getStringExtra("putsymptomName")
+
+            // SharedPreferences에서 기존 데이터 불러오기
+            val preferences = getSharedPreferences("mySharedPreferences", Context.MODE_PRIVATE)
+            val gson = Gson()
+            val json = preferences.getString("symptomList", null)
+            val symptomList: MutableList<DataItemSymptom> = if (json != null) {
+                gson.fromJson(json, Array<DataItemSymptom>::class.java).toMutableList()
+            } else {
+                mutableListOf()
+            }
+            // 해당 증상을 찾아서 약을 추가할 수 있도록 함
+            val selectedSymptom = symptomList.find { it.sympotmname == symptomName }
+
+            // 만약 해당 증상이 없으면 새로운 증상을 생성하여 추가
+            if (selectedSymptom == null) {
+                val newSymptom = DataItemSymptom(
+                    symptomName ?: "New Symptom",
+                    "New Hospital",
+                    "2024.03.08",
+                    arrayListOf(DataItemSymptom.DataItemAddPill("$registerpillDosageSize$registerpillDosage", registerpillName))
+                )
+                symptomList.add(newSymptom)
+            } else {
+                // 새로운 약 생성
+                val newPill = DataItemSymptom.DataItemAddPill("$registerpillDosageSize$registerpillDosage", registerpillName)
+
+                // 선택한 증상에 새로운 약 추가
+                selectedSymptom.ItemAddPill.add(newPill)
+            }
+
+            // SharedPreferences에 수정된 데이터 저장
+            val editor = preferences.edit()
+            editor.putString("symptomList", gson.toJson(symptomList))
+            editor.apply()
+
+            val intent = Intent(this, MainActivity::class.java)
+
             finish()
-
+            startActivity(intent)
         }
+
         setContentView(binding.root)
 
     }

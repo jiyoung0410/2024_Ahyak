@@ -7,10 +7,10 @@ data class DataItemSymptom(
     val hospitalname : String,
     val startdate : String,
     val ItemAddPill : ArrayList<DataItemAddPill>
-    ){
+    ):Serializable {
     data class DataItemAddPill(
-        val pillvolume : String,
-        val pillname : String,
+        val pillvolume: String,
+        val pillname: String,
         var takepill: Boolean = false // 새로운 필드 추가
-    )
+    ):Serializable
 }
