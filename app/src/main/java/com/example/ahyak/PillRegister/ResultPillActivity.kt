@@ -3,13 +3,9 @@ package com.example.ahyak.PillRegister
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.ahyak.MainActivity
 import com.example.ahyak.R
 import com.example.ahyak.databinding.ActivityResultPillBinding
-import java.text.SimpleDateFormat
-import java.util.Locale
 
 class ResultPillActivity : AppCompatActivity() {
 
@@ -50,7 +46,6 @@ class ResultPillActivity : AppCompatActivity() {
         binding.resultPillSelectLl.setOnClickListener {
             val symptomName = intent.getStringExtra("putsymptomName")
             val intent = Intent(this, RegisterPillActivity::class.java)
-            Toast.makeText(this,"$symptomName", Toast.LENGTH_SHORT).show()
             intent.putExtra("putsymptomName", symptomName) // 예시로 증상의 이름을 넘김
             intent.putExtra("resultPillInpoName", resultpillName)
             finish()

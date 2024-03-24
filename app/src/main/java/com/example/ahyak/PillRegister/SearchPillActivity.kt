@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
-import android.widget.Toast
 import com.example.ahyak.R
 import com.example.ahyak.databinding.ActivitySearchPillBinding
 
@@ -163,7 +162,6 @@ class SearchPillActivity : AppCompatActivity() {
         //검색하기 버튼 누르면
         binding.searchPillSearchLl.setOnClickListener {
             val symptomName = intent.getStringExtra("putsymptomName")
-            Toast.makeText(this,"$symptomName", Toast.LENGTH_SHORT).show()
             val intent = Intent(this, ResultPillActivity::class.java)
             intent.putExtra("putsymptomName", symptomName) // 예시로 증상의 이름을 넘김
             finish()

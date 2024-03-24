@@ -1,6 +1,5 @@
 package com.example.ahyak.PillRegister
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Paint
@@ -9,14 +8,9 @@ import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.Adapter
-import android.widget.Toast
-import androidx.core.content.ContentProviderCompat.requireContext
-import com.example.ahyak.Calendar.DataItemExtraPill
 import com.example.ahyak.Calendar.DataItemSymptom
 import com.example.ahyak.MainActivity
 import com.example.ahyak.R
-import com.example.ahyak.RecordSymptoms.RecordSymptomsActivity
 import com.example.ahyak.databinding.ActivityRegisterPillBinding
 import com.google.gson.Gson
 
@@ -140,7 +134,6 @@ class RegisterPillActivity : AppCompatActivity() {
 
             // Intent를 통해 전달된 데이터를 받을 때 Extra 키 값을 "putsymptomName"으로 설정
             val symptomName = intent.getStringExtra("putsymptomName")
-            Toast.makeText(this,"$symptomName", Toast.LENGTH_SHORT).show()
 
             // SharedPreferences에서 기존 데이터 불러오기
             val preferences = getSharedPreferences("mySharedPreferences", Context.MODE_PRIVATE)

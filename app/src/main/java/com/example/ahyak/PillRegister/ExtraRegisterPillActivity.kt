@@ -4,10 +4,8 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import com.example.ahyak.MainActivity
 import com.example.ahyak.R
 import com.example.ahyak.databinding.ActivityExtraRegisterPillBinding
