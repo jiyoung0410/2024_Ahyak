@@ -179,9 +179,11 @@ class FreeRegisterPillActivity : AppCompatActivity() {
 
         //저장하기 버튼 누르면
         binding.freeRecordPillSearchLl.setOnClickListener {
+            val symptomName = intent.getStringExtra("putsymptomName")
             val intent = Intent(this, RegisterPillActivity::class.java)
+            intent.putExtra("putsymptomName", symptomName) //증상의 이름을 넘김
             val freeRecordPillName = binding.freeRecordPillSerachForNameEt.getText().toString()
-            intent.putExtra("freeRecordPillInpoName", freeRecordPillName)
+            intent.putExtra("resultPillInpoName", freeRecordPillName)
             finish()
             startActivity(intent)
         }

@@ -6,6 +6,7 @@ import android.content.Intent
 import android.graphics.Paint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Adapter
@@ -22,7 +23,7 @@ import com.google.gson.Gson
 class RegisterPillActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityRegisterPillBinding
-    var registerpillDosage: String = "정"
+    var registerpillDosage: String = "mg"
     var registerpillDosageSize:String = ""
     var registerpillName:String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -93,14 +94,28 @@ class RegisterPillActivity : AppCompatActivity() {
 
         //모양으로 검색하기 눌렀을 때
         binding.registerPillSearchShapeTv.setOnClickListener {
+            val symptomName = intent.getStringExtra("putsymptomName")
             val intent = Intent(this, SearchPillActivity::class.java)
+            intent.putExtra("putsymptomName", symptomName) //증상의 이름을 넘김
             finish()
             startActivity(intent)
         }
 
         val resultPillName = intent.getStringExtra("resultPillInpoName") ?: ""
         if(resultPillName!!.isNotEmpty()){
-            binding.registerPillNameInputEt.hint = resultPillName
+            binding.registerPillNameInputEt.visibility = View.GONE
+            binding.registerPillNameInputTv.visibility = View.VISIBLE
+            binding.registerPillNameInputTv.text = resultPillName
+            binding.registerPillSearchIv.visibility = View.GONE
+            binding.registerPillDeleteIv.visibility = View.VISIBLE
+        }
+
+        binding.registerPillDeleteIv.setOnClickListener {
+            binding.registerPillNameInputEt.visibility = View.VISIBLE
+            binding.registerPillNameInputTv.visibility = View.GONE
+            binding.registerPillNameInputEt.hint = "약의 이름을 검색해주세요"
+            binding.registerPillSearchIv.visibility = View.VISIBLE
+            binding.registerPillDeleteIv.visibility = View.GONE
         }
 
         val freeRecordPillName = intent.getStringExtra("freeRecordPillInpoName") ?: ""
@@ -116,10 +131,16 @@ class RegisterPillActivity : AppCompatActivity() {
         //저장 눌렀을 때
         binding.registerPillSaveLl.setOnClickListener {
             registerpillDosageSize = binding.registerPillDosageInputEt.text.toString()
-            registerpillName = binding.registerPillNameInputEt.text.toString()
+
+            if(binding.registerPillNameInputEt.text.isEmpty()){
+                registerpillName = binding.registerPillNameInputTv.text.toString()
+            }else{
+                registerpillName = binding.registerPillNameInputEt.text.toString()
+            }
 
             // Intent를 통해 전달된 데이터를 받을 때 Extra 키 값을 "putsymptomName"으로 설정
             val symptomName = intent.getStringExtra("putsymptomName")
+            Toast.makeText(this,"$symptomName", Toast.LENGTH_SHORT).show()
 
             // SharedPreferences에서 기존 데이터 불러오기
             val preferences = getSharedPreferences("mySharedPreferences", Context.MODE_PRIVATE)
@@ -156,6 +177,10 @@ class RegisterPillActivity : AppCompatActivity() {
             editor.apply()
 
             val intent = Intent(this, MainActivity::class.java)
+            intent.putExtra("putsymptomName", symptomName) //증상의 이름을 넘김
+
+//            editor.clear() // 모든 데이터를 지우는 메서드
+//            editor.apply()
 
             finish()
             startActivity(intent)

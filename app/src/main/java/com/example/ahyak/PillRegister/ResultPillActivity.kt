@@ -39,14 +39,19 @@ class ResultPillActivity : AppCompatActivity() {
 
         //자유 기록하기 눌렀을 때
         binding.resultPillFreeRecordLl.setOnClickListener {
+            val symptomName = intent.getStringExtra("putsymptomName")
             val intent = Intent(this, FreeRegisterPillActivity::class.java)
+            intent.putExtra("putsymptomName", symptomName) // 예시로 증상의 이름을 넘김
             finish()
             startActivity(intent)
         }
 
         //선택하기 누르면
         binding.resultPillSelectLl.setOnClickListener {
+            val symptomName = intent.getStringExtra("putsymptomName")
             val intent = Intent(this, RegisterPillActivity::class.java)
+            Toast.makeText(this,"$symptomName", Toast.LENGTH_SHORT).show()
+            intent.putExtra("putsymptomName", symptomName) // 예시로 증상의 이름을 넘김
             intent.putExtra("resultPillInpoName", resultpillName)
             finish()
             startActivity(intent)

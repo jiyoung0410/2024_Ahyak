@@ -75,12 +75,41 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginStart="10dp"/>
 
+            <TextView
+                android:id="@+id/register_pill_name_input_tv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="약의 이름을 검색해주세요"
+                android:textSize="12dp"
+                android:gravity="left|center"
+                android:visibility="gone"
+                android:textColor="@color/black"
+                android:background="@color/transparent"
+                android:fontFamily="@font/nanum_barun_gothic_light"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginEnd="30dp"
+                app:layout_constraintEnd_toStartOf="@id/register_pill_search_iv"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="10dp"/>
+
             
             <ImageView
                 android:id="@+id/register_pill_search_iv"
                 android:layout_width="18dp"
                 android:layout_height="20dp"
                 android:src="@drawable/point_search_ic"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="10dp"/>
+
+            <ImageView
+                android:id="@+id/register_pill_delete_iv"
+                android:layout_width="18dp"
+                android:layout_height="20dp"
+                android:src="@drawable/cancle_circle_ic"
+                android:visibility="gone"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

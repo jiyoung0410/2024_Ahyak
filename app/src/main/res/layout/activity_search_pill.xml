@@ -53,55 +53,7 @@
                     android:layout_marginEnd="22dp"/>
 
                 <LinearLayout
-                    android:layout_marginStart="29dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="약 정보"
-                        android:textColor="@color/black"
-                        android:textSize="18sp"
-                        android:fontFamily="@font/nanum_barun_gothic_bold"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="로 검색"
-                        android:textColor="@color/gray1"
-                        android:textSize="18sp"
-                        android:fontFamily="@font/nanum_barun_gothic_bold"/>
-
-                </LinearLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="33dp"
-                    android:layout_marginStart="30dp"
-                    android:layout_marginEnd="30dp"
-                    android:layout_marginTop="17dp"
-                    android:background="@drawable/white_radi_5dp_gray1_stroke">
-
-                    <EditText
-                        android:id="@+id/serach_pill_serach_for_name_et"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:hint="약 이름 또는 성분으로 검색해 보세요"
-                        android:textSize="12dp"
-                        android:inputType="text"
-                        android:background="@color/transparent"
-                        android:fontFamily="@font/nanum_barun_gothic_light"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        android:layout_marginStart="10dp"/>
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <LinearLayout
-                    android:layout_marginTop="28dp"
+                    android:layout_marginTop="5dp"
                     android:layout_marginStart="29dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

@@ -102,6 +102,8 @@ class CalendarAfterwakeFragment : Fragment() {
                     // 새로운 약 추가 이벤트
                     val intent = Intent(requireContext(), RegisterPillActivity::class.java)
                     intent.putExtra("putsymptomName", symptom.sympotmname) // 예시로 증상의 이름을 넘김
+                    val symptomName = symptom.sympotmname
+                    Toast.makeText(requireContext(),"$symptomName", Toast.LENGTH_SHORT).show()
                     startActivity(intent)
                 }
             ).build(symptomList)
@@ -158,8 +160,8 @@ class CalendarAfterwakeFragment : Fragment() {
                 // 전달된 데이터가 비어있을 경우 처리할 내용 추가
             }
         }
-
         return binding.root
+
     }
     private fun initextrapilladapter() {
         extrapilladapter = CalendarItemExtraPillAdapter(extrapillList)

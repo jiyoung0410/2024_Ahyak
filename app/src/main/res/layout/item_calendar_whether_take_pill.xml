@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+    android:layout_height="56dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/white_radi_10dp"
+    android:layout_marginBottom="10dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        android:id="@+id/item_calendar_take_pill_name_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:fontFamily="@font/nanum_barun_gothic_bold"
+        android:textColor="@color/black"
+        android:textSize="14dp"
+        android:layout_marginStart="20dp"
+        android:text="인테놀정"/>
+
+
+    <CheckBox
+        android:id="@+id/item_calendar_take_pill_checkbox"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:textColor="@color/point"
+        android:fontFamily="@font/nanum_barun_gothic_bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:button="@null"
+        android:background="@drawable/checkbox_point_gray1"
+        android:checked="true"
+        android:layout_marginEnd="20dp" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
