@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.TextView
@@ -28,15 +29,18 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
-data class Strength(val data : Int, val sympom : String)
-data class ChartCommitData(val sympom : String, val commitNum: Int)
+data class ChartCommitSympomData(val sympom : String, val commitNum: Int)
+data class ChartCommitDateData(val date: String, val commitNum: Int)
 
 class StatisticsCurvedFragment : Fragment() {
     lateinit var binding : FragmentStatisticsCurvedBinding
     var chartEntry = arrayListOf<Entry>()
-    var dataList : MutableList<ChartCommitData> = mutableListOf()
+    var sympomDataList : MutableList<ChartCommitSympomData> = mutableListOf()
+    var dateDataList : MutableList<ChartCommitDateData> = mutableListOf()
     lateinit var spinner1 : Spinner
     lateinit var spinner2 : Spinner
+    val minData = 0
+    val maxData = 5
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -48,20 +52,7 @@ class StatisticsCurvedFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val StrengthList = arrayListOf<Strength>(
-            Strength(1,"구역"),
-            Strength(5,"속쓰림"),
-            Strength(4,"두통"),
-            Strength(4,"두근거림"),
-            Strength(5,"불면"),
-            Strength(4,"식욕감소"),
-            Strength(5,"불안")
-        )
-//        var StrengthList = arrayListOf<Strength>()
-        val minData = 0
-        val maxData = 5
-
-//        val dates = arrayOf("일별로 보기","1월 4일","1월 5일","1월 6일","1월 7일","1월 8일","1월 9일","1월 10일")
+        var strengthList = arrayListOf<Sympom>()
 
         var dates = arrayListOf("일별로 보기")
         var sympoms = arrayListOf("증상별로 보기")
@@ -125,9 +116,70 @@ class StatisticsCurvedFragment : Fragment() {
         spinnerAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_item)
         spinner2.adapter = spinnerAdapter2
 
-        for(i in StrengthList.indices) { //indices : dataList의 최소 index ~ 최대 index
-            chartEntry.add(Entry(i.toFloat(),StrengthList[i].data.toFloat()))
-            dataList.add(ChartCommitData(StrengthList[i].sympom,StrengthList[i].data))
+        spinner1.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                val selectedItem = parent.getItemAtPosition(position).toString()
+                strengthList = arrayListOf()
+                for(item in sympomList) {
+                    if(item.date == selectedItem) {
+                        strengthList.add(item)
+                    }
+                }
+                setChartDate(strengthList)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                //선택 해제
+            }
+        }
+
+        spinner2.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                val selectedItem = parent.getItemAtPosition(position).toString()
+                strengthList = arrayListOf()
+                for(item in sympomList) {
+                    if(item.name == selectedItem) {
+                        strengthList.add(item)
+                    }
+                }
+                setChartSympom(strengthList)
+                Log.d("logcat",dateDataList.toString())
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                //선택 해제
+            }
+        }
+    }
+
+    fun getWeekDate(startDate: String, endDate: String, dateList: ArrayList<String>): Unit {
+        val dateFormat = SimpleDateFormat("M월 d일", Locale.KOREA)
+        val cal = Calendar.getInstance()
+        val date1 = dateFormat.parse(startDate)
+        val date2 = dateFormat.parse(endDate)
+        cal.time = date1
+        while(cal.time.before(date2) || cal.time == date2) {
+            dateList.add(dateFormat.format(cal.time))
+            cal.add(Calendar.DAY_OF_MONTH,1)
+        }
+        Log.d("logcat",startDate+endDate)
+    }
+
+    fun getSympomList(sympomsList: ArrayList<Sympom>, sympoms: ArrayList<String>): Unit {
+        for(item in sympomsList) {
+            if(!sympoms.contains(item.name)) {
+                sympoms.add(item.name)
+            }
+        }
+    }
+
+    fun setChartDate(strengthList: ArrayList<Sympom>) {
+        chartEntry = arrayListOf<Entry>()
+        sympomDataList = mutableListOf()
+
+        for(i in strengthList.indices) { //indices : dataList의 최소 index ~ 최대 index
+            chartEntry.add(Entry(i.toFloat(),strengthList[i].strength.toFloat()))
+            sympomDataList.add(ChartCommitSympomData(strengthList[i].name,strengthList[i].strength))
         }
 
         val lineDataSet = LineDataSet(chartEntry,"chartEntry")
@@ -156,11 +208,11 @@ class StatisticsCurvedFragment : Fragment() {
             setDrawAxisLine(true) // x축 축선 표시 여부
             setDrawLabels(true) // x축 label 표시 여부
             position = XAxis.XAxisPosition.BOTTOM // x축 label 위치
-            valueFormatter = XAxisCustomFormatter(changeXAxisText(dataList)) // x축 label 데이터 형식
+            valueFormatter = XAxisCustomFormatter(changeXAxisTextToSympom(sympomDataList)) // x축 label 데이터 형식
             textColor = resources.getColor(R.color.black,null) //label의 text 색상
             textSize = 8f
             labelRotationAngle = 0f // x축 label 회전 각도
-            setLabelCount(dataList.size,true) // x축 label 개수
+            setLabelCount(sympomDataList.size,true) // x축 label 개수
         }
         binding.statisticsCurvedLinechart.axisLeft.apply {
             setDrawGridLines(true)
@@ -179,31 +231,76 @@ class StatisticsCurvedFragment : Fragment() {
         }
     }
 
-    fun getWeekDate(startDate: String, endDate: String, dateList: ArrayList<String>): Unit {
-        val dateFormat = SimpleDateFormat("M월 d일", Locale.KOREA)
-        val cal = Calendar.getInstance()
-        val date1 = dateFormat.parse(startDate)
-        val date2 = dateFormat.parse(endDate)
-        cal.time = date1
-        while(cal.time.before(date2) || cal.time == date2) {
-            dateList.add(dateFormat.format(cal.time))
-            cal.add(Calendar.DAY_OF_MONTH,1)
+    fun setChartSympom(strengthList: ArrayList<Sympom>) {
+        chartEntry = arrayListOf<Entry>()
+        dateDataList = mutableListOf()
+
+        for(i in strengthList.indices) { //indices : dataList의 최소 index ~ 최대 index
+            chartEntry.add(Entry(i.toFloat(),strengthList[i].strength.toFloat()))
+            dateDataList.add(ChartCommitDateData(strengthList[i].date,strengthList[i].strength))
         }
-        Log.d("logcat",startDate+endDate)
+
+        val lineDataSet = LineDataSet(chartEntry,"chartEntry")
+        lineDataSet.apply {
+            color = resources.getColor(R.color.point,null) //선의 색깔
+            circleRadius = 5f //데이터 포인트에 표시되는 원의 반지름
+            lineWidth = 2f //선의 두께
+            setDrawCircles(true) //데이터 포인트에 표시되는 원 존재 여부
+            setCircleColor(resources.getColor(R.color.point,null)) //데이터 포인트에 표시되는 원의 색깔
+            setDrawHighlightIndicators(false) // 하이라이트 표시기(터치 이벤트에 사용) 사용 여부
+            setDrawValues(false) // 데이터 포인트 값 표시 여부
+            setDrawFilled(false) // 선 아래 영역을 채울지에 대한 여부
+        }
+        binding.statisticsCurvedLinechart.apply {
+            axisLeft.isEnabled = true
+            axisRight.isEnabled = false
+            legend.isEnabled = false
+            description.isEnabled = false
+            isDragXEnabled = false
+            isDragYEnabled = false
+            isScaleXEnabled = false
+            isScaleYEnabled = false
+        }
+        binding.statisticsCurvedLinechart.xAxis.apply {
+            setDrawGridLines(true) // x축 격자 line 표시 여부
+            setDrawAxisLine(true) // x축 축선 표시 여부
+            setDrawLabels(true) // x축 label 표시 여부
+            position = XAxis.XAxisPosition.BOTTOM // x축 label 위치
+            valueFormatter = XAxisCustomFormatter(changeXAxisTextToDate(dateDataList)) // x축 label 데이터 형식
+            textColor = resources.getColor(R.color.black,null) //label의 text 색상
+            textSize = 8f
+            labelRotationAngle = 0f // x축 label 회전 각도
+            setLabelCount(dateDataList.size,true) // x축 label 개수
+        }
+        binding.statisticsCurvedLinechart.axisLeft.apply {
+            setDrawGridLines(true)
+            setDrawAxisLine(true)
+            axisMaximum = maxData.toFloat()
+            axisMinimum = minData.toFloat()
+            setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART)
+            labelCount = 5
+            textColor = resources.getColor(R.color.black,null)
+            textSize = 8f
+        }
+        binding.statisticsCurvedLinechart.apply {
+            data = LineData(lineDataSet)
+            notifyDataSetChanged()
+            invalidate() // 차트를 다시 그림
+        }
     }
 
-    fun getSympomList(sympomsList: ArrayList<Sympom>, sympoms: ArrayList<String>): Unit {
-        for(item in sympomsList) {
-            if(!sympoms.contains(item.name)) {
-                sympoms.add(item.name)
-            }
-        }
-    }
-
-    fun changeXAxisText(dataList : List<ChartCommitData>): List<String> {
+    fun changeXAxisTextToSympom(dataList : List<ChartCommitSympomData>): List<String> {
         val dataTextList = ArrayList<String>()
         for(i in dataList.indices) {
             dataTextList.add(dataList[i].sympom)
+        }
+        return dataTextList
+    }
+
+    fun changeXAxisTextToDate(dataList : List<ChartCommitDateData>): List<String> {
+        val dataTextList = ArrayList<String>()
+        for(i in dataList.indices) {
+            dataTextList.add(dataList[i].date)
         }
         return dataTextList
     }
