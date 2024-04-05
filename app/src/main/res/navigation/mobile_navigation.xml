@@ -14,7 +14,7 @@
 
     <fragment
         android:id="@+id/navigation_statistics"
-        android:name="com.example.ahyak.StatisticsFragment"
+        android:name="com.example.ahyak.Statistics.StatisticsFragment"
         android:label="통계"
         tools:layout="@layout/fragment_statistics" />
 
