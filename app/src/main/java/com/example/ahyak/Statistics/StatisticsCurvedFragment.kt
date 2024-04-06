@@ -52,6 +52,9 @@ class StatisticsCurvedFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val spinnerLl1 = R.id.statistics_curved_spinner1_ll
+        val spinnerLl2 = R.id.statistics_curved_spinner2_ll
+
         var strengthList = arrayListOf<Sympom>()
 
         var dates = arrayListOf("일별로 보기")
@@ -119,12 +122,16 @@ class StatisticsCurvedFragment : Fragment() {
         spinner1.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 val selectedItem = parent.getItemAtPosition(position).toString()
+//                val parentView1 = requireView().findViewById<View>(spinnerLl1)
+//                val parentView2 = requireView().findViewById<View>(spinnerLl2)
                 strengthList = arrayListOf()
                 for(item in sympomList) {
                     if(item.date == selectedItem) {
                         strengthList.add(item)
                     }
                 }
+//                parentView1.setBackgroundResource(R.drawable.point_radi_5dp)
+//                parentView2.setBackgroundResource(R.drawable.gray2_radi_5dp)
                 setChartDate(strengthList)
             }
 
@@ -136,6 +143,8 @@ class StatisticsCurvedFragment : Fragment() {
         spinner2.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 val selectedItem = parent.getItemAtPosition(position).toString()
+//                val parentView1 = requireView().findViewById<View>(spinnerLl1)
+//                val parentView2 = requireView().findViewById<View>(spinnerLl2)
                 strengthList = arrayListOf()
                 for(item in sympomList) {
                     if(item.name == selectedItem) {
@@ -143,12 +152,33 @@ class StatisticsCurvedFragment : Fragment() {
                     }
                 }
                 setChartSympom(strengthList)
-                Log.d("logcat",dateDataList.toString())
+//                parentView1.setBackgroundResource(R.drawable.gray2_radi_5dp)
+//                parentView2.setBackgroundResource(R.drawable.point_radi_5dp)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 //선택 해제
             }
+        }
+
+        binding.statisticsCurvedSpinner1.setOnTouchListener { _, _ ->
+            binding.statisticsCurvedSpinner1Ll.setBackgroundResource(R.drawable.point_radi_5dp)
+            binding.statisticsCurvedSpinner1.setBackgroundResource(R.drawable.statistics_spinner_active)
+            binding.statisticsCurvedSpinner1.setPopupBackgroundResource(R.drawable.point_radi_5dp)
+            binding.statisticsCurvedSpinner2Ll.setBackgroundResource(R.drawable.gray2_radi_5dp)
+            binding.statisticsCurvedSpinner2.setBackgroundResource(R.drawable.statistics_spinner_inactive)
+            binding.statisticsCurvedSpinner2.setPopupBackgroundResource(R.drawable.gray2_radi_5dp)
+            false
+        }
+
+        binding.statisticsCurvedSpinner2.setOnTouchListener { _, _ ->
+            binding.statisticsCurvedSpinner1Ll.setBackgroundResource(R.drawable.gray2_radi_5dp)
+            binding.statisticsCurvedSpinner1.setBackgroundResource(R.drawable.statistics_spinner_inactive)
+            binding.statisticsCurvedSpinner1.setPopupBackgroundResource(R.drawable.gray2_radi_5dp)
+            binding.statisticsCurvedSpinner2Ll.setBackgroundResource(R.drawable.point_radi_5dp)
+            binding.statisticsCurvedSpinner2.setBackgroundResource(R.drawable.statistics_spinner_active)
+            binding.statisticsCurvedSpinner2.setPopupBackgroundResource(R.drawable.point_radi_5dp)
+            false
         }
     }
 
