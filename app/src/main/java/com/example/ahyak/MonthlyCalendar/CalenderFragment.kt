@@ -52,7 +52,6 @@ class CalenderFragment : Fragment() {
         setDate(cal)
 
         cal = Calendar.getInstance()
-        Log.d("logcat",cal.time.toString())
 
         binding.calendarDatePrevIv.setOnClickListener {
             cal.add(Calendar.MONTH,-1)
@@ -77,6 +76,7 @@ class CalenderFragment : Fragment() {
 
     private fun setDate(cal : Calendar) {
         var newCal = Calendar.getInstance()
+        var todayCal = Calendar.getInstance()
         newCal.timeInMillis = cal.timeInMillis
         newCal.set(Calendar.DATE,1)
         var startWeekday = newCal.get(Calendar.DAY_OF_WEEK)
@@ -85,14 +85,22 @@ class CalenderFragment : Fragment() {
         newCal.add(Calendar.MONTH,-1)
 
         var prevMonthLastDay = newCal.getActualMaximum(Calendar.DATE)
-        var dayList = ArrayList<String>()
+        var dayList = ArrayList<CalDaysInfo>()
+
+        val parts = binding.calendarTitleDateTv.text.toString().split(" ")
+        val year = parts.firstOrNull()?.substringBefore("년")?.toIntOrNull() ?: 0
+        val month = parts.last().dropLast(1).toIntOrNull() ?: 0
 
         for(i in startWeekday-2 downTo 0) {
 //            dayList.add((prevMonthLastDay-i).toString())
-            dayList.add((-1).toString())
+            dayList.add(CalDaysInfo(year.toString(),month.toString(),(-1).toString(),0))
         }
         for(i in 1..lastDay) {
-            dayList.add(i.toString())
+            if(year == todayCal.get(Calendar.YEAR) && month == todayCal.get(Calendar.MONTH) + 1 && i == todayCal.get(Calendar.DAY_OF_MONTH)) {
+                dayList.add(CalDaysInfo(year.toString(),month.toString(),i.toString(),1))
+            } else {
+                dayList.add(CalDaysInfo(year.toString(),month.toString(),i.toString(),0))
+            }
         }
 //        var dayCount = 1
 //        while(dayList.size < 42) {
@@ -100,10 +108,7 @@ class CalenderFragment : Fragment() {
 //            dayCount++
 //        }
 
-        val parts = binding.calendarTitleDateTv.text.toString().split(" ")
-        val year = parts.first().toIntOrNull() ?: 0
-        val month = parts.last().dropLast(1).toIntOrNull() ?: 0
-        binding.calendarDaysRv.adapter = CalendarDaysAdapter(dayList,year,month)
+        binding.calendarDaysRv.adapter = CalendarDaysAdapter(dayList)
         binding.calendarDaysRv.layoutManager = GridLayoutManager(requireContext(),7)
     }
 

@@ -1,21 +1,27 @@
 package com.example.ahyak.MonthlyCalendar
 
 import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.ahyak.R
 import com.example.ahyak.databinding.ItemCalendarDaysBinding
 import com.example.ahyak.databinding.ItemCalendarWeekBinding
 import java.util.Calendar
 
-class CalendarDaysAdapter(var dateList: ArrayList<String>,year: Int,month: Int) : RecyclerView.Adapter<CalendarDaysAdapter.ViewHolder>() {
+class CalendarDaysAdapter(var dateList: ArrayList<CalDaysInfo>) : RecyclerView.Adapter<CalendarDaysAdapter.ViewHolder>() {
     inner class ViewHolder(val binding: ItemCalendarDaysBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(myDays: String) {
+        fun bind(myDays: CalDaysInfo) {
             val nowCal = Calendar.getInstance()
-            binding.itemCalendarDaysTv.text = myDays
+            binding.itemCalendarDaysTv.text = myDays.day
 
-            if(myDays.toInt()==-1) {
+            if(myDays.day.toInt()==-1) {
                 binding.itemCalendarDaysTv.setTextColor(Color.WHITE)
+            }
+            if(myDays.bg==1) {
+                Log.d("logcat",myDays.toString())
+                binding.itemCalendarDaysCl.setBackgroundResource(R.drawable.radi_50dp_point_stroke)
             }
         }
     }

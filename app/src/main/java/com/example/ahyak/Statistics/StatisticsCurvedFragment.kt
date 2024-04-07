@@ -52,9 +52,6 @@ class StatisticsCurvedFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val spinnerLl1 = R.id.statistics_curved_spinner1_ll
-        val spinnerLl2 = R.id.statistics_curved_spinner2_ll
-
         var strengthList = arrayListOf<Sympom>()
 
         var dates = arrayListOf("일별로 보기")
@@ -122,16 +119,12 @@ class StatisticsCurvedFragment : Fragment() {
         spinner1.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 val selectedItem = parent.getItemAtPosition(position).toString()
-//                val parentView1 = requireView().findViewById<View>(spinnerLl1)
-//                val parentView2 = requireView().findViewById<View>(spinnerLl2)
                 strengthList = arrayListOf()
                 for(item in sympomList) {
                     if(item.date == selectedItem) {
                         strengthList.add(item)
                     }
                 }
-//                parentView1.setBackgroundResource(R.drawable.point_radi_5dp)
-//                parentView2.setBackgroundResource(R.drawable.gray2_radi_5dp)
                 setChartDate(strengthList)
             }
 
@@ -143,8 +136,6 @@ class StatisticsCurvedFragment : Fragment() {
         spinner2.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 val selectedItem = parent.getItemAtPosition(position).toString()
-//                val parentView1 = requireView().findViewById<View>(spinnerLl1)
-//                val parentView2 = requireView().findViewById<View>(spinnerLl2)
                 strengthList = arrayListOf()
                 for(item in sympomList) {
                     if(item.name == selectedItem) {
@@ -152,8 +143,6 @@ class StatisticsCurvedFragment : Fragment() {
                     }
                 }
                 setChartSympom(strengthList)
-//                parentView1.setBackgroundResource(R.drawable.gray2_radi_5dp)
-//                parentView2.setBackgroundResource(R.drawable.point_radi_5dp)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
