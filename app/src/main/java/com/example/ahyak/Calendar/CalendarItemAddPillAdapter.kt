@@ -1,13 +1,16 @@
 package com.example.ahyak.Calendar
 
+import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.ahyak.PillDetailGuide.DetailPillActivity
 import com.example.ahyak.R
 import com.example.ahyak.databinding.ItemCalendarAddPillBinding
 
-class CalendarItemAddPillAdapter : RecyclerView.Adapter<CalendarItemAddPillAdapter.ViewHolder>() {
+class CalendarItemAddPillAdapter() : RecyclerView.Adapter<CalendarItemAddPillAdapter.ViewHolder>() {
 
     lateinit var addpillList: ArrayList<DataItemSymptom.DataItemAddPill>
 

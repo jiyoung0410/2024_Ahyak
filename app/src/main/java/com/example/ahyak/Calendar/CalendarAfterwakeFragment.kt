@@ -8,8 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.ahyak.AddSymptomsActivity
-import com.example.ahyak.MedicationTimeActivity
+import com.example.ahyak.AddSymptom.AddSymptomsActivity
+import com.example.ahyak.AddSymptom.MedicationTimeActivity
 import com.example.ahyak.PillRegister.ExtraRegisterPillActivity
 import com.example.ahyak.PillRegister.RegisterPillActivity
 import com.example.ahyak.RecordSymptoms.RecordSymptomsActivity

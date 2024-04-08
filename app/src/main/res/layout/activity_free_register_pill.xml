@@ -78,11 +78,11 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="33dp"
+                    android:layout_height="40dp"
                     android:layout_marginStart="30dp"
                     android:layout_marginEnd="30dp"
                     android:layout_marginTop="17dp"
-                    android:background="@drawable/white_radi_5dp_gray1_stroke">
+                    android:background="@drawable/bg_radi_5dp">
 
                     <EditText
                         android:id="@+id/free_record_pill_serach_for_name_et"
@@ -127,11 +127,11 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="33dp"
+                    android:layout_height="40dp"
                     android:layout_marginStart="30dp"
                     android:layout_marginEnd="30dp"
                     android:layout_marginTop="17dp"
-                    android:background="@drawable/white_radi_5dp_gray1_stroke">
+                    android:background="@drawable/bg_radi_5dp">
 
                     <EditText
                         android:id="@+id/free_record_pill_serach_for_shape_et"

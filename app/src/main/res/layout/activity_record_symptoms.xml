@@ -81,7 +81,7 @@
             android:id="@+id/record_symptoms_add_ll"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:background="@drawable/white_radi_15dp_gray1_stroke"
+            android:background="@drawable/bg_radi_15dp"
             android:layout_marginStart="30dp"
             android:layout_marginEnd="30dp"
             android:gravity="center"

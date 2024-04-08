@@ -1,8 +1,10 @@
 package com.example.ahyak.PillRegister
 
 import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ahyak.R
 import com.example.ahyak.databinding.ItemResultPillBinding
@@ -33,9 +35,16 @@ class ResultPillAdapter(val onClick: (pillName: String) -> Unit) : RecyclerView.
                 onClick(resultpillName.toString()) // 생성자 파라미터로 받은 람다함수 onClick 실행
             }
             if (adapterPosition ==selectedPosition){
-                binding.resultPillItem.setBackgroundResource(R.drawable.white_radi_5dp_point_stroke)
+                binding.resultPillItem.setBackgroundResource(R.drawable.point_radi_5dp)
+                binding.itemResultPillNameTv.setTextColor(Color.WHITE)
+                binding.itemResultPillCodeTv.setTextColor(Color.WHITE)
+                binding.itemResultPillTv.setTextColor(Color.WHITE)
+
             }else{
-                binding.resultPillItem.setBackgroundResource(R.drawable.white_radi_5dp_gray1_stroke)
+                binding.resultPillItem.setBackgroundResource(R.drawable.white_radi_5dp_bg_stroke)
+                binding.itemResultPillNameTv.setTextColor(Color.GRAY)
+                binding.itemResultPillCodeTv.setTextColor(Color.GRAY)
+                binding.itemResultPillTv.setTextColor(Color.GRAY)
             }
         }
     }

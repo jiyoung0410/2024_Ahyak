@@ -2,15 +2,20 @@ package com.example.ahyak.PillRegister
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.Paint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.LinearLayout
+import android.widget.TextView
+import androidx.core.content.ContextCompat
 import com.example.ahyak.Calendar.DataItemSymptom
 import com.example.ahyak.MainActivity
 import com.example.ahyak.R
+import com.example.ahyak.RecordSymptoms.frequency.FrequencyTermActivity
 import com.example.ahyak.databinding.ActivityRegisterPillBinding
 import com.google.gson.Gson
 
@@ -20,6 +25,7 @@ class RegisterPillActivity : AppCompatActivity() {
     var registerpillDosage: String = "mg"
     var registerpillDosageSize:String = ""
     var registerpillName:String = ""
+    private val selectedTimes = mutableListOf<String>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -40,6 +46,22 @@ class RegisterPillActivity : AppCompatActivity() {
                 return@setOnEditorActionListener false
             }
         }
+
+        //시간 선택에 사용할 리스트 설정
+        val layouts = listOf(
+            binding.registerPillTimeWakeLl,
+            binding.registerPillTimeMorningLl,
+            binding.registerPillTimeAfternoonLl,
+            binding.registerPillTimeDinnerLl,
+            binding.registerPillTimeNightLl
+        )
+
+        layouts.forEach { layout ->
+            layout.setOnClickListener {
+                toggletimeSelection(layout)
+            }
+        }
+
 
         binding.registerPillDosageInputEt.imeOptions = EditorInfo.IME_ACTION_DONE
         binding.registerPillDosageInputEt.setOnEditorActionListener { _, actionId, _ ->
@@ -74,14 +96,14 @@ class RegisterPillActivity : AppCompatActivity() {
         //mg 버튼 누르면
         binding.registerPillDosageMgCv.setOnClickListener {
             binding.registerPillDosageMgCv.setBackgroundResource(R.drawable.white_radi_5dp)
-            binding.registerPillDosageTabletCv.setBackgroundResource(R.drawable.gray2_radi_5dp)
+            binding.registerPillDosageTabletCv.setBackgroundResource(R.drawable.bg_radi_5dp)
             registerpillDosage = "mg"
         }
 
         //정 버튼 누르면
         binding.registerPillDosageTabletCv.setOnClickListener {
             binding.registerPillDosageTabletCv.setBackgroundResource(R.drawable.white_radi_5dp)
-            binding.registerPillDosageMgCv.setBackgroundResource(R.drawable.gray2_radi_5dp)
+            binding.registerPillDosageMgCv.setBackgroundResource(R.drawable.bg_radi_5dp)
             registerpillDosage = "정"
 
         }
@@ -91,6 +113,13 @@ class RegisterPillActivity : AppCompatActivity() {
             val symptomName = intent.getStringExtra("putsymptomName")
             val intent = Intent(this, SearchPillActivity::class.java)
             intent.putExtra("putsymptomName", symptomName) //증상의 이름을 넘김
+            finish()
+            startActivity(intent)
+        }
+
+        //빈도 눌렀을 때
+        binding.registerPillFrequencySelectTv.setOnClickListener{
+            val intent = Intent(this, FrequencyTermActivity::class.java)
             finish()
             startActivity(intent)
         }
@@ -178,8 +207,26 @@ class RegisterPillActivity : AppCompatActivity() {
             finish()
             startActivity(intent)
         }
-
         setContentView(binding.root)
-
     }
+
+    private fun toggletimeSelection(layout: LinearLayout) {
+        val background = layout.background
+        val textView = layout.getChildAt(0) as TextView
+        val isPointRadiSelected = background != null && background.constantState == ContextCompat.getDrawable(this, R.drawable.point_radi_100dp)?.constantState
+
+        val bgColor = if (isPointRadiSelected) {
+            // 선택되지 않은 상태의 배경 이미지를 적용합니다.
+            textView.setTextColor(Color.GRAY)
+            R.drawable.bg_radi_100dp
+        } else {
+            // 선택된 상태의 배경 이미지를 다른 리소스로 변경합니다.
+            textView.setTextColor(Color.WHITE)
+            R.drawable.point_radi_100dp
+
+        }
+        layout.setBackgroundResource(bgColor) // 배경을 적용합니다.
+    }
+
+
 }

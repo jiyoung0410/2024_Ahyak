@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PillDetailGuide.PillDetailPillFoodFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/pill_food_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="이 약 복용중 주의해야 할 약 또는 음식은 무엇입니까?"
+            android:layout_marginStart="25dp"
+            android:textColor="@color/black"
+            android:layout_marginEnd="25dp"
+            android:layout_marginTop="35dp"
+            android:textSize="15sp"
+            android:fontFamily="@font/nanum_barun_gothic_bold"/>
+
+        <TextView
+            android:id="@+id/pill_food_instruction_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="인산염, 칼슘염, 경구용 테트라사이클린계 제제, 제산제, 레보도파와 함께 복용하지 마십시오.
+에스트로겐을 포함한 경구용 피임제, 항알도스테론제, 트리암테렌과 함께 복용 시 의사 또는 약사와 상의하십시오.
+녹차, 홍차 등 탄닌을 함유하는 차는 복용 중, 복용 전후에는 피하십시오"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginTop="16dp"
+            android:textSize="12sp"
+            android:fontFamily="@font/nanum_barun_gothic"/>
+
+    </LinearLayout>
+
+</FrameLayout>

@@ -53,11 +53,11 @@
         
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="33dp"
+            android:layout_height="40dp"
             android:layout_marginStart="30dp"
             android:layout_marginEnd="30dp"
-            android:layout_marginTop="17dp"
-            android:background="@drawable/white_radi_5dp_gray1_stroke">
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bg_radi_5dp">
 
             <EditText
                 android:id="@+id/register_pill_name_input_et"
@@ -152,7 +152,7 @@
             android:fontFamily="@font/nanum_barun_gothic_bold"
             android:textColor="@color/black"
             android:textSize="18sp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:layout_marginStart="30dp"/>
 
         <LinearLayout
@@ -164,10 +164,10 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="33dp"
+                android:layout_height="40dp"
                 android:layout_weight="1"
-                android:layout_marginTop="17dp"
-                android:background="@drawable/white_radi_5dp_gray1_stroke">
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_radi_5dp">
 
                 <EditText
                     android:id="@+id/register_pill_dosage_input_et"
@@ -187,19 +187,20 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="33dp"
+                android:layout_height="40dp"
                 android:layout_weight="2"
                 android:layout_marginStart="10dp"
-                android:background="@drawable/gray2_radi_5dp_gray1_stroke"
+                android:background="@drawable/bg_radi_5dp"
                 android:orientation="horizontal"
-                android:layout_marginTop="17dp">
+                android:gravity="center"
+                android:layout_marginTop="10dp">
                 
                 <LinearLayout
                     android:id="@+id/register_pill_dosage_mg_cv"
                     android:layout_width="match_parent"
-                    android:layout_margin="3dp"
                     android:layout_height="27dp"
                     android:gravity="center"
+                    android:layout_margin="5dp"
                     android:background="@drawable/white_radi_5dp"
                     android:layout_weight="1">
 
@@ -213,13 +214,22 @@
 
                 </LinearLayout>
 
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/gray2"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"/>
+
+
                 <LinearLayout
                     android:id="@+id/register_pill_dosage_tablet_cv"
                     android:layout_width="match_parent"
                     android:layout_height="27dp"
-                    android:layout_margin="3dp"
+                    android:layout_margin="5dp"
+
                     android:gravity="center"
-                    android:background="@drawable/gray2_radi_5dp"
+                    android:background="@drawable/bg_radi_5dp"
                     android:layout_weight="1">
 
                     <TextView
@@ -235,6 +245,199 @@
             </LinearLayout>
 
         </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="빈도"
+            android:fontFamily="@font/nanum_barun_gothic_bold"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="30dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:background="@drawable/bg_radi_5dp">
+
+            <TextView
+                android:id="@+id/register_pill_frequency_tv"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:text="언제 투여할 예정인지 선택해주세요"
+                android:textSize="12dp"
+                android:gravity="left|center"
+                android:background="@color/transparent"
+                android:fontFamily="@font/nanum_barun_gothic_light"
+                android:layout_marginStart="10dp"/>
+
+
+            <TextView
+                android:id="@+id/register_pill_frequency_select_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12dp"
+                android:text="매일"
+                android:textColor="@color/point"
+                android:fontFamily="@font/nanum_barun_gothic_bold"
+                android:gravity="center"
+                android:layout_marginEnd="15dp"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="시간"
+            android:fontFamily="@font/nanum_barun_gothic_bold"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="30dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:background="@drawable/bg_radi_5dp"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="10dp">
+
+            <LinearLayout
+                android:id="@+id/register_pill_time_wake_ll"
+                android:layout_width="match_parent"
+                android:layout_height="27dp"
+                android:gravity="center"
+                android:layout_margin="5dp"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="기상 직후"
+                    android:textSize="10sp"
+                    android:textColor="@color/gray1"
+                    android:fontFamily="@font/nanum_barun_gothic"/>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/gray2"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"/>
+
+            <LinearLayout
+                android:id="@+id/register_pill_time_morning_ll"
+                android:layout_width="match_parent"
+                android:layout_height="27dp"
+                android:gravity="center"
+                android:layout_margin="5dp"
+                android:background="@drawable/point_radi_100dp"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="아침"
+                    android:textSize="10sp"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/nanum_barun_gothic"/>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/gray2"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"/>
+
+            <LinearLayout
+                android:id="@+id/register_pill_time_afternoon_ll"
+                android:layout_width="match_parent"
+                android:layout_height="27dp"
+                android:gravity="center"
+                android:layout_margin="5dp"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="점심"
+                    android:textSize="10sp"
+                    android:textColor="@color/gray1"
+                    android:fontFamily="@font/nanum_barun_gothic"/>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/gray2"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"/>
+
+            <LinearLayout
+                android:id="@+id/register_pill_time_dinner_ll"
+                android:layout_width="match_parent"
+                android:layout_height="27dp"
+                android:gravity="center"
+                android:layout_margin="5dp"
+                android:background="@drawable/point_radi_100dp"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="저녁"
+                    android:textSize="10sp"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/nanum_barun_gothic"/>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/gray2"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"/>
+
+            <LinearLayout
+                android:id="@+id/register_pill_time_night_ll"
+                android:layout_width="match_parent"
+                android:layout_height="27dp"
+                android:gravity="center"
+                android:layout_margin="5dp"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="취침 전"
+                    android:textSize="10sp"
+                    android:textColor="@color/gray1"
+                    android:fontFamily="@font/nanum_barun_gothic"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"

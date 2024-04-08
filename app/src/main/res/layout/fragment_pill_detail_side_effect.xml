@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PillDetailGuide.PillDetailSideEffectFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/pill_sideeffect_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="이 약은 어떤 이상반응이 나타날 수 있습니까?"
+            android:layout_marginStart="25dp"
+            android:textColor="@color/black"
+            android:layout_marginEnd="25dp"
+            android:layout_marginTop="35dp"
+            android:textSize="15sp"
+            android:fontFamily="@font/nanum_barun_gothic_bold"/>
+
+        <TextView
+            android:id="@+id/pill_sideeffect_instruction_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="구역, 구토, 설사, 위부불쾌감, 설사, 변비, 발진, 발적(충혈되어 붉어짐), 묽은 변, 식욕부진, 복부(배부분)팽만감, 피부염, 땀•호흡시 악취, 탈모, 조급증, 위장관장애, 소화장애, 상복부(배부분)통증, 저혈압, 폐부 종, 생리가 예정보다 빨라지거나 양이 점점 많아지고, 출혈이 오래 지속 되는 경우 복용을 즉각 중지하고 의사 또는 약사와 상의하십시오."
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginTop="16dp"
+            android:textSize="12sp"
+            android:fontFamily="@font/nanum_barun_gothic"/>
+
+    </LinearLayout>
+
+</FrameLayout>

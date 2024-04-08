@@ -13,6 +13,18 @@
         android:theme="@style/Theme.Ahyak"
         tools:targetApi="31">
         <activity
+            android:name=".PillDetailGuide.DetailPillActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RecordSymptoms.frequency.FrequencyNeedActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RecordSymptoms.frequency.FrequencyDayActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RecordSymptoms.frequency.FrequencyTermActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="false" />
         <activity
@@ -31,10 +43,10 @@
             android:name=".PillRegister.RegisterPillActivity"
             android:exported="false" />
         <activity
-            android:name=".MedicationTimeActivity"
+            android:name=".AddSymptom.MedicationTimeActivity"
             android:exported="false" />
         <activity
-            android:name=".AddSymptomsActivity"
+            android:name=".AddSymptom.AddSymptomsActivity"
             android:exported="false" />
         <activity
             android:name=".RecordSymptoms.SearchSymptomsActivity"
