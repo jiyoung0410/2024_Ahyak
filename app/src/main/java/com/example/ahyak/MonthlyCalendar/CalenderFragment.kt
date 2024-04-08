@@ -96,10 +96,22 @@ class CalenderFragment : Fragment() {
             dayList.add(CalDaysInfo(year.toString(),month.toString(),(-1).toString(),0))
         }
         for(i in 1..lastDay) {
-            if(year == todayCal.get(Calendar.YEAR) && month == todayCal.get(Calendar.MONTH) + 1 && i == todayCal.get(Calendar.DAY_OF_MONTH)) {
-                dayList.add(CalDaysInfo(year.toString(),month.toString(),i.toString(),1))
+            if(year == todayCal.get(Calendar.YEAR) && month == todayCal.get(Calendar.MONTH) + 1 && i == todayCal.get(Calendar.DAY_OF_MONTH)) { // 오늘 날짜
+                if(i == 4 || i == 9 || i == 16 || i == 17 || i == 18) { //약 복용한 날 조건 수정 필요
+                    dayList.add(CalDaysInfo(year.toString(),month.toString(),i.toString(),4))
+                } else if(i == 10 || i == 11 || i == 12) { //약 미복용한 날 조건 수정 필요
+                    dayList.add(CalDaysInfo(year.toString(),month.toString(),i.toString(),5))
+                } else { // 약을 안 복용하는 날
+                    dayList.add(CalDaysInfo(year.toString(),month.toString(),i.toString(),3))
+                }
             } else {
-                dayList.add(CalDaysInfo(year.toString(),month.toString(),i.toString(),0))
+                if(i == 4 || i == 9 || i == 16 || i == 17 || i == 18) { //약 복용한 날 조건 수정 필요
+                    dayList.add(CalDaysInfo(year.toString(),month.toString(),i.toString(),1))
+                } else if(i == 10 || i == 11 || i == 12) { //약 미복용한 날 조건 수정 필요
+                    dayList.add(CalDaysInfo(year.toString(),month.toString(),i.toString(),2))
+                } else { // 약을 안 복용하는 날
+                    dayList.add(CalDaysInfo(year.toString(), month.toString(), i.toString(), 0))
+                }
             }
         }
 //        var dayCount = 1
