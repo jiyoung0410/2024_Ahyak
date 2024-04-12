@@ -4,5 +4,4 @@
         android:radius="5dp"/>
     <solid
         android:color="@color/point"/>
-
 </shape>
