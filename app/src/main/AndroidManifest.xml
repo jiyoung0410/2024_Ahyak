@@ -13,6 +13,9 @@
         android:theme="@style/Theme.Ahyak"
         tools:targetApi="31">
         <activity
+            android:name=".FullScreenAlarmActivity"
+            android:exported="false" />
+        <activity
             android:name=".PillRegister.ExtraRegisterPillActivity"
             android:exported="false" />
         <activity

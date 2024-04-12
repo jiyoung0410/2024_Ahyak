@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg"
+    tools:context=".FullScreenAlarmActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:id="@+id/full_screen_alarm_time_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="오후 11:00"
+            android:textColor="#878787"
+            android:textSize="14sp"
+            android:fontFamily="@font/nanum_barun_gothic"/>
+
+        <TextView
+            android:id="@+id/full_screen_alarm_period"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/full_screen_alarm_time_tv"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="취침 전"
+            android:textColor="@color/black"
+            android:textSize="25sp"
+            android:fontFamily="@font/nanum_barun_gothic_bold"/>
+
+        <TextView
+            android:id="@+id/full_screen_alarm_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/full_screen_alarm_period"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="약 복용할 시간이에요!"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:fontFamily="@font/nanum_barun_gothic_bold"/>
+        
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/full_screen_alarm_logo_cl"
+            android:layout_width="166dp"
+            android:layout_height="166dp"
+            app:layout_constraintTop_toBottomOf="@+id/full_screen_alarm_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="31dp"
+            app:layout_constraintCircleRadius="100dp"
+            android:background="@drawable/white_radi_100dp">
+
+            <ImageView
+                android:layout_width="110dp"
+                android:layout_height="110dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:src="@drawable/ic_logo"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/full_screen_alarm_takenow_btn_cl"
+            android:layout_width="278dp"
+            android:layout_height="60dp"
+            app:layout_constraintTop_toBottomOf="@id/full_screen_alarm_logo_cl"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="39dp"
+            android:background="@drawable/point_radi_10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="지금 약 먹기"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:fontFamily="@font/nanum_barun_gothic_bold"/>
+            
+            <ImageView
+                android:layout_width="10dp"
+                android:layout_height="20dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="20dp"
+                android:src="@drawable/ic_white_next"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/full_screen_alarm_takelater_btn_cl"
+            android:layout_width="278dp"
+            android:layout_height="60dp"
+            app:layout_constraintTop_toBottomOf="@id/full_screen_alarm_takenow_btn_cl"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="13dp"
+            android:background="@drawable/light_point_radi_10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="먹지 않고 넘어가기"
+                android:textColor="@color/regular_deep_point"
+                android:textSize="18sp"
+                android:fontFamily="@font/nanum_barun_gothic_bold"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/full_screen_alarm_10m_later_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/full_screen_alarm_takelater_btn_cl"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="24dp"
+            android:text="10분 뒤에 다시 알림"
+            android:textColor="#878787"
+            android:textSize="18sp"
+            android:fontFamily="@font/nanum_barun_gothic_bold"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
