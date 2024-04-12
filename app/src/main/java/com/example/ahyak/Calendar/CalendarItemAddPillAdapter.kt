@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.ahyak.PillDetailGuide.DetailPillActivity
 import com.example.ahyak.R
 import com.example.ahyak.databinding.ItemCalendarAddPillBinding
+import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class CalendarItemAddPillAdapter() : RecyclerView.Adapter<CalendarItemAddPillAdapter.ViewHolder>() {
 
@@ -22,6 +23,41 @@ class CalendarItemAddPillAdapter() : RecyclerView.Adapter<CalendarItemAddPillAda
     }
 
     inner class ViewHolder(val binding: ItemCalendarAddPillBinding) : RecyclerView.ViewHolder(binding.root){
+
+        init {
+            //약을 longClick하면 약 상세 정보 화면으로 intent
+            // 아이템 뷰에 LongClickListener 추가
+            binding.root.setOnLongClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    val context = binding.root.context
+                    val intent = Intent(context, DetailPillActivity::class.java)
+                    // 여기서 아이템에 대한 정보를 인텐트에 추가할 수 있음
+                    context.startActivity(intent)
+                }
+                true // LongClickListener가 이벤트를 소비했음을 나타냄
+            }
+
+            //자유기록한 약 click했을 때 상세 정보 화면으로 intent (임시)
+            binding.root.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    val context = binding.root.context
+//                    val intent = Intent(context, FreeDetailPillActivity::class.java)
+//                    // 여기서 아이템에 대한 정보를 인텐트에 추가할 수 있음
+//                    context.startActivity(intent)
+
+                    // BottomSheetDialog 표시
+                    val bottomSheetView = LayoutInflater.from(context).inflate(R.layout.activity_free_detail_pill, null)
+                    val bottomSheetDialog = BottomSheetDialog(context, R.style.AppBottomSheetDialogTheme)
+
+                    bottomSheetDialog.setContentView(bottomSheetView)
+                    bottomSheetDialog.show()
+
+                }
+                true // LongClickListener가 이벤트를 소비했음을 나타냄
+            }
+        }
         fun bind(addpill:DataItemSymptom.DataItemAddPill){
             binding.itemCalendarPillVolumeTv.text = addpill.pillvolume
             binding.itemCalendarPillNameTv.text = addpill.pillname

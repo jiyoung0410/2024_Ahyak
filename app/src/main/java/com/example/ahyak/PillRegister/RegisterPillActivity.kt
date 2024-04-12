@@ -6,15 +6,20 @@ import android.graphics.Color
 import android.graphics.Paint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ahyak.Calendar.DataItemSymptom
 import com.example.ahyak.MainActivity
 import com.example.ahyak.R
+import com.example.ahyak.RecordSymptoms.DataItemSearchSymptom
+import com.example.ahyak.RecordSymptoms.DegreeSymptomsActivity
 import com.example.ahyak.RecordSymptoms.frequency.FrequencyTermActivity
 import com.example.ahyak.databinding.ActivityRegisterPillBinding
 import com.google.gson.Gson
@@ -25,11 +30,20 @@ class RegisterPillActivity : AppCompatActivity() {
     var registerpillDosage: String = "mg"
     var registerpillDosageSize:String = ""
     var registerpillName:String = ""
+
+    //약 자동완성 관련
+    private val registerPills : ArrayList<DataItemRegisterPill> = arrayListOf()
+    private var registerPillAdapter : RegisterPillAdapter? = null
+
     private val selectedTimes = mutableListOf<String>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityRegisterPillBinding.inflate(layoutInflater)
+
+        //약 자동완성 관련 초기화
+        registerPillInit()
+        initregisterPilladapter()
 
         //text에 밑줄 추가하는 코드
         binding.registerPillSearchShapeTv.paintFlags = Paint.UNDERLINE_TEXT_FLAG
@@ -46,6 +60,22 @@ class RegisterPillActivity : AppCompatActivity() {
                 return@setOnEditorActionListener false
             }
         }
+
+        binding.registerPillNameInputEt.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // 입력 전에 실행할 작업
+                binding.registerPillRv.visibility = View.VISIBLE
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // 텍스트가 변경될 때마다 실행할 작업
+                filterPillName(s.toString())
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                // 입력 후에 실행할 작업
+            }
+        })
 
         //시간 선택에 사용할 리스트 설정
         val layouts = listOf(
@@ -139,6 +169,7 @@ class RegisterPillActivity : AppCompatActivity() {
             binding.registerPillNameInputEt.hint = "약의 이름을 검색해주세요"
             binding.registerPillSearchIv.visibility = View.VISIBLE
             binding.registerPillDeleteIv.visibility = View.GONE
+
         }
 
         val freeRecordPillName = intent.getStringExtra("freeRecordPillInpoName") ?: ""
@@ -210,6 +241,40 @@ class RegisterPillActivity : AppCompatActivity() {
         setContentView(binding.root)
     }
 
+    private fun initregisterPilladapter() {
+        registerPillAdapter = RegisterPillAdapter(registerPills, this)
+        binding.registerPillRv.adapter = registerPillAdapter
+        binding.registerPillRv.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+    }
+
+    private fun registerPillInit() {
+        registerPills.addAll(
+            arrayListOf(
+                DataItemRegisterPill("감기약"),
+                DataItemRegisterPill("나는 감기"),
+                DataItemRegisterPill("타이레놀"),
+                DataItemRegisterPill("타이레놀2"),
+                DataItemRegisterPill("타이레놀3"),
+                DataItemRegisterPill("타이레놀4"),
+                DataItemRegisterPill("타이레놀5")
+            )
+        )
+    }
+
+    private fun filterPillName(query: String) {
+        val filteredList = ArrayList<DataItemRegisterPill>()
+
+        for (item in registerPills) {
+            // 증상 명칭에 검색어가 포함되어 있는지 확인
+            if (item.RegisterPillName.contains(query, ignoreCase = true)) {
+                filteredList.add(item)
+            }
+        }
+
+        // 어댑터에 필터링된 목록 설정
+        registerPillAdapter?.filterList(filteredList)
+    }
+
     private fun toggletimeSelection(layout: LinearLayout) {
         val background = layout.background
         val textView = layout.getChildAt(0) as TextView
@@ -226,6 +291,17 @@ class RegisterPillActivity : AppCompatActivity() {
 
         }
         layout.setBackgroundResource(bgColor) // 배경을 적용합니다.
+    }
+
+    fun onItemClick(dataItemRegisterPill: DataItemRegisterPill) {
+        binding.registerPillNameInputEt.visibility = View.GONE
+        binding.registerPillNameInputEt.text.clear()
+        binding.registerPillNameInputTv.setText(dataItemRegisterPill.RegisterPillName)
+        binding.registerPillNameInputTv.visibility = View.VISIBLE
+        binding.registerPillRv.visibility = View.GONE
+        binding.registerPillSearchIv.visibility = View.GONE
+        binding.registerPillDeleteIv.visibility = View.VISIBLE
+
     }
 
 

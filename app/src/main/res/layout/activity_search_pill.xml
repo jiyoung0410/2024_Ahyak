@@ -610,7 +610,7 @@
                             <ImageView
                                 android:layout_width="34dp"
                                 android:layout_height="34dp"
-                                android:src="@drawable/pill_shape_tablet"/>
+                                android:src="@drawable/pill_formulation_tablet"/>
 
                             <TextView
                                 android:layout_marginTop="5dp"
@@ -636,7 +636,7 @@
                             <ImageView
                                 android:layout_width="34dp"
                                 android:layout_height="34dp"
-                                android:src="@drawable/pill_shape_reshuffle"/>
+                                android:src="@drawable/pill_formulation_reshuffle"/>
 
                             <TextView
                                 android:layout_marginTop="5dp"
@@ -662,7 +662,7 @@
                             <ImageView
                                 android:layout_width="34dp"
                                 android:layout_height="34dp"
-                                android:src="@drawable/pill_shape_soft"/>
+                                android:src="@drawable/pill_formulation_soft"/>
 
                             <TextView
                                 android:layout_marginTop="5dp"

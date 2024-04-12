@@ -75,6 +75,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginStart="10dp"/>
 
+
             <TextView
                 android:id="@+id/register_pill_name_input_tv"
                 android:layout_width="match_parent"
@@ -116,6 +117,11 @@
                 android:layout_marginEnd="10dp"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/register_pill_rv"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
         <LinearLayout
             android:layout_width="match_parent"

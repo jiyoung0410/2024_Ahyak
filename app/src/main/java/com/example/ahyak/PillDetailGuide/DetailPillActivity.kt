@@ -17,5 +17,17 @@ class DetailPillActivity : AppCompatActivity() {
 
         //  initialize viewpager
         binding.viewPager.adapter = DetailPillActivity@adapter
+
+        // 'X'버튼 클릭했을 때
+        binding.cancleIv.setOnClickListener {
+            finish()
+        }
+
+        //ViewPager와 TabLayout 연결
+        val viewPagerAdapter = DetailPillViewPagerAdapter(supportFragmentManager)
+        binding.viewPager.adapter = viewPagerAdapter
+
+        binding.tabLayout.setupWithViewPager(binding.viewPager, true)
+
     }
 }
