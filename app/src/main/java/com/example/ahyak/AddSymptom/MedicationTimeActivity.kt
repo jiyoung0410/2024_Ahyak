@@ -1,4 +1,4 @@
-package com.example.ahyak
+package com.example.ahyak.AddSymptom
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

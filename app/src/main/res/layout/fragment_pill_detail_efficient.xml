@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PillDetailGuide.PillDetailEfficientFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/pill_efficient_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="이 약의 효능은 무엇입니까?"
+            android:layout_marginStart="25dp"
+            android:textColor="@color/black"
+            android:layout_marginEnd="25dp"
+            android:layout_marginTop="35dp"
+            android:textSize="15sp"
+            android:fontFamily="@font/nanum_barun_gothic_bold"/>
+
+        <TextView
+            android:id="@+id/pill_efficient_instruction_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="이 약은 육체피로, 임신 • 수유기, 병중 • 병후(병을 앓는 동안이나 회복 후)의 체력 저하 시, 발육기, 노년기의 비타민 D, E, B1, B2, B6, C의 보급과 뼈, 이의 발육불량, 구루병의 예방, 각기, 눈의 피로, 신경통, 근 육통, 관절통(요(허리)통, 어깨결림 등), 구각염(입꼬리염), 구순염(입술염), 구내염(입안염), 설염(혀염), 습진, 피부염 증상의 완화와 아연의 보급에 사용합니다."
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginTop="16dp"
+            android:textSize="12sp"
+            android:fontFamily="@font/nanum_barun_gothic"/>
+
+    </LinearLayout>
+
+</FrameLayout>

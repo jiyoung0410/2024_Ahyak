@@ -1,0 +1,96 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/point"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".PillDetailGuide.DetailPillActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:fontFamily="@font/nanum_barun_gothic_bold"
+            android:gravity="center"
+            android:text="약 상세 정보"
+            android:textSize="15dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="9"
+        android:background="@drawable/bg_radi_top_30dp"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/cancle_iv"
+            android:layout_width="28.5dp"
+            android:layout_height="28.5dp"
+            android:src="@drawable/ic_cancle"
+            android:layout_gravity="right"
+            android:layout_marginTop="17dp"
+            android:layout_marginEnd="22dp"/>
+
+        <TextView
+            android:id="@+id/pill_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="콘서타"
+            android:textSize="24sp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/nanum_barun_gothic_bold"/>
+
+        <TextView
+            android:id="@+id/instruction_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="‘콘서타’ 약에 대해 자세하게 설명해드릴게요, 약의 효능, 사용상 주의사항, 약을 복용하는 동안 주의해야 할 약 또는 음식, 발생할 수 있는 이상 반응을 화면을 좌우로 넘기면 확인할 수 있어요!"
+            android:layout_marginStart="35dp"
+            android:layout_marginEnd="35dp"
+            android:layout_marginTop="16dp"
+            android:textSize="12sp"
+            android:fontFamily="@font/nanum_barun_gothic"/>
+
+        <LinearLayout
+            android:id="@+id/information_container_ll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="19dp"
+            android:layout_marginEnd="19dp"
+            android:orientation="vertical"
+            android:layout_weight="3"
+            android:background="@drawable/white_radi_30dp">
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="9" />
+
+        </LinearLayout>
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabBackground="@drawable/tab_dot"
+            android:background="@color/bg"
+            app:tabGravity="center"
+            app:tabIndicatorHeight="0dp" />
+
+    </LinearLayout>
+
+</LinearLayout>
