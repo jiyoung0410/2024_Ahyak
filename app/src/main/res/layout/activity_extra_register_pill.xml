@@ -53,11 +53,11 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="33dp"
+            android:layout_height="40dp"
             android:layout_marginStart="30dp"
             android:layout_marginEnd="30dp"
             android:layout_marginTop="17dp"
-            android:background="@drawable/white_radi_5dp_gray1_stroke">
+            android:background="@drawable/bg_radi_5dp">
 
             <EditText
                 android:id="@+id/extra_register_pill_name_input_et"
@@ -107,10 +107,10 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="33dp"
+                android:layout_height="40dp"
                 android:layout_weight="1"
-                android:layout_marginTop="17dp"
-                android:background="@drawable/white_radi_5dp_gray1_stroke">
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_radi_5dp">
 
                 <EditText
                     android:id="@+id/extra_register_pill_dosage_input_et"
@@ -127,22 +127,22 @@
                     android:layout_marginStart="10dp"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="33dp"
+                android:layout_height="40dp"
                 android:layout_weight="2"
                 android:layout_marginStart="10dp"
-                android:background="@drawable/gray2_radi_5dp_gray1_stroke"
+                android:background="@drawable/bg_radi_5dp"
                 android:orientation="horizontal"
-                android:layout_marginTop="17dp">
+                android:gravity="center"
+                android:layout_marginTop="10dp">
 
                 <LinearLayout
                     android:id="@+id/extra_register_pill_dosage_mg_cv"
                     android:layout_width="match_parent"
-                    android:layout_margin="3dp"
                     android:layout_height="27dp"
                     android:gravity="center"
+                    android:layout_margin="5dp"
                     android:background="@drawable/white_radi_5dp"
                     android:layout_weight="1">
 
@@ -156,13 +156,22 @@
 
                 </LinearLayout>
 
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/gray2"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"/>
+
+
                 <LinearLayout
                     android:id="@+id/extra_register_pill_dosage_tablet_cv"
                     android:layout_width="match_parent"
                     android:layout_height="27dp"
-                    android:layout_margin="3dp"
+                    android:layout_margin="5dp"
+
                     android:gravity="center"
-                    android:background="@drawable/gray2_radi_5dp"
+                    android:background="@drawable/bg_radi_5dp"
                     android:layout_weight="1">
 
                     <TextView

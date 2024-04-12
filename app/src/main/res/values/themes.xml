@@ -19,4 +19,11 @@
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
+
+    <style name="AppTheme.NumberPicker" >
+        <item name="colorControlNormal">@color/point</item>
+    </style>
+
+    <style name="AppTheme">timepicker</style>
+
 </resources>

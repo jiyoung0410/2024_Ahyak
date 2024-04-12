@@ -4,4 +4,8 @@
         <item name="android:textSize">10sp</item>
         <item name="fontFamily">@font/nanum_barun_gothic</item>
     </style>
+
+    <style name="AppBottomSheetDialogTheme" parent="Theme.Design.BottomSheetDialog">
+        <item name="android:background">@color/transparent_black</item>
+    </style>
 </resources>

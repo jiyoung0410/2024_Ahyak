@@ -27,6 +27,7 @@ class SearchSymptomsActivity : AppCompatActivity(), OnItemClickListener {
         binding.recordSymptomsCancleIv.setOnClickListener {
             finish()
         }
+
         //Edit Text 관련
         binding.searchSymptomsEt.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {

@@ -35,14 +35,14 @@ class ExtraRegisterPillActivity : AppCompatActivity() {
         //mg 버튼 누르면
         binding.extraRegisterPillDosageMgCv.setOnClickListener {
             binding.extraRegisterPillDosageMgCv.setBackgroundResource(R.drawable.white_radi_5dp)
-            binding.extraRegisterPillDosageTabletCv.setBackgroundResource(R.drawable.gray2_radi_5dp)
+            binding.extraRegisterPillDosageTabletCv.setBackgroundResource(R.drawable.bg_radi_5dp)
             pillDosage = "mg"
         }
 
         //정 버튼 누르면
         binding.extraRegisterPillDosageTabletCv.setOnClickListener {
             binding.extraRegisterPillDosageTabletCv.setBackgroundResource(R.drawable.white_radi_5dp)
-            binding.extraRegisterPillDosageMgCv.setBackgroundResource(R.drawable.gray2_radi_5dp)
+            binding.extraRegisterPillDosageMgCv.setBackgroundResource(R.drawable.bg_radi_5dp)
             pillDosage = "정"
         }
 
