@@ -265,7 +265,7 @@ class RegisterPillActivity : AppCompatActivity() {
         val filteredList = ArrayList<DataItemRegisterPill>()
 
         for (item in registerPills) {
-            // 증상 명칭에 검색어가 포함되어 있는지 확인
+            // 증상 명칭에 검색어가 포함되어 있는지 확인현
             if (item.RegisterPillName.contains(query, ignoreCase = true)) {
                 filteredList.add(item)
             }

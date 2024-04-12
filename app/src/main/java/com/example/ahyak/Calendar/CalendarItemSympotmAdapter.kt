@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ahyak.databinding.ItemCalendarSymptomBinding
@@ -35,6 +36,7 @@ class CalendarItemSympotmAdapter(val onClick: ()->(Unit), val onAddPillClick: (D
             binding.itemCalendarSymptomDate.text= sympotm.startdate
             binding.itemCalendarSymptomHospitalName.text = sympotm.hospitalname
             binding.itemCalendarSymptomPillRv.apply {
+
                     adapter = CalendarItemAddPillAdapter().build(sympotm.ItemAddPill)
                     layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             }

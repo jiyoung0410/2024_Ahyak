@@ -14,7 +14,7 @@
         <LinearLayout
             android:id="@+id/calendar_afterwake_change_ll"
             android:layout_width="match_parent"
-            android:layout_height="37sp"
+            android:layout_height="45sp"
             app:layout_constraintTop_toTopOf="parent"
             android:background="@color/white"
             android:orientation="horizontal">
@@ -25,7 +25,7 @@
                 android:layout_height="wrap_content"
                 android:text="오전 7:00"
                 android:fontFamily="@font/nanum_barun_gothic_bold"
-                android:textSize="10sp"
+                android:textSize="12sp"
                 android:layout_gravity="center"
                 android:textColor="@color/point"
                 android:layout_marginStart="18sp"/>
@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:text=" 에 알려드려요"
                 android:fontFamily="@font/nanum_barun_gothic_bold"
-                android:textSize="10sp"
+                android:textSize="12sp"
                 android:textColor="@color/black"
                 android:layout_gravity="center" />
             
@@ -45,8 +45,8 @@
 
                 <LinearLayout
                     android:id="@+id/calendar_afterwake_change_time_ll"
-                    android:layout_width="47dp"
-                    android:layout_height="22dp"
+                    android:layout_width="60dp"
+                    android:layout_height="25dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -59,7 +59,7 @@
                         android:layout_height="wrap_content"
                         android:text="시간 변경"
                         android:fontFamily="@font/nanum_barun_gothic_bold"
-                        android:textSize="8sp"
+                        android:textSize="10sp"
                         android:textColor="@color/gray1"/>
                 </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
