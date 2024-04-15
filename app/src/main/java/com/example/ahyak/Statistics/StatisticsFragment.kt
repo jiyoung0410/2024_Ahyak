@@ -60,7 +60,7 @@ class StatisticsFragment : Fragment() {
     }
 
     fun getSympomData() {
-        val dummyDate = arrayListOf("3월 31일","4월 1일","4월 2일","4월 3일","4월 4일","4월 5일","4월 6일")
+        val dummyDate = arrayListOf("4월 7일","4월 8일","4월 9일","4월 10일","4월 11일","4월 12일","4월 13일")
         val sympomList : ArrayList<Sympom> = arrayListOf<Sympom>(
             Sympom("구역",dummyDate[0],1),
             Sympom("구역",dummyDate[1],0),
