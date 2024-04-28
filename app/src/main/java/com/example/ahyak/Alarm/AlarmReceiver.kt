@@ -35,16 +35,17 @@ class AlarmReceiver : BroadcastReceiver() { // Alarm이 발생했을 때의 동�
 
 //    @SuppressLint("UnspecifiedImmutableFlag")
     override fun onReceive(context: Context?, intent: Intent?) {
-        val channel = NotificationChannel(CHANNEL_ID, CHANNEL_NAME,NotificationManager.IMPORTANCE_DEFAULT).apply {
+        val channel = NotificationChannel(CHANNEL_ID, CHANNEL_NAME,NotificationManager.IMPORTANCE_HIGH).apply {
             description = "test notification"
         }
 
         manager = context?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         manager.createNotificationChannel(channel)
 
-        val intent2 = Intent(context, FullScreenAlarmActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        }
+//        val intent2 = Intent(context, FullScreenAlarmActivity::class.java).apply {
+//            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+//        }
+        val intent2 = Intent(context, FullScreenAlarmActivity::class.java)
         val requestCode = intent?.extras!!.getInt("alarm_rqCode")
         val title = intent.extras!!.getString("content")
 
@@ -56,13 +57,25 @@ class AlarmReceiver : BroadcastReceiver() { // Alarm이 발생했을 때의 동�
             PendingIntent.getActivity(context,requestCode,intent2,PendingIntent.FLAG_UPDATE_CURRENT)
         }
 
+//        builder1 = NotificationCompat.Builder(context, CHANNEL_ID).apply {
+//            setSmallIcon(R.drawable.ic_logo)
+//            setContentTitle(title)
+//            setContentText("SCHEDULE MANAGER")
+//            priority = NotificationCompat.PRIORITY_DEFAULT
+//            setContentIntent(pendingIntent)
+//            setAutoCancel(true)
+//        }
+
         builder1 = NotificationCompat.Builder(context, CHANNEL_ID).apply {
-            setSmallIcon(R.drawable.ic_logo)
+            setSmallIcon((R.drawable.ic_logo))
             setContentTitle(title)
             setContentText("SCHEDULE MANAGER")
-            priority = NotificationCompat.PRIORITY_DEFAULT
-            setContentIntent(pendingIntent)
+            priority = NotificationCompat.PRIORITY_HIGH
+            setCategory(NotificationCompat.CATEGORY_ALARM)
             setAutoCancel(true)
+            setStyle(NotificationCompat.BigTextStyle().bigText("SCHEDULE MANAGER"))
+//            addAction(R.drawable.ic_logo,"Snooze",snoozeP)
+            setFullScreenIntent(pendingIntent,true)
         }
 
 //        builder2 = NotificationCompat.Builder(context, CHANNEL_ID).apply {
