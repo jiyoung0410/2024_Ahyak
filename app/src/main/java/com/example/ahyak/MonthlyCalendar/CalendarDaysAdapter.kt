@@ -26,10 +26,6 @@ class CalendarDaysAdapter(var dateList: ArrayList<CalDaysInfo>) : RecyclerView.A
                 4 -> binding.itemCalendarDaysCl.setBackgroundResource(R.drawable.double_circle_point_point_stroke)
                 5 -> binding.itemCalendarDaysCl.setBackgroundResource(R.drawable.double_circle_gray3_point_stroke)
             }
-//            if(myDays.bg==1) {
-//                Log.d("logcat",myDays.toString())
-//                binding.itemCalendarDaysCl.setBackgroundResource(R.drawable.radi_50dp_point_stroke)
-//            }
         }
     }
 

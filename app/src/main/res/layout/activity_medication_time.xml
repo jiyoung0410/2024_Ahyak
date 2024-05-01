@@ -59,6 +59,7 @@
                 android:fontFamily="@font/nanum_barun_gothic_bold"/>
             
             <TimePicker
+                android:id="@+id/medication_time_tp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent"

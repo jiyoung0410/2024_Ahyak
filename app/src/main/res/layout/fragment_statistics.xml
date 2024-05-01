@@ -7,45 +7,75 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Statistics.StatisticsFragment">
 
-    <ImageView
-        android:id="@+id/statistics_title_icon_iv"
-        android:layout_width="24dp"
-        android:layout_height="20dp"
+<!--    <ImageView-->
+<!--        android:id="@+id/statistics_title_icon_iv"-->
+<!--        android:layout_width="24dp"-->
+<!--        android:layout_height="20dp"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        android:layout_marginTop="26dp"-->
+<!--        android:layout_marginStart="24dp"-->
+<!--        android:src="@drawable/ic_calender_point"/>-->
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/statistics_title_cl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="26dp"
-        android:layout_marginStart="24dp"
-        android:src="@drawable/ic_calender_point"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="29dp">
 
-    <TextView
-        android:id="@+id/statistics_title_content1_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@id/statistics_title_icon_iv"
-        app:layout_constraintBottom_toBottomOf="@id/statistics_title_icon_iv"
-        android:layout_marginStart="9dp"
-        android:text="1월 4일 ~ 1월 11일"
-        android:textSize="14sp"
-        android:textColor="@color/point"
-        android:fontFamily="@font/nanum_barun_gothic_bold"/>
+        <TextView
+            android:id="@+id/statistics_title_content1_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="1월 4일 ~ 1월 11일"
+            android:textSize="14sp"
+            android:textColor="@color/point"
+            android:fontFamily="@font/nanum_barun_gothic_bold"/>
 
-    <TextView
-        android:id="@+id/statistics_title_content2_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@id/statistics_title_content1_tv"
-        app:layout_constraintTop_toTopOf="@id/statistics_title_content1_tv"
-        app:layout_constraintBottom_toBottomOf="@id/statistics_title_content1_tv"
-        android:text="까지의 기록이에요"
-        android:textSize="14sp"
-        android:textColor="@color/gray1"
-        android:fontFamily="@font/nanum_barun_gothic_bold"/>
+        <TextView
+            android:id="@+id/statistics_title_content2_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/statistics_title_content1_tv"
+            app:layout_constraintTop_toTopOf="@id/statistics_title_content1_tv"
+            app:layout_constraintBottom_toBottomOf="@id/statistics_title_content1_tv"
+            android:text="까지의 기록이에요"
+            android:textSize="14sp"
+            android:textColor="@color/gray1"
+            android:fontFamily="@font/nanum_barun_gothic_bold"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
+        android:id="@+id/statistics_title_prev_iv"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        app:layout_constraintTop_toTopOf="@id/statistics_title_cl"
+        app:layout_constraintBottom_toBottomOf="@id/statistics_title_cl"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="25dp"
+        android:src="@drawable/ic_gray1_prev"/>
+
+    <ImageView
+        android:id="@+id/statistics_title_next_iv"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        app:layout_constraintTop_toTopOf="@id/statistics_title_cl"
+        app:layout_constraintBottom_toBottomOf="@id/statistics_title_cl"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="25dp"
+        android:src="@drawable/ic_gray1_next"/>
 
     <LinearLayout
         android:id="@+id/statistics_content_ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/statistics_title_icon_iv"
+        app:layout_constraintTop_toBottomOf="@id/statistics_title_cl"
         android:layout_marginHorizontal="30dp"
         android:orientation="vertical">
 

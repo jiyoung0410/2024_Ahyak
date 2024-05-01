@@ -28,6 +28,14 @@ class CalendarAfterwakeFragment : Fragment() {
     var extraPillInpoDosage:String? = null
     var extraPillformattedTime:String? = null
 
+    override fun onResume() {
+        super.onResume()
+
+        val sharedPref = requireActivity().getSharedPreferences("myPref", Context.MODE_PRIVATE)
+        val alarmTime = sharedPref.getString("alarmTime","정해진 시간 없음")
+        binding.calendarAfterwakeTimeTv.text = alarmTime
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

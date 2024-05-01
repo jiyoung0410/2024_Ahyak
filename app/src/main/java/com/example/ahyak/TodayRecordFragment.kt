@@ -38,23 +38,27 @@ class TodayRecordFragment : Fragment() {
         var week_day : ArrayList<String> = arrayListOf("월","화","수","목","금","토","일")
         var nowMonday : LocalDateTime? = null
 
-        calendarAdapter = CalendarAdapter(calendarList) { item ->
-            //캘린더 click event 내용
+        val dateFormat = DateTimeFormatter.ofPattern("d").withLocale(Locale.forLanguageTag("ko"))
+        val monthFormat = DateTimeFormatter.ofPattern("yyyy년 M월").withLocale(Locale.forLanguageTag("ko"))
+        val localDate = LocalDateTime.now()
+        var calSelectedDay : LocalDateTime = localDate
+        var thisMonday : LocalDateTime = localDate.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY))
+        var existSelectedItem = false
+
+        binding.todayRecordYearmonthTv.text = localDate.format(monthFormat)
+        nowMonday = thisMonday
+        for(i in 0..6) {
+            calendarList.apply {
+                add(CalendarVO(thisMonday.plusDays(i.toLong()).format(dateFormat),week_day[i]))
+            }
         }
 
-        calendarList.apply {
-            val dateFormat = DateTimeFormatter.ofPattern("d").withLocale(Locale.forLanguageTag("ko"))
-            val monthFormat = DateTimeFormatter.ofPattern("yyyy년 M월").withLocale(Locale.forLanguageTag("ko"))
-
-            val localDate = LocalDateTime.now().format(monthFormat)
-            binding.todayRecordYearmonthTv.text = localDate
-
-            var thisMonday : LocalDateTime = LocalDateTime.now().with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY))
-            nowMonday = thisMonday
-
+        calendarAdapter = CalendarAdapter(calendarList,calSelectedDay,true) { item ->
+            //캘린더 click event 내용
             for(i in 0..6) {
-                calendarList.apply {
-                    add(CalendarVO(thisMonday.plusDays(i.toLong()).format(dateFormat),week_day[i]))
+                if(nowMonday!!.plusDays(i.toLong()).dayOfMonth == item.cl_date.toInt()) {
+                    calSelectedDay = nowMonday!!.plusDays(i.toLong())
+//                    binding.todayRecordYearmonthTv.text = calSelectedDay.format(monthFormat)
                 }
             }
         }
@@ -62,33 +66,61 @@ class TodayRecordFragment : Fragment() {
         binding.todayRecordCalendarRv.layoutManager = GridLayoutManager(context,7)
         binding.todayRecordCalendarRv.isNestedScrollingEnabled = false
 
-//        binding.todayRecordCalendarRv.setOnTouchListener(object : OnSwipeTouchListener(requireContext()) {
-//            val dateFormat = DateTimeFormatter.ofPattern("d").withLocale(Locale.forLanguageTag("ko"))
-//
-//            override fun onSwipeLeft() {
-//                super.onSwipeLeft()
-//                nowMonday = nowMonday?.minusDays(7)
-//                calendarList = ArrayList<CalendarVO>()
-//                for(i in 0..6) {
-//                    calendarList.apply {
-//                        add(CalendarVO(nowMonday!!.plusDays(i.toLong()).format(dateFormat),week_day[i]))
-//                    }
-//                }
-//                binding.todayRecordCalendarRv.adapter = calendarAdapter
-//            }
-//
-//            override fun onSwipeRight() {
-//                super.onSwipeRight()
-//                nowMonday = nowMonday?.plusDays(7)
-//                calendarList = ArrayList<CalendarVO>()
-//                for(i in 0..6) {
-//                    calendarList.apply {
-//                        add(CalendarVO(nowMonday!!.plusDays(i.toLong()).format(dateFormat),week_day[i]))
-//                    }
-//                }
-//                binding.todayRecordCalendarRv.adapter = calendarAdapter
-//            }
-//        })
+        binding.todayRecordPrevWeekBtnCl.setOnClickListener {
+            val dateFormat = DateTimeFormatter.ofPattern("d").withLocale(Locale.forLanguageTag("ko"))
+
+            nowMonday = nowMonday?.minusDays(7)
+//            binding.todayRecordYearmonthTv.text = nowMonday?.format(monthFormat)
+            calendarList = ArrayList<CalendarVO>()
+            for(i in 0..6) {
+                calendarList.apply {
+                    add(CalendarVO(nowMonday!!.plusDays(i.toLong()).format(dateFormat),week_day[i]))
+                }
+                if(nowMonday!!.plusDays(i.toLong()) == calSelectedDay) {
+                    existSelectedItem = true
+                }
+            }
+
+            calendarAdapter = CalendarAdapter(calendarList,calSelectedDay, existSelectedItem) { item ->
+                //캘린더 click event 내용
+                for(i in 0..6) {
+                    if(nowMonday!!.plusDays(i.toLong()).dayOfMonth == item.cl_date.toInt()) {
+                        calSelectedDay = nowMonday!!.plusDays(i.toLong())
+                        binding.todayRecordYearmonthTv.text = calSelectedDay.format(monthFormat)
+                    }
+                }
+            }
+            existSelectedItem = false
+            binding.todayRecordCalendarRv.adapter = calendarAdapter
+        }
+
+        binding.todayRecordNextWeekBtnCl.setOnClickListener {
+            val dateFormat = DateTimeFormatter.ofPattern("d").withLocale(Locale.forLanguageTag("ko"))
+
+            nowMonday = nowMonday?.plusDays(7)
+//            binding.todayRecordYearmonthTv.text = nowMonday?.format(monthFormat)
+            calendarList = ArrayList<CalendarVO>()
+            for(i in 0..6) {
+                calendarList.apply {
+                    add(CalendarVO(nowMonday!!.plusDays(i.toLong()).format(dateFormat),week_day[i]))
+                }
+                if(nowMonday!!.plusDays(i.toLong()) == calSelectedDay) {
+                    existSelectedItem = true
+                }
+            }
+
+            calendarAdapter = CalendarAdapter(calendarList,calSelectedDay,existSelectedItem) { item ->
+                //캘린더 click event 내용
+                for(i in 0..6) {
+                    if(nowMonday!!.plusDays(i.toLong()).dayOfMonth == item.cl_date.toInt()) {
+                        calSelectedDay = nowMonday!!.plusDays(i.toLong())
+                        binding.todayRecordYearmonthTv.text = calSelectedDay.format(monthFormat)
+                    }
+                }
+            }
+            existSelectedItem = false
+            binding.todayRecordCalendarRv.adapter = calendarAdapter
+        }
 
         binding.todayRecordVp.adapter = TodayRecordSliderVPAdapter(requireActivity())
         TabLayoutMediator(binding.todayRecordTab,binding.todayRecordVp) { tab, position ->

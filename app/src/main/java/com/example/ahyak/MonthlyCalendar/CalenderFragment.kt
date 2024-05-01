@@ -37,7 +37,7 @@ class CalenderFragment : Fragment() {
         initcalendarsymptomsadapter()
 
         //프로그레스바 설정(임시)
-        binding.calendarProgressbarPb.progress = 85
+        binding.calendarProgressbarPb.progress = 63
 
         var calendarWeekAdapter = CalendarWeekAdapter(arrayListOf("월","화","수","목","금","토","일"))
         binding.calendarWeekRv.adapter = calendarWeekAdapter
@@ -99,7 +99,7 @@ class CalenderFragment : Fragment() {
             if(year == todayCal.get(Calendar.YEAR) && month == todayCal.get(Calendar.MONTH) + 1 && i == todayCal.get(Calendar.DAY_OF_MONTH)) { // 오늘 날짜
                 if(i == 4 || i == 9 || i == 16 || i == 17 || i == 18) { //약 복용한 날 조건 수정 필요
                     dayList.add(CalDaysInfo(year.toString(),month.toString(),i.toString(),4))
-                } else if(i == 10 || i == 11 || i == 12) { //약 미복용한 날 조건 수정 필요
+                } else if(i == 10 || i == 11 || i == 13) { //약 미복용한 날 조건 수정 필요
                     dayList.add(CalDaysInfo(year.toString(),month.toString(),i.toString(),5))
                 } else { // 약을 안 복용하는 날
                     dayList.add(CalDaysInfo(year.toString(),month.toString(),i.toString(),3))
@@ -107,7 +107,7 @@ class CalenderFragment : Fragment() {
             } else {
                 if(i == 4 || i == 9 || i == 16 || i == 17 || i == 18) { //약 복용한 날 조건 수정 필요
                     dayList.add(CalDaysInfo(year.toString(),month.toString(),i.toString(),1))
-                } else if(i == 10 || i == 11 || i == 12) { //약 미복용한 날 조건 수정 필요
+                } else if(i == 10 || i == 11 || i == 13) { //약 미복용한 날 조건 수정 필요
                     dayList.add(CalDaysInfo(year.toString(),month.toString(),i.toString(),2))
                 } else { // 약을 안 복용하는 날
                     dayList.add(CalDaysInfo(year.toString(), month.toString(), i.toString(), 0))
