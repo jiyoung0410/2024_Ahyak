@@ -17,23 +17,41 @@
         android:layout_marginStart="24dp"
         android:src="@drawable/ic_calender_point"/>
 
+    <ImageView
+        android:id="@+id/statistics_title_prev_iv"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        app:layout_constraintStart_toEndOf="@id/statistics_title_icon_iv"
+        app:layout_constraintTop_toTopOf="@id/statistics_title_icon_iv"
+        app:layout_constraintBottom_toBottomOf="@id/statistics_title_icon_iv"
+        android:layout_marginStart="9dp"
+        android:src="@drawable/ic_gray1_prev"/>
+
     <TextView
         android:id="@+id/statistics_title_content1_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@id/statistics_title_icon_iv"
+        app:layout_constraintStart_toEndOf="@id/statistics_title_prev_iv"
         app:layout_constraintBottom_toBottomOf="@id/statistics_title_icon_iv"
-        android:layout_marginStart="9dp"
         android:text="1월 4일 ~ 1월 11일"
         android:textSize="14sp"
         android:textColor="@color/point"
         android:fontFamily="@font/nanum_barun_gothic_bold"/>
 
+    <ImageView
+        android:id="@+id/statistics_title_next_iv"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        app:layout_constraintStart_toEndOf="@id/statistics_title_content1_tv"
+        app:layout_constraintTop_toTopOf="@id/statistics_title_icon_iv"
+        app:layout_constraintBottom_toBottomOf="@id/statistics_title_icon_iv"
+        android:src="@drawable/ic_gray1_next"/>
+
     <TextView
         android:id="@+id/statistics_title_content2_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@id/statistics_title_content1_tv"
+        app:layout_constraintStart_toEndOf="@id/statistics_title_next_iv"
         app:layout_constraintTop_toTopOf="@id/statistics_title_content1_tv"
         app:layout_constraintBottom_toBottomOf="@id/statistics_title_content1_tv"
         android:text="까지의 기록이에요"

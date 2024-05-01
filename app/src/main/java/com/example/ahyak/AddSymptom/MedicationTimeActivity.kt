@@ -40,7 +40,16 @@ class MedicationTimeActivity : AppCompatActivity() {
 
             val random = (1..100000)
             val alarmCode = random.random()
-            alarmFunctions.callAlarm(hour,minute,alarmCode,"알람!")
+            alarmFunctions.callAlarm(hour,minute,alarmCode,"Ahyak")
+
+            val sharedPref = getSharedPreferences("myPref", MODE_PRIVATE)
+            val editor = sharedPref.edit()
+            if(hour < 12) {
+                editor.putString("alarmTime",String.format("오전 %02d:%02d", hour, minute))
+            } else {
+                editor.putString("alarmTime",String.format("오후 %02d:%02d", hour-12, minute))
+            }
+            editor.apply()
 
 //            val alarmIntent = Intent(this, AlarmReceiver::class.java)
 //            val pendingIntent = PendingIntent.getBroadcast(this,100,alarmIntent,PendingIntent.FLAG_IMMUTABLE)

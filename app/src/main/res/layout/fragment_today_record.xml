@@ -34,6 +34,47 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="68dp"/>
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/today_record_next_week_btn_cl"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            app:layout_constraintEnd_toEndOf="@id/today_record_calendar_rv"
+            app:layout_constraintBottom_toTopOf="@id/today_record_calendar_rv"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/radi_5dp_white_stroke">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:src="@drawable/ic_white_next"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/today_record_prev_week_btn_cl"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            app:layout_constraintEnd_toStartOf="@id/today_record_next_week_btn_cl"
+            app:layout_constraintBottom_toTopOf="@id/today_record_calendar_rv"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/radi_5dp_white_stroke">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:src="@drawable/ic_white_prev"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.tabs.TabLayout

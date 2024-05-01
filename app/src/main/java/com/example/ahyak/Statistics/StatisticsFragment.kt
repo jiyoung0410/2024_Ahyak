@@ -35,14 +35,23 @@ class StatisticsFragment : Fragment() {
             tab.text = items[position]
         }.attach()
 
-        getDate()
+        getDate(0)
         getSympomData()
+
+        binding.statisticsTitlePrevIv.setOnClickListener {
+            getDate(-7)
+        }
+        binding.statisticsTitleNextIv.setOnClickListener {
+            getDate(7)
+        }
     }
 
-    fun getDate() {
+    fun getDate(moveDay: Int) {
         val dateFormat = SimpleDateFormat("M월 d일", Locale.getDefault())
         var startDate : String
         var endDate : String
+
+        cal.add(Calendar.DATE,moveDay)
 
         endDate = dateFormat.format(cal.time)
         for(i in 0 until 7) {
@@ -50,6 +59,7 @@ class StatisticsFragment : Fragment() {
         }
         cal.add(Calendar.DATE,1)
         startDate = dateFormat.format(cal.time)
+        cal.add(Calendar.DATE,6)
         binding.statisticsTitleContent1Tv.text = startDate + " ~ " + endDate
 
         val sharedPref = requireActivity().getSharedPreferences("myPref",MODE_PRIVATE)
@@ -60,7 +70,7 @@ class StatisticsFragment : Fragment() {
     }
 
     fun getSympomData() {
-        val dummyDate = arrayListOf("4월 7일","4월 8일","4월 9일","4월 10일","4월 11일","4월 12일","4월 13일")
+        val dummyDate = arrayListOf("4월 24일","4월 25일","4월 26일","4월 27일","4월 28일","4월 29일","4월 30일")
         val sympomList : ArrayList<Sympom> = arrayListOf<Sympom>(
             Sympom("구역",dummyDate[0],1),
             Sympom("구역",dummyDate[1],0),

@@ -49,7 +49,7 @@ class AlarmReceiver : BroadcastReceiver() { // Alarm이 발생했을 때의 동�
         val requestCode = intent?.extras!!.getInt("alarm_rqCode")
         val title = intent.extras!!.getString("content")
 
-        Toast.makeText(context,"Alarm test",Toast.LENGTH_SHORT).show()
+//        Toast.makeText(context,"Alarm test",Toast.LENGTH_SHORT).show()
 
         val pendingIntent = if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             PendingIntent.getActivity(context,requestCode,intent2,PendingIntent.FLAG_IMMUTABLE)
@@ -69,11 +69,12 @@ class AlarmReceiver : BroadcastReceiver() { // Alarm이 발생했을 때의 동�
         builder1 = NotificationCompat.Builder(context, CHANNEL_ID).apply {
             setSmallIcon((R.drawable.ic_logo))
             setContentTitle(title)
-            setContentText("SCHEDULE MANAGER")
+            setContentText("약을 복용하실 시간입니다!")
             priority = NotificationCompat.PRIORITY_HIGH
+            setContentIntent(pendingIntent)
             setCategory(NotificationCompat.CATEGORY_ALARM)
             setAutoCancel(true)
-            setStyle(NotificationCompat.BigTextStyle().bigText("SCHEDULE MANAGER"))
+            setStyle(NotificationCompat.BigTextStyle().bigText("약을 복용하실 시간입니다!"))
 //            addAction(R.drawable.ic_logo,"Snooze",snoozeP)
             setFullScreenIntent(pendingIntent,true)
         }
@@ -102,5 +103,4 @@ class AlarmReceiver : BroadcastReceiver() { // Alarm이 발생했을 때의 동�
             manager.notify(5, builder1.build())
         }
     }
-
 }

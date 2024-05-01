@@ -37,7 +37,7 @@ class CalenderFragment : Fragment() {
         initcalendarsymptomsadapter()
 
         //프로그레스바 설정(임시)
-        binding.calendarProgressbarPb.progress = 85
+        binding.calendarProgressbarPb.progress = 63
 
         var calendarWeekAdapter = CalendarWeekAdapter(arrayListOf("월","화","수","목","금","토","일"))
         binding.calendarWeekRv.adapter = calendarWeekAdapter
