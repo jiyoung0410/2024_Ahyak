@@ -4,13 +4,17 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
 import com.example.ahyak.R
 import com.example.ahyak.databinding.ActivitySearchPillBinding
+import com.example.ahyak.remote.AuthService
+import com.example.ahyak.remote.DrugSearchNameView
+import com.example.ahyak.remote.RESULT
 
-class SearchPillActivity : AppCompatActivity() {
+class SearchPillActivity : AppCompatActivity(), DrugSearchNameView {
 
     private lateinit var binding : ActivitySearchPillBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -168,6 +172,24 @@ class SearchPillActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        //API 연결
+        val authService = AuthService(this@SearchPillActivity)
+        authService.setdrugSearchNameView(this)
+        authService.drugSearchName("타이레놀")
+
+
         setContentView(binding.root)
+    }
+
+    override fun DrugSearchNameLoading() {
+        TODO("Not yet implemented")
+    }
+
+    override fun DrugSearchNameSuccess(drug_list:List<RESULT>) {
+        Log.d("success", drug_list.toString())
+    }
+
+    override fun DrugSearchNameFailure() {
+        TODO("Not yet implemented")
     }
 }
