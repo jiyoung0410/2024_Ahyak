@@ -23,7 +23,17 @@ class CalendarItemSympotmAdapter(val onClick: ()->(Unit), val onAddPillClick: (D
         // 아래의 코드를 추가하여 item_addpill의 어댑터에 접근할 수 있도록 합니다.
         private val addPillAdapter: CalendarItemAddPillAdapter = CalendarItemAddPillAdapter()
         init {
+
+//            binding.root.setOnLongClickListener {
+//
+//                sympotms.removeAt(adapterPosition)
+//                // Notify adapter about the item removal
+//                notifyItemRemoved(adapterPosition)
+//                true // Consume the long click event
+//            }
+
             binding.itemCalendarSymptomPillRv.adapter = addPillAdapter
+
         }
         fun bind(sympotm:DataItemSymptom){
 
@@ -36,9 +46,9 @@ class CalendarItemSympotmAdapter(val onClick: ()->(Unit), val onAddPillClick: (D
             binding.itemCalendarSymptomDate.text= sympotm.startdate
             binding.itemCalendarSymptomHospitalName.text = sympotm.hospitalname
             binding.itemCalendarSymptomPillRv.apply {
-
                     adapter = CalendarItemAddPillAdapter().build(sympotm.ItemAddPill)
                     layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+
             }
             binding.root.setOnClickListener {
                 // 리사이클러뷰 아이템에 클릭이벤트 발생

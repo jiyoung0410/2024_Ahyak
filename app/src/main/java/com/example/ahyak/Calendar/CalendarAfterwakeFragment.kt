@@ -50,7 +50,7 @@ class CalendarAfterwakeFragment : Fragment() {
             }
 
             // 새로운 증상 생성
-            val newSymptom = DataItemSymptom("환절기 피부 질환", "연세대학교 원주 세브란스 기독병원", "2024.03.08", arrayListOf(
+            val newSymptom = DataItemSymptom("환절기 피부 질환", "건국대병원", "2024.04.30", arrayListOf(
                 DataItemSymptom.DataItemAddPill("18mg", "콘서타"),
                 DataItemSymptom.DataItemAddPill("10mg", "인테놀정")
             ))
