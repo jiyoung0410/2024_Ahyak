@@ -58,6 +58,7 @@ class TodayRecordFragment : Fragment() {
             for(i in 0..6) {
                 if(nowMonday!!.plusDays(i.toLong()).dayOfMonth == item.cl_date.toInt()) {
                     calSelectedDay = nowMonday!!.plusDays(i.toLong())
+//                    binding.todayRecordYearmonthTv.text = calSelectedDay.format(monthFormat)
                 }
             }
         }
@@ -69,7 +70,7 @@ class TodayRecordFragment : Fragment() {
             val dateFormat = DateTimeFormatter.ofPattern("d").withLocale(Locale.forLanguageTag("ko"))
 
             nowMonday = nowMonday?.minusDays(7)
-            binding.todayRecordYearmonthTv.text = nowMonday?.format(monthFormat)
+//            binding.todayRecordYearmonthTv.text = nowMonday?.format(monthFormat)
             calendarList = ArrayList<CalendarVO>()
             for(i in 0..6) {
                 calendarList.apply {
@@ -85,6 +86,7 @@ class TodayRecordFragment : Fragment() {
                 for(i in 0..6) {
                     if(nowMonday!!.plusDays(i.toLong()).dayOfMonth == item.cl_date.toInt()) {
                         calSelectedDay = nowMonday!!.plusDays(i.toLong())
+                        binding.todayRecordYearmonthTv.text = calSelectedDay.format(monthFormat)
                     }
                 }
             }
@@ -96,7 +98,7 @@ class TodayRecordFragment : Fragment() {
             val dateFormat = DateTimeFormatter.ofPattern("d").withLocale(Locale.forLanguageTag("ko"))
 
             nowMonday = nowMonday?.plusDays(7)
-            binding.todayRecordYearmonthTv.text = nowMonday?.format(monthFormat)
+//            binding.todayRecordYearmonthTv.text = nowMonday?.format(monthFormat)
             calendarList = ArrayList<CalendarVO>()
             for(i in 0..6) {
                 calendarList.apply {
@@ -112,6 +114,7 @@ class TodayRecordFragment : Fragment() {
                 for(i in 0..6) {
                     if(nowMonday!!.plusDays(i.toLong()).dayOfMonth == item.cl_date.toInt()) {
                         calSelectedDay = nowMonday!!.plusDays(i.toLong())
+                        binding.todayRecordYearmonthTv.text = calSelectedDay.format(monthFormat)
                     }
                 }
             }
