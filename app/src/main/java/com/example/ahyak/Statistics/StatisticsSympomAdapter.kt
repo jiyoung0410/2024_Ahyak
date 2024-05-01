@@ -1,4 +1,4 @@
-package com.example.ahyak
+package com.example.ahyak.Statistics
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -14,12 +14,12 @@ class StatisticsSympomAdapter(var sympomList: ArrayList<String>) : RecyclerView.
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): StatisticsSympomAdapter.ViewHolder {
+    ): ViewHolder {
         val binding = ItemStatisticsSympomsBinding.inflate(LayoutInflater.from(parent.context),parent,false)
         return ViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: StatisticsSympomAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(sympomList[position])
     }
 

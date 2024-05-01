@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.ahyak.MonthlyCalendar.CalenderFragment
+import com.example.ahyak.Statistics.StatisticsFragment
 import com.example.ahyak.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
