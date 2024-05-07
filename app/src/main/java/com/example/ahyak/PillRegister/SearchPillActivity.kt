@@ -182,7 +182,6 @@ class SearchPillActivity : AppCompatActivity(), DrugSearchNameView {
     }
 
     override fun DrugSearchNameLoading() {
-        TODO("Not yet implemented")
     }
 
     override fun DrugSearchNameSuccess(drug_list:List<RESULT>) {
@@ -190,6 +189,5 @@ class SearchPillActivity : AppCompatActivity(), DrugSearchNameView {
     }
 
     override fun DrugSearchNameFailure() {
-        TODO("Not yet implemented")
     }
 }

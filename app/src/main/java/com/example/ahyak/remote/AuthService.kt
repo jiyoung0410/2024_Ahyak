@@ -8,7 +8,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class AuthService(private val context: Context) {
-    private val authService = ApplicationClass.retrofit.create(RetroInterface::class.java)
+    private val authService = ApplicationClass.retrofit?.create(RetroInterface::class.java)
 
     private lateinit var drugSearchNameView: DrugSearchNameView
 
@@ -19,7 +19,7 @@ class AuthService(private val context: Context) {
     fun drugSearchName(query:String){
         drugSearchNameView.DrugSearchNameLoading()
         val request = DrugSearchNameRequest(query)
-        authService.drugsearchNamePost(request).enqueue(object : Callback<DrugSearchNameResponse>{
+        authService?.drugsearchNamePost(request)?.enqueue(object : Callback<DrugSearchNameResponse>{
             override fun onResponse(
                 call : Call<DrugSearchNameResponse>,
                 response: Response<DrugSearchNameResponse>
@@ -35,6 +35,7 @@ class AuthService(private val context: Context) {
                     }
                 }
             }
+
             override fun onFailure(call: Call<DrugSearchNameResponse>, t: Throwable) {
                 Log.d("Failed",t.toString())
             }
