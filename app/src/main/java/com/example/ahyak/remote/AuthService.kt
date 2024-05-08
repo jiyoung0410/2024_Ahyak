@@ -11,9 +11,14 @@ class AuthService(private val context: Context) {
     private val authService = ApplicationClass.retrofit?.create(RetroInterface::class.java)
 
     private lateinit var drugSearchNameView: DrugSearchNameView
+    private lateinit var drugSearchShapeView : DrugSearchShapeView
 
     fun setdrugSearchNameView(drugSearchNameView: DrugSearchNameView){
         this.drugSearchNameView = drugSearchNameView
+    }
+
+    fun setdrugSearchShapeView(drugSearchShapeView: DrugSearchShapeView){
+        this.drugSearchShapeView = drugSearchShapeView
     }
 
     fun drugSearchName(query:String){
@@ -25,7 +30,7 @@ class AuthService(private val context: Context) {
                 response: Response<DrugSearchNameResponse>
             ){
                 val resp = response.body()
-                Log.d("response success",resp.toString())
+                Log.d("name response success",resp.toString())
                 when(resp!!.result){
                     null -> drugSearchNameView.DrugSearchNameFailure()
                     else -> {
@@ -37,8 +42,35 @@ class AuthService(private val context: Context) {
             }
 
             override fun onFailure(call: Call<DrugSearchNameResponse>, t: Throwable) {
-                Log.d("Failed",t.toString())
+                Log.d("name Failed",t.toString())
             }
+        })
+    }
+
+    fun drugSearchShape(_print:String, _drug_shape:String, _color:String, _type:String, _line:String){
+        drugSearchShapeView.DrugSearchShapeLoading()
+        val request = DrugSearchShapeRequest(_print, _drug_shape, _color, _type, _line)
+        authService?.drugsearchShapePost(request)?.enqueue(object : Callback<DrugSearchShapeResponse>{
+            override fun onResponse(
+                call: Call<DrugSearchShapeResponse>,
+                response: Response<DrugSearchShapeResponse>
+            ) {
+                val resp = response.body()
+                Log.d("shape response success", resp.toString())
+                when(resp!!.result){
+                    null -> drugSearchShapeView.DrugSearchShapeFailure()
+                    else ->{
+                        val Response = resp.result
+                        val drugresult = Response
+                        drugSearchShapeView.DrugSearchShapeSuccess(drugresult)
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<DrugSearchShapeResponse>, t: Throwable) {
+                Log.d("shape Failed",t.toString())
+            }
+
         })
     }
 

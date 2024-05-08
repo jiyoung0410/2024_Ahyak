@@ -12,9 +12,10 @@ import com.example.ahyak.R
 import com.example.ahyak.databinding.ActivitySearchPillBinding
 import com.example.ahyak.remote.AuthService
 import com.example.ahyak.remote.DrugSearchNameView
+import com.example.ahyak.remote.DrugSearchShapeView
 import com.example.ahyak.remote.RESULT
 
-class SearchPillActivity : AppCompatActivity(), DrugSearchNameView {
+class SearchPillActivity : AppCompatActivity(), DrugSearchNameView, DrugSearchShapeView {
 
     private lateinit var binding : ActivitySearchPillBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -177,17 +178,35 @@ class SearchPillActivity : AppCompatActivity(), DrugSearchNameView {
         authService.setdrugSearchNameView(this)
         authService.drugSearchName("타이레놀")
 
+        authService.setdrugSearchShapeView(this)
+        authService.drugSearchShape("NULL", "타원형", "하양", "정제","+")
+
 
         setContentView(binding.root)
     }
 
+    //DrugSearch Name
     override fun DrugSearchNameLoading() {
     }
 
     override fun DrugSearchNameSuccess(drug_list:List<RESULT>) {
-        Log.d("success", drug_list.toString())
+        Log.d("name activity success", drug_list.toString())
     }
 
     override fun DrugSearchNameFailure() {
+    }
+
+    //DrugSearch Shape
+
+    override fun DrugSearchShapeLoading() {
+
+    }
+
+    override fun DrugSearchShapeSuccess(drug_list: List<RESULT>) {
+        Log.d("shape activity success", drug_list.toString())
+    }
+
+    override fun DrugSearchShapeFailure() {
+
     }
 }

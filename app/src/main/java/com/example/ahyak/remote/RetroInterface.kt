@@ -9,4 +9,9 @@ interface RetroInterface {
     fun drugsearchNamePost(
         @Body request: DrugSearchNameRequest //내부에 포함할 데이터
     ) : Call<DrugSearchNameResponse> //반환할 데이터
+
+    @POST("drugsearch_shape")
+    fun drugsearchShapePost(
+        @Body request: DrugSearchShapeRequest
+    ) : Call<DrugSearchShapeResponse>
 }
