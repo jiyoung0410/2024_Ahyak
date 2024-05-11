@@ -11,6 +11,10 @@ data class DrugSearchNameResponse(
     @SerializedName("RESULT") val result : List<RESULT>
 )
 
+data class AutoCompleteResponse(
+    @SerializedName("RESULT") val result : List<String>
+)
+
 data class RESULT(
     @SerializedName("ITEM_SEQ") val item_seq: Int,
     @SerializedName("ITEM_NAME") val item_name: String,

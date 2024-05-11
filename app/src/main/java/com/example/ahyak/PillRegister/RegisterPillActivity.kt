@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -22,9 +23,11 @@ import com.example.ahyak.RecordSymptoms.DataItemSearchSymptom
 import com.example.ahyak.RecordSymptoms.DegreeSymptomsActivity
 import com.example.ahyak.RecordSymptoms.frequency.FrequencyTermActivity
 import com.example.ahyak.databinding.ActivityRegisterPillBinding
+import com.example.ahyak.remote.AuthService
+import com.example.ahyak.remote.AutoCompleteView
 import com.google.gson.Gson
 
-class RegisterPillActivity : AppCompatActivity() {
+class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
 
     private lateinit var binding : ActivityRegisterPillBinding
     var registerpillDosage: String = "mg"
@@ -44,6 +47,10 @@ class RegisterPillActivity : AppCompatActivity() {
         //약 자동완성 관련 초기화
         registerPillInit()
         initregisterPilladapter()
+
+        val authService = AuthService(this@RegisterPillActivity)
+        authService.setautoCompleteView(this)
+        authService.autoComplete("타이ㄹ")
 
         //text에 밑줄 추가하는 코드
         binding.registerPillSearchShapeTv.paintFlags = Paint.UNDERLINE_TEXT_FLAG
@@ -302,6 +309,16 @@ class RegisterPillActivity : AppCompatActivity() {
         binding.registerPillSearchIv.visibility = View.GONE
         binding.registerPillDeleteIv.visibility = View.VISIBLE
 
+    }
+
+    override fun AutoCompleteLoading() {
+    }
+
+    override fun AutoCompleteSuccess(drug_list: List<String>) {
+        Log.d("success", drug_list.toString())
+    }
+
+    override fun AutoCompleteFailure() {
     }
 
 
