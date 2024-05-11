@@ -12,6 +12,7 @@ class AuthService(private val context: Context) {
 
     private lateinit var drugSearchNameView: DrugSearchNameView
     private lateinit var drugSearchShapeView : DrugSearchShapeView
+    private lateinit var effectInfoView: EffectInfoView
 
     fun setdrugSearchNameView(drugSearchNameView: DrugSearchNameView){
         this.drugSearchNameView = drugSearchNameView
@@ -21,6 +22,9 @@ class AuthService(private val context: Context) {
         this.drugSearchShapeView = drugSearchShapeView
     }
 
+    fun seteffectInfoView(effectInfoView: EffectInfoView){
+        this.effectInfoView = effectInfoView
+    }
     fun drugSearchName(query:String){
         drugSearchNameView.DrugSearchNameLoading()
         val request = DrugSearchNameRequest(query)
@@ -71,6 +75,32 @@ class AuthService(private val context: Context) {
                 Log.d("shape Failed",t.toString())
             }
 
+        })
+    }
+
+    fun effectInfo(query:String){
+        effectInfoView.EffectInfoLoading()
+        val request = EffectInfoRequest(query)
+        authService?.effectinfoPost(request)?.enqueue(object : Callback<EffectInfoResponse> {
+            override fun onResponse(
+                call: Call<EffectInfoResponse>,
+                response: Response<EffectInfoResponse>
+            ) {
+                val resp = response.body()
+                Log.d("effectInfo response seuccess", resp.toString())
+                when(resp!!.effectreuslt){
+                    null -> effectInfoView.EffectInfoFailure()
+                    else ->{
+                        val Response = resp.effectreuslt
+                        val effectresult2 = Response
+                        effectInfoView.EffectInfoSuccess(effectresult2)
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<EffectInfoResponse>, t: Throwable) {
+                Log.d("effect Failed",t.toString())
+            }
         })
     }
 

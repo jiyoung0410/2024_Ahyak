@@ -25,6 +25,51 @@ data class DrugSearchShapeRequest(
 data class DrugSearchShapeResponse(
     @SerializedName("RESULT") val result : List<RESULT>
 )
+
+data class EffectInfoRequest(
+    @SerializedName("QUERY") val query: String
+)
+
+data class EffectInfoResponse(
+    @SerializedName("RESULT") val effectreuslt : List<EffectInfoResponseResult>
+)
+
+data class EffectInfoResponseResult(
+    @SerializedName("EFFECT") val effect : String?,
+    @SerializedName("CAUTION") val caution : String?,
+    @SerializedName("DRUG/FOOD") val drug_food : String?,
+    @SerializedName("SIDE_EFFECT") val side_effect : String?
+) : Parcelable {
+    constructor(parcel: Parcel) : this(
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString()
+    )
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(effect)
+        parcel.writeString(caution)
+        parcel.writeString(drug_food)
+        parcel.writeString(side_effect)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Parcelable.Creator<EffectInfoResponseResult> {
+        override fun createFromParcel(parcel: Parcel): EffectInfoResponseResult {
+            return EffectInfoResponseResult(parcel)
+        }
+
+        override fun newArray(size: Int): Array<EffectInfoResponseResult?> {
+            return arrayOfNulls(size)
+        }
+    }
+}
+
+
 data class RESULT(
     @SerializedName("ITEM_SEQ") val item_seq: Int,
     @SerializedName("ITEM_NAME") val item_name: String,

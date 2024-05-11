@@ -14,4 +14,9 @@ interface RetroInterface {
     fun drugsearchShapePost(
         @Body request: DrugSearchShapeRequest
     ) : Call<DrugSearchShapeResponse>
+
+    @POST("effectinfo")
+    fun effectinfoPost(
+        @Body requeest:EffectInfoRequest
+    ):Call<EffectInfoResponse>
 }

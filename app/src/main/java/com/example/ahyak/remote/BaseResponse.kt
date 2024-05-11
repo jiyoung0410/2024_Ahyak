@@ -1,4 +1,4 @@
-package com.example.ahyak.remote
+package com.example.ahyak.remotere
 
 import com.google.gson.annotations.SerializedName
 
