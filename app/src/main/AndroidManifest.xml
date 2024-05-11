@@ -8,8 +8,11 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT"/>
     <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+
 
     <application
+        android:networkSecurityConfig="@xml/network_security_config"
         android:allowBackup="false"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -33,16 +36,7 @@
             android:name=".FullScreenAlarmActivity"
             android:exported="false" />
         <activity
-            android:name=".PillDetailGuide.FreeDetailPillActivity"
-            android:exported="false" />
-        <activity
             android:name=".PillDetailGuide.DetailPillActivity"
-            android:exported="false" />
-        <activity
-            android:name=".RecordSymptoms.frequency.FrequencyNeedActivity"
-            android:exported="false" />
-        <activity
-            android:name=".RecordSymptoms.frequency.FrequencyDayActivity"
             android:exported="false" />
         <activity
             android:name=".RecordSymptoms.frequency.FrequencyTermActivity"
