@@ -217,7 +217,7 @@ class SearchPillActivity : AppCompatActivity(), DrugSearchNameView, DrugSearchSh
                 }
                 //edit_text에서 받아온 내용 저장
                 print_discrimination = binding.serachPillSerachForShapeEt.text.toString()
-                Toast.makeText(this, "$print_discrimination,$selectshape,$selectcolor,$selectformulation,$selectline", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(this, "$print_discrimination,$selectshape,$selectcolor,$selectformulation,$selectline", Toast.LENGTH_SHORT).show()
                 authService.setdrugSearchShapeView(this)
                 Log.d("Send Shape", "$print_discrimination,$selectshape,$selectcolor,$selectformulation,$selectline")
                 authService.drugSearchShape(print_discrimination,selectshape,selectcolor,selectformulation,selectline)
