@@ -270,6 +270,136 @@
 
                         </LinearLayout>
 
+			<LinearLayout
+                            android:id="@+id/search_pill_shape_diamond_ll"
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:layout_marginEnd="10dp"
+                            android:background="@drawable/white_gray3_stroke">
+
+                            <ImageView
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:src="@drawable/pill_shape_diamond"/>
+
+                            <TextView
+                                android:layout_marginTop="5dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="마름모형"
+                                android:textSize="12dp"
+                                android:fontFamily="@font/nanum_barun_gothic"
+                                android:textColor="@color/gray1"/>
+
+                        </LinearLayout>
+
+			<LinearLayout
+                            android:id="@+id/search_pill_shape_hexagon_ll"
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:layout_marginEnd="10dp"
+                            android:background="@drawable/white_gray3_stroke">
+
+                            <ImageView
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:src="@drawable/pill_shape_hexagon"/>
+
+                            <TextView
+                                android:layout_marginTop="5dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="육각형"
+                                android:textSize="12dp"
+                                android:fontFamily="@font/nanum_barun_gothic"
+                                android:textColor="@color/gray1"/>
+
+                        </LinearLayout>
+
+			<LinearLayout
+                            android:id="@+id/search_pill_shape_octagon_ll"
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:layout_marginEnd="10dp"
+                            android:background="@drawable/white_gray3_stroke">
+
+                            <ImageView
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:src="@drawable/pill_shape_octagon"/>
+
+                            <TextView
+                                android:layout_marginTop="5dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="팔각형"
+                                android:textSize="12dp"
+                                android:fontFamily="@font/nanum_barun_gothic"
+                                android:textColor="@color/gray1"/>
+
+                        </LinearLayout>
+
+			<LinearLayout
+                            android:id="@+id/search_pill_shape_pentagon_ll"
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:layout_marginEnd="10dp"
+                            android:background="@drawable/white_gray3_stroke">
+
+                            <ImageView
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:src="@drawable/pill_shape_pentagon"/>
+
+                            <TextView
+                                android:layout_marginTop="5dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="오각형"
+                                android:textSize="12dp"
+                                android:fontFamily="@font/nanum_barun_gothic"
+                                android:textColor="@color/gray1"/>
+
+                        </LinearLayout>
+
+			<LinearLayout
+                            android:id="@+id/search_pill_shape_oblong_ll"
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:layout_marginEnd="10dp"
+                            android:background="@drawable/white_gray3_stroke">
+
+                            <ImageView
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:src="@drawable/pill_shape_oblong"/>
+
+                            <TextView
+                                android:layout_marginTop="5dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="장방형"
+                                android:textSize="12dp"
+                                android:fontFamily="@font/nanum_barun_gothic"
+                                android:textColor="@color/gray1"/>
+
+                        </LinearLayout>
+
                         <LinearLayout
                             android:id="@+id/search_pill_shape_etc_ll"
                             android:layout_width="70dp"
@@ -546,6 +676,162 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="검정"
+                                android:textSize="8dp"
+                                android:fontFamily="@font/nanum_barun_gothic"
+                                android:textColor="@color/gray1"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/search_pill_color_navy_ll"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:layout_marginEnd="10dp"
+                            android:background="@drawable/white_gray3_stroke">
+
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:src="@drawable/pill_color_navy"/>
+
+                            <TextView
+                                android:layout_marginTop="3dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="남색"
+                                android:textSize="8dp"
+                                android:fontFamily="@font/nanum_barun_gothic"
+                                android:textColor="@color/gray1"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/search_pill_color_blue_ll"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:layout_marginEnd="10dp"
+                            android:background="@drawable/white_gray3_stroke">
+
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:src="@drawable/pill_color_blue"/>
+
+                            <TextView
+                                android:layout_marginTop="3dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="파랑"
+                                android:textSize="8dp"
+                                android:fontFamily="@font/nanum_barun_gothic"
+                                android:textColor="@color/gray1"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/search_pill_color_purple_ll"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:layout_marginEnd="10dp"
+                            android:background="@drawable/white_gray3_stroke">
+
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:src="@drawable/pill_color_purple"/>
+
+                            <TextView
+                                android:layout_marginTop="3dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="자주"
+                                android:textSize="8dp"
+                                android:fontFamily="@font/nanum_barun_gothic"
+                                android:textColor="@color/gray1"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/search_pill_color_violet_ll"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:layout_marginEnd="10dp"
+                            android:background="@drawable/white_gray3_stroke">
+
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:src="@drawable/pill_color_violet"/>
+
+                            <TextView
+                                android:layout_marginTop="3dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="보라"
+                                android:textSize="8dp"
+                                android:fontFamily="@font/nanum_barun_gothic"
+                                android:textColor="@color/gray1"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/search_pill_color_greenbule_ll"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:layout_marginEnd="10dp"
+                            android:background="@drawable/white_gray3_stroke">
+
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:src="@drawable/pill_color_greenblue"/>
+
+                            <TextView
+                                android:layout_marginTop="3dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="청록"
+                                android:textSize="8dp"
+                                android:fontFamily="@font/nanum_barun_gothic"
+                                android:textColor="@color/gray1"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/search_pill_color_trans_ll"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:layout_marginEnd="10dp"
+                            android:background="@drawable/white_gray3_stroke">
+
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:src="@drawable/pill_color_transparency"/>
+
+                            <TextView
+                                android:layout_marginTop="3dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="투명"
                                 android:textSize="8dp"
                                 android:fontFamily="@font/nanum_barun_gothic"
                                 android:textColor="@color/gray1"/>

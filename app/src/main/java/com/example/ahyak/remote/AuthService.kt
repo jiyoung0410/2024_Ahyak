@@ -12,6 +12,8 @@ class AuthService(private val context: Context) {
 
     private lateinit var drugSearchNameView: DrugSearchNameView
     private lateinit var autoCompleteView: AutoCompleteView
+    private lateinit var drugSearchShapeView : DrugSearchShapeView
+    private lateinit var effectInfoView: EffectInfoView
 
     fun setdrugSearchNameView(drugSearchNameView: DrugSearchNameView){
         this.drugSearchNameView = drugSearchNameView
@@ -19,6 +21,14 @@ class AuthService(private val context: Context) {
 
     fun setautoCompleteView(autoCompleteView: AutoCompleteView) {
         this.autoCompleteView = autoCompleteView
+    }
+
+    fun setdrugSearchShapeView(drugSearchShapeView: DrugSearchShapeView){
+        this.drugSearchShapeView = drugSearchShapeView
+    }
+
+    fun seteffectInfoView(effectInfoView: EffectInfoView){
+        this.effectInfoView = effectInfoView
     }
 
     fun drugSearchName(query:String){
@@ -30,7 +40,7 @@ class AuthService(private val context: Context) {
                 response: Response<DrugSearchNameResponse>
             ){
                 val resp = response.body()
-                Log.d("response success",resp.toString())
+                Log.d("name response success",resp.toString())
                 when(resp!!.result){
                     null -> drugSearchNameView.DrugSearchNameFailure()
                     else -> {
@@ -42,7 +52,60 @@ class AuthService(private val context: Context) {
             }
 
             override fun onFailure(call: Call<DrugSearchNameResponse>, t: Throwable) {
-                Log.d("Failed",t.toString())
+                Log.d("name Failed",t.toString())
+            }
+        })
+    }
+
+    fun drugSearchShape(_print:String, _drug_shape:String, _color:String, _type:String, _line:String){
+        drugSearchShapeView.DrugSearchShapeLoading()
+        val request = DrugSearchShapeRequest(_print, _drug_shape, _color, _type, _line)
+        authService?.drugsearchShapePost(request)?.enqueue(object : Callback<DrugSearchShapeResponse>{
+            override fun onResponse(
+                call: Call<DrugSearchShapeResponse>,
+                response: Response<DrugSearchShapeResponse>
+            ) {
+                val resp = response.body()
+                Log.d("shape response success", resp.toString())
+                when(resp!!.result){
+                    null -> drugSearchShapeView.DrugSearchShapeFailure()
+                    else ->{
+                        val Response = resp.result
+                        val drugresult = Response
+                        drugSearchShapeView.DrugSearchShapeSuccess(drugresult)
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<DrugSearchShapeResponse>, t: Throwable) {
+                Log.d("shape Failed",t.toString())
+            }
+
+        })
+    }
+
+    fun effectInfo(query:String){
+        effectInfoView.EffectInfoLoading()
+        val request = EffectInfoRequest(query)
+        authService?.effectinfoPost(request)?.enqueue(object : Callback<EffectInfoResponse> {
+            override fun onResponse(
+                call: Call<EffectInfoResponse>,
+                response: Response<EffectInfoResponse>
+            ) {
+                val resp = response.body()
+                Log.d("effectInfo response seuccess", resp.toString())
+                when(resp!!.effectreuslt){
+                    null -> effectInfoView.EffectInfoFailure()
+                    else ->{
+                        val Response = resp.effectreuslt
+                        val effectresult2 = Response
+                        effectInfoView.EffectInfoSuccess(effectresult2)
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<EffectInfoResponse>, t: Throwable) {
+                Log.d("effect Failed",t.toString())
             }
         })
     }

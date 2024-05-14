@@ -27,6 +27,11 @@ class FreeRegisterPillActivity : AppCompatActivity() {
             binding.freeRecordPillShapeEllipseLl,
             binding.freeRecordPillShapeTriangleLl,
             binding.freeRecordPillShapeRectanglerLl,
+            binding.freeRecordPillShapeDiamondLl,
+            binding.freeRecordPillShapeHexagonLl,
+            binding.freeRecordPillShapeOblongLl,
+            binding.freeRecordPillShapeOctagonLl,
+            binding.freeRecordPillShapePentagonLl,
             binding.freeRecordPillShapeEtcLl)
 
         var selectedShapeId: Int = -1
@@ -58,6 +63,12 @@ class FreeRegisterPillActivity : AppCompatActivity() {
             binding.freeRecordPillColorGreenLl,
             binding.freeRecordPillColorLightgreenLl,
             binding.freeRecordPillColorBlackLl,
+            binding.freeRecordPillColorNavyLl,
+            binding.freeRecordPillColorBlueLl,
+            binding.freeRecordPillColorPurpleLl,
+            binding.freeRecordPillColorVioletLl,
+            binding.freeRecordPillColorGreenbuleLl,
+            binding.freeRecordPillColorTransLl,
             binding.freeRecordPillColorEtcLl)
 
         var selectedColorId: Int = -1

@@ -8,19 +8,45 @@ import android.util.Log
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
+import android.widget.Toast
 import com.example.ahyak.R
 import com.example.ahyak.databinding.ActivitySearchPillBinding
 import com.example.ahyak.remote.AuthService
 import com.example.ahyak.remote.DrugSearchNameView
+import com.example.ahyak.remote.DrugSearchShapeView
 import com.example.ahyak.remote.RESULT
 
-class SearchPillActivity : AppCompatActivity(), DrugSearchNameView {
+class SearchPillActivity : AppCompatActivity(), DrugSearchNameView, DrugSearchShapeView {
 
     private lateinit var binding : ActivitySearchPillBinding
+    var selectshape : String = ""
+    var selectcolor : String = ""
+    var selectformulation : String = ""
+    var selectline : String = ""
+    var print_discrimination : String = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivitySearchPillBinding.inflate(layoutInflater)
+
+        //API 연결
+        val authService = AuthService(this@SearchPillActivity)
+//        authService.setdrugSearchNameView(this)
+//        authService.drugSearchName("타이레놀")
+
+        //각각 태그 설정
+        binding.searchPillShapeCircleLl.tag = "원형"
+        binding.searchPillShapeOvalLl.tag = "타원형"
+        binding.searchPillShapeEllipseLl.tag = "반원형"
+        binding.searchPillShapeTriangleLl.tag = "삼각형"
+        binding.searchPillShapeRectanglerLl.tag = "사각형"
+        binding.searchPillShapeDiamondLl.tag = "마름모형"
+        binding.searchPillShapeHexagonLl.tag = "육각형"
+        binding.searchPillShapeOblongLl.tag = "장방형"
+        binding.searchPillShapeOctagonLl.tag = "팔각형"
+        binding.searchPillShapePentagonLl.tag = "오각형"
+        binding.searchPillShapeEtcLl.tag = "NULL"
 
         //모양을 클릭했을 때
         val shapeList = listOf(
@@ -29,6 +55,11 @@ class SearchPillActivity : AppCompatActivity(), DrugSearchNameView {
             binding.searchPillShapeEllipseLl,
             binding.searchPillShapeTriangleLl,
             binding.searchPillShapeRectanglerLl,
+            binding.searchPillShapeDiamondLl,
+            binding.searchPillShapeHexagonLl,
+            binding.searchPillShapeOblongLl,
+            binding.searchPillShapeOctagonLl,
+            binding.searchPillShapePentagonLl,
             binding.searchPillShapeEtcLl)
 
         var selectedShapeId: Int = -1
@@ -43,11 +74,34 @@ class SearchPillActivity : AppCompatActivity(), DrugSearchNameView {
 
                 // 클릭된 버튼의 배경색을 변경하기
                 button.setBackgroundResource(R.drawable.white_point_stroke)
-
                 // 클릭된 버튼의 아이디 저장하기
                 selectedShapeId = button.id
+                val selectedShapeTag = it.tag as? String // 클릭된 버튼의 태그 읽어오기
+                if (selectedShapeTag != null) {
+                    selectshape = selectedShapeTag
+                } else {
+                    selectshape = "NULL"
+                }
+
             }
         }
+        //각각 태그 설정
+        binding.searchPillColorWhiteLl.tag = "하양"
+        binding.searchPillColorBrownLl.tag = "갈색"
+        binding.searchPillColorYellowLl.tag = "노랑"
+        binding.searchPillColorOrangeLl.tag = "주황"
+        binding.searchPillColorPinkLl.tag = "분홍"
+        binding.searchPillColorRedLl.tag = "빨강"
+        binding.searchPillColorGreenLl.tag = "초록"
+        binding.searchPillColorLightgreenLl.tag = "연두"
+        binding.searchPillColorBlackLl.tag = "검정"
+        binding.searchPillColorNavyLl.tag = "남색"
+        binding.searchPillColorBlueLl.tag = "파랑"
+        binding.searchPillColorPurpleLl.tag = "자주"
+        binding.searchPillColorVioletLl.tag = "보라"
+        binding.searchPillColorGreenbuleLl.tag = "청록"
+        binding.searchPillColorTransLl.tag = "투명"
+        binding.searchPillColorEtcLl.tag = "NULL"
 
         //색상을 클릭했을 때
         val colorList = listOf(
@@ -60,7 +114,14 @@ class SearchPillActivity : AppCompatActivity(), DrugSearchNameView {
             binding.searchPillColorGreenLl,
             binding.searchPillColorLightgreenLl,
             binding.searchPillColorBlackLl,
+            binding.searchPillColorNavyLl,
+            binding.searchPillColorBlueLl,
+            binding.searchPillColorPurpleLl,
+            binding.searchPillColorVioletLl,
+            binding.searchPillColorGreenbuleLl,
+            binding.searchPillColorTransLl,
             binding.searchPillColorEtcLl)
+
 
         var selectedColorId: Int = -1
 
@@ -74,11 +135,21 @@ class SearchPillActivity : AppCompatActivity(), DrugSearchNameView {
 
                 // 클릭된 버튼의 배경색을 변경하기
                 button.setBackgroundResource(R.drawable.white_point_stroke)
-
                 // 클릭된 버튼의 아이디 저장하기
                 selectedColorId = button.id
+                val selectedColorTag = it.tag as? String // 클릭된 버튼의 태그 읽어오기
+                if (selectedColorTag != null) {
+                    selectcolor = selectedColorTag
+                } else {
+                    selectcolor = "NULL"
+                }
             }
         }
+        //각각 태그달기
+        binding.searchPillFormulationTabletLl.tag = "정제"
+        binding.searchPillFormulationEtcLl.tag = "NULL"
+        binding.searchPillFormulationReshffleLl.tag = "경질캡슐"
+        binding.searchPillFormulationSoftLl.tag = "연질캡슐"
 
         //제형을 클릭했을 때
         val formulationList = listOf(
@@ -99,11 +170,22 @@ class SearchPillActivity : AppCompatActivity(), DrugSearchNameView {
 
                 // 클릭된 버튼의 배경색을 변경하기
                 button.setBackgroundResource(R.drawable.white_point_stroke)
-
                 // 클릭된 버튼의 아이디 저장하기
                 selectedFormulationId = button.id
+
+                val selectedformulationTag = it.tag as? String // 클릭된 버튼의 태그 읽어오기
+                if (selectedformulationTag != null) {
+                    selectformulation = selectedformulationTag
+                } else {
+                    selectformulation = "NULL"
+                }
             }
         }
+        //각각 태그
+        binding.searchPillLineEtcLl.tag = "기타"
+        binding.searchPillLineMinusLl.tag = "-"
+        binding.searchPillLineNoLl.tag = "없음"
+        binding.searchPillLinePlusLl.tag = "+"
 
         //분할선을 클릭했을 때
         val lineList = listOf(
@@ -124,9 +206,22 @@ class SearchPillActivity : AppCompatActivity(), DrugSearchNameView {
 
                 // 클릭된 버튼의 배경색을 변경하기
                 button.setBackgroundResource(R.drawable.white_point_stroke)
-
                 // 클릭된 버튼의 아이디 저장하기
                 selectedLineId = button.id
+
+                val selectedLineTag = it.tag as? String // 클릭된 버튼의 태그 읽어오기
+                if (selectedLineTag != null) {
+                    selectline = selectedLineTag
+                } else {
+                    selectline = "NULL"
+                }
+                //edit_text에서 받아온 내용 저장
+                print_discrimination = binding.serachPillSerachForShapeEt.text.toString()
+                //Toast.makeText(this, "$print_discrimination,$selectshape,$selectcolor,$selectformulation,$selectline", Toast.LENGTH_SHORT).show()
+                authService.setdrugSearchShapeView(this)
+                Log.d("Send Shape", "$print_discrimination,$selectshape,$selectcolor,$selectformulation,$selectline")
+                authService.drugSearchShape(print_discrimination,selectshape,selectcolor,selectformulation,selectline)
+                //authService.drugSearchShape("NULL", "타원형", "하양", "정제","+")
             }
         }
 
@@ -158,6 +253,7 @@ class SearchPillActivity : AppCompatActivity(), DrugSearchNameView {
             true
         }
 
+
         //'X'버튼 누르면
         binding.searchPillCancleIv.setOnClickListener {
             finish()
@@ -165,29 +261,49 @@ class SearchPillActivity : AppCompatActivity(), DrugSearchNameView {
 
         //검색하기 버튼 누르면
         binding.searchPillSearchLl.setOnClickListener {
-            val symptomName = intent.getStringExtra("putsymptomName")
-            val intent = Intent(this, ResultPillActivity::class.java)
-            intent.putExtra("putsymptomName", symptomName) // 예시로 증상의 이름을 넘김
-            finish()
-            startActivity(intent)
+
+//            val symptomName = intent.getStringExtra("putsymptomName")
+//            val intent = Intent(this, ResultPillActivity::class.java)
+//            intent.putExtra("putsymptomName", symptomName) // 예시로 증상의 이름을 넘김
+//            finish()
+//            startActivity(intent)
         }
-
-        //API 연결
-        val authService = AuthService(this@SearchPillActivity)
-        authService.setdrugSearchNameView(this)
-        authService.drugSearchName("타이레놀")
-
 
         setContentView(binding.root)
     }
 
+    //DrugSearch Name
     override fun DrugSearchNameLoading() {
     }
 
     override fun DrugSearchNameSuccess(drug_list:List<RESULT>) {
-        Log.d("success", drug_list.toString())
+        Log.d("name activity success", drug_list.toString())
     }
 
     override fun DrugSearchNameFailure() {
+    }
+
+    //DrugSearch Shape
+
+    override fun DrugSearchShapeLoading() {
+
+    }
+
+    override fun DrugSearchShapeSuccess(drug_list: List<RESULT>) {
+        Log.d("shape activity success", drug_list.toString())
+
+        binding.searchPillSearchLl.setOnClickListener {
+            val intent = Intent(this@SearchPillActivity, ResultPillActivity::class.java)
+            intent.putExtra("drugList", ArrayList(drug_list)) // 데이터를 Intent에 추가
+
+            val symptomName = intent.getStringExtra("putsymptomName")
+            intent.putExtra("putsymptomName", symptomName) // 예시로 증상의 이름을 넘김
+            finish()
+            startActivity(intent)
+        }
+    }
+
+    override fun DrugSearchShapeFailure() {
+
     }
 }

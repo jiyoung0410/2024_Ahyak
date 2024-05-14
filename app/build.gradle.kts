@@ -62,4 +62,6 @@ dependencies {
     //retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0") //retrofit
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    //로딩 화면_스켈레톤 구현
+    implementation("com.facebook.shimmer:shimmer:0.5.0")
 }

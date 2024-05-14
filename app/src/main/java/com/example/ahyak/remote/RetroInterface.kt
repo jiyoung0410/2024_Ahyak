@@ -14,4 +14,14 @@ interface RetroInterface {
     fun autocompletePost(
         @Body request: DrugSearchNameRequest
     ) : Call<AutoCompleteResponse>
+
+    @POST("drugsearch_shape")
+    fun drugsearchShapePost(
+        @Body request: DrugSearchShapeRequest
+    ) : Call<DrugSearchShapeResponse>
+
+    @POST("effectinfo")
+    fun effectinfoPost(
+        @Body requeest:EffectInfoRequest
+    ):Call<EffectInfoResponse>
 }
