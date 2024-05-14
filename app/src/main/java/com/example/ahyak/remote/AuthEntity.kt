@@ -13,6 +13,10 @@ data class DrugSearchNameResponse(
     @SerializedName("RESULT") val result : List<RESULT>
 )
 
+data class AutoCompleteResponse(
+    @SerializedName("RESULT") val result : List<String>
+)
+
 data class DrugSearchShapeRequest(
     //키 값 지정
     @SerializedName("PRINT") val _print: String,

@@ -67,10 +67,10 @@ class SearchPillActivity : AppCompatActivity(), DrugSearchNameView, DrugSearchSh
         for(button in shapeList){
             button.setOnClickListener {
                 //이전에 선택된 버튼의 배경색을 원래대로 되돌리기
-                    if (selectedShapeId != -1) {
-                        val previousButton = findViewById<LinearLayout>(selectedShapeId)
-                        previousButton.setBackgroundResource(R.drawable.white_gray3_stroke)
-                    }
+                if (selectedShapeId != -1) {
+                    val previousButton = findViewById<LinearLayout>(selectedShapeId)
+                    previousButton.setBackgroundResource(R.drawable.white_gray3_stroke)
+                }
 
                 // 클릭된 버튼의 배경색을 변경하기
                 button.setBackgroundResource(R.drawable.white_point_stroke)
