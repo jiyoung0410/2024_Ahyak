@@ -4,16 +4,15 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.ahyak.DB.PrescriptionEntity
 import com.example.ahyak.databinding.ItemCalendarSymptomBinding
 
-class CalendarItemSympotmAdapter(val onClick: ()->(Unit), val onAddPillClick: (DataItemSymptom) -> Unit) : RecyclerView.Adapter<CalendarItemSympotmAdapter.ViewHolder>() {
+class CalendarItemSympotmAdapter(val onClick: () -> Unit, val onAddPillClick: (PrescriptionEntity) -> Unit) : RecyclerView.Adapter<CalendarItemSympotmAdapter.ViewHolder>() {
 
-    lateinit var sympotms: MutableList<DataItemSymptom>
+    lateinit var sympotms: MutableList<PrescriptionEntity>
     private var selectedPosition = -1 // 선택된 아이템의 위치를 저장하는 변수 추가
-    fun build(i: MutableList<DataItemSymptom>) : CalendarItemSympotmAdapter{
+    fun build(i: MutableList<PrescriptionEntity>) : CalendarItemSympotmAdapter{
         sympotms = i
         return this
     }
@@ -35,21 +34,21 @@ class CalendarItemSympotmAdapter(val onClick: ()->(Unit), val onAddPillClick: (D
             binding.itemCalendarSymptomPillRv.adapter = addPillAdapter
 
         }
-        fun bind(sympotm:DataItemSymptom){
+        fun bind(sympotm:PrescriptionEntity){
 
             binding.itemCalendarAddSymptomPillLl.setOnClickListener {
                 // 아이템 추가 이벤트 발생
                 onAddPillClick(sympotm)
             }
 
-            binding.itemCalendarSymptomName.text = sympotm.sympotmname
-            binding.itemCalendarSymptomDate.text= sympotm.startdate
-            binding.itemCalendarSymptomHospitalName.text = sympotm.hospitalname
-            binding.itemCalendarSymptomPillRv.apply {
-                    adapter = CalendarItemAddPillAdapter().build(sympotm.ItemAddPill)
-                    layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-
-            }
+            binding.itemCalendarSymptomName.text = sympotm.Prescription
+            binding.itemCalendarSymptomDate.text= sympotm.Start_Date
+            binding.itemCalendarSymptomHospitalName.text = sympotm.Hospital
+//            binding.itemCalendarSymptomPillRv.apply {
+//                adapter = CalendarItemAddPillAdapter().build(sympotm.ItemAddPill)
+//                layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+//
+//            }
             binding.root.setOnClickListener {
                 // 리사이클러뷰 아이템에 클릭이벤트 발생
                 val previousPosition = selectedPosition // 이전에 선택된 아이템의 위치 저장

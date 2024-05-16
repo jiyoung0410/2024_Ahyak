@@ -1,4 +1,4 @@
-package com.example.ahyak.AddSymptom
+package com.example.ahyak.AddPrescription
 
 import android.app.DatePickerDialog
 import androidx.appcompat.app.AppCompatActivity

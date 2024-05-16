@@ -60,10 +60,10 @@
             android:name=".PillRegister.RegisterPillActivity"
             android:exported="false" />
         <activity
-            android:name=".AddSymptom.MedicationTimeActivity"
+            android:name=".AddPrescription.MedicationTimeActivity"
             android:exported="true" />
         <activity
-            android:name=".AddSymptom.AddSymptomsActivity"
+            android:name=".AddPrescription.AddSymptomsActivity"
             android:exported="false" />
         <activity
             android:name=".RecordSymptoms.SearchSymptomsActivity"

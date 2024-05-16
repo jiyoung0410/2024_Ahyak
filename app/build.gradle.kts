@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-kapt")
 }
 
 android {
@@ -64,4 +65,8 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     //로딩 화면_스켈레톤 구현
     implementation("com.facebook.shimmer:shimmer:0.5.0")
+    //Room DB
+    implementation("androidx.room:room-runtime:2.6.0")
+    annotationProcessor("androidx.room:room-compiler:2.6.0")
+    kapt("androidx.room:room-compiler:2.6.0")
 }
