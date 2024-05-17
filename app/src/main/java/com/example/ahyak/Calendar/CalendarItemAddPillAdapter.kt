@@ -6,8 +6,8 @@ import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.example.ahyak.DB.MedicineEntity
 import com.example.ahyak.PillDetailGuide.DetailPillActivity
 import com.example.ahyak.R
 import com.example.ahyak.databinding.ItemCalendarAddPillBinding
@@ -18,12 +18,12 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class CalendarItemAddPillAdapter() : RecyclerView.Adapter<CalendarItemAddPillAdapter.ViewHolder>() {
 
-    lateinit var addpillList: ArrayList<DataItemSymptom.DataItemAddPill>
+    private var addpillList: ArrayList<MedicineEntity> = arrayListOf()
 
     var takepill : Boolean = false
     var SendpillName : String? = ""
 
-    fun build(i: ArrayList<DataItemSymptom.DataItemAddPill>):CalendarItemAddPillAdapter{
+    fun build(i: ArrayList<MedicineEntity>):CalendarItemAddPillAdapter{
         addpillList = i
         return this
     }
@@ -41,7 +41,7 @@ class CalendarItemAddPillAdapter() : RecyclerView.Adapter<CalendarItemAddPillAda
                 if (position != RecyclerView.NO_POSITION) {
 //                    authService.seteffectInfoView(this)
 //                    authService.effectInfo("타이레놀정500밀리그람")
-                    val pillName = addpillList[position].pillname // 현재 아이템의 약 이름 가져오기
+                    val pillName = addpillList[position].MedicineName // 현재 아이템의 약 이름 가져오기
                     Log.d("pillName", "$pillName")
                     SendpillName = pillName
                     authService.seteffectInfoView(this@ViewHolder)
@@ -70,9 +70,9 @@ class CalendarItemAddPillAdapter() : RecyclerView.Adapter<CalendarItemAddPillAda
                 true // LongClickListener가 이벤트를 소비했음을 나타냄
             }
         }
-        fun bind(addpill:DataItemSymptom.DataItemAddPill){
-            binding.itemCalendarPillVolumeTv.text = addpill.pillvolume
-            binding.itemCalendarPillNameTv.text = addpill.pillname
+        fun bind(addpill: MedicineEntity){
+            binding.itemCalendarPillVolumeTv.text = addpill.MedicineVolume.toString()
+            binding.itemCalendarPillNameTv.text = addpill.MedicineName
 
             // 복용 상태를 나타내는 변수
             takepill = false

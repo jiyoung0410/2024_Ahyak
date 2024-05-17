@@ -3,6 +3,7 @@ package com.example.ahyak.Calendar
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings.Global.putString
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -28,7 +29,6 @@ class CalendarAfterwakeFragment : Fragment() {
     private var extrapillList : ArrayList<DataItemExtraPill> = arrayListOf()
     private var extrapilladapter : CalendarItemExtraPillAdapter?= null
     private var symptomList: MutableList<PrescriptionEntity> = mutableListOf()
-    private var NewsymptomList: MutableList<PrescriptionEntity> = mutableListOf()
 
     var extraPillInpoName: String? = null
     var extraPillInpoDosageSize:String? = null
@@ -52,6 +52,7 @@ class CalendarAfterwakeFragment : Fragment() {
 
         selectedMonth = sharedPref.getInt("selectedMonth", 0)
         selectedDay = sharedPref.getInt("selectedDay", 0)
+        sharedPref.edit().putString("selectedSlot", selectedSlot)
         Log.d("select day", "selectedMonth : $selectedMonth, dat : $selectedDay")
 
         // 코루틴을 사용하여 백그라운드 스레드에서 데이터베이스 작업 실행
@@ -93,29 +94,13 @@ class CalendarAfterwakeFragment : Fragment() {
         GlobalScope.launch(Dispatchers.IO) {
 
             //데이터베이스 초기화
-            //ahyakDatabase = AhyakDataBase.getInstance(requireContext())
-
+//            ahyakDatabase = AhyakDataBase.getInstance(requireContext())
+//
 //            ahyakDatabase!!.getPrescriptionDao()?.insertPrescription(
-//                PrescriptionEntity("처방3",
-//                    5,
-//                    17,
-//                    "기상 직후",
-//                    "병원3",
-//                    "2024.05.17",
-//                    "2025.06.30")
-//            )
+//                PrescriptionEntity("처방1", 5, 17, "기상 직후", "병원3", "2024.05.17", "2025.06.30"))
 //            ahyakDatabase!!.getPrescriptionDao()?.insertPrescription(
-//                PrescriptionEntity("처방4",
-//                    5,
-//                    17,
-//                    "기상 직후",
-//                    "병원4",
-//                    "2024.05.17",
-//                    "2025.06.30")
-//            )
-
+//                PrescriptionEntity("처방2", 5, 17, "기상 직후", "병원3", "2024.05.17", "2025.06.30"))
         }
-
 
         extrapillListInit()
         initextrapilladapter()
@@ -153,16 +138,6 @@ class CalendarAfterwakeFragment : Fragment() {
         binding.calendarAfterwakeAddSymptomLl.setOnClickListener {
             val intent = Intent(requireContext(), AddSymptomsActivity::class.java)
             startActivity(intent)
-
-//            // 새로운 아이템을 생성하거나 기존 데이터를 수정
-//            val newSymptomItem = DataItemSymptom("새로운 증상", "새로운 병원", "2024.03.09",
-//                ItemAddPill = arrayListOf(DataItemSymptom.DataItemAddPill("10mg", "새로운 약")))
-
-//            // 기존 데이터에 새로운 아이템을 추가
-//            sympotmList.add(newSymptomItem)
-
-            // 추가된 아이템을 리사이클러뷰에 반영
-//            binding.calendarAfterwakeChangeSymptomRv.adapter?.notifyItemInserted(sympotmList.size - 1)
         }
 
         //추가 약 기록에서 약 추가하기 눌렀을 때

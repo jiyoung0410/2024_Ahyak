@@ -36,11 +36,26 @@ interface PrescriptionDAO {
     fun deleteAllPrescriptions(): Int
 
 }
-//@Dao
-//interface MedicineDao {
-//    @Query("SELECT * FROM MedicineTable WHERE Month = :month AND Day = :day AND Slot = :slot AND Prescription = :prescription" )
-//    fun getMedicine(month: Int?, day: Int?, slot: String?, prescription: String?): List<MedicineEntity>
-//}
+@Dao
+interface MedicineDao {
+
+    @Insert
+    fun insertMedicine(medicine: MedicineEntity)
+
+    @Query("SELECT * FROM MedicineTable WHERE MedicineMonth = :month AND MedicineDay = :day AND MedicineSlot = :slot AND PrescriptionName = :prescription" )
+    fun getMedicine(month: Int?, day: Int?, slot: String?, prescription: String?): List<MedicineEntity>
+}
+
+@Dao
+interface ExtraPillDao{
+    @Insert
+    fun insertPill(pill: ExtraPillEntity)
+
+    @Query("SELECT * FROM ExtraPillTable WHERE PillMonth = :month AND PillDay = :day AND PillSlot = :slot")
+    fun getPill(month: Int?, day: Int?, slot: String?): List<ExtraPillEntity>
+
+
+}
 
 
 
