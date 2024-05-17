@@ -3,14 +3,15 @@ package com.example.ahyak.Calendar
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.ahyak.DB.ExtraPillEntity
 import com.example.ahyak.databinding.ItemCalendarExtraPillBinding
 
-class CalendarItemExtraPillAdapter(val extrapillList:ArrayList<DataItemExtraPill>):RecyclerView.Adapter<CalendarItemExtraPillAdapter.ViewHolder>() {
+class CalendarItemExtraPillAdapter(val extrapillList: ArrayList<ExtraPillEntity>):RecyclerView.Adapter<CalendarItemExtraPillAdapter.ViewHolder>() {
     inner class ViewHolder(val binding : ItemCalendarExtraPillBinding) : RecyclerView.ViewHolder(binding.root){
-        fun bind(extarpill: DataItemExtraPill){
-            binding.itemCalendarExtraPillVolumeTv.text = extarpill.extrapillvolume
-            binding.itemCalendarExtraPillNameTv.text = extarpill.extrapillname
-            binding.itemCalendarExtraPillEatTimeTv.text = extarpill.taketime
+        fun bind(extarpill: ExtraPillEntity){
+            binding.itemCalendarExtraPillVolumeTv.text = extarpill.PillVolume.toString()
+            binding.itemCalendarExtraPillNameTv.text = extarpill.PillName
+            binding.itemCalendarExtraPillEatTimeTv.text = extarpill.PillTime
         }
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CalendarItemExtraPillAdapter.ViewHolder {

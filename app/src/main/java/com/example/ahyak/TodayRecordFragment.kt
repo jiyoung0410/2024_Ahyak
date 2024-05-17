@@ -108,7 +108,6 @@ class TodayRecordFragment : Fragment() {
 
                 fun saveSelectedData(selectedMonth: Int, selectedDay: Int) {
                     with(sharedPref.edit()) {
-                        putInt("selectedMonth", selectedMonth)
                         putInt("selectedDay", selectedDay)
                         Log.d("save date", "month : $selectedMonth, day : $selectedDay")
                         commit() // 변경 사항 저장

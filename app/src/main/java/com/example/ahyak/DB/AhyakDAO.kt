@@ -57,5 +57,25 @@ interface ExtraPillDao{
 
 }
 
+@Dao
+interface TodayRecordDao {
+    @Insert
+    fun insertTodayRecordContent(todayRecord: TodayRecordEntity)
+
+    @Query("SELECT * FROM todayrecordcontenttable WHERE RecordMonth =:month AND RecordDay = :day")
+    fun getTodayRecordContent(month: Int, day: Int): List<TodayRecordEntity>
+
+}
+
+@Dao
+interface TodayRecordSymptomDao {
+    @Insert
+    fun insertTodayRecordSymptom(todayRecordSymptom: TodayRecordSymptomEntity)
+
+    @Query("SELECT * FROM todayrecordsymptomtable WHERE RecordSymptomMonth =:month AND RecordSymptomDay = :day")
+    fun getTodayRecordSymptom(month: Int, day: Int): List<TodayRecordSymptomEntity>
+
+}
+
 
 

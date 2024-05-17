@@ -1,5 +1,6 @@
 package com.example.ahyak.DB
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -46,5 +47,28 @@ data class ExtraPillEntity(
     val PillVolume : Float,
     val PillType : String,
     val PillTime : String
-)
+){
+    @PrimaryKey(autoGenerate = true)
+    var id : Int = 0
+}
 
+@Entity(tableName = "TodayRecordContentTable")
+data class TodayRecordEntity(
+    val RecordContent : String,
+    val RecordMonth : Int,
+    val RecordDay : Int
+){
+    @PrimaryKey(autoGenerate = true)
+    var id : Int = 0
+}
+
+@Entity(tableName = "TodayRecordSymptomTable")
+data class TodayRecordSymptomEntity(
+    val SymptomName : String,
+    val SymptomStrength : Int,
+    val RecordSymptomMonth : Int,
+    val RecordSymptomDay : Int
+){
+    @PrimaryKey(autoGenerate = true)
+    var id : Int = 0
+}
