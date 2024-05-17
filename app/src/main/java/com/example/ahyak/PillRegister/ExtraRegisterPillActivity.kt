@@ -4,11 +4,18 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import com.example.ahyak.DB.AhyakDataBase
+import com.example.ahyak.DB.ExtraPillEntity
+import com.example.ahyak.DB.PrescriptionEntity
 import com.example.ahyak.MainActivity
 import com.example.ahyak.R
 import com.example.ahyak.databinding.ActivityExtraRegisterPillBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -16,34 +23,39 @@ class ExtraRegisterPillActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityExtraRegisterPillBinding
 
-    var pillDosage: String = "mg"
+    var pillType: String = "mg"
     var pillName: String = ""
-    var pillDosageSize: String = ""
+    var pillVolume: String = ""
+
+    //데이터 베이스 객체
+    var ahyakDatabase : AhyakDataBase? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        //월, 일 정보 받아오기
+        val sharedPref = this.getSharedPreferences("myPref", Context.MODE_PRIVATE)
+
+        val selectedMonth = sharedPref.getInt("selectedMonth", 0)
+        val selectedDay = sharedPref.getInt("selectedDay", 0)
+
 
         binding = ActivityExtraRegisterPillBinding.inflate(layoutInflater)
 
         binding.extraRegisterPillNameInputEt.imeOptions = EditorInfo.IME_ACTION_DONE
 
-        //돋보기 아이콘 누르면 결과 화면으로 이동
-        binding.extraRegisterPillSearchIv.setOnClickListener {
-            val intent = Intent(this, ResultPillActivity::class.java)
-            startActivity(intent)
-        }
-
         //mg 버튼 누르면
         binding.extraRegisterPillDosageMgCv.setOnClickListener {
             binding.extraRegisterPillDosageMgCv.setBackgroundResource(R.drawable.white_radi_5dp)
             binding.extraRegisterPillDosageTabletCv.setBackgroundResource(R.drawable.bg_radi_5dp)
-            pillDosage = "mg"
+            pillType = "mg"
         }
 
         //정 버튼 누르면
         binding.extraRegisterPillDosageTabletCv.setOnClickListener {
             binding.extraRegisterPillDosageTabletCv.setBackgroundResource(R.drawable.white_radi_5dp)
             binding.extraRegisterPillDosageMgCv.setBackgroundResource(R.drawable.bg_radi_5dp)
-            pillDosage = "정"
+            pillType = "정"
         }
 
         binding.extraRegisterPillNameInputEt.setOnEditorActionListener { _, actionId, _ ->
@@ -82,20 +94,29 @@ class ExtraRegisterPillActivity : AppCompatActivity() {
         //저장하기 버튼 누르면
         binding.extraRegisterPillSaveLl.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
-            //데이터 함께 보내기
 
-            pillDosageSize = binding.extraRegisterPillDosageInputEt.getText().toString()
+
+            //Edit Text에서 약 이름과 용량 정보 받아오기
+            pillVolume = binding.extraRegisterPillDosageInputEt.getText().toString()
             pillName = binding.extraRegisterPillNameInputEt.getText().toString()
 
-            intent.putExtra("extraPillInpoName", pillName)
-            intent.putExtra("extraPillInpoDosageSize", pillDosageSize)
-            intent.putExtra("extraPillInpoDosage", pillDosage)
-
-            // 현재 시간을 포함하여 보내기
+            //현재 시간 계산하기
             val currentTimeMillis = System.currentTimeMillis()
             val dateFormat = SimpleDateFormat("a hh:mm", Locale.getDefault())
             val formattedTime = dateFormat.format(currentTimeMillis)
-            intent.putExtra("formattedTime", formattedTime)
+
+
+            GlobalScope.launch(Dispatchers.IO) {
+
+                //데이터베이스 초기화
+                ahyakDatabase = AhyakDataBase.getInstance(this@ExtraRegisterPillActivity)
+
+                Log.d("Prescription Saving", "$pillName, $selectedMonth, $selectedDay, $pillVolume, $pillType, $formattedTime")
+                //추가 약 등록
+                ahyakDatabase!!.getExtraPillDao()?.insertPill(
+                    ExtraPillEntity(pillName, selectedMonth, selectedDay, "기상 직후", pillVolume, pillType, formattedTime)
+                )
+            }
 
             finish()
             startActivity(intent)

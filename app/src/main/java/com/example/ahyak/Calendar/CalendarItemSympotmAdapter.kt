@@ -118,10 +118,10 @@ class CalendarItemSympotmAdapter(val onClick: () -> Unit, val onAddPillClick: (P
                 ahyakDatabase = AhyakDataBase.getInstance(context)
 
 //                ahyakDatabase!!.getMedicineDao()?.insertMedicine(
-//                    MedicineEntity("처방1", "약1", 5, 17, "기상 직후", 3.0F, "정", false, true)
+//                    MedicineEntity("약333", "처방1", 5, 17, "기상 직후", 3.0F, "정", false, true)
 //                )
 //                ahyakDatabase!!.getMedicineDao()?.insertMedicine(
-//                    MedicineEntity("처방2", "약2", 5, 17, "기상 직후", 3.0F, "정", false, true)
+//                    MedicineEntity("약444", "처방2", 5, 17, "기상 직후", 3.0F, "정", false, true)
 //                )
                 medicines.clear()
 

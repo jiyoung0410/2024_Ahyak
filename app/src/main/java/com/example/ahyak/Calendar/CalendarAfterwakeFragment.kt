@@ -9,7 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.ahyak.AddPrescription.AddSymptomsActivity
+import com.example.ahyak.AddPrescription.AddPrescriptionActivity
 import com.example.ahyak.AddPrescription.MedicationTimeActivity
 import com.example.ahyak.DB.AhyakDataBase
 import com.example.ahyak.DB.ExtraPillEntity
@@ -106,7 +106,7 @@ class CalendarAfterwakeFragment : Fragment() {
 //            ahyakDatabase!!.getExtraPillDao()?.insertPill(
 //                ExtraPillEntity("타이레놀", 5, 17, "기상 직후", 1.0f, "정", "오전11:00")
 //            )
-//
+
             //증상 기록
 //            ahyakDatabase!!.getPrescriptionDao()?.insertPrescription(
 //                PrescriptionEntity("처방1", 5, 17, "기상 직후", "병원3", "2024.05.17", "2025.06.30"))
@@ -147,7 +147,7 @@ class CalendarAfterwakeFragment : Fragment() {
         }
 
         binding.calendarAfterwakeAddSymptomLl.setOnClickListener {
-            val intent = Intent(requireContext(), AddSymptomsActivity::class.java)
+            val intent = Intent(requireContext(), AddPrescriptionActivity::class.java)
             startActivity(intent)
         }
 

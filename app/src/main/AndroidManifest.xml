@@ -63,7 +63,7 @@
             android:name=".AddPrescription.MedicationTimeActivity"
             android:exported="true" />
         <activity
-            android:name=".AddPrescription.AddSymptomsActivity"
+            android:name=".AddPrescription.AddPrescriptionActivity"
             android:exported="false" />
         <activity
             android:name=".RecordSymptoms.SearchSymptomsActivity"

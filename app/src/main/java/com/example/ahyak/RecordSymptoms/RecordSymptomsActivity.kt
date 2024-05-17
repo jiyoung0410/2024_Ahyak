@@ -44,14 +44,14 @@ class RecordSymptomsActivity : AppCompatActivity() {
             ahyakDatabase = AhyakDataBase.getInstance(this@RecordSymptomsActivity)
             todayrecordSymptoms.clear()
 
-            //content 데이터 추가
-            ahyakDatabase!!.getTodayRecordDao()
-                ?.insertTodayRecordContent(TodayRecordEntity("아파용", 5, 17))
-
-            //symptoms 데이터 추가
-            ahyakDatabase!!.getTodayRecordSymptomDao()?.insertTodayRecordSymptom(
-                TodayRecordSymptomEntity("감기", 5, 5, 17)
-            )
+//            //content 데이터 추가
+//            ahyakDatabase!!.getTodayRecordDao()
+//                ?.insertTodayRecordContent(TodayRecordEntity("아파용", 5, 17))
+//
+//            //symptoms 데이터 추가
+//            ahyakDatabase!!.getTodayRecordSymptomDao()?.insertTodayRecordSymptom(
+//                TodayRecordSymptomEntity("감기", 5, 5, 17)
+//            )
             // 데이터베이스에서 content 데이터 가져오기 - 월/일/시간대 정보 전송
             val NewContent = ahyakDatabase!!.getTodayRecordDao()
                 .getTodayRecordContent(selectedMonth, selectedDay)

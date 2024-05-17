@@ -44,7 +44,7 @@ data class ExtraPillEntity(
     val PillMonth : Int,
     val PillDay : Int,
     val PillSlot : String,
-    val PillVolume : Float,
+    val PillVolume : String,
     val PillType : String,
     val PillTime : String
 ){
