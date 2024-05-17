@@ -67,6 +67,8 @@ dependencies {
     implementation("com.facebook.shimmer:shimmer:0.5.0")
     //Room DB
     implementation("androidx.room:room-runtime:2.6.0")
+    implementation("androidx.room:room-ktx:2.4.0")
     annotationProcessor("androidx.room:room-compiler:2.6.0")
     kapt("androidx.room:room-compiler:2.6.0")
+
 }

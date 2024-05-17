@@ -157,28 +157,6 @@ class CalendarAfterwakeFragment : Fragment() {
             startActivity(intent)
         }
 
-//        //Intent를 통해 전달된 데이터를 받음
-//        val intent = activity?.intent
-//        if (intent != null) {
-//            extraPillInpoName = intent.getStringExtra("extraPillInpoName") ?: ""
-//            extraPillInpoDosageSize = intent.getStringExtra("extraPillInpoDosageSize") ?: ""
-//            extraPillInpoDosage = intent.getStringExtra("extraPillInpoDosage") ?: ""
-//            extraPillformattedTime = intent.getStringExtra("formattedTime") ?: ""
-//
-//            // 모든 값이 정상적으로 전달되었는지 확인
-//            if (extraPillInpoName!!.isNotEmpty() && extraPillInpoDosageSize!!.isNotEmpty() &&
-//                extraPillInpoDosage!!.isNotEmpty() && extraPillformattedTime!!.isNotEmpty()) {
-//
-//                // 전달된 데이터를 사용하여 새로운 아이템 생성
-//                val newExtraPillItem = DataItemExtraPill(extraPillInpoName!!, "$extraPillInpoDosageSize$extraPillInpoDosage", extraPillformattedTime!!)
-//                // 기존 데이터에 새로운 아이템을 추가
-//                extrapillList.add(newExtraPillItem)
-//                // 추가된 아이템을 리사이클러뷰에 반영
-//                extrapilladapter?.notifyItemInserted(extrapillList.size - 1)
-//            } else {
-//                // 전달된 데이터가 비어있을 경우 처리할 내용 추가
-//            }
-//        }
         return binding.root
 
     }

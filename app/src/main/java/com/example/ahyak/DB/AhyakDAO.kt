@@ -3,6 +3,7 @@ package com.example.ahyak.DB
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 
 //Entity에 접근할 수 있는 DAO
 @Dao
@@ -65,6 +66,9 @@ interface TodayRecordDao {
     @Query("SELECT * FROM todayrecordcontenttable WHERE RecordMonth =:month AND RecordDay = :day")
     fun getTodayRecordContent(month: Int, day: Int): List<TodayRecordEntity>
 
+    @Query("DELETE FROM todayrecordcontenttable")
+    fun deleteTodayrecordcontent(): Int
+
 }
 
 @Dao
@@ -74,6 +78,8 @@ interface TodayRecordSymptomDao {
 
     @Query("SELECT * FROM todayrecordsymptomtable WHERE RecordSymptomMonth =:month AND RecordSymptomDay = :day")
     fun getTodayRecordSymptom(month: Int, day: Int): List<TodayRecordSymptomEntity>
+
+
 
 }
 
