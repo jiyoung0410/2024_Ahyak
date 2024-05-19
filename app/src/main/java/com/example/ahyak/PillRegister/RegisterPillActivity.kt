@@ -254,13 +254,11 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
                 // 약 이름만 추출
                 existingMedicineNames =
                     existingMedicineList2?.map { it.FreeMedicineName }.toString()
-                Log.d("register Medicine check", "$existingMedicineList2")
 
                 registerPillFree = existingMedicineNames.contains(registerPilltext)
 
                 //Free Medicine인지 확인
-                //checkFreeMedicine(registerPilltext)
-                Log.d("registerPillFree return data", "$registerPillFree")
+                //Log.d("registerPillFree return data", "$registerPillFree")
 
                 //약 추가
                 ahyakDatabase!!.getMedicineDao().insertMedicine(

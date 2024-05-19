@@ -49,6 +49,8 @@ class CalendarAfterwakeFragment : Fragment() {
 
         selectedMonth = sharedPref.getInt("selectedMonth", 0)
         selectedDay = sharedPref.getInt("selectedDay", 0)
+        editor.putString("selectedSlot", selectedSlot)
+        editor.apply()
 
         Log.d("select day", "selectedMonth : $selectedMonth, dat : $selectedDay")
 

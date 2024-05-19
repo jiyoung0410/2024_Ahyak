@@ -40,19 +40,6 @@ class CalendarItemSympotmAdapter(val onClick: () -> Unit, val onAddPillClick: (P
         }
         fun bind(sympotm:PrescriptionEntity) {
 
-            GlobalScope.launch(Dispatchers.IO) {
-                //데이터베이스 초기화
-                ahyakDatabase = AhyakDataBase.getInstance(context)
-
-//                ahyakDatabase!!.getMedicineDao()?.insertMedicine(
-//                    MedicineEntity("약약1", "처방1", 5, 17, "기상 직후", 3.0F, "정", false, true)
-//                )
-//                ahyakDatabase!!.getMedicineDao()?.insertMedicine(
-//                    MedicineEntity("약약중간약2", "처방2", 5, 17, "기상 직후", 3.0F, "정", false, true)
-//                )
-            }
-
-
             binding.itemCalendarAddSymptomPillLl.setOnClickListener {
                 // 아이템 추가 이벤트 발생
                 onAddPillClick(sympotm)
@@ -62,7 +49,6 @@ class CalendarItemSympotmAdapter(val onClick: () -> Unit, val onAddPillClick: (P
             binding.itemCalendarSymptomDate.text = sympotm.Start_Date
             binding.itemCalendarSymptomHospitalName.text = sympotm.Hospital
             binding.itemCalendarSymptomPillRv.apply {
-                //adapter = CalendarItemAddPillAdapter().build(medicines)
                 layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
                 // 해당 증상에 대한 약 데이터 가져오기
@@ -73,8 +59,6 @@ class CalendarItemSympotmAdapter(val onClick: () -> Unit, val onAddPillClick: (P
 
                 loadMedicinesForPrescription(sympotm.Prescription, selectedMonth, selectedDay, selectedSlot!!)
 
-                Log.d("presctipyion", sympotm.Prescription)
-
                 binding.root.setOnClickListener {
                     // 해당 증상에 대한 약 데이터 가져오기
                     sharedPref = context.getSharedPreferences("myPref", Context.MODE_PRIVATE)
@@ -82,7 +66,6 @@ class CalendarItemSympotmAdapter(val onClick: () -> Unit, val onAddPillClick: (P
                     selectedDay = sharedPref.getInt("selectedDay", 0)
                     selectedSlot = sharedPref.getString("selectedSlot", "기상 직후")
 
-                    Log.d("inner presctipyion", sympotm.Prescription)
                     loadMedicinesForPrescription(sympotm.Prescription, selectedMonth, selectedDay, selectedSlot!!)
 
                     // 리사이클러뷰 아이템에 클릭이벤트 발생
@@ -98,13 +81,11 @@ class CalendarItemSympotmAdapter(val onClick: () -> Unit, val onAddPillClick: (P
                     binding.itemCalendarAddSymptomPillLl.visibility = View.VISIBLE
                     binding.itemCalendarSymptomDate.visibility = View.GONE
                     binding.itemCalendarSymptomPillRv.visibility = View.VISIBLE
-                    binding.itemCalendarSymptomPillAllTakeLl.visibility = View.VISIBLE
                     binding.itemCalendarSymptomHospitalName.visibility = View.INVISIBLE
                 } else {
                     binding.itemCalendarAddSymptomPillLl.visibility = View.GONE
                     binding.itemCalendarSymptomDate.visibility = View.VISIBLE
                     binding.itemCalendarSymptomPillRv.visibility = View.GONE
-                    binding.itemCalendarSymptomPillAllTakeLl.visibility = View.GONE
                     binding.itemCalendarSymptomHospitalName.visibility = View.VISIBLE
                 }
             }
@@ -117,19 +98,11 @@ class CalendarItemSympotmAdapter(val onClick: () -> Unit, val onAddPillClick: (P
                 //데이터베이스 초기화
                 ahyakDatabase = AhyakDataBase.getInstance(context)
 
-//                ahyakDatabase!!.getMedicineDao()?.insertMedicine(
-//                    MedicineEntity("약333", "처방1", 5, 17, "기상 직후", 3.0F, "정", false, true)
-//                )
-//                ahyakDatabase!!.getMedicineDao()?.insertMedicine(
-//                    MedicineEntity("약444", "처방2", 5, 17, "기상 직후", 3.0F, "정", false, true)
-//                )
                 medicines.clear()
 
                 // 데이터베이스에서 데이터 가져오기 - 월/일/시간대 정보 전송
                 val NewmedicineList = ahyakDatabase!!.getMedicineDao().getMedicine(month, day, slot, prescription)
                 medicines.addAll(NewmedicineList)
-
-                Log.d("medicines", "$medicines")
 
                 withContext(Dispatchers.Main) {
                     // 가져온 약 데이터를 리사이클러뷰에 표시

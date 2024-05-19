@@ -33,7 +33,7 @@ data class MedicineEntity(
     val MedicineSlot: String,
     val MedicineVolume:Float,
     val MedicineType : String,
-    val MedicineTake : Boolean,
+    var MedicineTake : Boolean,
     val FreeRegister : Boolean
 ){
     @PrimaryKey(autoGenerate = true)

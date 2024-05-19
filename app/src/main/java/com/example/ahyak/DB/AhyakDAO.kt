@@ -45,6 +45,13 @@ interface MedicineDao {
 
     @Query("SELECT * FROM MedicineTable WHERE MedicineMonth = :month AND MedicineDay = :day AND MedicineSlot = :slot AND PrescriptionName = :prescription" )
     fun getMedicine(month: Int?, day: Int?, slot: String?, prescription: String?): List<MedicineEntity>
+
+    @Query("SELECT MedicineTake FROM MedicineTable WHERE id = :id" )
+    fun getMedicineTake(id: Int?): Boolean
+
+    // 복용 여부 업데이트
+    @Query("UPDATE MedicineTable SET MedicineTake = :take WHERE id = :id")
+    suspend fun updateMedicineTakeStatus(id: Int, take: Boolean)
 }
 
 @Dao

@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.ahyak.DB.AhyakDataBase
 import com.example.ahyak.DB.MedicineEntity
 import com.example.ahyak.PillDetailGuide.DetailPillActivity
 import com.example.ahyak.R
@@ -15,6 +16,10 @@ import com.example.ahyak.remote.AuthService
 import com.example.ahyak.remote.EffectInfoResponseResult
 import com.example.ahyak.remote.EffectInfoView
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class CalendarItemAddPillAdapter() : RecyclerView.Adapter<CalendarItemAddPillAdapter.ViewHolder>() {
 
@@ -22,6 +27,18 @@ class CalendarItemAddPillAdapter() : RecyclerView.Adapter<CalendarItemAddPillAda
 
     var takepill : Boolean = false
     var SendpillName : String? = ""
+
+    var selectedDay : Int? = null
+    var selectedMonth : Int? = null
+    var selectedSlot : String? = "기상 직후"
+    var prescriptionName : String? = ""
+
+    //복용 여부
+    var MedicineTAKE : Boolean? = true
+    var MedicineId : Int? = 0
+
+    //데이터 베이스 객체
+    var ahyakDatabase : AhyakDataBase? = null
 
     fun build(i: ArrayList<MedicineEntity>):CalendarItemAddPillAdapter{
         addpillList = i
@@ -39,8 +56,6 @@ class CalendarItemAddPillAdapter() : RecyclerView.Adapter<CalendarItemAddPillAda
             binding.root.setOnLongClickListener {
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
-//                    authService.seteffectInfoView(this)
-//                    authService.effectInfo("타이레놀정500밀리그람")
                     val pillName = addpillList[position].MedicineName // 현재 아이템의 약 이름 가져오기
                     Log.d("pillName", "$pillName")
                     SendpillName = pillName
@@ -54,10 +69,6 @@ class CalendarItemAddPillAdapter() : RecyclerView.Adapter<CalendarItemAddPillAda
             binding.root.setOnClickListener {
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
-                    val context = binding.root.context
-//                    val intent = Intent(context, FreeDetailPillActivity::class.java)
-//                    // 여기서 아이템에 대한 정보를 인텐트에 추가할 수 있음
-//                    context.startActivity(intent)
 
                     // BottomSheetDialog 표시
                     val bottomSheetView = LayoutInflater.from(context).inflate(R.layout.activity_free_detail_pill, null)
@@ -70,28 +81,40 @@ class CalendarItemAddPillAdapter() : RecyclerView.Adapter<CalendarItemAddPillAda
                 true // LongClickListener가 이벤트를 소비했음을 나타냄
             }
         }
+
         fun bind(addpill: MedicineEntity){
-            binding.itemCalendarPillVolumeTv.text = addpill.MedicineVolume.toString()
+            binding.itemCalendarPillVolumeTv.text = addpill.MedicineVolume.toString() + addpill.MedicineType
             binding.itemCalendarPillNameTv.text = addpill.MedicineName
 
-            // 복용 상태를 나타내는 변수
-            takepill = false
+            // 복용 상태에 따라 layout 스타일 변경
+            updateTakeStatus(addpill.MedicineTake)
 
+            // 복용 상태 토글 리스너
             binding.itemCalendarPillTakeStateLl.setOnClickListener {
-                // 클릭할 때마다 복용 상태를 토글
-                takepill = !takepill
+                GlobalScope.launch(Dispatchers.IO) {
+                    //데이터베이스 초기화
+                    ahyakDatabase = AhyakDataBase.getInstance(context)
 
-                // 복용 상태에 따라 layout 스타일 변경
-                if (takepill) {
-                    // 즐겨찾기 등록 로직
-                    binding.itemCalendarPillTakeStateLl.setBackgroundResource(R.drawable.white_radi_50dp_gray1_stroke)
-                    binding.itemCalendarPillEatStateTv.setTextColor(Color.GRAY)
-                    binding.itemCalendarPillEatStateTv.setText("완료")
-                } else {
-                    binding.itemCalendarPillTakeStateLl.setBackgroundResource(R.drawable.point_radi_50dp)
-                    binding.itemCalendarPillEatStateTv.setTextColor(Color.WHITE)
-                    binding.itemCalendarPillEatStateTv.setText("복용")
+                    val newTakeState = !ahyakDatabase!!.getMedicineDao()?.getMedicineTake(addpill.id)!!
+                    ahyakDatabase?.getMedicineDao()?.updateMedicineTakeStatus(addpill.id, newTakeState)
+
+                    withContext(Dispatchers.Main) {
+                        addpill.MedicineTake = newTakeState
+                        updateTakeStatus(newTakeState)
+                    }
                 }
+            }
+        }
+
+        private fun updateTakeStatus(isTaken: Boolean) {
+            if (isTaken) {
+                binding.itemCalendarPillTakeStateLl.setBackgroundResource(R.drawable.white_radi_50dp_gray1_stroke)
+                binding.itemCalendarPillEatStateTv.setTextColor(Color.GRAY)
+                binding.itemCalendarPillEatStateTv.text = "완료"
+            } else {
+                binding.itemCalendarPillTakeStateLl.setBackgroundResource(R.drawable.point_radi_50dp)
+                binding.itemCalendarPillEatStateTv.setTextColor(Color.WHITE)
+                binding.itemCalendarPillEatStateTv.text = "복용"
             }
         }
 
