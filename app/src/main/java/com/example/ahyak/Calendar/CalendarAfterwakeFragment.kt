@@ -50,9 +50,6 @@ class CalendarAfterwakeFragment : Fragment() {
         selectedMonth = sharedPref.getInt("selectedMonth", 0)
         selectedDay = sharedPref.getInt("selectedDay", 0)
 
-        editor.putString("selectedSlot", selectedSlot)
-        editor.apply()
-
         Log.d("select day", "selectedMonth : $selectedMonth, dat : $selectedDay")
 
         // 코루틴을 사용하여 백그라운드 스레드에서 데이터베이스 작업 실행

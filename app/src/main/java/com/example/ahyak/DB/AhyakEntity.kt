@@ -74,3 +74,14 @@ data class TodayRecordSymptomEntity(
     @PrimaryKey(autoGenerate = true)
     var id : Int = 0
 }
+
+@Entity(tableName = "FreeMedicineTable")
+data class FreeMedicineEntity(
+    @PrimaryKey
+    val FreeMedicineName : String,
+    val FreeMedicineCode : String,
+    val FreeMedicineShape : String,
+    val FreeMedicineColor : String,
+    val FreeMedicineType : String,
+    val FreeMedicineLine : String
+)

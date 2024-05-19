@@ -79,8 +79,15 @@ interface TodayRecordSymptomDao {
     @Query("SELECT * FROM todayrecordsymptomtable WHERE RecordSymptomMonth =:month AND RecordSymptomDay = :day")
     fun getTodayRecordSymptom(month: Int, day: Int): List<TodayRecordSymptomEntity>
 
+}
 
+@Dao
+interface FreeMedicineDao{
+    @Insert
+    fun insertFreeMedicine(freeMedicine: FreeMedicineEntity)
 
+    @Query("SELECT * FROM freemedicinetable WHERE FreeMedicineName =:name")
+    fun getFreeMedicine(name: String):  List<FreeMedicineEntity>
 }
 
 

@@ -8,7 +8,7 @@ import androidx.room.TypeConverters
 
 //Dao를 담고 있는 DataBase 객체
 @Database(entities = [AhyakEntity::class, PrescriptionEntity::class, MedicineEntity::class, ExtraPillEntity::class,
-    TodayRecordEntity::class, TodayRecordSymptomEntity::class], version = 11)
+    TodayRecordEntity::class, TodayRecordSymptomEntity::class, FreeMedicineEntity::class], version = 12)
 abstract class AhyakDataBase : RoomDatabase(){
     //Entity에 접근할 수 있는 Dao들을 가짐
     abstract fun getAhyakDao() : AhyakDAO
@@ -18,6 +18,8 @@ abstract class AhyakDataBase : RoomDatabase(){
 
     abstract fun getTodayRecordDao() : TodayRecordDao
     abstract fun getTodayRecordSymptomDao() : TodayRecordSymptomDao
+
+    abstract fun getFreeMedicineDao() : FreeMedicineDao
 
 
     companion object{   //자바의 static이라고 생각하면됨

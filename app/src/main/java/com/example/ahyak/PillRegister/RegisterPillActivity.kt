@@ -33,24 +33,28 @@ import kotlinx.coroutines.launch
 
 class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
 
-    private lateinit var binding : ActivityRegisterPillBinding
+    private lateinit var binding: ActivityRegisterPillBinding
     var registerpillType: String = "mg"
-    var registerPillVolume:String = ""
-    var registerPillName:String = ""
-    var resultPillName : String = ""
+    var registerPillVolume: String = ""
+    var registerPillName: String = ""
+    var resultPillName: String = ""
+    var registerPillFree: Boolean = false
+
+    //자유기록인지 확인하기 위한 변수
+    var existingMedicineNames: String = ""
 
     //시간대 선택 관련
     private val selectedDays = mutableListOf<String>()
 
     //선택된 처방 이름 Sharedpreference로 저장받을 변수 선언
-    var PrescriptionName : String = ""
+    var PrescriptionName: String = ""
 
     //데이터 베이스 객체
-    var ahyakDatabase : AhyakDataBase? = null
+    var ahyakDatabase: AhyakDataBase? = null
 
     //약 자동완성 리스트 리사이클러뷰 관련
-    private val registerPills : ArrayList<DataItemRegisterPill> = arrayListOf()
-    private var registerPillAdapter : RegisterPillAdapter? = null
+    private val registerPills: ArrayList<DataItemRegisterPill> = arrayListOf()
+    private var registerPillAdapter: RegisterPillAdapter? = null
 
     private val selectedTimes = mutableListOf<String>()
 
@@ -82,8 +86,12 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
             if (actionId1 == EditorInfo.IME_ACTION_DONE) {
                 // Enter 키가 눌렸을 때 실행할 동작
                 binding.registerPillNameInputEt.clearFocus() // 포커스 해제
-                val inputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-                inputMethodManager.hideSoftInputFromWindow(binding.registerPillNameInputEt.windowToken, 0) // 키보드 숨김
+                val inputMethodManager =
+                    getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+                inputMethodManager.hideSoftInputFromWindow(
+                    binding.registerPillNameInputEt.windowToken,
+                    0
+                ) // 키보드 숨김
                 return@setOnEditorActionListener true
             } else {
                 return@setOnEditorActionListener false
@@ -130,8 +138,12 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 // Enter 키가 눌렸을 때 실행할 동작
                 binding.registerPillVolumeInputEt.clearFocus() // 포커스 해제
-                val inputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-                inputMethodManager.hideSoftInputFromWindow(binding.registerPillVolumeInputEt.windowToken, 0) // 키보드 숨김
+                val inputMethodManager =
+                    getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+                inputMethodManager.hideSoftInputFromWindow(
+                    binding.registerPillVolumeInputEt.windowToken,
+                    0
+                ) // 키보드 숨김
                 return@setOnEditorActionListener true
             } else {
                 return@setOnEditorActionListener false
@@ -143,8 +155,14 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
             binding.registerPillNameInputEt.clearFocus() // 포커스 해제
             binding.registerPillVolumeInputEt.clearFocus() // 포커스 해제
             val inputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-            inputMethodManager.hideSoftInputFromWindow(binding.registerPillNameInputEt.windowToken, 0) // 키보드 숨김
-            inputMethodManager.hideSoftInputFromWindow(binding.registerPillVolumeInputEt.windowToken, 0)
+            inputMethodManager.hideSoftInputFromWindow(
+                binding.registerPillNameInputEt.windowToken,
+                0
+            ) // 키보드 숨김
+            inputMethodManager.hideSoftInputFromWindow(
+                binding.registerPillVolumeInputEt.windowToken,
+                0
+            )
             true
         }
 
@@ -170,14 +188,14 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
         }
 
         //빈도 눌렀을 때
-        binding.registerPillFrequencySelectTv.setOnClickListener{
+        binding.registerPillFrequencySelectTv.setOnClickListener {
             val intent = Intent(this, FrequencyTermActivity::class.java)
             finish()
             startActivity(intent)
         }
 
         resultPillName = intent.getStringExtra("FreeMedicineName") ?: ""
-        if(resultPillName!!.isNotEmpty()){
+        if (resultPillName.isNotEmpty()) {
             binding.registerPillNameInputEt.visibility = View.GONE
             binding.registerPillNameInputTv.visibility = View.VISIBLE
             binding.registerPillNameInputTv.text = resultPillName
@@ -197,7 +215,7 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
         }
 
         val freeRecordPillName = intent.getStringExtra("freeRecordPillInpoName") ?: ""
-        if(freeRecordPillName!!.isNotEmpty()){
+        if (freeRecordPillName.isNotEmpty()) {
             binding.registerPillNameInputEt.hint = freeRecordPillName
         }
 
@@ -210,7 +228,7 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
         binding.registerPillSaveLl.setOnClickListener {
             //처방 이름 - prescriptionName
             //약 이름 가져오기
-            val registerPilltext =  binding.registerPillNameInputEt.text.toString()
+            val registerPilltext = binding.registerPillNameInputEt.text.toString()
 
             //월, 일
             val selectedMonth = sharedPref.getInt("selectedMonth", 0)
@@ -224,16 +242,46 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
 
             //용량 타입 - registerPillType
             //Take - 0
-            //FreeRegister => 자유 약 조회 후 등록되어 있으면 1, 없으면 0
 
             GlobalScope.launch(Dispatchers.IO) {
                 //데이터베이스 초기화
                 ahyakDatabase = AhyakDataBase.getInstance(this@RegisterPillActivity)
 
-                ahyakDatabase!!.getMedicineDao()?.insertMedicine(
-                    MedicineEntity(registerPilltext, PrescriptionName, selectedMonth, selectedDay, "기상 직후", floatVolume, registerpillType, false, false)
+                // 데이터베이스에서 해당 이름을 가진 자유기록 약이 있는지 불러오기
+                val existingMedicineList2 =
+                    ahyakDatabase!!.getFreeMedicineDao().getFreeMedicine(registerPilltext)
+
+                // 약 이름만 추출
+                existingMedicineNames =
+                    existingMedicineList2?.map { it.FreeMedicineName }.toString()
+                Log.d("register Medicine check", "$existingMedicineList2")
+
+                registerPillFree = existingMedicineNames.contains(registerPilltext)
+
+                //Free Medicine인지 확인
+                //checkFreeMedicine(registerPilltext)
+                Log.d("registerPillFree return data", "$registerPillFree")
+
+                //약 추가
+                ahyakDatabase!!.getMedicineDao().insertMedicine(
+                    MedicineEntity(
+                        registerPilltext,
+                        PrescriptionName,
+                        selectedMonth,
+                        selectedDay,
+                        "기상 직후",
+                        floatVolume,
+                        registerpillType,
+                        false,
+                        registerPillFree
+                    )
                 )
-                Log.d("register Medicine", "registerPillName : $registerPilltext, PrescriptionName : $PrescriptionName")
+                //잘 저장되었는지 확인
+                val existingMedicineList =
+                    ahyakDatabase!!.getMedicineDao()
+                        .getMedicine(selectedMonth, selectedDay, "기상 직후", PrescriptionName)
+                Log.d("register Medicine check", "$existingMedicineList")
+
 
             }
             finish()
@@ -244,7 +292,8 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
     private fun initregisterPilladapter() {
         registerPillAdapter = RegisterPillAdapter(registerPills, this)
         binding.registerPillRv.adapter = registerPillAdapter
-        binding.registerPillRv.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        binding.registerPillRv.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
     }
 
     private fun registerPillInit() {
@@ -305,7 +354,7 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
     fun onItemClick(dataItemRegisterPill: DataItemRegisterPill) {
         binding.registerPillNameInputEt.visibility = View.GONE
         binding.registerPillNameInputEt.text.clear()
-        binding.registerPillNameInputTv.setText(dataItemRegisterPill.RegisterPillName)
+        binding.registerPillNameInputTv.text = dataItemRegisterPill.RegisterPillName
         binding.registerPillNameInputEt.setText(dataItemRegisterPill.RegisterPillName)
         binding.registerPillNameInputTv.visibility = View.VISIBLE
         binding.registerPillRv.visibility = View.GONE
@@ -321,7 +370,7 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
         Log.d("success", drug_list.toString())
         val filteredList = ArrayList<DataItemRegisterPill>()
 
-        for(item in drug_list) {
+        for (item in drug_list) {
             filteredList.add(DataItemRegisterPill(item))
         }
 
@@ -336,6 +385,4 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
     private fun updateSelectedDaysTextView() {
         selectedDays.joinToString(", ")
     }
-
-
 }
