@@ -151,13 +151,13 @@ class FreeRegisterPillActivity : AppCompatActivity() {
             false
         }
 
-        binding.freeRecordPillSerachForShapeEt.imeOptions = EditorInfo.IME_ACTION_DONE
-        binding.freeRecordPillSerachForShapeEt.setOnEditorActionListener { _, actionId, _ ->
+        binding.freeRecordPillSerachCodeEt.imeOptions = EditorInfo.IME_ACTION_DONE
+        binding.freeRecordPillSerachCodeEt.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 // Enter 키가 눌렸을 때 실행할 동작
-                binding.freeRecordPillSerachForShapeEt.clearFocus() // 포커스 해제
+                binding.freeRecordPillSerachCodeEt.clearFocus() // 포커스 해제
                 val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                inputMethodManager.hideSoftInputFromWindow(binding.freeRecordPillSerachForShapeEt.windowToken, 0) // 키보드 숨김
+                inputMethodManager.hideSoftInputFromWindow(binding.freeRecordPillSerachCodeEt.windowToken, 0) // 키보드 숨김
                 return@setOnEditorActionListener true
             } else {
                 return@setOnEditorActionListener false
@@ -167,21 +167,13 @@ class FreeRegisterPillActivity : AppCompatActivity() {
         // EditText 외부를 터치했을 때 포커스 제거 및 키보드 숨김 처리
         binding.root.setOnTouchListener { _, _ ->
             binding.freeRecordPillSerachForNameEt.clearFocus() // 포커스 해제
-            binding.freeRecordPillSerachForShapeEt.clearFocus() //포커스 해제
+            binding.freeRecordPillSerachCodeEt.clearFocus() //포커스 해제
             val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             inputMethodManager.hideSoftInputFromWindow(binding.freeRecordPillSerachForNameEt.windowToken, 0) // 키보드 숨김
-            inputMethodManager.hideSoftInputFromWindow(binding.freeRecordPillSerachForShapeEt.windowToken, 0) // 키보드 숨김
+            inputMethodManager.hideSoftInputFromWindow(binding.freeRecordPillSerachCodeEt.windowToken, 0) // 키보드 숨김
             true
         }
 
-        binding.freerecordLl.setOnTouchListener { _, _ ->
-            binding.freeRecordPillSerachForNameEt.clearFocus() // 포커스 해제
-            binding.freeRecordPillSerachForShapeEt.clearFocus() //포커스 해제
-            val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            inputMethodManager.hideSoftInputFromWindow(binding.freeRecordPillSerachForNameEt.windowToken, 0) // 키보드 숨김
-            inputMethodManager.hideSoftInputFromWindow(binding.freeRecordPillSerachForShapeEt.windowToken, 0) // 키보드 숨김
-            true
-        }
 
         //'x'버튼 눌렀을때
         binding.freeRecordPillCancleIv.setOnClickListener {
@@ -190,11 +182,16 @@ class FreeRegisterPillActivity : AppCompatActivity() {
 
         //저장하기 버튼 누르면
         binding.freeRecordPillSearchLl.setOnClickListener {
-            val symptomName = intent.getStringExtra("putsymptomName")
+
+            //약 이름 정보
+            val FreeMedicineName = binding.freeRecordPillSerachForNameEt.text.toString()
+
+            //식별 정보
+            val FreeMedicineCode = binding.freeRecordPillSerachCodeEt.text.toString()
+
+
             val intent = Intent(this, RegisterPillActivity::class.java)
-            intent.putExtra("putsymptomName", symptomName) //증상의 이름을 넘김
-            val freeRecordPillName = binding.freeRecordPillSerachForNameEt.getText().toString()
-            intent.putExtra("resultPillInpoName", freeRecordPillName)
+            intent.putExtra("FreeMedicineName", FreeMedicineName)
             finish()
             startActivity(intent)
         }

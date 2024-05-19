@@ -26,7 +26,6 @@ data class PrescriptionEntity(
 
 @Entity(tableName = "MedicineTable")
 data class MedicineEntity(
-    @PrimaryKey
     val MedicineName : String,
     val PrescriptionName: String,
     val MedicineMonth: Int,
@@ -36,7 +35,10 @@ data class MedicineEntity(
     val MedicineType : String,
     val MedicineTake : Boolean,
     val FreeRegister : Boolean
-)
+){
+    @PrimaryKey(autoGenerate = true)
+    var id : Int = 0
+}
 
 @Entity(tableName = "ExtraPillTable")
 data class ExtraPillEntity(

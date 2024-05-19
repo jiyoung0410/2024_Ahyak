@@ -131,14 +131,6 @@ class FrequencyTermActivity : AppCompatActivity() {
     private fun toggleSelection(layout: LinearLayout) {
         val textView = layout.getChildAt(0) as TextView // LinearLayout의 첫 번째 자식은 TextView입니다.
         val day = textView.text.toString()
-//        val bgColor = if (textView.currentTextColor != Color.WHITE) {
-//            textView.setTextColor(Color.WHITE)
-//            R.drawable.point_radi_100dp // 선택되지 않은 상태의 배경 이미지를 적용합니다.
-//        } else {
-//            textView.setTextColor(Color.GRAY)
-//            R.drawable.bg_radi_100dp // 선택된 상태의 배경 이미지를 적용합니다.
-//        }
-//        layout.setBackgroundResource(bgColor) // 배경을 적용합니다.
         if (selectedDays.contains(day)) {
             selectedDays.remove(day)
             textView.setTextColor(Color.GRAY)

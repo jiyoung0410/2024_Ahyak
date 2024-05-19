@@ -1,13 +1,17 @@
 package com.example.ahyak.PillRegister
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.ahyak.Calendar.CalendarItemSympotmAdapter
+import com.example.ahyak.databinding.ItemCalendarSymptomBinding
 import com.example.ahyak.databinding.ItemRegisterpillSearchBinding
 
 class RegisterPillAdapter(var registerPills:ArrayList<DataItemRegisterPill>, private val OnItemRegisterClickListener: RegisterPillActivity):RecyclerView.Adapter<RegisterPillAdapter.ViewHolder>() {
-    inner class ViewHolder(val binding:ItemRegisterpillSearchBinding) : RecyclerView.ViewHolder(binding.root), View.OnClickListener {
+    inner class ViewHolder(val binding:ItemRegisterpillSearchBinding, val context: Context) : RecyclerView.ViewHolder(binding.root), View.OnClickListener {
+
         init{
             binding.root.setOnClickListener(this)
         }
@@ -26,14 +30,11 @@ class RegisterPillAdapter(var registerPills:ArrayList<DataItemRegisterPill>, pri
 
 }
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): RegisterPillAdapter.ViewHolder {
-        val binding = ItemRegisterpillSearchBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-
-        return ViewHolder(binding)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RegisterPillAdapter.ViewHolder  =
+        ViewHolder(
+            ItemRegisterpillSearchBinding.inflate(LayoutInflater.from(parent.context), parent, false),
+            parent.context
+        )
 
     override fun onBindViewHolder(holder: RegisterPillAdapter.ViewHolder, position: Int) {
         holder.bind(registerPills[position])

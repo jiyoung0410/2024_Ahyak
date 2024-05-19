@@ -30,11 +30,6 @@ class CalendarAfterwakeFragment : Fragment() {
     private var extrapilladapter : CalendarItemExtraPillAdapter?= null
     private var symptomList: MutableList<PrescriptionEntity> = mutableListOf()
 
-    var extraPillInpoName: String? = null
-    var extraPillInpoDosageSize:String? = null
-    var extraPillInpoDosage:String? = null
-    var extraPillformattedTime:String? = null
-
     var selectedSlot : String? = "기상 직후"
     var selectedDay : Int? = null
     var selectedMonth : Int? = null
@@ -47,12 +42,17 @@ class CalendarAfterwakeFragment : Fragment() {
 
         //알람 관련
         val sharedPref = requireActivity().getSharedPreferences("myPref", Context.MODE_PRIVATE)
+        val editor = sharedPref.edit()
+
         val alarmTime = sharedPref.getString("alarmTime","정해진 시간 없음")
         binding.calendarAfterwakeTimeTv.text = alarmTime
 
         selectedMonth = sharedPref.getInt("selectedMonth", 0)
         selectedDay = sharedPref.getInt("selectedDay", 0)
-        sharedPref.edit().putString("selectedSlot", selectedSlot)
+
+        editor.putString("selectedSlot", selectedSlot)
+        editor.apply()
+
         Log.d("select day", "selectedMonth : $selectedMonth, dat : $selectedDay")
 
         // 코루틴을 사용하여 백그라운드 스레드에서 데이터베이스 작업 실행
@@ -96,22 +96,16 @@ class CalendarAfterwakeFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentCalendarAfterwakeBinding.inflate(layoutInflater)
 
+        //sharedPref 변수 선언
+        val sharedPref = requireActivity().getSharedPreferences("myPref", Context.MODE_PRIVATE)
+        val editor = sharedPref.edit()
+
         // 코루틴을 사용하여 백그라운드 스레드에서 데이터베이스 작업 실행
         GlobalScope.launch(Dispatchers.IO) {
 
             //데이터베이스 초기화
             ahyakDatabase = AhyakDataBase.getInstance(requireContext())
 
-            //추가약 기록
-//            ahyakDatabase!!.getExtraPillDao()?.insertPill(
-//                ExtraPillEntity("타이레놀", 5, 17, "기상 직후", 1.0f, "정", "오전11:00")
-//            )
-
-            //증상 기록
-//            ahyakDatabase!!.getPrescriptionDao()?.insertPrescription(
-//                PrescriptionEntity("처방1", 5, 17, "기상 직후", "병원3", "2024.05.17", "2025.06.30"))
-//            ahyakDatabase!!.getPrescriptionDao()?.insertPrescription(
-//                PrescriptionEntity("처방2", 5, 17, "기상 직후", "병원3", "2024.05.17", "2025.06.30"))
         }
 
         initextrapilladapter()
@@ -129,11 +123,11 @@ class CalendarAfterwakeFragment : Fragment() {
                     // 선택된 아이템 클릭 이벤트
                 }
             ) { symptom ->
-                //약 추가하기 버튼 누르면
-                // 새로운 약 추가 이벤트
+                //약 추가하기 버튼 누르면 -> 새로운 약 추가 이벤트
                 val intent = Intent(requireContext(), RegisterPillActivity::class.java)
-//                    intent.putExtra("putsymptomName", symptom.sympotmname) // 예시로 증상의 이름을 넘김
-//                    val symptomName = symptom.sympotmname
+                editor.putString("prescriptionName", symptom.Prescription)
+                editor.putString("endDate", symptom.End_Date)
+                editor.apply()
                 startActivity(intent)
             }.build(symptomList)
 

@@ -14,35 +14,57 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ahyak.Calendar.DataItemSymptom
+import com.example.ahyak.DB.AhyakDataBase
+import com.example.ahyak.DB.MedicineEntity
 import com.example.ahyak.MainActivity
 import com.example.ahyak.R
-import com.example.ahyak.RecordSymptoms.DataItemSearchSymptom
-import com.example.ahyak.RecordSymptoms.DegreeSymptomsActivity
 import com.example.ahyak.RecordSymptoms.frequency.FrequencyTermActivity
 import com.example.ahyak.databinding.ActivityRegisterPillBinding
 import com.example.ahyak.remote.AuthService
 import com.example.ahyak.remote.AutoCompleteView
 import com.google.gson.Gson
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
 
     private lateinit var binding : ActivityRegisterPillBinding
-    var registerpillDosage: String = "mg"
-    var registerpillDosageSize:String = ""
-    var registerpillName:String = ""
+    var registerpillType: String = "mg"
+    var registerPillVolume:String = ""
+    var registerPillName:String = ""
+    var resultPillName : String = ""
 
-    //약 자동완성 관련
+    //시간대 선택 관련
+    private val selectedDays = mutableListOf<String>()
+
+    //선택된 처방 이름 Sharedpreference로 저장받을 변수 선언
+    var PrescriptionName : String = ""
+
+    //데이터 베이스 객체
+    var ahyakDatabase : AhyakDataBase? = null
+
+    //약 자동완성 리스트 리사이클러뷰 관련
     private val registerPills : ArrayList<DataItemRegisterPill> = arrayListOf()
     private var registerPillAdapter : RegisterPillAdapter? = null
 
     private val selectedTimes = mutableListOf<String>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityRegisterPillBinding.inflate(layoutInflater)
+
+        //Sharedpreference 변수 선언
+        val sharedPref = this.getSharedPreferences("myPref", Context.MODE_PRIVATE)
+        val editor = sharedPref.edit()
+
+        //처방 이름 받아오기
+        PrescriptionName = sharedPref.getString("prescriptionName", "")!!
 
         //약 자동완성 관련 초기화
         registerPillInit()
@@ -54,12 +76,13 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
         //text에 밑줄 추가하는 코드
         binding.registerPillSearchShapeTv.paintFlags = Paint.UNDERLINE_TEXT_FLAG
 
+        //약 이름 입력 Edit Text
         binding.registerPillNameInputEt.imeOptions = EditorInfo.IME_ACTION_DONE
         binding.registerPillNameInputEt.setOnEditorActionListener { _, actionId1, _ ->
             if (actionId1 == EditorInfo.IME_ACTION_DONE) {
                 // Enter 키가 눌렸을 때 실행할 동작
                 binding.registerPillNameInputEt.clearFocus() // 포커스 해제
-                val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                val inputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
                 inputMethodManager.hideSoftInputFromWindow(binding.registerPillNameInputEt.windowToken, 0) // 키보드 숨김
                 return@setOnEditorActionListener true
             } else {
@@ -67,6 +90,7 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
             }
         }
 
+        //약 이름 입력 자동완성(not API)
         binding.registerPillNameInputEt.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 // 입력 전에 실행할 작업
@@ -76,7 +100,7 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 // 텍스트가 변경될 때마다 실행할 작업
                 authService.autoComplete(s.toString())
-//                filterPillName(s.toString())
+                filterPillName(s.toString())
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -96,17 +120,18 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
         layouts.forEach { layout ->
             layout.setOnClickListener {
                 toggletimeSelection(layout)
+                updateSelectedDaysTextView()
             }
         }
 
-
-        binding.registerPillDosageInputEt.imeOptions = EditorInfo.IME_ACTION_DONE
-        binding.registerPillDosageInputEt.setOnEditorActionListener { _, actionId, _ ->
+        //용량 기록
+        binding.registerPillVolumeInputEt.imeOptions = EditorInfo.IME_ACTION_DONE
+        binding.registerPillVolumeInputEt.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 // Enter 키가 눌렸을 때 실행할 동작
-                binding.registerPillDosageInputEt.clearFocus() // 포커스 해제
-                val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                inputMethodManager.hideSoftInputFromWindow(binding.registerPillDosageInputEt.windowToken, 0) // 키보드 숨김
+                binding.registerPillVolumeInputEt.clearFocus() // 포커스 해제
+                val inputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+                inputMethodManager.hideSoftInputFromWindow(binding.registerPillVolumeInputEt.windowToken, 0) // 키보드 숨김
                 return@setOnEditorActionListener true
             } else {
                 return@setOnEditorActionListener false
@@ -116,40 +141,30 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
         // EditText 외부를 터치했을 때 포커스 제거 및 키보드 숨김 처리
         binding.root.setOnTouchListener { _, _ ->
             binding.registerPillNameInputEt.clearFocus() // 포커스 해제
-            binding.registerPillDosageInputEt.clearFocus() // 포커스 해제
-            val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            binding.registerPillVolumeInputEt.clearFocus() // 포커스 해제
+            val inputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
             inputMethodManager.hideSoftInputFromWindow(binding.registerPillNameInputEt.windowToken, 0) // 키보드 숨김
-            inputMethodManager.hideSoftInputFromWindow(binding.registerPillDosageInputEt.windowToken, 0)
+            inputMethodManager.hideSoftInputFromWindow(binding.registerPillVolumeInputEt.windowToken, 0)
             true
-        }
-
-
-        //돋보기 아이콘 누르면 결과 화면으로 이동
-        binding.registerPillSearchIv.setOnClickListener {
-            val intent = Intent(this, ResultPillActivity::class.java)
-            startActivity(intent)
         }
 
         //mg 버튼 누르면
         binding.registerPillDosageMgCv.setOnClickListener {
             binding.registerPillDosageMgCv.setBackgroundResource(R.drawable.white_radi_5dp)
             binding.registerPillDosageTabletCv.setBackgroundResource(R.drawable.bg_radi_5dp)
-            registerpillDosage = "mg"
+            registerpillType = "mg"
         }
 
         //정 버튼 누르면
         binding.registerPillDosageTabletCv.setOnClickListener {
             binding.registerPillDosageTabletCv.setBackgroundResource(R.drawable.white_radi_5dp)
             binding.registerPillDosageMgCv.setBackgroundResource(R.drawable.bg_radi_5dp)
-            registerpillDosage = "정"
-
+            registerpillType = "정"
         }
 
         //모양으로 검색하기 눌렀을 때
         binding.registerPillSearchShapeTv.setOnClickListener {
-            val symptomName = intent.getStringExtra("putsymptomName")
             val intent = Intent(this, SearchPillActivity::class.java)
-            intent.putExtra("putsymptomName", symptomName) //증상의 이름을 넘김
             finish()
             startActivity(intent)
         }
@@ -161,15 +176,17 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
             startActivity(intent)
         }
 
-        val resultPillName = intent.getStringExtra("resultPillInpoName") ?: ""
+        resultPillName = intent.getStringExtra("FreeMedicineName") ?: ""
         if(resultPillName!!.isNotEmpty()){
             binding.registerPillNameInputEt.visibility = View.GONE
             binding.registerPillNameInputTv.visibility = View.VISIBLE
             binding.registerPillNameInputTv.text = resultPillName
+            binding.registerPillNameInputEt.setText(resultPillName)
             binding.registerPillSearchIv.visibility = View.GONE
             binding.registerPillDeleteIv.visibility = View.VISIBLE
         }
 
+        //검색 취소 아이콘 눌렀을 때
         binding.registerPillDeleteIv.setOnClickListener {
             binding.registerPillNameInputEt.visibility = View.VISIBLE
             binding.registerPillNameInputTv.visibility = View.GONE
@@ -191,59 +208,35 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
 
         //저장 눌렀을 때
         binding.registerPillSaveLl.setOnClickListener {
-            registerpillDosageSize = binding.registerPillDosageInputEt.text.toString()
+            //처방 이름 - prescriptionName
+            //약 이름 가져오기
+            val registerPilltext =  binding.registerPillNameInputEt.text.toString()
 
-            if(binding.registerPillNameInputEt.text.isEmpty()){
-                registerpillName = binding.registerPillNameInputTv.text.toString()
-            }else{
-                registerpillName = binding.registerPillNameInputEt.text.toString()
-            }
+            //월, 일
+            val selectedMonth = sharedPref.getInt("selectedMonth", 0)
+            val selectedDay = sharedPref.getInt("selectedDay", 0)
 
-            // Intent를 통해 전달된 데이터를 받을 때 Extra 키 값을 "putsymptomName"으로 설정
-            val symptomName = intent.getStringExtra("putsymptomName")
+            //시간대 - list
 
-            // SharedPreferences에서 기존 데이터 불러오기
-            val preferences = getSharedPreferences("mySharedPreferences", Context.MODE_PRIVATE)
-            val gson = Gson()
-            val json = preferences.getString("symptomList", null)
-            val symptomList: MutableList<DataItemSymptom> = if (json != null) {
-                gson.fromJson(json, Array<DataItemSymptom>::class.java).toMutableList()
-            } else {
-                mutableListOf()
-            }
-            // 해당 증상을 찾아서 약을 추가할 수 있도록 함
-            val selectedSymptom = symptomList.find { it.sympotmname == symptomName }
+            //용량 데이터 가져오기
+            registerPillVolume = binding.registerPillVolumeInputEt.text.toString()
+            val floatVolume = registerPillVolume.toFloat()
 
-            // 만약 해당 증상이 없으면 새로운 증상을 생성하여 추가
-            if (selectedSymptom == null) {
-                val newSymptom = DataItemSymptom(
-                    symptomName ?: "New Symptom",
-                    "New Hospital",
-                    "2024.03.08",
-                    arrayListOf(DataItemSymptom.DataItemAddPill("$registerpillDosageSize$registerpillDosage", registerpillName))
+            //용량 타입 - registerPillType
+            //Take - 0
+            //FreeRegister => 자유 약 조회 후 등록되어 있으면 1, 없으면 0
+
+            GlobalScope.launch(Dispatchers.IO) {
+                //데이터베이스 초기화
+                ahyakDatabase = AhyakDataBase.getInstance(this@RegisterPillActivity)
+
+                ahyakDatabase!!.getMedicineDao()?.insertMedicine(
+                    MedicineEntity(registerPilltext, PrescriptionName, selectedMonth, selectedDay, "기상 직후", floatVolume, registerpillType, false, false)
                 )
-                symptomList.add(newSymptom)
-            } else {
-                // 새로운 약 생성
-                val newPill = DataItemSymptom.DataItemAddPill("$registerpillDosageSize$registerpillDosage", registerpillName)
+                Log.d("register Medicine", "registerPillName : $registerPilltext, PrescriptionName : $PrescriptionName")
 
-                // 선택한 증상에 새로운 약 추가
-                selectedSymptom.ItemAddPill.add(newPill)
             }
-
-            // SharedPreferences에 수정된 데이터 저장
-            val editor = preferences.edit()
-            editor.putString("symptomList", gson.toJson(symptomList))
-            editor.apply()
-
-            val intent = Intent(this, MainActivity::class.java)
-            intent.putExtra("putsymptomName", symptomName) //증상의 이름을 넘김
-
-//            editor.clear() // 모든 데이터를 지우는 메서드
-//            editor.apply()
-
             finish()
-            startActivity(intent)
         }
         setContentView(binding.root)
     }
@@ -263,7 +256,19 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
                 DataItemRegisterPill("타이레놀2"),
                 DataItemRegisterPill("타이레놀3"),
                 DataItemRegisterPill("타이레놀4"),
-                DataItemRegisterPill("타이레놀5")
+                DataItemRegisterPill("타이레놀5"),
+                DataItemRegisterPill("나는 감기1"),
+                DataItemRegisterPill("타이레놀6"),
+                DataItemRegisterPill("타이레놀7"),
+                DataItemRegisterPill("타이레놀8"),
+                DataItemRegisterPill("타이레놀9"),
+                DataItemRegisterPill("타이레놀10"),
+                DataItemRegisterPill("aaaa"),
+                DataItemRegisterPill("bbbb"),
+                DataItemRegisterPill("cccc"),
+                DataItemRegisterPill("dddd"),
+                DataItemRegisterPill("eeee"),
+                DataItemRegisterPill("ffff")
             )
         )
     }
@@ -272,7 +277,7 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
         val filteredList = ArrayList<DataItemRegisterPill>()
 
         for (item in registerPills) {
-            // 증상 명칭에 검색어가 포함되어 있는지 확인현
+            // 증상 명칭에 검색어가 포함되어 있는지 확인
             if (item.RegisterPillName.contains(query, ignoreCase = true)) {
                 filteredList.add(item)
             }
@@ -283,27 +288,25 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
     }
 
     private fun toggletimeSelection(layout: LinearLayout) {
-        val background = layout.background
         val textView = layout.getChildAt(0) as TextView
-        val isPointRadiSelected = background != null && background.constantState == ContextCompat.getDrawable(this, R.drawable.point_radi_100dp)?.constantState
+        val day = textView.text.toString()
 
-        val bgColor = if (isPointRadiSelected) {
-            // 선택되지 않은 상태의 배경 이미지를 적용합니다.
+        if (selectedDays.contains(day)) {
+            selectedDays.remove(day)
             textView.setTextColor(Color.GRAY)
-            R.drawable.bg_radi_100dp
+            layout.setBackgroundResource(R.drawable.bg_radi_100dp)
         } else {
-            // 선택된 상태의 배경 이미지를 다른 리소스로 변경합니다.
+            selectedDays.add(day)
             textView.setTextColor(Color.WHITE)
-            R.drawable.point_radi_100dp
-
+            layout.setBackgroundResource(R.drawable.point_radi_100dp)
         }
-        layout.setBackgroundResource(bgColor) // 배경을 적용합니다.
     }
 
     fun onItemClick(dataItemRegisterPill: DataItemRegisterPill) {
         binding.registerPillNameInputEt.visibility = View.GONE
         binding.registerPillNameInputEt.text.clear()
         binding.registerPillNameInputTv.setText(dataItemRegisterPill.RegisterPillName)
+        binding.registerPillNameInputEt.setText(dataItemRegisterPill.RegisterPillName)
         binding.registerPillNameInputTv.visibility = View.VISIBLE
         binding.registerPillRv.visibility = View.GONE
         binding.registerPillSearchIv.visibility = View.GONE
@@ -327,6 +330,11 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
     }
 
     override fun AutoCompleteFailure() {
+    }
+
+    //시간대 선택해서 리스트 저장
+    private fun updateSelectedDaysTextView() {
+        selectedDays.joinToString(", ")
     }
 
 
