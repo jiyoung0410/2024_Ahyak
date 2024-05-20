@@ -1,5 +1,6 @@
-package com.example.ahyak.Calendar
+package com.example.ahyak.HomeRecord
 
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -23,19 +24,21 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class CalendarAfterwakeFragment : Fragment() {
+class TodayRecordHomeFragment : Fragment() {
 
     private lateinit var binding: FragmentCalendarAfterwakeBinding
     private var extrapillList : ArrayList<ExtraPillEntity> = arrayListOf()
-    private var extrapilladapter : CalendarItemExtraPillAdapter?= null
+    private var extrapilladapter : ExtraPillAdapter?= null
     private var symptomList: MutableList<PrescriptionEntity> = mutableListOf()
 
-    var selectedSlot : String? = "기상 직후"
+    var selectedSlot : String? = ""
     var selectedDay : Int? = null
     var selectedMonth : Int? = null
 
     //데이터 베이스 객체
     var ahyakDatabase : AhyakDataBase? = null
+
+
 
     override fun onResume() {
         super.onResume()
@@ -49,10 +52,10 @@ class CalendarAfterwakeFragment : Fragment() {
 
         selectedMonth = sharedPref.getInt("selectedMonth", 0)
         selectedDay = sharedPref.getInt("selectedDay", 0)
-        editor.putString("selectedSlot", selectedSlot)
-        editor.apply()
+        selectedSlot = sharedPref.getString("selectSlot", "기상 직후")
 
-        Log.d("select day", "selectedMonth : $selectedMonth, dat : $selectedDay")
+        Log.d("get Data", "Month : $selectedMonth, day : $selectedDay, Slot : $selectedSlot")
+
 
         // 코루틴을 사용하여 백그라운드 스레드에서 데이터베이스 작업 실행
         GlobalScope.launch(Dispatchers.IO) {
@@ -62,11 +65,11 @@ class CalendarAfterwakeFragment : Fragment() {
             symptomList.clear()
             extrapillList.clear()
 
-            // 데이터베이스에서 데이터 가져오기 - 월/일/시간대 정보 전송
+            // 데이터베이스에서 데이터 가져오기 - 월/일/시간대 정보 전송(Prescription)
             val NewsymptomList = ahyakDatabase!!.getPrescriptionDao().getPrescription(selectedMonth, selectedDay, selectedSlot).toMutableList()
             symptomList.addAll(NewsymptomList)
 
-            // 데이터베이스에서 데이터 가져오기 - 월/일/시간대 정보 전송
+            // 데이터베이스에서 데이터 가져오기 - 월/일/시간대 정보 전송(추가 약 기록)
             val NewPillList = ahyakDatabase!!.getExtraPillDao().getPill(selectedMonth, selectedDay, selectedSlot)
             extrapillList.addAll(NewPillList)
 
@@ -78,6 +81,7 @@ class CalendarAfterwakeFragment : Fragment() {
             //ahyakDatabase!!.getPrescriptionDao().deleteAllPrescriptions()
             //symptomList.addAll(ahyakDatabase!!.getPrescriptionDao().getAllPrescriptions())
 
+            //화면에 적용할 내용
             withContext(Dispatchers.Main) {
                 // 리사이클러뷰 아이템 구성
                 binding.calendarAfterwakeChangeSymptomRv.adapter?.notifyDataSetChanged()
@@ -99,25 +103,18 @@ class CalendarAfterwakeFragment : Fragment() {
         val sharedPref = requireActivity().getSharedPreferences("myPref", Context.MODE_PRIVATE)
         val editor = sharedPref.edit()
 
-        // 코루틴을 사용하여 백그라운드 스레드에서 데이터베이스 작업 실행
-        GlobalScope.launch(Dispatchers.IO) {
-
-            //데이터베이스 초기화
-            ahyakDatabase = AhyakDataBase.getInstance(requireContext())
-
-        }
-
+        //추가 약 기록 어댑터 초기화
         initextrapilladapter()
 
         //오늘의 증상 기록하기 누르면
-        binding.calendarAfterwakeRecordLl.setOnClickListener {
+        binding.todayRecordLl.setOnClickListener {
             val intent = Intent(getActivity(), RecordSymptomsActivity::class.java)
             startActivity(intent)
         }
 
         binding.calendarAfterwakeChangeSymptomRv.apply {
             // 어댑터를 미리 초기화하고 리사이클러뷰에 설정
-            val adapter = CalendarItemSympotmAdapter(
+            val adapter = PrescriptionAdapter(
                 onClick = { ->
                     // 선택된 아이템 클릭 이벤트
                 }
@@ -130,16 +127,19 @@ class CalendarAfterwakeFragment : Fragment() {
                 startActivity(intent)
             }.build(symptomList)
 
-            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             this.adapter = adapter
         }
 
+        //알림 시간 설정하기
         binding.calendarAfterwakeChangeTimeLl.setOnClickListener {
             val intent = Intent(requireContext(), MedicationTimeActivity::class.java)
             startActivity(intent)
         }
 
-        binding.calendarAfterwakeAddSymptomLl.setOnClickListener {
+        //증상 추가하기 누르면
+        binding.todayRecordPrescriptionLl.setOnClickListener {
             val intent = Intent(requireContext(), AddPrescriptionActivity::class.java)
             startActivity(intent)
         }
@@ -153,10 +153,12 @@ class CalendarAfterwakeFragment : Fragment() {
         return binding.root
 
     }
+
+
+    //추가 약 기록 어댑터 등록
     private fun initextrapilladapter() {
-        extrapilladapter = CalendarItemExtraPillAdapter(extrapillList)
+        extrapilladapter = ExtraPillAdapter(extrapillList)
         binding.calendarAfterwakeChangeExtraPillRv.adapter = extrapilladapter
         binding.calendarAfterwakeChangeExtraPillRv.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
     }
-
 }

@@ -14,7 +14,6 @@ data class AhyakEntity(
 
 @Entity(tableName = "PrescriptionTable")
 data class PrescriptionEntity(
-    @PrimaryKey
     val Prescription: String,
     val Month: Int,
     val Day: Int,
@@ -22,7 +21,11 @@ data class PrescriptionEntity(
     val Hospital: String,
     val Start_Date: String,
     val End_Date : String
-)
+){
+    @PrimaryKey(autoGenerate = true)
+    var id : Int = 0
+}
+
 
 @Entity(tableName = "MedicineTable")
 data class MedicineEntity(

@@ -15,6 +15,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.time.LocalDateTime
 import java.util.Calendar
 
 class AddPrescriptionActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
@@ -35,8 +36,7 @@ class AddPrescriptionActivity : AppCompatActivity(), DatePickerDialog.OnDateSetL
         binding = ActivityAddSymptomsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
-
+        //처방 이름 Edit Text
         binding.addSymptomsSymptomNameEt.imeOptions = EditorInfo.IME_ACTION_DONE
         binding.addSymptomsSymptomNameEt.setOnEditorActionListener { _, actionId, event ->
             if(actionId == EditorInfo.IME_ACTION_DONE){
@@ -49,6 +49,7 @@ class AddPrescriptionActivity : AppCompatActivity(), DatePickerDialog.OnDateSetL
             }
         }
 
+        //병원 이름 Edit Text
         binding.addSymptomsHospitalNameEt.imeOptions = EditorInfo.IME_ACTION_DONE
         binding.addSymptomsHospitalNameEt.setOnEditorActionListener { _, actionId, event ->
             if(actionId == EditorInfo.IME_ACTION_DONE){
@@ -71,12 +72,21 @@ class AddPrescriptionActivity : AppCompatActivity(), DatePickerDialog.OnDateSetL
             true
         }
 
+        //시작일 기본 설정은 오늘 날짜
+        // 오늘 날짜의 연도와 월을 가져와서 변수에 할당합니다.
+        val localDate = LocalDateTime.now()
+        val todayYear = localDate.year
+        StartMonth = localDate.monthValue
+        StartDay = localDate.dayOfMonth
+        StartDate = todayYear.toString() + "." + (StartMonth).toString() + "." + StartDay.toString()+ "."
 
+        binding.addSymptomsStartdayTv.text = StartDate
+
+        //시작 날짜 설정
         binding.addSymptomsStartdayLl.setOnClickListener {
             val year = cal.get(Calendar.YEAR)
             StartMonth = cal.get(Calendar.MONTH)
             StartDay = cal.get(Calendar.DAY_OF_MONTH)
-
 
             val datePickerDialog = DatePickerDialog(this, { _, year, month, day ->
                 StartDate = year.toString() + "." + (month + 1).toString() + "." + day.toString()+ "."
@@ -89,6 +99,7 @@ class AddPrescriptionActivity : AppCompatActivity(), DatePickerDialog.OnDateSetL
             datePickerDialog.show()
         }
 
+        //종료 날짜 설정
         binding.addSymptomsEnddayLl.setOnClickListener {
             val year = cal.get(Calendar.YEAR)
             val month = cal.get(Calendar.MONTH)
@@ -103,6 +114,7 @@ class AddPrescriptionActivity : AppCompatActivity(), DatePickerDialog.OnDateSetL
             datePickerDialog.show()
         }
 
+        //'X'누르면 실행
         binding.addSymptomsCancleIv.setOnClickListener {
             finish()
         }
@@ -122,6 +134,18 @@ class AddPrescriptionActivity : AppCompatActivity(), DatePickerDialog.OnDateSetL
                 ahyakDatabase!!.getPrescriptionDao()?.insertPrescription(
                     PrescriptionEntity(prescriptionName, StartMonth, StartDay, "기상 직후", hospitalName, StartDate, EndDate)
                 )
+                ahyakDatabase!!.getPrescriptionDao()?.insertPrescription(
+                    PrescriptionEntity(prescriptionName, StartMonth, StartDay, "아침", hospitalName, StartDate, EndDate)
+                )
+                ahyakDatabase!!.getPrescriptionDao()?.insertPrescription(
+                    PrescriptionEntity(prescriptionName, StartMonth, StartDay, "점심", hospitalName, StartDate, EndDate)
+                )
+                ahyakDatabase!!.getPrescriptionDao()?.insertPrescription(
+                    PrescriptionEntity(prescriptionName, StartMonth, StartDay, "저녁", hospitalName, StartDate, EndDate)
+                )
+                ahyakDatabase!!.getPrescriptionDao()?.insertPrescription(
+                    PrescriptionEntity(prescriptionName, StartMonth, StartDay, "취침 전", hospitalName, StartDate, EndDate)
+                )
             }
             finish()
         }
@@ -129,7 +153,6 @@ class AddPrescriptionActivity : AppCompatActivity(), DatePickerDialog.OnDateSetL
 
     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
         cal.set(year,month,dayOfMonth)
-
         cal.set(Calendar.HOUR_OF_DAY,0)
         cal.set(Calendar.MINUTE,0)
         cal.set(Calendar.SECOND,0)

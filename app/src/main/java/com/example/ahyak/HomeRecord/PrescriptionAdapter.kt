@@ -1,11 +1,10 @@
-package com.example.ahyak.Calendar
+package com.example.ahyak.HomeRecord
 
 import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ahyak.DB.AhyakDataBase
@@ -17,7 +16,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class CalendarItemSympotmAdapter(val onClick: () -> Unit, val onAddPillClick: (PrescriptionEntity) -> Unit) : RecyclerView.Adapter<CalendarItemSympotmAdapter.ViewHolder>() {
+class PrescriptionAdapter(val onClick: () -> Unit, val onAddPillClick: (PrescriptionEntity) -> Unit) : RecyclerView.Adapter<PrescriptionAdapter.ViewHolder>() {
 
     lateinit var sympotms: MutableList<PrescriptionEntity>
     private var selectedPosition = -1 // 선택된 아이템의 위치를 저장하는 변수 추가
@@ -26,7 +25,9 @@ class CalendarItemSympotmAdapter(val onClick: () -> Unit, val onAddPillClick: (P
     //데이터 베이스 객체
     var ahyakDatabase : AhyakDataBase? = null
 
-    fun build(i: MutableList<PrescriptionEntity>) : CalendarItemSympotmAdapter{
+    var selectedBoolean = true
+
+    fun build(i: MutableList<PrescriptionEntity>) : PrescriptionAdapter{
         sympotms = i
         return this
     }
@@ -34,7 +35,7 @@ class CalendarItemSympotmAdapter(val onClick: () -> Unit, val onAddPillClick: (P
     inner class ViewHolder(val binding: ItemCalendarSymptomBinding, val context: Context) : RecyclerView.ViewHolder(binding.root){
 
         // 아래의 코드를 추가하여 item_addpill의 어댑터에 접근할 수 있도록 합니다.
-        private var addPillAdapter: CalendarItemAddPillAdapter = CalendarItemAddPillAdapter()
+        private var addPillAdapter: MedicineAdapter = MedicineAdapter()
         init {
             binding.itemCalendarSymptomPillRv.adapter = addPillAdapter
         }
@@ -51,42 +52,31 @@ class CalendarItemSympotmAdapter(val onClick: () -> Unit, val onAddPillClick: (P
             binding.itemCalendarSymptomPillRv.apply {
                 layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
-                // 해당 증상에 대한 약 데이터 가져오기
-                var sharedPref = context.getSharedPreferences("myPref", Context.MODE_PRIVATE)
-                var selectedMonth = sharedPref.getInt("selectedMonth", 0)
-                var selectedDay = sharedPref.getInt("selectedDay", 0)
-                var selectedSlot = sharedPref.getString("selectedSlot", "기상 직후")
-
-                loadMedicinesForPrescription(sympotm.Prescription, selectedMonth, selectedDay, selectedSlot!!)
-
                 binding.root.setOnClickListener {
                     // 해당 증상에 대한 약 데이터 가져오기
-                    sharedPref = context.getSharedPreferences("myPref", Context.MODE_PRIVATE)
-                    selectedMonth = sharedPref.getInt("selectedMonth", 0)
-                    selectedDay = sharedPref.getInt("selectedDay", 0)
-                    selectedSlot = sharedPref.getString("selectedSlot", "기상 직후")
+                    var sharedPref = context.getSharedPreferences("myPref", Context.MODE_PRIVATE)
+                    var selectedMonth = sharedPref.getInt("selectedMonth", 0)
+                    var selectedDay = sharedPref.getInt("selectedDay", 0)
+                    var selectedSlot = sharedPref.getString("selectSlot", "")
 
                     loadMedicinesForPrescription(sympotm.Prescription, selectedMonth, selectedDay, selectedSlot!!)
 
-                    // 리사이클러뷰 아이템에 클릭이벤트 발생
-                    val previousPosition = selectedPosition // 이전에 선택된 아이템의 위치 저장
                     selectedPosition = adapterPosition // 현재 선택된 아이템의 위치 저장
-                    notifyItemChanged(previousPosition) // 이전에 선택된 아이템의 가시성 변경 갱신
-                    notifyItemChanged(selectedPosition) // 현재 선택된 아이템의 가시성 변경 갱신
+                    if (selectedBoolean) {
+                        binding.itemCalendarAddSymptomPillLl.visibility = View.VISIBLE
+                        binding.itemCalendarSymptomDate.visibility = View.GONE
+                        binding.itemCalendarSymptomPillRv.visibility = View.VISIBLE
+                        binding.itemCalendarSymptomHospitalName.visibility = View.INVISIBLE
+                        selectedBoolean = false
+                    } else {
+                        binding.itemCalendarAddSymptomPillLl.visibility = View.GONE
+                        binding.itemCalendarSymptomDate.visibility = View.VISIBLE
+                        binding.itemCalendarSymptomPillRv.visibility = View.GONE
+                        binding.itemCalendarSymptomHospitalName.visibility = View.VISIBLE
+                        selectedBoolean = true
+                    }
+
                     onClick() // 생성자 파라미터로 받은 람다함수 onClick 실행
-                }
-                // 선택된 아이템인 경우 뷰의 가시성 변경
-                if (adapterPosition == selectedPosition) {
-                    // 여러 가지 뷰들의 가시성을 조절하는 코드 작성
-                    binding.itemCalendarAddSymptomPillLl.visibility = View.VISIBLE
-                    binding.itemCalendarSymptomDate.visibility = View.GONE
-                    binding.itemCalendarSymptomPillRv.visibility = View.VISIBLE
-                    binding.itemCalendarSymptomHospitalName.visibility = View.INVISIBLE
-                } else {
-                    binding.itemCalendarAddSymptomPillLl.visibility = View.GONE
-                    binding.itemCalendarSymptomDate.visibility = View.VISIBLE
-                    binding.itemCalendarSymptomPillRv.visibility = View.GONE
-                    binding.itemCalendarSymptomHospitalName.visibility = View.VISIBLE
                 }
             }
         }
@@ -97,11 +87,11 @@ class CalendarItemSympotmAdapter(val onClick: () -> Unit, val onAddPillClick: (P
 
                 //데이터베이스 초기화
                 ahyakDatabase = AhyakDataBase.getInstance(context)
-
                 medicines.clear()
 
                 // 데이터베이스에서 데이터 가져오기 - 월/일/시간대 정보 전송
                 val NewmedicineList = ahyakDatabase!!.getMedicineDao().getMedicine(month, day, slot, prescription)
+                Log.d("Slot Check", "Slot : $slot, Data : $NewmedicineList")
                 medicines.addAll(NewmedicineList)
 
                 withContext(Dispatchers.Main) {
@@ -113,13 +103,13 @@ class CalendarItemSympotmAdapter(val onClick: () -> Unit, val onAddPillClick: (P
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CalendarItemSympotmAdapter.ViewHolder =
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PrescriptionAdapter.ViewHolder =
         ViewHolder(
             ItemCalendarSymptomBinding.inflate(LayoutInflater.from(parent.context), parent, false),
             parent.context
         )
 
-    override fun onBindViewHolder(holder: CalendarItemSympotmAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: PrescriptionAdapter.ViewHolder, position: Int) {
         holder.bind(sympotms[position])
     }
 

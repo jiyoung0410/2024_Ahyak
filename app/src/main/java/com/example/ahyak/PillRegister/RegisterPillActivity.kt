@@ -14,10 +14,7 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.ahyak.Calendar.DataItemSymptom
 import com.example.ahyak.DB.AhyakDataBase
 import com.example.ahyak.DB.MedicineEntity
 import com.example.ahyak.MainActivity
@@ -26,7 +23,6 @@ import com.example.ahyak.RecordSymptoms.frequency.FrequencyTermActivity
 import com.example.ahyak.databinding.ActivityRegisterPillBinding
 import com.example.ahyak.remote.AuthService
 import com.example.ahyak.remote.AutoCompleteView
-import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -258,7 +254,6 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
                 registerPillFree = existingMedicineNames.contains(registerPilltext)
 
                 //Free Medicine인지 확인
-                //Log.d("registerPillFree return data", "$registerPillFree")
 
                 //약 추가
                 ahyakDatabase!!.getMedicineDao().insertMedicine(
@@ -280,9 +275,10 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
                         .getMedicine(selectedMonth, selectedDay, "기상 직후", PrescriptionName)
                 Log.d("register Medicine check", "$existingMedicineList")
 
-
             }
             finish()
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
         }
         setContentView(binding.root)
     }

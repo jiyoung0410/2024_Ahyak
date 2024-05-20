@@ -1,22 +1,14 @@
 package com.example.ahyak
 
-import OnSwipeTouchListener
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.ahyak.Calendar.CalendarAdapter
-import com.example.ahyak.Calendar.CalendarAfterwakeFragment
-import com.example.ahyak.Calendar.CalendarBeforesleepFragment
-import com.example.ahyak.Calendar.CalendarDinnerFragment
-import com.example.ahyak.Calendar.CalendarLunchFragment
-import com.example.ahyak.Calendar.CalendarMorningFragment
-import com.example.ahyak.Calendar.CalendarVO
+import com.example.ahyak.HomeRecord.CalendarAdapter
+import com.example.ahyak.HomeRecord.CalendarVO
 import com.example.ahyak.databinding.FragmentTodayRecordBinding
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -24,7 +16,6 @@ import java.time.DayOfWeek
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.temporal.TemporalAdjusters
-import java.util.Calendar
 import java.util.Locale
 
 class TodayRecordFragment : Fragment() {
@@ -57,6 +48,10 @@ class TodayRecordFragment : Fragment() {
         var thisMonday : LocalDateTime = localDate.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY))
         var existSelectedItem = false
 
+        //sharedpreference 선언
+        val sharedPref = requireActivity().getSharedPreferences("myPref", Context.MODE_PRIVATE)
+        val editor = sharedPref.edit()
+
         // 오늘 날짜의 연도와 월을 가져와서 변수에 할당합니다.
         selectedMonth = localDate.monthValue
         selectedDay = localDate.dayOfMonth
@@ -71,6 +66,8 @@ class TodayRecordFragment : Fragment() {
         }
 
         calendarAdapter = CalendarAdapter(calendarList,calSelectedDay,true) { item ->
+
+
             //캘린더 click event 내용
             for(i in 0..6) {
                 if(nowMonday!!.plusDays(i.toLong()).dayOfMonth == item.cl_date.toInt()) {
@@ -80,12 +77,26 @@ class TodayRecordFragment : Fragment() {
                     // 선택된 날짜의 월과 일을 구합니다.
                     selectedMonth = calSelectedDay.monthValue
                     selectedDay = calSelectedDay.dayOfMonth
+
+                    editor.putInt("selectedDay", selectedDay)
+                    editor.putInt("selectedMonth", selectedMonth)
+                    editor.putString("selectSlot", "기상 직후")
+
+                    binding.todayRecordVp.adapter = TodayRecordSliderVPAdapter(requireActivity())
+                    TabLayoutMediator(binding.todayRecordTab,binding.todayRecordVp) { tab, position ->
+                        tab.text = tabItems[position]
+                    }.attach()
+
+                    editor.apply()
                 }
             }
         }
 
-        // ViewPager2에 어댑터를 설정합니다.
-        binding.todayRecordVp.adapter = TodayRecordSliderVPAdapter(requireActivity())
+        // ViewPager2 초기화 및 어댑터 설정
+        val viewPager = binding.todayRecordVp
+        viewPager.isUserInputEnabled = false  // 스와이프 기능 비활성화
+        // ViewPager2에 어댑터를 설정
+        viewPager.adapter = TodayRecordSliderVPAdapter(requireActivity())
 
         // TabLayoutMediator를 설정합니다.
         TabLayoutMediator(binding.todayRecordTab, binding.todayRecordVp) { tab, position ->
@@ -98,29 +109,23 @@ class TodayRecordFragment : Fragment() {
                 // 선택된 탭의 위치를 가져옵니다.
                 val selectedSlot = tabItems[tab?.position ?: 0]
 
-                // 선택된 시간대를 Toast 메시지로 표시합니다.
-                val message = "선택된 시간대: $selectedSlot, 선택된 월: $selectedMonth, 선택된 일 : $selectedDay "
-                //Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-
                 // 선택된 시간대에 따라 해당하는 Fragment로 데이터를 전달
-                // SharedPreferences 초기화
-                val sharedPref = requireActivity().getSharedPreferences("myPref", Context.MODE_PRIVATE)
-
-                fun saveSelectedData(selectedMonth: Int, selectedDay: Int) {
+                fun saveSelectedData(selectedMonth: Int, selectedDay: Int, selectSlot:String) {
                     with(sharedPref.edit()) {
                         putInt("selectedDay", selectedDay)
-                        Log.d("save date", "month : $selectedMonth, day : $selectedDay")
+                        putInt("selectedMonth", selectedMonth)
+                        putString("selectSlot", selectSlot)
                         commit() // 변경 사항 저장
                     }
                 }
 
                 // TabLayout에서 선택될 때 호출되는 함수
                 when (tab?.position) {
-                    0 -> { saveSelectedData(selectedMonth, selectedDay) }
-                    1 -> { saveSelectedData(selectedMonth, selectedDay) }
-                    2 -> { saveSelectedData(selectedMonth, selectedDay) }
-                    3 -> { saveSelectedData(selectedMonth, selectedDay) }
-                    else -> { saveSelectedData(selectedMonth, selectedDay) }
+                    0 -> { saveSelectedData(selectedMonth, selectedDay, "기상 직후") }
+                    1 -> { saveSelectedData(selectedMonth, selectedDay, "아침") }
+                    2 -> { saveSelectedData(selectedMonth, selectedDay, "점심") }
+                    3 -> { saveSelectedData(selectedMonth, selectedDay, "저녁") }
+                    else -> { saveSelectedData(selectedMonth, selectedDay, "취침 전") }
                 }
             }
 
@@ -194,5 +199,8 @@ class TodayRecordFragment : Fragment() {
         TabLayoutMediator(binding.todayRecordTab,binding.todayRecordVp) { tab, position ->
             tab.text = tabItems[position]
         }.attach()
+
     }
+
+
 }

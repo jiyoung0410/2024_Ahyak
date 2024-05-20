@@ -28,6 +28,7 @@
 <!--            android:exported="true">-->
 <!--        </receiver>-->
         <receiver android:name=".Alarm.AlarmReceiver" android:exported="true">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
             </intent-filter>

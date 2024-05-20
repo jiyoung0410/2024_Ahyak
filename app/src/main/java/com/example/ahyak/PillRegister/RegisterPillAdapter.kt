@@ -5,8 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.ahyak.Calendar.CalendarItemSympotmAdapter
-import com.example.ahyak.databinding.ItemCalendarSymptomBinding
 import com.example.ahyak.databinding.ItemRegisterpillSearchBinding
 
 class RegisterPillAdapter(var registerPills:ArrayList<DataItemRegisterPill>, private val OnItemRegisterClickListener: RegisterPillActivity):RecyclerView.Adapter<RegisterPillAdapter.ViewHolder>() {
