@@ -36,6 +36,11 @@ interface PrescriptionDAO {
     @Query("DELETE FROM PrescriptionTable")
     fun deleteAllPrescriptions(): Int
 
+    //종료일 받아오기
+    @Query("SELECT End_Date FROM PrescriptionTable WHERE Prescription = :name")
+    fun getPrescriptionEnd_Date(name: String?):String
+
+
 }
 @Dao
 interface MedicineDao {
