@@ -290,25 +290,48 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
                 //Free Medicine인지 확인
 
                 //약 추가
-                ahyakDatabase!!.getMedicineDao().insertMedicine(
-                    MedicineEntity(
-                        registerPilltext,
-                        PrescriptionName,
-                        selectedMonth,
-                        selectedDay,
-                        "기상 직후",
-                        floatVolume,
-                        registerpillType,
-                        false,
-                        registerPillFree
-                    )
-                )
-                //잘 저장되었는지 확인
-                val existingMedicineList =
-                    ahyakDatabase!!.getMedicineDao()
-                        .getMedicine(selectedMonth, selectedDay, "기상 직후", PrescriptionName)
-                Log.d("register Medicine check", "$existingMedicineList")
+//                ahyakDatabase!!.getMedicineDao().insertMedicine(
+//                    MedicineEntity(
+//                        registerPilltext,
+//                        PrescriptionName,
+//                        selectedMonth,
+//                        selectedDay,
+//                        "기상 직후",
+//                        floatVolume,
+//                        registerpillType,
+//                        false,
+//                        registerPillFree
+//                    )
+//                )
+                if (dates != null) {
+                    for (date in dates) {
+                        val splitDate = date.split(".") // 날짜를 월과 일로 분리
+                        val selectedMonth = splitDate[1].toInt()
+                        val selectedDay = splitDate[2].toInt()
 
+                        for (time in selectedDays) {
+                            // 약 추가
+                            ahyakDatabase!!.getMedicineDao().insertMedicine(
+                                MedicineEntity(
+                                    registerPilltext,
+                                    PrescriptionName,
+                                    selectedMonth,
+                                    selectedDay,
+                                    time,
+                                    floatVolume,
+                                    registerpillType,
+                                    false,
+                                    registerPillFree
+                                )
+                            )
+                            //잘 저장되었는지 확인
+                            val existingMedicineList =
+                                ahyakDatabase!!.getMedicineDao()
+                                    .getMedicine(selectedMonth, selectedDay, time, PrescriptionName)
+                            Log.d("register Medicine check", "$existingMedicineList")
+                        }
+                    }
+                }
             }
             finish()
             val intent = Intent(this, MainActivity::class.java)

@@ -2,6 +2,7 @@ package com.example.ahyak
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -81,6 +82,9 @@ class TodayRecordFragment : Fragment() {
                     editor.putInt("selectedDay", selectedDay)
                     editor.putInt("selectedMonth", selectedMonth)
                     editor.putString("selectSlot", "기상 직후")
+                    editor.apply()
+
+                    Log.d("set click", "selectedDay : $selectedDay, selectedMonth : $selectedMonth")
 
                     binding.todayRecordVp.adapter = TodayRecordSliderVPAdapter(requireActivity())
                     TabLayoutMediator(binding.todayRecordTab,binding.todayRecordVp) { tab, position ->
@@ -188,6 +192,17 @@ class TodayRecordFragment : Fragment() {
                     if(nowMonday!!.plusDays(i.toLong()).dayOfMonth == item.cl_date.toInt()) {
                         calSelectedDay = nowMonday!!.plusDays(i.toLong())
                         binding.todayRecordYearmonthTv.text = calSelectedDay.format(monthFormat)
+
+                        // 선택된 날짜의 월과 일을 구합니다.
+                        selectedMonth = calSelectedDay.monthValue
+                        selectedDay = calSelectedDay.dayOfMonth
+
+                        editor.putInt("selectedDay", selectedDay)
+                        editor.putInt("selectedMonth", selectedMonth)
+                        editor.putString("selectSlot", "기상 직후")
+                        editor.apply()
+
+                        Log.d("set click", "selectedDay : $selectedDay, selectedMonth : $selectedMonth")
                     }
                 }
             }
