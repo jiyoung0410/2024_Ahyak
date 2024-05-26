@@ -53,19 +53,18 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
     private var registerPillAdapter: RegisterPillAdapter? = null
 
     //빈도 text 설정하기 위함
-    private var frequenctType : Int = 0
+    private var frequenctType : Int = -1
 
     private val selectedTimes = mutableListOf<String>()
 
     override fun onResume() {
         super.onResume()
-
         //Sharedpreference 변수 선언
         val sharedPref = this.getSharedPreferences("myPref", Context.MODE_PRIVATE)
-        val editor = sharedPref.edit()
 
         //빈도 type 받아오기
-        frequenctType = intent.getIntExtra("type", -1)
+        frequenctType = -1
+        frequenctType = sharedPref.getInt("type",-1)
 
         //빈도에 따라 설정된 값 받아오기
         if(frequenctType == -1){
@@ -88,6 +87,7 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
 
         //Sharedpreference 변수 선언
         val sharedPref = this.getSharedPreferences("myPref", Context.MODE_PRIVATE)
+        val editor = sharedPref.edit()
 
         //처방 이름 받아오기
         PrescriptionName = sharedPref.getString("prescriptionName", "")!!
@@ -212,7 +212,7 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
         //빈도 눌렀을 때
         binding.registerPillFrequencySelectTv.setOnClickListener {
             val intent = Intent(this, FrequencyTermActivity::class.java)
-            finish()
+            //finish()
             startActivity(intent)
         }
 
@@ -260,11 +260,16 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
             Log.d("시간대", "$selectedDays")
 
             //빈도 가져오기
-            val dates = intent.getStringArrayListExtra("dates")
-            dates?.let {
-                // dates 리스트를 처리하는 코드
-                Log.d("RegisterPillActivity", "Received dates: $it")
-            }
+//            val dates = intent.getStringArrayListExtra("dates")
+//            dates?.let {
+//                // dates 리스트를 처리하는 코드
+//                Log.d("RegisterPillActivity", "Received dates: $it")
+//            }
+
+            // 저장된 문자열을 dates 리스트로 변환하여 사용
+            val datesString = sharedPref.getString("dates", "") ?: ""
+            val dates = datesString.split(",").map { it.trim() }
+
 
             //용량 데이터 가져오기
             registerPillVolume = binding.registerPillVolumeInputEt.text.toString()
@@ -289,20 +294,6 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
 
                 //Free Medicine인지 확인
 
-                //약 추가
-//                ahyakDatabase!!.getMedicineDao().insertMedicine(
-//                    MedicineEntity(
-//                        registerPilltext,
-//                        PrescriptionName,
-//                        selectedMonth,
-//                        selectedDay,
-//                        "기상 직후",
-//                        floatVolume,
-//                        registerpillType,
-//                        false,
-//                        registerPillFree
-//                    )
-//                )
                 if (dates != null) {
                     for (date in dates) {
                         val splitDate = date.split(".") // 날짜를 월과 일로 분리
@@ -332,6 +323,9 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
                         }
                     }
                 }
+                //빈도 text 설정 reset을 위한 코드
+                editor.putInt("type",-1)
+                editor.apply()
             }
             finish()
             val intent = Intent(this, MainActivity::class.java)

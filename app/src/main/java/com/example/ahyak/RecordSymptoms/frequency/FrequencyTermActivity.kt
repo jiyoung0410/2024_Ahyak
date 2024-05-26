@@ -182,12 +182,18 @@ class FrequencyTermActivity : AppCompatActivity() {
                     emptyList<String>()
                 }
                 withContext(Dispatchers.Main) {
+                    // dates를 문자열로 변환하여 SharedPreferences에 저장
+                    val datesString = dates.joinToString(",")
+                    editor.putString("dates", datesString)
+                    editor.putInt("type", type)
+                    editor.apply()
+
                     finish()
-                    val intent = Intent(this@FrequencyTermActivity, RegisterPillActivity::class.java)
-                    //선택된 날짜 다음 Activity로 보내기
-                    intent.putStringArrayListExtra("dates", ArrayList(dates))
-                    intent.putExtra("type", type)
-                    startActivity(intent)
+//                    val intent = Intent(this@FrequencyTermActivity, RegisterPillActivity::class.java)
+//                    //선택된 날짜 다음 Activity로 보내기
+//                    intent.putStringArrayListExtra("dates", ArrayList(dates))
+//                    intent.putExtra("type", type)
+//                    startActivity(intent)
                 }
             }
         }
