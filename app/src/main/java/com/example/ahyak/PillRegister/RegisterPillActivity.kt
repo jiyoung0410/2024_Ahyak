@@ -52,7 +52,34 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
     private val registerPills: ArrayList<DataItemRegisterPill> = arrayListOf()
     private var registerPillAdapter: RegisterPillAdapter? = null
 
+    //빈도 text 설정하기 위함
+    private var frequenctType : Int = 0
+
     private val selectedTimes = mutableListOf<String>()
+
+    override fun onResume() {
+        super.onResume()
+
+        //Sharedpreference 변수 선언
+        val sharedPref = this.getSharedPreferences("myPref", Context.MODE_PRIVATE)
+        val editor = sharedPref.edit()
+
+        //빈도 type 받아오기
+        frequenctType = intent.getIntExtra("type", -1)
+
+        //빈도에 따라 설정된 값 받아오기
+        if(frequenctType == -1){
+            binding.registerPillFrequencySelectTv.setText("선택")
+        }else if(frequenctType == 0){
+            val frequenct = sharedPref.getInt("term", 0)!!
+            binding.registerPillFrequencySelectTv.setText("$frequenct 일 마다")
+        }else if(frequenctType == 1){
+            val frequenct = sharedPref.getString("selectDay", "")!!
+            binding.registerPillFrequencySelectTv.setText("$frequenct 마다")
+        }else{
+            binding.registerPillFrequencySelectTv.setText("필요시 투여")
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,7 +88,6 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
 
         //Sharedpreference 변수 선언
         val sharedPref = this.getSharedPreferences("myPref", Context.MODE_PRIVATE)
-        val editor = sharedPref.edit()
 
         //처방 이름 받아오기
         PrescriptionName = sharedPref.getString("prescriptionName", "")!!
@@ -231,6 +257,14 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
             val selectedDay = sharedPref.getInt("selectedDay", 0)
 
             //시간대 - list
+            Log.d("시간대", "$selectedDays")
+
+            //빈도 가져오기
+            val dates = intent.getStringArrayListExtra("dates")
+            dates?.let {
+                // dates 리스트를 처리하는 코드
+                Log.d("RegisterPillActivity", "Received dates: $it")
+            }
 
             //용량 데이터 가져오기
             registerPillVolume = binding.registerPillVolumeInputEt.text.toString()
