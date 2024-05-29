@@ -134,7 +134,7 @@
                     android:background="@drawable/bg_radi_5dp">
 
                     <EditText
-                        android:id="@+id/free_record_pill_serach_for_shape_et"
+                        android:id="@+id/free_record_pill_serach_code_et"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:hint="식별문자(약의 앞면이나 뒷면의 문자)를 기록해보세요"

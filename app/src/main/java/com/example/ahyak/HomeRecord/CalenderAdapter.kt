@@ -1,13 +1,11 @@
-package com.example.ahyak.Calendar
+package com.example.ahyak.HomeRecord
 
-import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ahyak.R
 import com.example.ahyak.databinding.ItemTodayWeekCalenderBinding
-import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale

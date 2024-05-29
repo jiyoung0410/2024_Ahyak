@@ -71,7 +71,7 @@
                     android:layout_marginTop="8dp"
                     android:fontFamily="@font/nanum_barun_gothic_bold"
                     android:text="삼각형"
-                    android:textSize="10dp"/>
+                    android:textSize="10dp" />
 
             </LinearLayout>
 

@@ -65,8 +65,9 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     //로딩 화면_스켈레톤 구현
     implementation("com.facebook.shimmer:shimmer:0.5.0")
-    //RoomDB
-    implementation("androidx.room:room-runtime:2.6.1")
-    annotationProcessor("androidx.room:room-compiler:2.6.1")
-    kapt("androidx.room:room-compiler:2.6.1")
+    //Room DB
+    implementation("androidx.room:room-runtime:2.6.0")
+    implementation("androidx.room:room-ktx:2.4.0")
+    annotationProcessor("androidx.room:room-compiler:2.6.0")
+    kapt("androidx.room:room-compiler:2.6.0")
 }

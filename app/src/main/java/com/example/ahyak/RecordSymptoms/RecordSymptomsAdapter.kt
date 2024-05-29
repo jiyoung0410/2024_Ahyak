@@ -4,15 +4,16 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.ahyak.DB.TodayRecordSymptomEntity
 import com.example.ahyak.R
 import com.example.ahyak.databinding.ItemSymptomsRecordBinding
 
-class RecordSymptomsAdapter(val recordSymptoms:ArrayList<DataItemRecordSymptom>):RecyclerView.Adapter<RecordSymptomsAdapter.ViewHolder>() {
+class RecordSymptomsAdapter(val recordSymptoms: ArrayList<TodayRecordSymptomEntity>):RecyclerView.Adapter<RecordSymptomsAdapter.ViewHolder>() {
     inner class ViewHolder(val binding : ItemSymptomsRecordBinding) : RecyclerView.ViewHolder(binding.root){
-        fun bind(recordSymptom: DataItemRecordSymptom){
-            binding.itemSymptomName.text = recordSymptom.recordsympotmName
+        fun bind(recordSymptom: TodayRecordSymptomEntity){
+            binding.itemSymptomName.text = recordSymptom.SymptomName
 
-            val backgroundColor = recordSymptom.recordsympotmNum
+            val backgroundColor = recordSymptom.SymptomStrength
 
             when (backgroundColor) {
                 1 -> { binding.itemSymptom.setBackgroundResource(R.drawable.light_point_radi_15dp) }

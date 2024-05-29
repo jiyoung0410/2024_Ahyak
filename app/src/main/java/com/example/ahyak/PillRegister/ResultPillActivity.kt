@@ -1,5 +1,6 @@
 package com.example.ahyak.PillRegister
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -15,10 +16,19 @@ class ResultPillActivity : AppCompatActivity() {
     private var resultpillName: String = ""
     private var resultpillList = ArrayList<DataItemResultPill>()
 
+    //선택된 처방 이름 Sharedpreference로 저장받을 변수 선언
+    var PrescriptionName : String = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityResultPillBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        //Sharedpreference 변수 선언
+        val sharedPref = this.getSharedPreferences("myPref", Context.MODE_PRIVATE)
+
+        //처방 이름 받아오기
+        PrescriptionName = sharedPref.getString("prescriptionName", "")!!
 
         //'x'눌렀을 때
         binding.recordSymptomsCancleIv.setOnClickListener {

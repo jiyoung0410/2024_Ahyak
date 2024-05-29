@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.ahyak.R
+import com.example.ahyak.DB.AhyakDataBase
 import com.example.ahyak.databinding.ActivitySearchSymptomsBinding
 
 class SearchSymptomsActivity : AppCompatActivity(), OnItemClickListener {
@@ -15,10 +15,14 @@ class SearchSymptomsActivity : AppCompatActivity(), OnItemClickListener {
 
     private var searchSymptoms : ArrayList<DataItemSearchSymptom> = arrayListOf()
     private var searchSymptomsadapter : SearchSymptomsAdapter? = null
+    //DataBase 객체
+    var ahyakDatabase : AhyakDataBase? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivitySearchSymptomsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        ahyakDatabase = AhyakDataBase.getInstance(this)
 
         searchSympromsInit()
         initsearchSymptomsadapter()
@@ -44,7 +48,6 @@ class SearchSymptomsActivity : AppCompatActivity(), OnItemClickListener {
             }
         })
 
-        setContentView(binding.root)
     }
 
     private fun initsearchSymptomsadapter() {

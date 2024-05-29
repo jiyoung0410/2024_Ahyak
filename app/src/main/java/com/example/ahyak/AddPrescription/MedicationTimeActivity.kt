@@ -1,23 +1,8 @@
-package com.example.ahyak.AddSymptom
+package com.example.ahyak.AddPrescription
 
-import android.app.AlarmManager
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
-import android.content.Context
-import android.content.Intent
-import android.graphics.BitmapFactory
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
 import com.example.ahyak.Alarm.AlarmFunctions
-import com.example.ahyak.Alarm.AlarmReceiver
-import com.example.ahyak.Alarm.AlarmReceiver.Companion.CHANNEL_ID
-import com.example.ahyak.FullScreenAlarmActivity
-import com.example.ahyak.R
 import com.example.ahyak.databinding.ActivityMedicationTimeBinding
 
 class MedicationTimeActivity : AppCompatActivity() {

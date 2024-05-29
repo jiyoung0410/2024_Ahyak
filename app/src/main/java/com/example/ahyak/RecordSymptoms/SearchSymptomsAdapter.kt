@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.ahyak.databinding.ItemCalendarExtraPillBinding
 import com.example.ahyak.databinding.ItemSymptomsSearchBinding
 
 class SearchSymptomsAdapter(var searchSymptoms:ArrayList<DataItemSearchSymptom>, private val itemClickListener: OnItemClickListener):RecyclerView.Adapter<SearchSymptomsAdapter.ViewHolder>() {

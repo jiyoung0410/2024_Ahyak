@@ -25,10 +25,19 @@ class SearchPillActivity : AppCompatActivity(), DrugSearchNameView, DrugSearchSh
     var selectline : String = ""
     var print_discrimination : String = ""
 
+    //선택된 처방 이름 Sharedpreference로 저장받을 변수 선언
+    var PrescriptionName : String = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivitySearchPillBinding.inflate(layoutInflater)
+
+        //Sharedpreference 변수 선언
+        val sharedPref = this.getSharedPreferences("myPref", Context.MODE_PRIVATE)
+
+        //처방 이름 받아오기
+        PrescriptionName = sharedPref.getString("prescriptionName", "")!!
 
         //API 연결
         val authService = AuthService(this@SearchPillActivity)
@@ -261,12 +270,9 @@ class SearchPillActivity : AppCompatActivity(), DrugSearchNameView, DrugSearchSh
 
         //검색하기 버튼 누르면
         binding.searchPillSearchLl.setOnClickListener {
-
-//            val symptomName = intent.getStringExtra("putsymptomName")
-//            val intent = Intent(this, ResultPillActivity::class.java)
-//            intent.putExtra("putsymptomName", symptomName) // 예시로 증상의 이름을 넘김
-//            finish()
-//            startActivity(intent)
+            val intent = Intent(this, ResultPillActivity::class.java)
+            finish()
+            startActivity(intent)
         }
 
         setContentView(binding.root)

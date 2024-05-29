@@ -14,6 +14,7 @@
     <application
         android:networkSecurityConfig="@xml/network_security_config"
         android:allowBackup="false"
+        android:largeHeap="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@drawable/splash_logo_point"
@@ -28,6 +29,7 @@
 <!--            android:exported="true">-->
 <!--        </receiver>-->
         <receiver android:name=".Alarm.AlarmReceiver" android:exported="true">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
             </intent-filter>
@@ -60,10 +62,10 @@
             android:name=".PillRegister.RegisterPillActivity"
             android:exported="false" />
         <activity
-            android:name=".AddSymptom.MedicationTimeActivity"
+            android:name=".AddPrescription.MedicationTimeActivity"
             android:exported="true" />
         <activity
-            android:name=".AddSymptom.AddSymptomsActivity"
+            android:name=".AddPrescription.AddPrescriptionActivity"
             android:exported="false" />
         <activity
             android:name=".RecordSymptoms.SearchSymptomsActivity"

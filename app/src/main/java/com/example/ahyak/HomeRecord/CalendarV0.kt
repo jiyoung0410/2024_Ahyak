@@ -1,4 +1,4 @@
-package com.example.ahyak.Calendar
+package com.example.ahyak.HomeRecord
 
 data class CalendarVO(
     var cl_date: String = "", // 날짜
