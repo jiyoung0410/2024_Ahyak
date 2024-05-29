@@ -17,6 +17,7 @@ import com.example.ahyak.databinding.ActivityFrequencyTermBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.lang.Integer.max
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -51,10 +52,13 @@ class FrequencyTermActivity : AppCompatActivity() {
     var start_Date  = Calendar.getInstance()
 
     //간격 지정 변수
-    var term : Int = 0
+    var term : Int = 1
 
     //지정된 간격(0)/특정 요일(1)/필요할 때 투여(2) 선택 시 바뀌는 변수
     var type : Int = 0
+
+    //다음 Activity에 보낼 선택 요일 저장
+    var selectDayNext : List<String> = listOf()
 
     override fun onResume() {
         super.onResume()
@@ -78,6 +82,10 @@ class FrequencyTermActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityFrequencyTermBinding.inflate(layoutInflater)
 
+        //sharedpreference 변수 선언
+        val sharedPref = this.getSharedPreferences("myPref", Context.MODE_PRIVATE)
+        val editor = sharedPref.edit()
+
         //일 간격 배열 설정
         createMinMaxArr()
 
@@ -100,20 +108,6 @@ class FrequencyTermActivity : AppCompatActivity() {
                 updateSelectedDaysTextView()
             }
         }
-        //특정 요일에 눌렀을 때
-        binding.registerFrequentcyDayCl.setOnClickListener {
-            //check icon 가시성 관련
-            binding.registerFrequentcyTermCheckIc.visibility = View.GONE
-            binding.registerFrequentcyDayIv.visibility = View.VISIBLE
-            binding.registerFrequentcyNeedIv.visibility = View.GONE
-
-            //요일 지정 레이아웃 등장
-            binding.frequentcyTermCl.visibility = View.GONE
-            binding.frequentcyTodayLl.visibility = View.VISIBLE
-            binding.frequentcyStartdayCl.visibility = View.VISIBLE
-            type = 0
-        }
-
         //지정된 간격으로 눌렀을 때
         binding.registerFrequentcyTermCl.setOnClickListener {
             //check icon 가시성 관련
@@ -124,6 +118,20 @@ class FrequencyTermActivity : AppCompatActivity() {
             //간격 지정 레이아웃 등장
             binding.frequentcyTermCl.visibility = View.VISIBLE
             binding.frequentcyTodayLl.visibility = View.GONE
+            binding.frequentcyStartdayCl.visibility = View.VISIBLE
+            type = 0
+        }
+
+        //특정 요일에 눌렀을 때
+        binding.registerFrequentcyDayCl.setOnClickListener {
+            //check icon 가시성 관련
+            binding.registerFrequentcyTermCheckIc.visibility = View.GONE
+            binding.registerFrequentcyDayIv.visibility = View.VISIBLE
+            binding.registerFrequentcyNeedIv.visibility = View.GONE
+
+            //요일 지정 레이아웃 등장
+            binding.frequentcyTermCl.visibility = View.GONE
+            binding.frequentcyTodayLl.visibility = View.VISIBLE
             binding.frequentcyStartdayCl.visibility = View.VISIBLE
             type = 1
         }
@@ -161,22 +169,41 @@ class FrequencyTermActivity : AppCompatActivity() {
 
         //저장 누르면
         binding.registerPillSaveLl.setOnClickListener {
-            if (type == 0) {
-                calculateMedicationTermDates(start_Date.timeInMillis, term)
-            } else if (type == 1) {
-                calculateMedicationDates(start_Date.timeInMillis, selectDay)
-            }
+            GlobalScope.launch(Dispatchers.IO) {
+                val dates = if (type == 0) {
+                    editor.putInt("term", term)
+                    editor.apply()
+                    calculateMedicationTermDates(start_Date.timeInMillis, term)
+                } else if (type == 1) {
+                    editor.putString("selectDay", selectDayNext.toString())
+                    editor.apply()
+                    calculateMedicationDates(start_Date.timeInMillis, selectDay)
+                } else {
+                    emptyList<String>()
+                }
+                withContext(Dispatchers.Main) {
+                    // dates를 문자열로 변환하여 SharedPreferences에 저장
+                    val datesString = dates.joinToString(",")
+                    editor.putString("dates", datesString)
+                    editor.putInt("type", type)
+                    editor.apply()
 
-            finish()
-            val intent = Intent(this, RegisterPillActivity::class.java)
-            startActivity(intent)
+                    finish()
+//                    val intent = Intent(this@FrequencyTermActivity, RegisterPillActivity::class.java)
+//                    //선택된 날짜 다음 Activity로 보내기
+//                    intent.putStringArrayListExtra("dates", ArrayList(dates))
+//                    intent.putExtra("type", type)
+//                    startActivity(intent)
+                }
+            }
         }
 
         setContentView(binding.root)
     }
 
     private fun updateSelectedDaysTextView() {
-        binding.selectedDaysTv.text = selectedDays.joinToString(", ") { dayOfWeekToString(it) }
+        selectDayNext = listOf(selectedDays.joinToString(", ") { dayOfWeekToString(it) })
+        binding.selectedDaysTv.text = selectDayNext.toString()
         selectDay = selectedDays.toList() // Ensure `selectDay` is updated with selected days
     }
 
@@ -247,13 +274,13 @@ class FrequencyTermActivity : AppCompatActivity() {
     private fun parseEndDate(dateString: String): Calendar {
         val dateFormat = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
         val date = dateFormat.parse(dateString)
-        return Calendar.getInstance().apply { time = date }
+        return Calendar.getInstance().apply { time = date; add(Calendar.DAY_OF_MONTH, 1) } // 종료일의 다음 날을 포함하도록 1일 추가
     }
 
     // 약 복용 날짜 계산 함수
-    private fun calculateMedicationTermDates(startDateMillis: Long, intervalDays: Int = term) {
+    private fun calculateMedicationTermDates(startDateMillis: Long, intervalDays: Int = term) : List<String> {
         val dates = mutableListOf<String>()
-        start_Date = Calendar.getInstance().apply { timeInMillis = startDateMillis }
+        val startDate = Calendar.getInstance().apply { timeInMillis = startDateMillis }
         val endDate = parseEndDate(end_Date)
         val endDateMillis = endDate.timeInMillis
 
@@ -264,28 +291,26 @@ class FrequencyTermActivity : AppCompatActivity() {
             dates.add(formattedDate)
             currentDateMillis += TimeUnit.DAYS.toMillis(intervalDays.toLong())
         }
-        Log.d("dates", "$dates")
+        return dates
     }
 
     // 약 복용 날짜 계산 함수 (특정 요일)
-    private fun calculateMedicationDates(startDateMillis: Long, daysOfWeek: List<Int>) {
-        GlobalScope.launch(Dispatchers.IO) {
-            val dates = mutableListOf<String>()
-            start_Date = Calendar.getInstance().apply { timeInMillis = startDateMillis }
-            val endDate = parseEndDate(end_Date)
-            val endDateMillis = endDate.timeInMillis
+    private fun calculateMedicationDates(startDateMillis: Long, daysOfWeek: List<Int>): List<String> {
+        val dates = mutableListOf<String>()
+        val startCalendar = Calendar.getInstance().apply { timeInMillis = startDateMillis }
+        val endDate = parseEndDate(end_Date)
+        val endDateMillis = endDate.timeInMillis
 
-            var currentDateMillis = startDateMillis
-            while (currentDateMillis <= endDateMillis) {
-                val currentDate = Calendar.getInstance().apply { timeInMillis = currentDateMillis }
-                val dayOfWeek = currentDate.get(Calendar.DAY_OF_WEEK)
-                if (daysOfWeek.contains(dayOfWeek)) {
-                    val formattedDate = "${currentDate.get(Calendar.YEAR)}.${currentDate.get(Calendar.MONTH) + 1}.${currentDate.get(Calendar.DAY_OF_MONTH)}"
-                    dates.add(formattedDate)
-                }
-                currentDateMillis += TimeUnit.DAYS.toMillis(1)
+        while (startCalendar.timeInMillis <= endDateMillis) {
+            val dayOfWeek = startCalendar.get(Calendar.DAY_OF_WEEK)
+            if (daysOfWeek.contains(dayOfWeek)) {
+                val formattedDate = "${startCalendar.get(Calendar.YEAR)}.${startCalendar.get(Calendar.MONTH) + 1}.${startCalendar.get(Calendar.DAY_OF_MONTH)}"
+                dates.add(formattedDate)
             }
-            Log.d("dates", "$dates")
+            startCalendar.add(Calendar.DAY_OF_MONTH, 1)
         }
+        Log.d("dates", "$dates")
+        return dates
+
     }
 }

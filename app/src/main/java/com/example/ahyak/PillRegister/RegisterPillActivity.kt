@@ -52,7 +52,33 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
     private val registerPills: ArrayList<DataItemRegisterPill> = arrayListOf()
     private var registerPillAdapter: RegisterPillAdapter? = null
 
+    //빈도 text 설정하기 위함
+    private var frequenctType : Int = -1
+
     private val selectedTimes = mutableListOf<String>()
+
+    override fun onResume() {
+        super.onResume()
+        //Sharedpreference 변수 선언
+        val sharedPref = this.getSharedPreferences("myPref", Context.MODE_PRIVATE)
+
+        //빈도 type 받아오기
+        frequenctType = -1
+        frequenctType = sharedPref.getInt("type",-1)
+
+        //빈도에 따라 설정된 값 받아오기
+        if(frequenctType == -1){
+            binding.registerPillFrequencySelectTv.setText("선택")
+        }else if(frequenctType == 0){
+            val frequenct = sharedPref.getInt("term", 0)!!
+            binding.registerPillFrequencySelectTv.setText("$frequenct 일 마다")
+        }else if(frequenctType == 1){
+            val frequenct = sharedPref.getString("selectDay", "")!!
+            binding.registerPillFrequencySelectTv.setText("$frequenct 마다")
+        }else{
+            binding.registerPillFrequencySelectTv.setText("필요시 투여")
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -186,7 +212,7 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
         //빈도 눌렀을 때
         binding.registerPillFrequencySelectTv.setOnClickListener {
             val intent = Intent(this, FrequencyTermActivity::class.java)
-            finish()
+            //finish()
             startActivity(intent)
         }
 
@@ -231,6 +257,19 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
             val selectedDay = sharedPref.getInt("selectedDay", 0)
 
             //시간대 - list
+            Log.d("시간대", "$selectedDays")
+
+            //빈도 가져오기
+//            val dates = intent.getStringArrayListExtra("dates")
+//            dates?.let {
+//                // dates 리스트를 처리하는 코드
+//                Log.d("RegisterPillActivity", "Received dates: $it")
+//            }
+
+            // 저장된 문자열을 dates 리스트로 변환하여 사용
+            val datesString = sharedPref.getString("dates", "") ?: ""
+            val dates = datesString.split(",").map { it.trim() }
+
 
             //용량 데이터 가져오기
             registerPillVolume = binding.registerPillVolumeInputEt.text.toString()
@@ -255,26 +294,38 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
 
                 //Free Medicine인지 확인
 
-                //약 추가
-                ahyakDatabase!!.getMedicineDao().insertMedicine(
-                    MedicineEntity(
-                        registerPilltext,
-                        PrescriptionName,
-                        selectedMonth,
-                        selectedDay,
-                        "기상 직후",
-                        floatVolume,
-                        registerpillType,
-                        false,
-                        registerPillFree
-                    )
-                )
-                //잘 저장되었는지 확인
-                val existingMedicineList =
-                    ahyakDatabase!!.getMedicineDao()
-                        .getMedicine(selectedMonth, selectedDay, "기상 직후", PrescriptionName)
-                Log.d("register Medicine check", "$existingMedicineList")
+                if (dates != null) {
+                    for (date in dates) {
+                        val splitDate = date.split(".") // 날짜를 월과 일로 분리
+                        val selectedMonth = splitDate[1].toInt()
+                        val selectedDay = splitDate[2].toInt()
 
+                        for (time in selectedDays) {
+                            // 약 추가
+                            ahyakDatabase!!.getMedicineDao().insertMedicine(
+                                MedicineEntity(
+                                    registerPilltext,
+                                    PrescriptionName,
+                                    selectedMonth,
+                                    selectedDay,
+                                    time,
+                                    floatVolume,
+                                    registerpillType,
+                                    false,
+                                    registerPillFree
+                                )
+                            )
+                            //잘 저장되었는지 확인
+                            val existingMedicineList =
+                                ahyakDatabase!!.getMedicineDao()
+                                    .getMedicine(selectedMonth, selectedDay, time, PrescriptionName)
+                            Log.d("register Medicine check", "$existingMedicineList")
+                        }
+                    }
+                }
+                //빈도 text 설정 reset을 위한 코드
+                editor.putInt("type",-1)
+                editor.apply()
             }
             finish()
             val intent = Intent(this, MainActivity::class.java)
