@@ -1,5 +1,6 @@
 package com.example.ahyak.MonthlyCalendar
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -8,7 +9,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.ahyak.DB.AhyakDataBase
+import com.example.ahyak.DB.MedicineEntity
+import com.example.ahyak.DB.TodayRecordEntity
+import com.example.ahyak.DB.TodayRecordSymptomEntity
 import com.example.ahyak.databinding.FragmentCalenderBinding
+import com.google.gson.Gson
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -22,22 +31,56 @@ class CalenderFragment : Fragment() {
     private var takepilladapter : CalenderTakePillAdapter?=null
     private var calendarsymptomsList : ArrayList<DataItemCalenderSymptoms> = arrayListOf()
     private var calendarsymptomsadapter : CalenderInconvenienceSymptomsAdapter?=null
+    var ahyakDataBase : AhyakDataBase? = null
+    val cal = Calendar.getInstance()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
+        var newSympomList = arrayListOf<TodayRecordSymptomEntity>()
+        var newMedicineList = arrayListOf<MedicineEntity>()
+        var newSympomContent = arrayListOf<TodayRecordEntity>()
         binding = FragmentCalenderBinding.inflate(layoutInflater)
         // Inflate the layout for this fragment
 
-        takepillListInit()
+        GlobalScope.launch(Dispatchers.IO) {
+            ahyakDataBase = AhyakDataBase.getInstance(requireContext())
+
+            val month = cal.get(Calendar.MONTH) + 1
+            val day = cal.get(Calendar.DAY_OF_MONTH)
+            var checkCount = 0
+
+            newSympomList += ahyakDataBase!!.getTodayRecordSymptomDao().getTodayRecordSymptom(month,day)
+            for(item in newSympomList) {
+                calendarsymptomsList.add(DataItemCalenderSymptoms(item.SymptomName,item.SymptomStrength))
+            }
+
+            newMedicineList += ahyakDataBase!!.getMedicineDao().getMedicineTakeOfDay(month,day)
+            for(item in newMedicineList) {
+                takepillList.add(DataItemTakePill(item.MedicineName,item.MedicineTake))
+                if(item.MedicineTake == true) {
+                    checkCount++
+                }
+            }
+
+            newSympomContent += ahyakDataBase!!.getTodayRecordDao().getTodayRecordContent(month,day)
+            if(newSympomContent.size == 0) {
+                binding.calendarRecordTextTv.text = ""
+            } else {
+                binding.calendarRecordTextTv.text = newSympomContent[0].RecordContent
+            }
+
+            //프로그레스바 설정
+            val progress = checkCount * 100 / takepillList.size
+            binding.calendarProgressbarPb.progress = progress
+            binding.calenderProgressPercentTv.text = progress.toString() + "%"
+        }
+//        takepillListInit()
         inittakepilladapter()
 
-        calendarsymptomsListInit()
+//        calendarsymptomsListInit()
         initcalendarsymptomsadapter()
-
-        //프로그레스바 설정(임시)
-        binding.calendarProgressbarPb.progress = 63
 
         var calendarWeekAdapter = CalendarWeekAdapter(arrayListOf("월","화","수","목","금","토","일"))
         binding.calendarWeekRv.adapter = calendarWeekAdapter

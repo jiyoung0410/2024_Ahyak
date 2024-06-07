@@ -55,6 +55,10 @@ interface MedicineDao {
     @Query("SELECT MedicineTake FROM MedicineTable WHERE id = :id" )
     fun getMedicineTake(id: Int?): Boolean
 
+    //일별 복용 여부 확인
+    @Query("SELECT * FROM MedicineTable WHERE MedicineMonth =:month AND MedicineDay = :day")
+    fun getMedicineTakeOfDay(month: Int, day: Int): List<MedicineEntity>
+
     // 복용 여부 업데이트
     @Query("UPDATE MedicineTable SET MedicineTake = :take WHERE id = :id")
     suspend fun updateMedicineTakeStatus(id: Int, take: Boolean)
