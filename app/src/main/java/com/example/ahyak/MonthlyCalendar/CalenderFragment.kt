@@ -15,9 +15,11 @@ import com.example.ahyak.DB.TodayRecordEntity
 import com.example.ahyak.DB.TodayRecordSymptomEntity
 import com.example.ahyak.databinding.FragmentCalenderBinding
 import com.google.gson.Gson
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -38,44 +40,47 @@ class CalenderFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        var newSympomList = arrayListOf<TodayRecordSymptomEntity>()
-        var newMedicineList = arrayListOf<MedicineEntity>()
-        var newSympomContent = arrayListOf<TodayRecordEntity>()
+//        var newSympomList = arrayListOf<TodayRecordSymptomEntity>()
+//        var newMedicineList = arrayListOf<MedicineEntity>()
+//        var newSympomContent = arrayListOf<TodayRecordEntity>()
         binding = FragmentCalenderBinding.inflate(layoutInflater)
         // Inflate the layout for this fragment
 
-        GlobalScope.launch(Dispatchers.IO) {
-            ahyakDataBase = AhyakDataBase.getInstance(requireContext())
-
-            val month = cal.get(Calendar.MONTH) + 1
-            val day = cal.get(Calendar.DAY_OF_MONTH)
-            var checkCount = 0
-
-            newSympomList += ahyakDataBase!!.getTodayRecordSymptomDao().getTodayRecordSymptom(month,day)
-            for(item in newSympomList) {
-                calendarsymptomsList.add(DataItemCalenderSymptoms(item.SymptomName,item.SymptomStrength))
-            }
-
-            newMedicineList += ahyakDataBase!!.getMedicineDao().getMedicineTakeOfDay(month,day)
-            for(item in newMedicineList) {
-                takepillList.add(DataItemTakePill(item.MedicineName,item.MedicineTake))
-                if(item.MedicineTake == true) {
-                    checkCount++
-                }
-            }
-
-            newSympomContent += ahyakDataBase!!.getTodayRecordDao().getTodayRecordContent(month,day)
-            if(newSympomContent.size == 0) {
-                binding.calendarRecordTextTv.text = ""
-            } else {
-                binding.calendarRecordTextTv.text = newSympomContent[0].RecordContent
-            }
-
-            //프로그레스바 설정
-            val progress = checkCount * 100 / takepillList.size
-            binding.calendarProgressbarPb.progress = progress
-            binding.calenderProgressPercentTv.text = progress.toString() + "%"
-        }
+        val month = cal.get(Calendar.MONTH) + 1
+        val day = cal.get(Calendar.DAY_OF_MONTH)
+        setDataOfDay(month,day)
+//        CoroutineScope(Dispatchers.IO).launch {
+//            ahyakDataBase = AhyakDataBase.getInstance(requireContext())
+//
+//            val month = cal.get(Calendar.MONTH) + 1
+//            val day = cal.get(Calendar.DAY_OF_MONTH)
+//            var checkCount = 0
+//
+//            newSympomList += ahyakDataBase!!.getTodayRecordSymptomDao().getTodayRecordSymptom(month,day)
+//            for(item in newSympomList) {
+//                calendarsymptomsList.add(DataItemCalenderSymptoms(item.SymptomName,item.SymptomStrength))
+//            }
+//
+//            newMedicineList += ahyakDataBase!!.getMedicineDao().getMedicineTakeOfDay(month,day)
+//            for(item in newMedicineList) {
+//                takepillList.add(DataItemTakePill(item.MedicineName,item.MedicineTake))
+//                if(item.MedicineTake == true) {
+//                    checkCount++
+//                }
+//            }
+//
+//            newSympomContent += ahyakDataBase!!.getTodayRecordDao().getTodayRecordContent(month,day)
+//            if(newSympomContent.size == 0) {
+//                binding.calendarRecordTextTv.text = ""
+//            } else {
+//                binding.calendarRecordTextTv.text = newSympomContent[0].RecordContent
+//            }
+//
+//            //프로그레스바 설정
+//            val progress = checkCount * 100 / takepillList.size
+//            binding.calendarProgressbarPb.progress = progress
+//            binding.calenderProgressPercentTv.text = progress.toString() + "%"
+//        }
 //        takepillListInit()
         inittakepilladapter()
 
@@ -163,8 +168,58 @@ class CalenderFragment : Fragment() {
 //            dayCount++
 //        }
 
-        binding.calendarDaysRv.adapter = CalendarDaysAdapter(dayList)
+        binding.calendarDaysRv.adapter = CalendarDaysAdapter(dayList) { item ->
+//            val dateText = binding.calendarTitleDateTv.text
+//            val parts = dateText.split(" ")
+//            val month = parts[1].filter { it.isDigit() }.toInt()
+            setDataOfDay(item.month.toInt(),item.day.toInt())
+        }
         binding.calendarDaysRv.layoutManager = GridLayoutManager(requireContext(),7)
+    }
+
+    private fun setDataOfDay(month: Int,day: Int) {
+        var newSympomList = arrayListOf<TodayRecordSymptomEntity>()
+        var newMedicineList = arrayListOf<MedicineEntity>()
+        var newSympomContent = arrayListOf<TodayRecordEntity>()
+        takepillList = arrayListOf()
+
+        GlobalScope.launch(Dispatchers.IO) {
+            ahyakDataBase = AhyakDataBase.getInstance(requireContext())
+            var checkCount = 0
+
+            newSympomList += ahyakDataBase!!.getTodayRecordSymptomDao().getTodayRecordSymptom(month,day)
+            for(item in newSympomList) {
+                calendarsymptomsList.add(DataItemCalenderSymptoms(item.SymptomName,item.SymptomStrength))
+            }
+
+            newMedicineList += ahyakDataBase!!.getMedicineDao().getMedicineTakeOfDay(month,day)
+            for(item in newMedicineList) {
+                takepillList.add(DataItemTakePill(item.MedicineName,item.MedicineTake))
+                if(item.MedicineTake == true) {
+                    checkCount++
+                }
+            }
+
+            //프로그레스바 설정
+            var progress = 100
+            if(takepillList.size != 0) {
+                progress = checkCount * 100 / takepillList.size
+            }
+
+            newSympomContent += ahyakDataBase!!.getTodayRecordDao().getTodayRecordContent(month,day)
+
+            withContext(Dispatchers.Main) {
+
+                if(newSympomContent.size == 0) {
+                    binding.calendarRecordTextTv.text = ""
+                } else {
+                    binding.calendarRecordTextTv.text = newSympomContent[0].RecordContent
+                }
+
+                binding.calendarProgressbarPb.progress = progress
+                binding.calenderProgressPercentTv.text = progress.toString() + "%"
+            }
+        }
     }
 
     private fun initcalendarsymptomsadapter() {
