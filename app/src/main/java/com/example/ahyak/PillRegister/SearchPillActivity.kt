@@ -23,7 +23,7 @@ class SearchPillActivity : AppCompatActivity(), DrugSearchNameView, DrugSearchSh
     var selectcolor : String = ""
     var selectformulation : String = ""
     var selectline : String = ""
-    var print_discrimination : String = "NULL"
+    var print_discrimination : String = ""
 
     //선택된 처방 이름 Sharedpreference로 저장받을 변수 선언
     var PrescriptionName : String = ""
@@ -225,18 +225,15 @@ class SearchPillActivity : AppCompatActivity(), DrugSearchNameView, DrugSearchSh
                     selectline = "NULL"
                 }
                 //edit_text에서 받아온 내용 저장
-                if(print_discrimination!=null){
+                if(print_discrimination.isNotEmpty()){
                     print_discrimination = binding.serachPillSerachForShapeEt.text.toString()
                 }else{
                     print_discrimination = "NULL"
                 }
 
-                //Toast.makeText(this, "$print_discrimination,$selectshape,$selectcolor,$selectformulation,$selectline", Toast.LENGTH_SHORT).show()
                 authService.setdrugSearchShapeView(this)
                 Log.d("Send Shape", "$print_discrimination,$selectshape,$selectcolor,$selectformulation,$selectline")
-                authService.drugSearchShape(print_discrimination,selectshape,selectcolor,selectformulation,selectline)
-
-                authService.drugSearchShape("NULL", "타원형", "초록", "정제","-")
+                authService.drugSearchShape("$print_discrimination",selectshape,selectcolor,selectformulation,selectline)
             }
         }
 
