@@ -35,6 +35,7 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
     var registerPillName: String = ""
     var resultPillName: String = ""
     var registerPillFree: Boolean = false
+    var searchPillName : String = ""
 
     //자유기록인지 확인하기 위한 변수
     var existingMedicineNames: String = ""
@@ -226,6 +227,17 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
             binding.registerPillDeleteIv.visibility = View.VISIBLE
         }
 
+        searchPillName = intent.getStringExtra("resultPillInpoName")?:""
+        Log.d("searchPill2", "$searchPillName")
+        if(searchPillName.isNotEmpty()){
+            binding.registerPillNameInputEt.visibility = View.GONE
+            binding.registerPillNameInputTv.visibility = View.VISIBLE
+            binding.registerPillNameInputTv.text = searchPillName
+            binding.registerPillNameInputEt.setText(searchPillName)
+            binding.registerPillSearchIv.visibility = View.GONE
+            binding.registerPillDeleteIv.visibility = View.VISIBLE
+        }
+
         //검색 취소 아이콘 눌렀을 때
         binding.registerPillDeleteIv.setOnClickListener {
             binding.registerPillNameInputEt.visibility = View.VISIBLE
@@ -344,26 +356,128 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
     private fun registerPillInit() {
         registerPills.addAll(
             arrayListOf(
-                DataItemRegisterPill("감기약"),
-                DataItemRegisterPill("나는 감기"),
-                DataItemRegisterPill("타이레놀"),
-                DataItemRegisterPill("타이레놀2"),
-                DataItemRegisterPill("타이레놀3"),
-                DataItemRegisterPill("타이레놀4"),
-                DataItemRegisterPill("타이레놀5"),
-                DataItemRegisterPill("나는 감기1"),
-                DataItemRegisterPill("타이레놀6"),
-                DataItemRegisterPill("타이레놀7"),
-                DataItemRegisterPill("타이레놀8"),
-                DataItemRegisterPill("타이레놀9"),
-                DataItemRegisterPill("타이레놀10"),
-                DataItemRegisterPill("aaaa"),
-                DataItemRegisterPill("bbbb"),
-                DataItemRegisterPill("cccc"),
-                DataItemRegisterPill("dddd"),
-                DataItemRegisterPill("eeee"),
-                DataItemRegisterPill("ffff")
-            )
+                DataItemRegisterPill("가나모티에스알정15밀리그램"),
+                DataItemRegisterPill("가나모티정"),
+                DataItemRegisterPill("가나텍정"),
+                DataItemRegisterPill("가나톤정50밀리그램"),
+                DataItemRegisterPill("가나티란정"),
+                DataItemRegisterPill("가네탑골드연질캡슐"),
+                DataItemRegisterPill("가네탑에스연질캡슐"),
+                DataItemRegisterPill("가네탑플러스연질캡슐350밀리그램"),
+                DataItemRegisterPill("가니토정"),
+                DataItemRegisterPill("가드메트정100/1000밀리그램"),
+                DataItemRegisterPill("가드메트정100/500밀리그램"),
+                DataItemRegisterPill("가드메트정100/850밀리그램"),
+                DataItemRegisterPill("가로틴캡슐100밀리그램"),
+                DataItemRegisterPill("가르젠정<세라티오펩티다제>"),
+                DataItemRegisterPill("가모텍에스알서방정15밀리그램"),
+                DataItemRegisterPill("가모틴정"),
+                DataItemRegisterPill("가바스탄캡슐"),
+                DataItemRegisterPill("가바스탄캡슐100mg"),
+                DataItemRegisterPill("가바스틸캡슐100mg"),
+                DataItemRegisterPill("가바스틸캡슐300mg"),
+                DataItemRegisterPill("가바액트정600밀리그람"),
+                DataItemRegisterPill("가바텐캡슐100밀리그램"),
+                DataItemRegisterPill("가바텐캡슐300밀리그램"),
+                DataItemRegisterPill("가바토파정100밀리그람"),
+                DataItemRegisterPill("가바티론캡슐100밀리그램"),
+                DataItemRegisterPill("가바티론캡슐300밀리그램"),
+                DataItemRegisterPill("가바틴정600밀리그램"),
+                DataItemRegisterPill("가바틴정800밀리그램"),
+                DataItemRegisterPill("가바틴캡슐100밀리그람"),
+                DataItemRegisterPill("가바틴캡슐300밀리그람"),
+                DataItemRegisterPill("가비스타캡슐100밀리그램"),
+                DataItemRegisterPill("가비스타캡슐300밀리그램"),
+                DataItemRegisterPill("가스타제연질캡슐"),
+                DataItemRegisterPill("가스타제정"),
+                DataItemRegisterPill("게스타렌정"),
+                DataItemRegisterPill("게스타렌투엑스정"),
+                DataItemRegisterPill("겔타제정"),
+                DataItemRegisterPill("경남비타민씨정"),
+                DataItemRegisterPill("고려은단비타민씨정"),
+                DataItemRegisterPill("골드타민연질캡슐"),
+                DataItemRegisterPill("광동비타민씨정1000밀리그램"),
+                DataItemRegisterPill("광동비타씨큐정"),
+                DataItemRegisterPill("광동아토르바스타틴정10밀리그램"),
+                DataItemRegisterPill("광동아토르바스타틴정20밀리그램"),
+                DataItemRegisterPill("광동타리풀정"),
+                DataItemRegisterPill("광동타목시펜정"),
+                DataItemRegisterPill("광동타목시펜정20밀리그램"),
+                DataItemRegisterPill("구주로라타딘정10밀리그람"),
+                DataItemRegisterPill("구주비타민C1000mg정"),
+                DataItemRegisterPill("국제로라타딘정"),
+                DataItemRegisterPill("국제피오글리타존정"),
+                DataItemRegisterPill("국제피오글리타존정30밀리그램"),
+                DataItemRegisterPill("그루타민정500밀리그램"),
+                DataItemRegisterPill("그루타제정"),
+                DataItemRegisterPill("그루타존정15밀리그램"),
+                DataItemRegisterPill("그리타존정15밀리그램"),
+                DataItemRegisterPill("그린비타정"),
+                DataItemRegisterPill("그린비타포르테연질캡슐"),
+                DataItemRegisterPill("그린비타플러스연질캡슐"),
+                DataItemRegisterPill("그린비타플러스정"),
+                DataItemRegisterPill("글리베타엠정"),
+                DataItemRegisterPill("글리스타엠정"),
+                DataItemRegisterPill("글리아스타연질캡슐"),
+                DataItemRegisterPill("글립타이드정200밀리그람"),
+                DataItemRegisterPill("네오비타연질캡슐"),
+                DataItemRegisterPill("뉴란타에이정"),
+                DataItemRegisterPill("뉴미네랄비타연질캡슐"),
+                DataItemRegisterPill("뉴신타아이알정50밀리그램"),
+                DataItemRegisterPill("뉴트리비타에프연질캡슐"),
+                DataItemRegisterPill("다파시타엠서방정10/100/1000밀리그램"),
+                DataItemRegisterPill("다파시타엠서방정5/50/1000밀리그램"),
+                DataItemRegisterPill("다파시타엠서방정5/50/500밀리그램"),
+                DataItemRegisterPill("다파시타엠서방정5/50/750밀리그램"),
+                DataItemRegisterPill("덴타에이스캡슐"),
+                DataItemRegisterPill("두타엠정0.5밀리그램"),
+                DataItemRegisterPill("듀아타임코와정"),
+                DataItemRegisterPill("로라타인정"),
+                DataItemRegisterPill("로얄비타연질캡슐"),
+                DataItemRegisterPill("로이비타연질캡슐"),
+                DataItemRegisterPill("로제비타연질캡슐"),
+                DataItemRegisterPill("로타인정"),
+                DataItemRegisterPill("루마비타연질캡슐"),
+                DataItemRegisterPill("리멘타연질캡슐"),
+                DataItemRegisterPill("리버베타연질캡슐"),
+                DataItemRegisterPill("리버비타연질캡슐"),
+                DataItemRegisterPill("마그벨비타연질캡슐"),
+                DataItemRegisterPill("마그비타연질캡슐"),
+                DataItemRegisterPill("맥덴타에프캡슐"),
+                DataItemRegisterPill("멀티비타에스정"),
+                DataItemRegisterPill("베로타이엑스정"),
+                DataItemRegisterPill("알리타이드정"),
+                DataItemRegisterPill("어린이용타이레놀정80밀리그람"),
+                DataItemRegisterPill("에피타이츄정"),
+                DataItemRegisterPill("엔타이정0.5밀리그램"),
+                DataItemRegisterPill("엔타이정1.0밀리그램"),
+                DataItemRegisterPill("우먼스타이레놀정"),
+                DataItemRegisterPill("지엘타이밍정"),
+                DataItemRegisterPill("타이노즈연질캡슐"),
+                DataItemRegisterPill("타이드정"),
+                DataItemRegisterPill("타이레놀8시간이알서방정"),
+                DataItemRegisterPill("타이레놀8시간이알서방정325밀리그람"),
+                DataItemRegisterPill("타이레놀정160밀리그람"),
+                DataItemRegisterPill("타이레놀정500밀리그람"),
+                DataItemRegisterPill("타이렌연질캡슐"),
+                DataItemRegisterPill("타이로정"),
+                DataItemRegisterPill("타이록신캡슐"),
+                DataItemRegisterPill("타이론정"),
+                DataItemRegisterPill("타이리콜8시간이알서방정"),
+                DataItemRegisterPill("타이맥스연질캡슐"),
+                DataItemRegisterPill("타이몰8시간이알정"),
+                DataItemRegisterPill("타이본위클리정"),
+                DataItemRegisterPill("타이센정500밀리그램"),
+                DataItemRegisterPill("타이젠정"),
+                DataItemRegisterPill("타이커브정250밀리그램"),
+                DataItemRegisterPill("타이코푸캡슐"),
+                DataItemRegisterPill("타이쿨에프 연질캡슐"),
+                DataItemRegisterPill("타이펜8시간이알서방정"),
+                DataItemRegisterPill("타이펜정160밀리그람"),
+                DataItemRegisterPill("타이푸푸골드연질캡슐"),
+                DataItemRegisterPill("타이푸푸연질캡슐"),
+                DataItemRegisterPill("태준팩타이트100밀리그람정")
+                )
         )
     }
 
