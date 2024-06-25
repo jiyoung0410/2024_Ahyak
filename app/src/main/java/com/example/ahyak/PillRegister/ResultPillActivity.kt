@@ -51,6 +51,12 @@ class ResultPillActivity : AppCompatActivity() {
                 val pillImageResource = when (drug.item_seq) {
                     // 예시로 item_seq가 201900631인 경우에 대해 특정 이미지 리소스를 지정합니다.
                     201309807 -> R.drawable.ic_201309807
+                    199801174 -> R.drawable.ic_199801174
+                    199900642 -> R.drawable.ic_199900642
+                    201502454 -> R.drawable.ic_201502454
+                    201706147 -> R.drawable.ic_201706147
+                    202203530 -> R.drawable.ic_202203530
+
                     // 다른 item_seq 값에 대해 필요한 이미지 리소스를 추가할 수 있습니다.
                     else -> R.drawable.ic_default_pill
                 }
@@ -84,7 +90,7 @@ class ResultPillActivity : AppCompatActivity() {
             val symptomName = intent.getStringExtra("putsymptomName")
             val intent = Intent(this, RegisterPillActivity::class.java)
             intent.putExtra("putsymptomName", symptomName) // 예시로 증상의 이름을 넘김
-            intent.putExtra("resultPillInpoName", resultpillName)
+            intent.putExtra("resultPillInpoName", resultpillName) //선택한 약 이름
             finish()
             startActivity(intent)
         }

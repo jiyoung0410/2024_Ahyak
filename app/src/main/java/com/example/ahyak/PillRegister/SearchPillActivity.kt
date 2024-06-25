@@ -225,12 +225,15 @@ class SearchPillActivity : AppCompatActivity(), DrugSearchNameView, DrugSearchSh
                     selectline = "NULL"
                 }
                 //edit_text에서 받아온 내용 저장
-                print_discrimination = binding.serachPillSerachForShapeEt.text.toString()
-                //Toast.makeText(this, "$print_discrimination,$selectshape,$selectcolor,$selectformulation,$selectline", Toast.LENGTH_SHORT).show()
+                if(print_discrimination.isNotEmpty()){
+                    print_discrimination = binding.serachPillSerachForShapeEt.text.toString()
+                }else{
+                    print_discrimination = "NULL"
+                }
+
                 authService.setdrugSearchShapeView(this)
                 Log.d("Send Shape", "$print_discrimination,$selectshape,$selectcolor,$selectformulation,$selectline")
-                authService.drugSearchShape(print_discrimination,selectshape,selectcolor,selectformulation,selectline)
-                //authService.drugSearchShape("NULL", "타원형", "하양", "정제","+")
+                authService.drugSearchShape("$print_discrimination",selectshape,selectcolor,selectformulation,selectline)
             }
         }
 

@@ -63,7 +63,7 @@
                 android:id="@+id/extra_register_pill_name_input_et"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="약의 이름을 검색해주세요"
+                android:hint="약의 이름을 입력해주세요"
                 android:textSize="12dp"
                 android:inputType="text"
                 android:background="@color/transparent"

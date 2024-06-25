@@ -26,114 +26,120 @@
 
     </LinearLayout>
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:fillViewport="true"
         android:layout_weight="9"
-        android:background="@drawable/white_radi_top_30dp"
-        android:orientation="vertical">
-
-        <ImageView
-            android:id="@+id/record_symptoms_cancle_iv"
-            android:layout_width="28.5dp"
-            android:layout_height="28.5dp"
-            android:src="@drawable/ic_cancle"
-            android:layout_gravity="right"
-            android:layout_marginTop="17dp"
-            android:layout_marginEnd="22dp"/>
-        
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/result_pill_rv"
-            android:layout_marginTop="35dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-       
+        android:layout_height="0dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
-            android:layout_marginTop="10dp"
-            android:orientation="vertical"
-            android:background="@drawable/bg_radi_5dp"
-            android:gravity="center">
+            android:layout_height="0dp"
+            android:background="@drawable/white_radi_top_30dp"
+            android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="찾으시는 약이 없으신가요?"
-                android:layout_marginTop="20dp"
-                android:textColor="@color/black"
-                android:fontFamily="@font/nanum_barun_gothic_bold"
-                android:textSize="14dp"
-                android:layout_marginBottom="3dp"
-                android:gravity="center" />
+            <ImageView
+                android:id="@+id/record_symptoms_cancle_iv"
+                android:layout_width="28.5dp"
+                android:layout_height="28.5dp"
+                android:layout_gravity="right"
+                android:layout_marginTop="17dp"
+                android:layout_marginEnd="22dp"
+                android:src="@drawable/ic_cancle" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="나중에라도 찾으실 수 있게 약의 특징을 기록해보세요!"
-                android:fontFamily="@font/nanum_barun_gothic"
-                android:textSize="12dp"
-                android:gravity="center" />
-
-            <LinearLayout
-                android:id="@+id/result_pill_free_record_ll"
-                android:layout_width="200dp"
-                android:layout_height="40dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/point_radi_50dp"
-                android:gravity="center">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="자유 기록하기"
-                    android:textColor="@color/white"
-                    android:fontFamily="@font/nanum_barun_gothic_bold"
-                    android:textSize="14dp"
-                    android:layout_gravity="center"/>
-            </LinearLayout>
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:gravity="bottom"
-            android:layout_marginBottom="30dp"
-            android:layout_height="match_parent">
-
-            <LinearLayout
-                android:id="@+id/result_pill_select_ll"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/result_pill_rv"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:background="@drawable/point_radi_15dp"
-                android:layout_marginStart="30dp"
-                android:layout_marginEnd="30dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="35dp"
+                android:layout_marginEnd="15dp" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="15dp"
+                android:background="@drawable/bg_radi_5dp"
                 android:gravity="center"
-                android:layout_marginTop="30dp">
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="선택"
-                    android:textSize="14dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="3dp"
                     android:fontFamily="@font/nanum_barun_gothic_bold"
-                    android:textColor="@color/white"/>
+                    android:gravity="center"
+                    android:text="찾으시는 약이 없으신가요?"
+                    android:textColor="@color/black"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/nanum_barun_gothic"
+                    android:gravity="center"
+                    android:text="나중에라도 찾으실 수 있게 약의 특징을 기록해보세요!"
+                    android:textSize="12dp" />
+
+                <LinearLayout
+                    android:id="@+id/result_pill_free_record_ll"
+                    android:layout_width="200dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/point_radi_50dp"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/nanum_barun_gothic_bold"
+                        android:text="자유 기록하기"
+                        android:textColor="@color/white"
+                        android:textSize="14dp" />
+                </LinearLayout>
+
+
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="30dp"
+                android:gravity="bottom">
+
+                <LinearLayout
+                    android:id="@+id/result_pill_select_ll"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginEnd="30dp"
+                    android:background="@drawable/point_radi_15dp"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/nanum_barun_gothic_bold"
+                        android:text="선택"
+                        android:textColor="@color/white"
+                        android:textSize="14dp" />
+                </LinearLayout>
+
+            </LinearLayout>
+
 
         </LinearLayout>
 
 
+    </ScrollView>
 
-
-    </LinearLayout>
 
 </LinearLayout>
 
