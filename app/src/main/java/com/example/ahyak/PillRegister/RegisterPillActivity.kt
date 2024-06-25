@@ -225,10 +225,10 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
             binding.registerPillNameInputEt.setText(resultPillName)
             binding.registerPillSearchIv.visibility = View.GONE
             binding.registerPillDeleteIv.visibility = View.VISIBLE
+            binding.registerPillRv.visibility = View.GONE
         }
 
         searchPillName = intent.getStringExtra("resultPillInpoName")?:""
-        Log.d("searchPill2", "$searchPillName")
         if(searchPillName.isNotEmpty()){
             binding.registerPillNameInputEt.visibility = View.GONE
             binding.registerPillNameInputTv.visibility = View.VISIBLE
@@ -236,6 +236,7 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
             binding.registerPillNameInputEt.setText(searchPillName)
             binding.registerPillSearchIv.visibility = View.GONE
             binding.registerPillDeleteIv.visibility = View.VISIBLE
+            binding.registerPillRv.visibility = View.GONE
         }
 
         //검색 취소 아이콘 눌렀을 때
