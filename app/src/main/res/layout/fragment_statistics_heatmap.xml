@@ -45,4 +45,17 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <TextView
+        android:id="@+id/statistics_heatmap_stat_null_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="저장된 기록 없음"
+        android:textSize="24sp"
+        android:textColor="@color/gray1"
+        android:fontFamily="@font/nanum_barun_gothic"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

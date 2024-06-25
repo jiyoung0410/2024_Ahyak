@@ -132,6 +132,15 @@ class StatisticsHeatmapFragment : Fragment() {
                 sympoms.add(item.name)
             }
         }
+
+        if(sympoms.size == 0) {
+            binding.statisticsHeatmapStatNullTv.visibility = View.VISIBLE
+            binding.statisticsHeatmapStatDateRv.visibility = View.GONE
+        } else {
+            binding.statisticsHeatmapStatNullTv.visibility = View.GONE
+            binding.statisticsHeatmapStatDateRv.visibility = View.VISIBLE
+        }
+
         return sympoms
     }
 

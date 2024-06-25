@@ -52,15 +52,23 @@ class StatisticsFragment : Fragment() {
         getDate(0)
         getSympomData()
 
-//        medicationList = arrayListOf(StatMedication("환절기 피부질환",70), StatMedication("특발성 질환",35))
-//        binding.statisticsMedicationRv.adapter = StatisticsMedicationAdapter(medicationList)
-//        binding.statisticsMedicationRv.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
-
         binding.statisticsTitlePrevIv.setOnClickListener {
             getDate(-7)
+            getSympomData()
+
+            binding.statisticsAreaVp.adapter = StatisticsSliderVPAdapter(requireActivity())
+            TabLayoutMediator(binding.statisticsTab,binding.statisticsAreaVp) { tab, position ->
+                tab.text = items[position]
+            }.attach()
         }
         binding.statisticsTitleNextIv.setOnClickListener {
             getDate(7)
+            getSympomData()
+
+            binding.statisticsAreaVp.adapter = StatisticsSliderVPAdapter(requireActivity())
+            TabLayoutMediator(binding.statisticsTab,binding.statisticsAreaVp) { tab, position ->
+                tab.text = items[position]
+            }.attach()
         }
     }
 
@@ -121,6 +129,7 @@ class StatisticsFragment : Fragment() {
                 }
             }
 
+            medicationList = arrayListOf()
             for(medi in medications) {
                 var cnt1 = 0
                 var cnt2 = 0
