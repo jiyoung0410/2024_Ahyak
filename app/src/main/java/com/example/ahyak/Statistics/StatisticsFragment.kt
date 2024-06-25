@@ -7,7 +7,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ahyak.DB.AhyakDataBase
+import com.example.ahyak.DB.MedicineEntity
 import com.example.ahyak.DB.TodayRecordSymptomEntity
 import com.example.ahyak.Sympom
 import com.example.ahyak.databinding.FragmentStatisticsBinding
@@ -16,6 +18,7 @@ import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import okhttp3.Dispatcher
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -28,6 +31,7 @@ class StatisticsFragment : Fragment() {
     var startDate : String = ""
     var endDate : String = ""
     var ahyakDataBase : AhyakDataBase? = null
+    var medicationList = arrayListOf<StatMedication>()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -47,6 +51,10 @@ class StatisticsFragment : Fragment() {
 
         getDate(0)
         getSympomData()
+
+//        medicationList = arrayListOf(StatMedication("환절기 피부질환",70), StatMedication("특발성 질환",35))
+//        binding.statisticsMedicationRv.adapter = StatisticsMedicationAdapter(medicationList)
+//        binding.statisticsMedicationRv.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
 
         binding.statisticsTitlePrevIv.setOnClickListener {
             getDate(-7)
@@ -80,6 +88,7 @@ class StatisticsFragment : Fragment() {
     fun getSympomData() {
         var dateList : ArrayList<String> = arrayListOf()
         var newSympomList = arrayListOf<TodayRecordSymptomEntity>()
+        var newMedicineList = arrayListOf<MedicineEntity>()
 
         GlobalScope.launch(Dispatchers.IO) {
             ahyakDataBase = AhyakDataBase.getInstance(requireContext())
@@ -91,6 +100,9 @@ class StatisticsFragment : Fragment() {
                 val day = parts[1].filter { it.isDigit() }.toInt()
 
                 newSympomList += ahyakDataBase!!.getTodayRecordSymptomDao().getTodayRecordSymptom(month,day)
+
+                //복약율 계산
+                newMedicineList += ahyakDataBase!!.getMedicineDao().getMedicineTakeOfDay(month,day)
             }
             val sharedPref = requireActivity().getSharedPreferences("myPref",MODE_PRIVATE)
             val gson = Gson()
@@ -100,6 +112,33 @@ class StatisticsFragment : Fragment() {
             val newJson = gson.toJson(newSympomList)
             editor.putString("sympomWeekList",newJson)
             editor.apply()
+
+            //진단받은 증상 리스트 주간별로 추출
+            var medications = arrayListOf<String>()
+            for(item in newMedicineList) {
+                if(!medications.contains(item.PrescriptionName)) {
+                    medications.add(item.PrescriptionName)
+                }
+            }
+
+            for(medi in medications) {
+                var cnt1 = 0
+                var cnt2 = 0
+                for(item in newMedicineList) {
+                    if(item.PrescriptionName == medi) {
+                        cnt2++
+                        if(item.MedicineTake == true) {
+                            cnt1++
+                        }
+                    }
+                }
+                medicationList += StatMedication(medi, cnt1 * 100 / cnt2)
+            }
+            withContext(Dispatchers.Main) {
+                binding.statisticsMedicationRv.adapter = StatisticsMedicationAdapter(medicationList)
+                binding.statisticsMedicationRv.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
+                Log.d("medicationList",medicationList.toString())
+            }
         }
     }
 
