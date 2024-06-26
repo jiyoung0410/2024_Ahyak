@@ -67,8 +67,6 @@ class TodayRecordFragment : Fragment() {
         }
 
         calendarAdapter = CalendarAdapter(calendarList,calSelectedDay,true) { item ->
-
-
             //캘린더 click event 내용
             for(i in 0..6) {
                 if(nowMonday!!.plusDays(i.toLong()).dayOfMonth == item.cl_date.toInt()) {
@@ -143,6 +141,7 @@ class TodayRecordFragment : Fragment() {
         binding.todayRecordCalendarRv.layoutManager = GridLayoutManager(context,7)
         binding.todayRecordCalendarRv.isNestedScrollingEnabled = false
 
+        //이전 주 버튼
         binding.todayRecordPrevWeekBtnCl.setOnClickListener {
             val dateFormat = DateTimeFormatter.ofPattern("d").withLocale(Locale.forLanguageTag("ko"))
 
@@ -173,6 +172,13 @@ class TodayRecordFragment : Fragment() {
                         editor.putInt("selectedMonth", selectedMonth)
                         editor.putString("selectSlot", "기상 직후")
                         editor.apply()
+
+                        binding.todayRecordVp.adapter = TodayRecordSliderVPAdapter(requireActivity())
+                        TabLayoutMediator(binding.todayRecordTab,binding.todayRecordVp) { tab, position ->
+                            tab.text = tabItems[position]
+                        }.attach()
+
+                        editor.apply()
                     }
                 }
             }
@@ -180,6 +186,7 @@ class TodayRecordFragment : Fragment() {
             binding.todayRecordCalendarRv.adapter = calendarAdapter
         }
 
+        //다음 주 버튼
         binding.todayRecordNextWeekBtnCl.setOnClickListener {
             val dateFormat = DateTimeFormatter.ofPattern("d").withLocale(Locale.forLanguageTag("ko"))
 
@@ -211,7 +218,13 @@ class TodayRecordFragment : Fragment() {
                         editor.putString("selectSlot", "기상 직후")
                         editor.apply()
 
-                        Log.d("set click", "selectedDay : $selectedDay, selectedMonth : $selectedMonth")
+                        binding.todayRecordVp.adapter = TodayRecordSliderVPAdapter(requireActivity())
+                        TabLayoutMediator(binding.todayRecordTab,binding.todayRecordVp) { tab, position ->
+                            tab.text = tabItems[position]
+                        }.attach()
+
+                        editor.apply()
+
                     }
                 }
             }
