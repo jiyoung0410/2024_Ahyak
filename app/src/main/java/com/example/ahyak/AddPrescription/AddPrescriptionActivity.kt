@@ -166,6 +166,8 @@ class AddPrescriptionActivity : AppCompatActivity(), DatePickerDialog.OnDateSetL
                 }
             }
             finish()
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
 
         }
     }
