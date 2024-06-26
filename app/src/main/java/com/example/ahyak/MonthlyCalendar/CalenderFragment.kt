@@ -194,6 +194,7 @@ class CalenderFragment : Fragment() {
         var newMedicineList = arrayListOf<MedicineEntity>()
         var newSympomContent = arrayListOf<TodayRecordEntity>()
         takepillList = arrayListOf()
+        calendarsymptomsList = arrayListOf()
 
         lifecycleScope.launch(Dispatchers.IO) {
             ahyakDataBase = AhyakDataBase.getInstance(requireContext())
@@ -221,6 +222,9 @@ class CalenderFragment : Fragment() {
             newSympomContent += ahyakDataBase!!.getTodayRecordDao().getTodayRecordContent(month,day)
 
             withContext(Dispatchers.Main) {
+
+                initcalendarsymptomsadapter()
+                inittakepilladapter()
 
                 if(newSympomContent.size == 0) {
                     binding.calendarRecordTextTv.text = ""
