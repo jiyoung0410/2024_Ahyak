@@ -536,15 +536,15 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
     }
 
     override fun AutoCompleteSuccess(drug_list: List<String>) {
-        Log.d("success", drug_list.toString())
-        val filteredList = ArrayList<DataItemRegisterPill>()
-
-        for (item in drug_list) {
-            filteredList.add(DataItemRegisterPill(item))
-        }
-
-        // 어댑터에 필터링된 목록 설정
-        registerPillAdapter?.filterList(filteredList)
+//        Log.d("success", drug_list.toString())
+//        val filteredList = ArrayList<DataItemRegisterPill>()
+//
+//        for (item in drug_list) {
+//            filteredList.add(DataItemRegisterPill(item))
+//        }
+//
+//        // 어댑터에 필터링된 목록 설정
+//        registerPillAdapter?.filterList(filteredList)
     }
 
     override fun AutoCompleteFailure() {
