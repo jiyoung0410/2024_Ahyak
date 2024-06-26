@@ -69,12 +69,6 @@ class MedicationTimeActivity : AppCompatActivity() {
                 editor.apply()
             }
 
-            if(hour < 12) {
-                editor.putString("alarmTime",String.format("오전 %02d:%02d", hour, minute))
-            } else {
-                editor.putString("alarmTime",String.format("오후 %02d:%02d", hour-12, minute))
-            }
-            editor.apply()
 
 //            val alarmIntent = Intent(this, AlarmReceiver::class.java)
 //            val pendingIntent = PendingIntent.getBroadcast(this,100,alarmIntent,PendingIntent.FLAG_IMMUTABLE)
