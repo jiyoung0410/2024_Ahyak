@@ -2,14 +2,24 @@ package com.example.ahyak.Statistics
 
 import android.content.Context.MODE_PRIVATE
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.ahyak.DB.AhyakDataBase
+import com.example.ahyak.DB.MedicineEntity
+import com.example.ahyak.DB.TodayRecordSymptomEntity
 import com.example.ahyak.Sympom
 import com.example.ahyak.databinding.FragmentStatisticsBinding
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.gson.Gson
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import okhttp3.Dispatcher
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -18,6 +28,10 @@ class StatisticsFragment : Fragment() {
     lateinit var binding : FragmentStatisticsBinding
     private val items = arrayOf<String>("그리드 그래프","꺾은 선 그래프")
     val cal = Calendar.getInstance()
+    var startDate : String = ""
+    var endDate : String = ""
+    var ahyakDataBase : AhyakDataBase? = null
+    var medicationList = arrayListOf<StatMedication>()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -40,16 +54,26 @@ class StatisticsFragment : Fragment() {
 
         binding.statisticsTitlePrevIv.setOnClickListener {
             getDate(-7)
+            getSympomData()
+
+            binding.statisticsAreaVp.adapter = StatisticsSliderVPAdapter(requireActivity())
+            TabLayoutMediator(binding.statisticsTab,binding.statisticsAreaVp) { tab, position ->
+                tab.text = items[position]
+            }.attach()
         }
         binding.statisticsTitleNextIv.setOnClickListener {
             getDate(7)
+            getSympomData()
+
+            binding.statisticsAreaVp.adapter = StatisticsSliderVPAdapter(requireActivity())
+            TabLayoutMediator(binding.statisticsTab,binding.statisticsAreaVp) { tab, position ->
+                tab.text = items[position]
+            }.attach()
         }
     }
 
     fun getDate(moveDay: Int) {
         val dateFormat = SimpleDateFormat("M월 d일", Locale.getDefault())
-        var startDate : String
-        var endDate : String
 
         cal.add(Calendar.DATE,moveDay)
 
@@ -70,64 +94,72 @@ class StatisticsFragment : Fragment() {
     }
 
     fun getSympomData() {
-        val dummyDate = arrayListOf("4월 24일","4월 25일","4월 26일","4월 27일","4월 28일","4월 29일","4월 30일")
-        val sympomList : ArrayList<Sympom> = arrayListOf<Sympom>(
-            Sympom("구역",dummyDate[0],1),
-            Sympom("구역",dummyDate[1],0),
-            Sympom("구역",dummyDate[2],0),
-            Sympom("구역",dummyDate[3],0),
-            Sympom("구역",dummyDate[4],0),
-            Sympom("구역",dummyDate[5],0),
-            Sympom("구역",dummyDate[6],0),
-            Sympom("속쓰림",dummyDate[0],5),
-            Sympom("속쓰림",dummyDate[1],4),
-            Sympom("속쓰림",dummyDate[2],2),
-            Sympom("속쓰림",dummyDate[3],2),
-            Sympom("속쓰림",dummyDate[4],1),
-            Sympom("속쓰림",dummyDate[5],0),
-            Sympom("속쓰림",dummyDate[6],0),
-            Sympom("두통",dummyDate[0],4),
-            Sympom("두통",dummyDate[1],3),
-            Sympom("두통",dummyDate[2],2),
-            Sympom("두통",dummyDate[3],1),
-            Sympom("두통",dummyDate[4],0),
-            Sympom("두통",dummyDate[5],0),
-            Sympom("두통",dummyDate[6],0),
-            Sympom("두근거림",dummyDate[0],4),
-            Sympom("두근거림",dummyDate[1],4),
-            Sympom("두근거림",dummyDate[2],3),
-            Sympom("두근거림",dummyDate[3],2),
-            Sympom("두근거림",dummyDate[4],1),
-            Sympom("두근거림",dummyDate[5],1),
-            Sympom("두근거림",dummyDate[6],0),
-            Sympom("불면",dummyDate[0],5),
-            Sympom("불면",dummyDate[1],4),
-            Sympom("불면",dummyDate[2],3),
-            Sympom("불면",dummyDate[3],1),
-            Sympom("불면",dummyDate[4],0),
-            Sympom("불면",dummyDate[5],0),
-            Sympom("불면",dummyDate[6],0),
-            Sympom("식욕감소",dummyDate[0],4),
-            Sympom("식욕감소",dummyDate[1],3),
-            Sympom("식욕감소",dummyDate[2],2),
-            Sympom("식욕감소",dummyDate[3],2),
-            Sympom("식욕감소",dummyDate[4],1),
-            Sympom("식욕감소",dummyDate[5],1),
-            Sympom("식욕감소",dummyDate[6],0),
-            Sympom("불안",dummyDate[0],5),
-            Sympom("불안",dummyDate[1],3),
-            Sympom("불안",dummyDate[2],4),
-            Sympom("불안",dummyDate[3],1),
-            Sympom("불안",dummyDate[4],0),
-            Sympom("불안",dummyDate[5],1),
-            Sympom("불안",dummyDate[6],0),
-        )
+        var dateList : ArrayList<String> = arrayListOf()
+        var newSympomList = arrayListOf<TodayRecordSymptomEntity>()
+        var newMedicineList = arrayListOf<MedicineEntity>()
 
-        val sharedPref = requireActivity().getSharedPreferences("myPref",MODE_PRIVATE)
-        val gson = Gson()
-        val editor = sharedPref.edit()
-        val newJson = gson.toJson(sympomList)
-        editor.putString("sympomWeekList",newJson)
-        editor.apply()
+        GlobalScope.launch(Dispatchers.IO) {
+            ahyakDataBase = AhyakDataBase.getInstance(requireContext())
+
+            getWeekDate(startDate,endDate,dateList)
+            for(item in dateList) {
+                val parts = item.split(" ")
+                val month = parts[0].filter { it.isDigit() }.toInt()
+                val day = parts[1].filter { it.isDigit() }.toInt()
+
+                newSympomList += ahyakDataBase!!.getTodayRecordSymptomDao().getTodayRecordSymptom(month,day)
+
+                //복약율 계산
+                newMedicineList += ahyakDataBase!!.getMedicineDao().getMedicineTakeOfDay(month,day)
+            }
+            val sharedPref = requireActivity().getSharedPreferences("myPref",MODE_PRIVATE)
+            val gson = Gson()
+            val editor = sharedPref.edit()
+//        val newJson = gson.toJson(sympomList)
+            Log.d("logcat2",newSympomList.toString())
+            val newJson = gson.toJson(newSympomList)
+            editor.putString("sympomWeekList",newJson)
+            editor.apply()
+
+            //진단받은 증상 리스트 주간별로 추출
+            var medications = arrayListOf<String>()
+            for(item in newMedicineList) {
+                if(!medications.contains(item.PrescriptionName)) {
+                    medications.add(item.PrescriptionName)
+                }
+            }
+
+            medicationList = arrayListOf()
+            for(medi in medications) {
+                var cnt1 = 0
+                var cnt2 = 0
+                for(item in newMedicineList) {
+                    if(item.PrescriptionName == medi) {
+                        cnt2++
+                        if(item.MedicineTake == true) {
+                            cnt1++
+                        }
+                    }
+                }
+                medicationList += StatMedication(medi, cnt1 * 100 / cnt2)
+            }
+            withContext(Dispatchers.Main) {
+                binding.statisticsMedicationRv.adapter = StatisticsMedicationAdapter(medicationList)
+                binding.statisticsMedicationRv.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
+                Log.d("medicationList",medicationList.toString())
+            }
+        }
+    }
+
+    fun getWeekDate(startDate: String, endDate: String, dateList: ArrayList<String>): Unit {
+        val dateFormat = SimpleDateFormat("M월 d일", Locale.KOREA)
+        val cal = Calendar.getInstance()
+        val date1 = dateFormat.parse(startDate)
+        val date2 = dateFormat.parse(endDate)
+        cal.time = date1
+        while(cal.time.before(date2) || cal.time == date2) {
+            dateList.add(dateFormat.format(cal.time))
+            cal.add(Calendar.DAY_OF_MONTH,1)
+        }
     }
 }

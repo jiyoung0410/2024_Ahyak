@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import com.example.ahyak.DB.TodayRecordSymptomEntity
 import com.example.ahyak.R
 import com.example.ahyak.Sympom
 import com.example.ahyak.databinding.FragmentStatisticsCurvedBinding
@@ -63,7 +64,17 @@ class StatisticsCurvedFragment : Fragment() {
 
         val gson = Gson()
         var json = sharedPref.getString("sympomWeekList",null)
-        var sympomList = gson.fromJson(json,object : TypeToken<ArrayList<Sympom>>() {}.type) ?: arrayListOf<Sympom>()
+        var newSympomList = gson.fromJson(json,object : TypeToken<ArrayList<TodayRecordSymptomEntity>>() {}.type)
+            ?: arrayListOf<TodayRecordSymptomEntity>()
+
+        var sympomList = arrayListOf<Sympom>()
+        for(item in newSympomList) {
+            sympomList.add(Sympom(
+                item.SymptomName,
+                item.RecordSymptomMonth.toString() + "월 " + item.RecordSymptomDay.toString() + "일",
+                item.SymptomStrength)
+            )
+        }
 
         getWeekDate(startDate!!,endDate!!,dates)
         getSympomList(sympomList,sympoms)
@@ -171,6 +182,7 @@ class StatisticsCurvedFragment : Fragment() {
         }
     }
 
+    //startDate부터 endDate까지 1일 간격으로 dateList 생성 / 형식 : M월 d일
     fun getWeekDate(startDate: String, endDate: String, dateList: ArrayList<String>): Unit {
         val dateFormat = SimpleDateFormat("M월 d일", Locale.KOREA)
         val cal = Calendar.getInstance()
@@ -181,9 +193,9 @@ class StatisticsCurvedFragment : Fragment() {
             dateList.add(dateFormat.format(cal.time))
             cal.add(Calendar.DAY_OF_MONTH,1)
         }
-        Log.d("logcat",startDate+endDate)
     }
 
+    //증상 dataList에서 증상 이름만을 추출해서 sympoms에 저장
     fun getSympomList(sympomsList: ArrayList<Sympom>, sympoms: ArrayList<String>): Unit {
         for(item in sympomsList) {
             if(!sympoms.contains(item.name)) {
@@ -199,6 +211,11 @@ class StatisticsCurvedFragment : Fragment() {
         for(i in strengthList.indices) { //indices : dataList의 최소 index ~ 최대 index
             chartEntry.add(Entry(i.toFloat(),strengthList[i].strength.toFloat()))
             sympomDataList.add(ChartCommitSympomData(strengthList[i].name,strengthList[i].strength))
+        }
+
+        if(sympomDataList.size == 1) {
+            chartEntry.add(Entry(1.toFloat(),strengthList[0].strength.toFloat()))
+            sympomDataList.add(ChartCommitSympomData(strengthList[0].name,strengthList[0].strength))
         }
 
         val lineDataSet = LineDataSet(chartEntry,"chartEntry")
@@ -257,6 +274,11 @@ class StatisticsCurvedFragment : Fragment() {
         for(i in strengthList.indices) { //indices : dataList의 최소 index ~ 최대 index
             chartEntry.add(Entry(i.toFloat(),strengthList[i].strength.toFloat()))
             dateDataList.add(ChartCommitDateData(strengthList[i].date,strengthList[i].strength))
+        }
+
+        if(dateDataList.size == 1) {
+            chartEntry.add(Entry(1.toFloat(),strengthList[0].strength.toFloat()))
+            dateDataList.add(ChartCommitDateData(strengthList[0].date,strengthList[0].strength))
         }
 
         val lineDataSet = LineDataSet(chartEntry,"chartEntry")

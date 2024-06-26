@@ -12,11 +12,11 @@ class CalenderTakePillAdapter(val takepillList:ArrayList<DataItemTakePill>):Recy
         fun bind(takepill:DataItemTakePill){
             binding.itemCalendarTakePillNameTv.text = takepill.takepillname
 
-//            if(takepill.takepillwhether==true){
-//                binding.itemCalendarTakePillCheckbox.setBackgroundResource(R.drawable.checkbox_check)
-//            }else{
-//                binding.itemCalendarTakePillCheckbox.setBackgroundResource(R.drawable.checkbox_nocheck)
-//            }
+            if(takepill.takepillwhether==true){
+                binding.itemCalendarTakePillCheckbox.setBackgroundResource(R.drawable.checkbox_check)
+            }else{
+                binding.itemCalendarTakePillCheckbox.setBackgroundResource(R.drawable.checkbox_nocheck)
+            }
         }
     }
 

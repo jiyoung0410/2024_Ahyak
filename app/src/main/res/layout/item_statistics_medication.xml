@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="45dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginTop="18dp"
+    android:background="@drawable/white_radi_10dp">
+
+    <TextView
+        android:id="@+id/item_statistics_medication_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="21dp"
+        android:text="환절기 피부질환"
+        android:textSize="16sp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/nanum_barun_gothic_bold"/>
+
+    <ProgressBar
+        android:id="@+id/item_statistics_medication_pb"
+        android:layout_width="131dp"
+        android:layout_height="12dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="14dp"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:indeterminate="false"
+        android:progressDrawable="@drawable/point_horizonal_progress"
+        android:progress="80"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
