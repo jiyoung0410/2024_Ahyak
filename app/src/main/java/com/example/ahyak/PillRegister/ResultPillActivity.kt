@@ -4,11 +4,11 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ahyak.R
 import com.example.ahyak.databinding.ActivityResultPillBinding
 import com.example.ahyak.remote.RESULT
+import kotlin.random.Random
 
 class ResultPillActivity : AppCompatActivity() {
 
@@ -38,13 +38,29 @@ class ResultPillActivity : AppCompatActivity() {
         // RecyclerView 초기화
         binding.resultPillRv.layoutManager = LinearLayoutManager(this)
 
+        //Medicine 이미지
+        val drawableIds = arrayOf(
+            R.drawable.ic_202202893,
+            R.drawable.ic_199303108,
+            R.drawable.ic_199303109,
+            R.drawable.ic_199603003,
+            R.drawable.ic_199903739,
+            R.drawable.ic_200202893,
+            R.drawable.ic_202200407
+        )
+
+
         //Intent로부터 데이터추출
         resultpillName = intent.getStringExtra("medicineName").toString()
         if(resultpillName != null){
+
+            // drawable 리소스 선택
+            val DrawableId = drawableIds[Random.nextInt(drawableIds.size)]
+
             resultpillList.clear()
             resultpillList.add(
                 DataItemResultPill(
-                    R.drawable.ic_202202893, //임시
+                    DrawableId, //임시
                     resultpillName,
                     "TYME"
                 )
