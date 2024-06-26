@@ -164,6 +164,15 @@ class TodayRecordFragment : Fragment() {
                     if(nowMonday!!.plusDays(i.toLong()).dayOfMonth == item.cl_date.toInt()) {
                         calSelectedDay = nowMonday!!.plusDays(i.toLong())
                         binding.todayRecordYearmonthTv.text = calSelectedDay.format(monthFormat)
+
+                        // 선택된 날짜의 월과 일을 구합니다.
+                        selectedMonth = calSelectedDay.monthValue
+                        selectedDay = calSelectedDay.dayOfMonth
+
+                        editor.putInt("selectedDay", selectedDay)
+                        editor.putInt("selectedMonth", selectedMonth)
+                        editor.putString("selectSlot", "기상 직후")
+                        editor.apply()
                     }
                 }
             }

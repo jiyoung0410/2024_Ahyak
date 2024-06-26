@@ -44,7 +44,7 @@ class ResultPillActivity : AppCompatActivity() {
             resultpillList.clear()
             resultpillList.add(
                 DataItemResultPill(
-                    R.drawable.ic_default_pill, //임시
+                    R.drawable.ic_202202893, //임시
                     resultpillName,
                     "TYME"
                 )
