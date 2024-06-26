@@ -38,6 +38,20 @@ class ResultPillActivity : AppCompatActivity() {
         // RecyclerView 초기화
         binding.resultPillRv.layoutManager = LinearLayoutManager(this)
 
+        //Intent로부터 데이터추출
+        resultpillName = intent.getStringExtra("medicineName").toString()
+        if(resultpillName != null){
+            resultpillList.clear()
+            resultpillList.add(
+                DataItemResultPill(
+                    R.drawable.ic_default_pill, //임시
+                    resultpillName,
+                    "TYME"
+                )
+            )
+        }
+
+
         // Intent로부터 데이터 추출
         val drugList: ArrayList<RESULT>? = intent.getSerializableExtra("drugList") as? ArrayList<RESULT>
         if (drugList != null) {
