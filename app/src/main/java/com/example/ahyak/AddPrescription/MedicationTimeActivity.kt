@@ -29,45 +29,45 @@ class MedicationTimeActivity : AppCompatActivity() {
 
             val sharedPref = getSharedPreferences("myPref", MODE_PRIVATE)
             val editor = sharedPref.edit()
-
-            val selectedSlot = intent.getStringExtra("alarmTimeSlot")?:""
-
-            if(selectedSlot == "기상 직후"){
-                if(hour < 12) {
-                    editor.putString("alarmTime wakeup",String.format("오전 %02d:%02d", hour, minute))
-                } else {
-                    editor.putString("alarmTime wakeup",String.format("오후 %02d:%02d", hour-12, minute))
-                }
-                editor.apply()
-            }else if(selectedSlot == "아침"){
-                if(hour < 12) {
-                    editor.putString("alarmTime morning",String.format("오전 %02d:%02d", hour, minute))
-                } else {
-                    editor.putString("alarmTime morning",String.format("오후 %02d:%02d", hour-12, minute))
-                }
-                editor.apply()
-            }else if(selectedSlot == "점심"){
-                if(hour < 12) {
-                    editor.putString("alarmTime lunch",String.format("오전 %02d:%02d", hour, minute))
-                } else {
-                    editor.putString("alarmTime lunch",String.format("오후 %02d:%02d", hour-12, minute))
-                }
-                editor.apply()
-            }else if(selectedSlot == "저녁"){
-                if(hour < 12) {
-                    editor.putString("alarmTime dinner",String.format("오전 %02d:%02d", hour, minute))
-                } else {
-                    editor.putString("alarmTime dinner",String.format("오후 %02d:%02d", hour-12, minute))
-                }
-                editor.apply()
-            }else{
-                if(hour < 12) {
-                    editor.putString("alarmTime night",String.format("오전 %02d:%02d", hour, minute))
-                } else {
-                    editor.putString("alarmTime night",String.format("오후 %02d:%02d", hour-12, minute))
-                }
-                editor.apply()
-            }
+//
+//            val selectedSlot = intent.getStringExtra("alarmTimeSlot")?:""
+//
+//            if(selectedSlot == "기상 직후"){
+//                if(hour < 12) {
+//                    editor.putString("alarmTime wakeup",String.format("오전 %02d:%02d", hour, minute))
+//                } else {
+//                    editor.putString("alarmTime wakeup",String.format("오후 %02d:%02d", hour-12, minute))
+//                }
+//                editor.apply()
+//            }else if(selectedSlot == "아침"){
+//                if(hour < 12) {
+//                    editor.putString("alarmTime morning",String.format("오전 %02d:%02d", hour, minute))
+//                } else {
+//                    editor.putString("alarmTime morning",String.format("오후 %02d:%02d", hour-12, minute))
+//                }
+//                editor.apply()
+//            }else if(selectedSlot == "점심"){
+//                if(hour < 12) {
+//                    editor.putString("alarmTime lunch",String.format("오전 %02d:%02d", hour, minute))
+//                } else {
+//                    editor.putString("alarmTime lunch",String.format("오후 %02d:%02d", hour-12, minute))
+//                }
+//                editor.apply()
+//            }else if(selectedSlot == "저녁"){
+//                if(hour < 12) {
+//                    editor.putString("alarmTime dinner",String.format("오전 %02d:%02d", hour, minute))
+//                } else {
+//                    editor.putString("alarmTime dinner",String.format("오후 %02d:%02d", hour-12, minute))
+//                }
+//                editor.apply()
+//            }else{
+//                if(hour < 12) {
+//                    editor.putString("alarmTime night",String.format("오전 %02d:%02d", hour, minute))
+//                } else {
+//                    editor.putString("alarmTime night",String.format("오후 %02d:%02d", hour-12, minute))
+//                }
+//                editor.apply()
+//            }
 
             if(hour < 12) {
                 editor.putString("alarmTime",String.format("오전 %02d:%02d", hour, minute))

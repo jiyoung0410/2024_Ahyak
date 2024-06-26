@@ -37,7 +37,7 @@ class TodayRecordHomeFragment : Fragment() {
 
     //데이터 베이스 객체
     var ahyakDatabase : AhyakDataBase? = null
-    var alarmTime : String = ""
+//    var alarmTime : String = ""
 
 
 
@@ -48,23 +48,26 @@ class TodayRecordHomeFragment : Fragment() {
         val sharedPref = requireActivity().getSharedPreferences("myPref", Context.MODE_PRIVATE)
         val editor = sharedPref.edit()
 
+        val alarmTime = sharedPref.getString("alarmTime","정해진 시간 없음")
+        binding.calendarAfterwakeTimeTv.text = alarmTime
+
         selectedMonth = sharedPref.getInt("selectedMonth", 0)
         selectedDay = sharedPref.getInt("selectedDay", 0)
         selectedSlot = sharedPref.getString("selectSlot", "기상 직후")
 
-        if(selectedSlot == "기상 직후"){
-            alarmTime = sharedPref.getString("alarmTime wakeup","정해진 시간 없음").toString()
-        }else if(selectedSlot == "아침"){
-            alarmTime = sharedPref.getString("alarmTime morning","정해진 시간 없음").toString()
-        }else if(selectedSlot == "점심"){
-            alarmTime = sharedPref.getString("alarmTime lunch","정해진 시간 없음").toString()
-        }else if(selectedSlot == "저녁"){
-            alarmTime = sharedPref.getString("alarmTime dinner","정해진 시간 없음").toString()
-        }else{
-            alarmTime = sharedPref.getString("alarmTime night","정해진 시간 없음").toString()
-        }
-
-        binding.calendarAfterwakeTimeTv.text = alarmTime
+//        if(selectedSlot == "기상 직후"){
+//            alarmTime = sharedPref.getString("alarmTime wakeup","정해진 시간 없음").toString()
+//        }else if(selectedSlot == "아침"){
+//            alarmTime = sharedPref.getString("alarmTime morning","정해진 시간 없음").toString()
+//        }else if(selectedSlot == "점심"){
+//            alarmTime = sharedPref.getString("alarmTime lunch","정해진 시간 없음").toString()
+//        }else if(selectedSlot == "저녁"){
+//            alarmTime = sharedPref.getString("alarmTime dinner","정해진 시간 없음").toString()
+//        }else{
+//            alarmTime = sharedPref.getString("alarmTime night","정해진 시간 없음").toString()
+//        }
+//
+//        binding.calendarAfterwakeTimeTv.text = alarmTime
 
         // 코루틴을 사용하여 백그라운드 스레드에서 데이터베이스 작업 실행
         GlobalScope.launch(Dispatchers.IO) {
@@ -144,7 +147,7 @@ class TodayRecordHomeFragment : Fragment() {
         //알림 시간 설정하기
         binding.calendarAfterwakeChangeTimeLl.setOnClickListener {
             val intent = Intent(requireContext(), MedicationTimeActivity::class.java)
-            intent.putExtra("alarmTimeSlot", selectedSlot) // 예시로 증상의 이름을 넘김
+//            intent.putExtra("alarmTimeSlot", selectedSlot) // 예시로 증상의 이름을 넘김
             startActivity(intent)
         }
 
