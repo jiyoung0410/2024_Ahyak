@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ahyak.DB.AhyakDataBase
@@ -139,42 +140,53 @@ class CalenderFragment : Fragment() {
         val year = parts.firstOrNull()?.substringBefore("년")?.toIntOrNull() ?: 0
         val month = parts.last().dropLast(1).toIntOrNull() ?: 0
 
-        for(i in startWeekday-2 downTo 0) {
-//            dayList.add((prevMonthLastDay-i).toString())
-            dayList.add(CalDaysInfo(year.toString(),month.toString(),(-1).toString(),0))
-        }
-        for(i in 1..lastDay) {
-            if(year == todayCal.get(Calendar.YEAR) && month == todayCal.get(Calendar.MONTH) + 1 && i == todayCal.get(Calendar.DAY_OF_MONTH)) { // 오늘 날짜
-                if(i == 4 || i == 9 || i == 16 || i == 17 || i == 18) { //약 복용한 날 조건 수정 필요
-                    dayList.add(CalDaysInfo(year.toString(),month.toString(),i.toString(),4))
-                } else if(i == 10 || i == 11 || i == 13) { //약 미복용한 날 조건 수정 필요
-                    dayList.add(CalDaysInfo(year.toString(),month.toString(),i.toString(),5))
-                } else { // 약을 안 복용하는 날
-                    dayList.add(CalDaysInfo(year.toString(),month.toString(),i.toString(),3))
+        lifecycleScope.launch(Dispatchers.IO) {
+            var newMedicineList : ArrayList<MedicineEntity>
+            var checkCount : Int
+            var dayTakePillList : ArrayList<DataItemTakePill>
+            ahyakDataBase = AhyakDataBase.getInstance(requireContext())
+
+            for(i in startWeekday-2 downTo 0) {
+                dayList.add(CalDaysInfo(year.toString(),month.toString(),(-1).toString(),0))
+            }
+            for(i in 1..lastDay) {
+                newMedicineList = arrayListOf()
+                checkCount = 0
+                dayTakePillList = arrayListOf()
+                newMedicineList += ahyakDataBase!!.getMedicineDao().getMedicineTakeOfDay(month,i)
+                for(item in newMedicineList) {
+                    dayTakePillList.add(DataItemTakePill(item.MedicineName,item.MedicineTake))
+                    if(item.MedicineTake == true) {
+                        checkCount++
+                    }
                 }
-            } else {
-                if(i == 4 || i == 9 || i == 16 || i == 17 || i == 18) { //약 복용한 날 조건 수정 필요
-                    dayList.add(CalDaysInfo(year.toString(),month.toString(),i.toString(),1))
-                } else if(i == 10 || i == 11 || i == 13) { //약 미복용한 날 조건 수정 필요
-                    dayList.add(CalDaysInfo(year.toString(),month.toString(),i.toString(),2))
-                } else { // 약을 안 복용하는 날
-                    dayList.add(CalDaysInfo(year.toString(), month.toString(), i.toString(), 0))
+
+                //프로그레스바 설정
+                var isToday : Int
+                if(year == todayCal.get(Calendar.YEAR) && month == todayCal.get(Calendar.MONTH) + 1 && i == todayCal.get(Calendar.DAY_OF_MONTH)) {
+                    isToday = 3
+                } else {
+                    isToday = 0
+                }
+                if(dayTakePillList.size != 0) {
+                    Log.d("calLog",i.toString()+" "+(checkCount * 100 / dayTakePillList.size).toString())
+                    if(checkCount * 100 / dayTakePillList.size == 100) {
+                        dayList.add(CalDaysInfo(year.toString(),month.toString(),i.toString(),1 + isToday))
+                    } else {
+                        dayList.add(CalDaysInfo(year.toString(),month.toString(),i.toString(),2 + isToday))
+                    }
+                } else {
+                    Log.d("calLog",i.toString()+" x")
+                    dayList.add(CalDaysInfo(year.toString(),month.toString(),i.toString(),0 + isToday))
                 }
             }
+            withContext(Dispatchers.Main) {
+                binding.calendarDaysRv.adapter = CalendarDaysAdapter(dayList) { item ->
+                    setDataOfDay(item.month.toInt(),item.day.toInt())
+                }
+                binding.calendarDaysRv.layoutManager = GridLayoutManager(requireContext(),7)
+            }
         }
-//        var dayCount = 1
-//        while(dayList.size < 42) {
-//            dayList.add(dayCount.toString())
-//            dayCount++
-//        }
-
-        binding.calendarDaysRv.adapter = CalendarDaysAdapter(dayList) { item ->
-//            val dateText = binding.calendarTitleDateTv.text
-//            val parts = dateText.split(" ")
-//            val month = parts[1].filter { it.isDigit() }.toInt()
-            setDataOfDay(item.month.toInt(),item.day.toInt())
-        }
-        binding.calendarDaysRv.layoutManager = GridLayoutManager(requireContext(),7)
     }
 
     private fun setDataOfDay(month: Int,day: Int) {
@@ -183,7 +195,7 @@ class CalenderFragment : Fragment() {
         var newSympomContent = arrayListOf<TodayRecordEntity>()
         takepillList = arrayListOf()
 
-        GlobalScope.launch(Dispatchers.IO) {
+        lifecycleScope.launch(Dispatchers.IO) {
             ahyakDataBase = AhyakDataBase.getInstance(requireContext())
             var checkCount = 0
 
