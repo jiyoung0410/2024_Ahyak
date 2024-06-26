@@ -162,26 +162,27 @@ class CalenderFragment : Fragment() {
                 }
 
                 //프로그레스바 설정
-                var isToday : Int
-                if(year == todayCal.get(Calendar.YEAR) && month == todayCal.get(Calendar.MONTH) + 1 && i == todayCal.get(Calendar.DAY_OF_MONTH)) {
-                    isToday = 3
-                } else {
-                    isToday = 0
-                }
+//                var isToday : Int
+//                if(year == todayCal.get(Calendar.YEAR) && month == todayCal.get(Calendar.MONTH) + 1 && i == todayCal.get(Calendar.DAY_OF_MONTH)) {
+//                    isToday = 3
+//                } else {
+//                    isToday = 0
+//                }
                 if(dayTakePillList.size != 0) {
-                    Log.d("calLog",i.toString()+" "+(checkCount * 100 / dayTakePillList.size).toString())
                     if(checkCount * 100 / dayTakePillList.size == 100) {
-                        dayList.add(CalDaysInfo(year.toString(),month.toString(),i.toString(),1 + isToday))
+//                        dayList.add(CalDaysInfo(year.toString(),month.toString(),i.toString(),1 + isToday))
+                        dayList.add(CalDaysInfo(year.toString(),month.toString(),i.toString(),1))
                     } else {
-                        dayList.add(CalDaysInfo(year.toString(),month.toString(),i.toString(),2 + isToday))
+//                        dayList.add(CalDaysInfo(year.toString(),month.toString(),i.toString(),2 + isToday))
+                        dayList.add(CalDaysInfo(year.toString(),month.toString(),i.toString(),2))
                     }
                 } else {
-                    Log.d("calLog",i.toString()+" x")
-                    dayList.add(CalDaysInfo(year.toString(),month.toString(),i.toString(),0 + isToday))
+//                    dayList.add(CalDaysInfo(year.toString(),month.toString(),i.toString(),0 + isToday))
+                    dayList.add(CalDaysInfo(year.toString(),month.toString(),i.toString(),0))
                 }
             }
             withContext(Dispatchers.Main) {
-                binding.calendarDaysRv.adapter = CalendarDaysAdapter(dayList) { item ->
+                binding.calendarDaysRv.adapter = CalendarDaysAdapter(dayList,todayCal,binding.calendarTitleDateTv.text.toString()) { item ->
                     setDataOfDay(item.month.toInt(),item.day.toInt())
                 }
                 binding.calendarDaysRv.layoutManager = GridLayoutManager(requireContext(),7)

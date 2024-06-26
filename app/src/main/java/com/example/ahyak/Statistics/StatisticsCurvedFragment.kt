@@ -348,7 +348,13 @@ class StatisticsCurvedFragment : Fragment() {
 
     class XAxisCustomFormatter(val xAxisData : List<String>) : ValueFormatter() {
         override fun getFormattedValue(value: Float): String {
-            return xAxisData[(value).toInt()]
+//            return xAxisData[(value).toInt()]
+            val index = value.toInt()
+            return if (index >= 0 && index < xAxisData.size) {
+                xAxisData[index]
+            } else {
+                ""
+            }
         }
     }
 }
