@@ -242,6 +242,7 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
         //검색 취소 아이콘 눌렀을 때
         binding.registerPillDeleteIv.setOnClickListener {
             binding.registerPillNameInputEt.visibility = View.VISIBLE
+            binding.registerPillNameInputEt.setText(null)
             binding.registerPillNameInputTv.visibility = View.GONE
             binding.registerPillNameInputEt.hint = "약의 이름을 검색해주세요"
             binding.registerPillSearchIv.visibility = View.VISIBLE
@@ -520,6 +521,14 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
         binding.registerPillRv.visibility = View.GONE
         binding.registerPillSearchIv.visibility = View.GONE
         binding.registerPillDeleteIv.visibility = View.VISIBLE
+
+        finish()
+        val intent = Intent(this, ResultPillActivity::class.java)
+        val medicineName = dataItemRegisterPill.RegisterPillName
+        intent.putExtra("medicineName", medicineName) //약 이름을 넘김
+        Log.d("medicineName", "$medicineName")
+        startActivity(intent)
+
 
     }
 
