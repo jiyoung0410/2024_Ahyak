@@ -213,6 +213,11 @@ class StatisticsCurvedFragment : Fragment() {
             sympomDataList.add(ChartCommitSympomData(strengthList[i].name,strengthList[i].strength))
         }
 
+        if(sympomDataList.size == 1) {
+            chartEntry.add(Entry(1.toFloat(),strengthList[0].strength.toFloat()))
+            sympomDataList.add(ChartCommitSympomData(strengthList[0].name,strengthList[0].strength))
+        }
+
         val lineDataSet = LineDataSet(chartEntry,"chartEntry")
         lineDataSet.apply {
             color = resources.getColor(R.color.point,null) //선의 색깔
@@ -269,6 +274,11 @@ class StatisticsCurvedFragment : Fragment() {
         for(i in strengthList.indices) { //indices : dataList의 최소 index ~ 최대 index
             chartEntry.add(Entry(i.toFloat(),strengthList[i].strength.toFloat()))
             dateDataList.add(ChartCommitDateData(strengthList[i].date,strengthList[i].strength))
+        }
+
+        if(dateDataList.size == 1) {
+            chartEntry.add(Entry(1.toFloat(),strengthList[0].strength.toFloat()))
+            dateDataList.add(ChartCommitDateData(strengthList[0].date,strengthList[0].strength))
         }
 
         val lineDataSet = LineDataSet(chartEntry,"chartEntry")

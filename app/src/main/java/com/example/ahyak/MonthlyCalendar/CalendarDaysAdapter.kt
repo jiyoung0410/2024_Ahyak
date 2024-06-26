@@ -58,7 +58,7 @@ class CalendarDaysAdapter(var dateList: ArrayList<CalDaysInfo>,val onClick: (Cal
                     binding.itemCalendarDaysCl.setBackgroundResource(R.drawable.radi_50dp_point_stroke)
                 }
                 notifyItemChanged(previousPosition)
-                notifyItemChanged(selectedItemPosition)
+//                notifyItemChanged(selectedItemPosition)
                 onClick(myDays)
             }
         }
