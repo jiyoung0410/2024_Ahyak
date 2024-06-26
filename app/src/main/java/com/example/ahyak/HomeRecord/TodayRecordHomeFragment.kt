@@ -72,19 +72,21 @@ class TodayRecordHomeFragment : Fragment() {
             // 데이터베이스 초기화
             ahyakDatabase = AhyakDataBase.getInstance(requireContext())
 
-
             // 데이터베이스에서 데이터 가져오기 - 월/일/시간대 정보 전송(Prescription)
             val NewsymptomList = ahyakDatabase!!.getPrescriptionDao().getPrescription(selectedMonth, selectedDay, selectedSlot).toMutableList()
-
 
             // 데이터베이스에서 데이터 가져오기 - 월/일/시간대 정보 전송(추가 약 기록)
             val NewPillList = ahyakDatabase!!.getExtraPillDao().getPill(selectedMonth, selectedDay, selectedSlot)
 
 
             //특정 항목 삭제
-//            ahyakDatabase!!.getPrescriptionDao()?.deletePrescription("ㅌㅌ")
-//            ahyakDatabase!!.getPrescriptionDao()?.deletePrescription("ㅁㅋㅋ")
-//            ahyakDatabase!!.getPrescriptionDao()?.deletePrescription("ㅁㅁ")
+//            ahyakDatabase!!.getPrescriptionDao()?.deletePrescription("테스트1")
+//            ahyakDatabase!!.getPrescriptionDao()?.deletePrescription("테스트2")
+//            ahyakDatabase!!.getPrescriptionDao()?.deletePrescription("테스트3")
+//            ahyakDatabase!!.getPrescriptionDao()?.deletePrescription("테스트4")
+//            ahyakDatabase!!.getPrescriptionDao()?.deletePrescription("테스트5")
+//            ahyakDatabase!!.getPrescriptionDao()?.deletePrescription("테스트6")
+//            ahyakDatabase!!.getPrescriptionDao()?.deletePrescription("테스트9")
 
             //테이블 전체 삭제
             //ahyakDatabase!!.getPrescriptionDao().deleteAllPrescriptions()
@@ -98,6 +100,7 @@ class TodayRecordHomeFragment : Fragment() {
                 // 리사이클러뷰 아이템 구성
                 symptomList.addAll(NewsymptomList)
                 extrapillList.addAll(NewPillList)
+
                 binding.calendarAfterwakeChangeSymptomRv.adapter?.notifyDataSetChanged()
                 binding.calendarAfterwakeChangeExtraPillRv.adapter?.notifyDataSetChanged()
             }

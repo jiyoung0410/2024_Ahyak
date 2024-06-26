@@ -2,6 +2,7 @@ package com.example.ahyak.AddPrescription
 
 import android.app.DatePickerDialog
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -10,6 +11,8 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.DatePicker
 import com.example.ahyak.DB.AhyakDataBase
 import com.example.ahyak.DB.PrescriptionEntity
+import com.example.ahyak.MainActivity
+import com.example.ahyak.PillRegister.ExtraRegisterPillActivity
 import com.example.ahyak.databinding.ActivityAddSymptomsBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -119,6 +122,8 @@ class AddPrescriptionActivity : AppCompatActivity(), DatePickerDialog.OnDateSetL
         //'X'누르면 실행
         binding.addSymptomsCancleIv.setOnClickListener {
             finish()
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
         }
 
         binding.addSymptomsAddbtnLl.setOnClickListener {
@@ -161,6 +166,7 @@ class AddPrescriptionActivity : AppCompatActivity(), DatePickerDialog.OnDateSetL
                 }
             }
             finish()
+
         }
     }
 
