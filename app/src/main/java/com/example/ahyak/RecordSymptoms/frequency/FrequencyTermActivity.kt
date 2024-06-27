@@ -156,13 +156,31 @@ class FrequencyTermActivity : AppCompatActivity() {
             finish()
         }
 
-        //시작일의 날짜 선택 눌렀을 때
+//        //시작일의 날짜 선택 눌렀을 때
+//        binding.frequentcySelectdateLl.setOnClickListener {
+//            val datePickerDialog = DatePickerDialog(this, { _, year, month, day ->
+//                binding.registerPillFrequencySelectTv.text =
+//                    year.toString() + "." + (month + 1).toString() + "." + day.toString()+ "."
+//            }, year, month, day)
+//            start_Date.set(year, month, day)
+//            Log.d("start_Date", "$year, $month, $day")
+//
+//            datePickerDialog.show()
+//        }
+
+        //시작일의 날짜 선택 눌렀을 때 수정 버전
         binding.frequentcySelectdateLl.setOnClickListener {
-            val datePickerDialog = DatePickerDialog(this, { _, year, month, day ->
+            val datePickerDialog = DatePickerDialog(this, { _, selectedYear, selectedMonth, selectedDay ->
                 binding.registerPillFrequencySelectTv.text =
-                    year.toString() + "." + (month + 1).toString() + "." + day.toString()+ "."
+                    selectedYear.toString() + "." + (selectedMonth + 1).toString() + "." + selectedDay.toString() + "."
+                start_Date.set(selectedYear, selectedMonth, selectedDay)
+                Log.d("start_Date", "$selectedYear, $selectedMonth, $selectedDay")
+
+                // year, month, day 변수 업데이트
+                year = selectedYear
+                month = selectedMonth
+                day = selectedDay
             }, year, month, day)
-            start_Date.set(year, month, day)
 
             datePickerDialog.show()
         }
