@@ -88,7 +88,8 @@ class TodayRecordHomeFragment : Fragment() {
             binding.calendarAfterwakeChangeExtraPillRv.adapter?.notifyDataSetChanged()
 
             //특정 항목 삭제
-//            ahyakDatabase!!.getPrescriptionDao()?.deletePrescription("테스트5")
+//            ahyakDatabase!!.getPrescriptionDao()?.deletePrescription("환절기 피부질환")
+//            ahyakDatabase!!.getPrescriptionDao()?.deletePrescription("특발성 돌풍")
 //            ahyakDatabase!!.getPrescriptionDao()?.deletePrescription("테스트6")
 //            ahyakDatabase!!.getPrescriptionDao()?.deletePrescription("테스트8")
 //            ahyakDatabase!!.getPrescriptionDao()?.deletePrescription("테스트9")
