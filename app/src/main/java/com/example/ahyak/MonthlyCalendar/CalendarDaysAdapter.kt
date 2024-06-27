@@ -20,7 +20,6 @@ class CalendarDaysAdapter(var dateList: ArrayList<CalDaysInfo>, val selectedDay:
             val parts = monthInfo.split(" ")
             val year = parts[0].filter { it.isDigit() }.toInt()
             val month = parts[1].filter { it.isDigit() }.toInt()
-            Log.d("logCal",(selectedDay.get(Calendar.MONTH) + 1).toString() + " " + month)
 
             binding.itemCalendarDaysTv.text = myDays.day
 
@@ -55,19 +54,22 @@ class CalendarDaysAdapter(var dateList: ArrayList<CalDaysInfo>, val selectedDay:
             }
 
             binding.root.setOnClickListener {
-                notifyItemChanged(selectedItemPosition)
-//                val previousPosition = selectedItemPosition
-                selectedItemPosition = adapterPosition
-                if(myDays.bg == 1) {
-                    binding.itemCalendarDaysCl.setBackgroundResource(R.drawable.double_circle_point_point_stroke)
-                } else if(myDays.bg == 2) {
-                    binding.itemCalendarDaysCl.setBackgroundResource(R.drawable.double_circle_gray3_point_stroke)
-                } else if(myDays.bg == 0) {
-                    binding.itemCalendarDaysCl.setBackgroundResource(R.drawable.radi_50dp_point_stroke)
-                }
 
-//                notifyItemChanged(selectedItemPosition)
-                onClick(myDays)
+                if(selectedItemPosition != adapterPosition) {
+                    notifyItemChanged(selectedItemPosition)
+//                val previousPosition = selectedItemPosition
+                    selectedItemPosition = adapterPosition
+                    if(myDays.bg == 1) {
+                        binding.itemCalendarDaysCl.setBackgroundResource(R.drawable.double_circle_point_point_stroke)
+                    } else if(myDays.bg == 2) {
+                        binding.itemCalendarDaysCl.setBackgroundResource(R.drawable.double_circle_gray3_point_stroke)
+                    } else if(myDays.bg == 0) {
+                        binding.itemCalendarDaysCl.setBackgroundResource(R.drawable.radi_50dp_point_stroke)
+                    }
+
+                    //                notifyItemChanged(selectedItemPosition)
+                    onClick(myDays)
+                }
             }
         }
     }
