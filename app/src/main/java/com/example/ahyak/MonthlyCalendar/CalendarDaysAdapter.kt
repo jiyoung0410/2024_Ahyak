@@ -70,7 +70,6 @@ class CalendarDaysAdapter(var dateList: ArrayList<CalDaysInfo>, val selectedDay:
                     //                notifyItemChanged(selectedItemPosition)
                     onClick(myDays)
                 }
-
             }
         }
     }

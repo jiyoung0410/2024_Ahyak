@@ -311,6 +311,7 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
                 if (dates != null) {
                     for (date in dates) {
                         val splitDate = date.split(".") // 날짜를 월과 일로 분리
+                        Log.d("registerPill", "$splitDate")
                         val selectedMonth = splitDate[1].toInt()
                         val selectedDay = splitDate[2].toInt()
 
