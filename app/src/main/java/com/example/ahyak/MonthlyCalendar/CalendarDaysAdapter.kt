@@ -55,7 +55,7 @@ class CalendarDaysAdapter(var dateList: ArrayList<CalDaysInfo>, val selectedDay:
 
             binding.root.setOnClickListener {
 
-                if(selectedItemPosition != adapterPosition) {
+                if(selectedItemPosition != adapterPosition && myDays.day.toInt() != -1) {
                     notifyItemChanged(selectedItemPosition)
 //                val previousPosition = selectedItemPosition
                     selectedItemPosition = adapterPosition
