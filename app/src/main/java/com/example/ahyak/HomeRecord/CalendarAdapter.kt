@@ -51,15 +51,17 @@ class CalendarAdapter(private val cList: List<CalendarVO>, private val selectDat
             }
 
             binding.root.setOnClickListener {
-                notifyItemChanged(selectedItemPosition)
-                selectedItemPosition = adapterPosition
 //                selectedDay.cl_day = binding.day.text.toString()
 //                selectedDay.cl_date = binding.date.text.toString()
 
-                binding.weekCardview.setBackgroundResource(R.drawable.today_week_calender_style_select)
-                binding.date.setTextColor(ContextCompat.getColor(binding.root.context, R.color.point))
-                binding.day.setTextColor(ContextCompat.getColor(binding.root.context, R.color.point))
-                onClick(item)
+                if(selectedItemPosition != adapterPosition) {
+                    notifyItemChanged(selectedItemPosition)
+                    selectedItemPosition = adapterPosition
+                    binding.weekCardview.setBackgroundResource(R.drawable.today_week_calender_style_select)
+                    binding.date.setTextColor(ContextCompat.getColor(binding.root.context, R.color.point))
+                    binding.day.setTextColor(ContextCompat.getColor(binding.root.context, R.color.point))
+                    onClick(item)
+                }
             }
         }
     }
