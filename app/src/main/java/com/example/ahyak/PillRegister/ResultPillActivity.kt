@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ahyak.R
 import com.example.ahyak.databinding.ActivityResultPillBinding
@@ -52,8 +53,14 @@ class ResultPillActivity : AppCompatActivity() {
 
         //Intent로부터 데이터추출
         resultpillName = intent.getStringExtra("medicineName").toString()
-        if(resultpillName != null){
-
+        //Intent로부터 데이터추출
+        resultpillName = intent.getStringExtra("medicineName").toString()
+        if(resultpillName == "null"){
+            Log.d("is Empty?", "$resultpillName")
+            resultpillList.clear()
+        }
+        else if(resultpillName.isNotEmpty()){
+            Log.d("is not Empty?", "$resultpillName")
             // drawable 리소스 선택
             val DrawableId = drawableIds[Random.nextInt(drawableIds.size)]
 
