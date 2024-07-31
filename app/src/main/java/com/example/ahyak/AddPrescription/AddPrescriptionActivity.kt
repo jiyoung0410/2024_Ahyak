@@ -6,9 +6,11 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.DatePicker
+import android.widget.Toast
 import com.example.ahyak.DB.AhyakDataBase
 import com.example.ahyak.DB.PrescriptionEntity
 import com.example.ahyak.MainActivity
@@ -48,6 +50,10 @@ class AddPrescriptionActivity : AppCompatActivity(), DatePickerDialog.OnDateSetL
                 binding.addSymptomsSymptomNameEt.clearFocus()
                 val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 inputMethodManager.hideSoftInputFromWindow(binding.addSymptomsSymptomNameEt.windowToken, 0)
+                binding.nameBlankLl.visibility = View.VISIBLE
+                binding.addSymptomsSymptomNameTv.visibility = View.GONE
+                binding.addSymptomsHospitalNameEt.visibility = View.VISIBLE
+                binding.addSymptomsHospitalNameTv.visibility = View.VISIBLE
                 return@setOnEditorActionListener true
             }else {
                 return@setOnEditorActionListener false
@@ -61,6 +67,9 @@ class AddPrescriptionActivity : AppCompatActivity(), DatePickerDialog.OnDateSetL
                 binding.addSymptomsHospitalNameEt.clearFocus()
                 val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 inputMethodManager.hideSoftInputFromWindow(binding.addSymptomsHospitalNameEt.windowToken, 0)
+                binding.startLl.visibility = View.VISIBLE
+                binding.addSymptomsStartTv.visibility = View.VISIBLE
+                binding.addSymptomsHospitalNameTv.visibility = View.GONE
                 return@setOnEditorActionListener true
             }else {
                 return@setOnEditorActionListener false
@@ -88,7 +97,7 @@ class AddPrescriptionActivity : AppCompatActivity(), DatePickerDialog.OnDateSetL
         binding.addSymptomsStartdayTv.text = StartDate
 
         //시작 날짜 설정
-        binding.addSymptomsStartdayLl.setOnClickListener {
+        binding.addSymptomsStartdayTv.setOnClickListener {
             val year = cal.get(Calendar.YEAR)
             StartMonth = cal.get(Calendar.MONTH)
             StartDay = cal.get(Calendar.DAY_OF_MONTH)
@@ -99,13 +108,17 @@ class AddPrescriptionActivity : AppCompatActivity(), DatePickerDialog.OnDateSetL
                 StartMonth = month + 1
                 StartDay = day
 
+                binding.addSymptomsStartTv.visibility = View.GONE
+                binding.addSymptomsEndTv.visibility = View.VISIBLE
+                binding.endLl.visibility = View.VISIBLE
+
             }, year, StartMonth, StartDay)
 
             datePickerDialog.show()
         }
 
         //종료 날짜 설정
-        binding.addSymptomsEnddayLl.setOnClickListener {
+        binding.addSymptomsEnddayTv.setOnClickListener {
             val year = cal.get(Calendar.YEAR)
             val month = cal.get(Calendar.MONTH)
             val dayOfMonth = cal.get(Calendar.DAY_OF_MONTH)
@@ -114,6 +127,7 @@ class AddPrescriptionActivity : AppCompatActivity(), DatePickerDialog.OnDateSetL
 
                 EndDate = year.toString() + "." + (month + 1).toString() + "." + day.toString()+ "."
                 binding.addSymptomsEnddayTv.text =EndDate
+                binding.addSymptomsEndTv.visibility = View.GONE
 
             }, year, month, dayOfMonth)
             datePickerDialog.show()
