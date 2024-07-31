@@ -107,7 +107,6 @@
                 android:textColorHint="@color/gray1"
                 android:textSize="20sp"/>
 
-
             <LinearLayout
                 android:id="@+id/hospital_blank_ll"
                 android:layout_width="wrap_content"
