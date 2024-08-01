@@ -35,45 +35,41 @@
 
         <ImageView
             android:id="@+id/extra_register_pill_cancle_iv"
-            android:layout_width="28.5dp"
-            android:layout_height="28.5dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:src="@drawable/ic_cancle"
             android:layout_gravity="right"
-            android:layout_marginTop="17dp"
-            android:layout_marginEnd="22dp"/>
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="30dp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="약 이름"
-            android:fontFamily="@font/nanum_barun_gothic_bold"
+            android:fontFamily="@font/nanum_barun_gothic"
             android:textColor="@color/black"
-            android:textSize="18sp"
+            android:textSize="15sp"
             android:layout_marginStart="30dp"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
             android:layout_marginEnd="30dp"
-            android:layout_marginTop="17dp"
-            android:background="@drawable/bg_radi_5dp">
+            android:layout_marginTop="17dp">
 
             <EditText
                 android:id="@+id/extra_register_pill_name_input_et"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="약의 이름을 입력해주세요"
-                android:textSize="12dp"
+                android:textSize="20dp"
                 android:inputType="text"
-                android:background="@color/transparent"
                 android:fontFamily="@font/nanum_barun_gothic_light"
                 app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginEnd="30dp"
                 app:layout_constraintEnd_toStartOf="@id/extra_register_pill_search_iv"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="10dp"/>
+                app:layout_constraintStart_toStartOf="parent" />
 
             <ImageView
                 android:id="@+id/extra_register_pill_search_iv"
@@ -83,6 +79,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginBottom="10dp"
                 android:layout_marginEnd="10dp"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -92,9 +89,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="용량"
-            android:fontFamily="@font/nanum_barun_gothic_bold"
+            android:fontFamily="@font/nanum_barun_gothic"
             android:textColor="@color/black"
-            android:textSize="18sp"
+            android:textSize="15sp"
             android:layout_marginTop="30dp"
             android:layout_marginStart="30dp"/>
 
@@ -107,24 +104,22 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/bg_radi_5dp">
+                android:layout_marginTop="10dp">
 
                 <EditText
                     android:id="@+id/extra_register_pill_dosage_input_et"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:hint="약의 용량을 입력해주세요"
-                    android:textSize="12dp"
-                    android:background="@color/transparent"
+                    android:hint="약 용량 입력"
+                    android:textSize="20dp"
+                    android:paddingBottom="15dp"
                     android:inputType="numberDecimal"
                     android:fontFamily="@font/nanum_barun_gothic_light"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginStart="10dp"/>
+                    app:layout_constraintStart_toStartOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
             <LinearLayout
@@ -132,7 +127,7 @@
                 android:layout_height="40dp"
                 android:layout_weight="2"
                 android:layout_marginStart="10dp"
-                android:background="@drawable/bg_radi_5dp"
+                android:background="@drawable/radi_5dp_black_stroke"
                 android:orientation="horizontal"
                 android:gravity="center"
                 android:layout_marginTop="10dp">

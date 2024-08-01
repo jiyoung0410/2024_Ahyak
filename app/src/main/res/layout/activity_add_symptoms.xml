@@ -35,12 +35,12 @@
 
         <ImageView
             android:id="@+id/add_symptoms_cancle_iv"
-            android:layout_width="28.5dp"
-            android:layout_height="28.5dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:src="@drawable/ic_cancle"
             android:layout_gravity="right"
-            android:layout_marginTop="17dp"
-            android:layout_marginEnd="22dp"/>
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="30dp"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -68,7 +68,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toTopOf="@id/add_symptoms_symptom_name_tv"
-                    android:layout_marginTop="9dp"
                     android:paddingBottom="15dp"
                     android:inputType="text"
                     android:hint="증상 이름을 입력해주세요"
@@ -100,7 +99,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="@id/add_symptoms_hospital_name_tv"
-                android:layout_marginTop="9dp"
                 android:paddingBottom="15dp"
                 android:inputType="text"
                 android:hint="처방받은 병원 이름을 입력해주세요"
@@ -121,6 +119,7 @@
                     app:layout_constraintTop_toBottomOf="@id/add_symptoms_symptom_name_et"
                     app:layout_constraintStart_toStartOf="parent"
                     android:text="시작일"
+                    android:layout_marginBottom="10dp"
                     android:textSize="15sp"
                     android:textColor="@color/text_gray"
                     android:fontFamily="@font/nanum_barun_gothic"/>
@@ -132,19 +131,39 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-
-                    <TextView
-                        android:id="@+id/add_symptoms_startday_tv"
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintTop_toTopOf="@id/add_symptoms_hospital_name_tv"
-                        android:layout_marginTop="9dp"
-                        android:layout_marginStart="2dp"
-                        android:layout_marginEnd="2dp"
-                        android:inputType="text"
-                        android:text="처방 날짜를 선택해주세요"
-                        android:textColor="@color/gray1"
-                        android:textSize="20sp"/>
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:layout_marginTop="9dp"
+                            android:layout_marginStart="2dp"
+                            android:layout_marginEnd="2dp"
+                            android:fontFamily="@font/nanum_barun_gothic"
+                            android:inputType="text"
+                            android:text="처방 날짜 선택"
+                            android:textColor="@color/gray1"
+                            android:textSize="20sp"/>
+
+                        <TextView
+                            android:id="@+id/add_symptoms_startday_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:layout_marginTop="9dp"
+                            android:fontFamily="@font/nanum_barun_gothic_bold"
+                            android:layout_marginStart="2dp"
+                            android:layout_marginEnd="2dp"
+                            android:textColor="@color/point"
+                            android:textSize="20sp"/>
+
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <View
                         android:layout_width="match_parent"
@@ -162,8 +181,6 @@
                 android:layout_height="40dp"
                 android:orientation="horizontal" />
 
-
-
             <TextView
                 android:visibility="gone"
                 android:id="@+id/add_symptoms_end_tv"
@@ -172,6 +189,7 @@
                 app:layout_constraintTop_toBottomOf="@id/add_symptoms_symptom_name_et"
                 app:layout_constraintStart_toStartOf="parent"
                 android:text="종료일"
+                android:layout_marginBottom="10dp"
                 android:textSize="15sp"
                 android:textColor="@color/text_gray"
                 android:fontFamily="@font/nanum_barun_gothic"/>
@@ -183,18 +201,40 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/add_symptoms_endday_tv"
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="2dp"
-                        android:layout_marginEnd="2dp"
-                        app:layout_constraintTop_toTopOf="@id/add_symptoms_hospital_name_tv"
-                        android:layout_marginTop="9dp"
-                        android:inputType="text"
-                        android:textColor="@color/gray1"
-                        android:text="종료 날짜를 선택해주세요"
-                        android:textSize="20sp"/>
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/add_symptoms_endday_click_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="2dp"
+                            android:layout_marginEnd="2dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:fontFamily="@font/nanum_barun_gothic"
+                            android:layout_marginTop="9dp"
+                            android:inputType="text"
+                            android:textColor="@color/gray1"
+                            android:text="종료 날짜 선택"
+                            android:textSize="20sp"/>
+
+                        <TextView
+                            android:id="@+id/add_symptoms_endday_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="2dp"
+                            android:layout_marginEnd="2dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:layout_marginTop="9dp"
+                            android:textColor="@color/point"
+                            android:fontFamily="@font/nanum_barun_gothic_bold"
+                            android:textSize="20sp"/>
+
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <View
                         android:layout_width="match_parent"
@@ -209,6 +249,28 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/add_symptoms_addbtn_gray_ll"
+                android:layout_width="match_parent"
+                android:layout_height="41dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="30dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginStart="30dp"
+                android:gravity="center"
+                android:background="@drawable/gray_radi_10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="추가하기"
+                    android:fontFamily="@font/nanum_barun_gothic_bold"
+                    android:textSize="14sp"
+                    android:textColor="@color/white"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:visibility="gone"
                 android:id="@+id/add_symptoms_addbtn_ll"
                 android:layout_width="match_parent"
                 android:layout_height="41dp"

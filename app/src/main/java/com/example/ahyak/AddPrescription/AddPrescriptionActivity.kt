@@ -46,10 +46,7 @@ class AddPrescriptionActivity : AppCompatActivity(), DatePickerDialog.OnDateSetL
         //처방 이름 Edit Text
         binding.addSymptomsSymptomNameEt.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
-                binding.addSymptomsSymptomNameTv.visibility = View.VISIBLE
-            }
-        }
-
+                binding.addSymptomsSymptomNameTv.visibility = View.VISIBLE } }
         binding.addSymptomsSymptomNameEt.imeOptions = EditorInfo.IME_ACTION_DONE
         binding.addSymptomsSymptomNameEt.setOnEditorActionListener { _, actionId, event ->
             if(actionId == EditorInfo.IME_ACTION_DONE){
@@ -57,7 +54,6 @@ class AddPrescriptionActivity : AppCompatActivity(), DatePickerDialog.OnDateSetL
                 val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 inputMethodManager.hideSoftInputFromWindow(binding.addSymptomsSymptomNameEt.windowToken, 0)
                 binding.nameBlankLl.visibility = View.VISIBLE
-                binding.addSymptomsSymptomNameTv.visibility = View.GONE
                 binding.addSymptomsHospitalNameEt.visibility = View.VISIBLE
                 binding.addSymptomsHospitalNameTv.visibility = View.VISIBLE
                 return@setOnEditorActionListener true
@@ -70,10 +66,7 @@ class AddPrescriptionActivity : AppCompatActivity(), DatePickerDialog.OnDateSetL
         binding.addSymptomsHospitalNameEt.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 binding.addSymptomsHospitalNameTv.visibility = View.VISIBLE
-                binding.nameBlankLl.visibility = View.INVISIBLE
-            }
-        }
-
+                binding.nameBlankLl.visibility = View.INVISIBLE } }
         binding.addSymptomsHospitalNameEt.imeOptions = EditorInfo.IME_ACTION_DONE
         binding.addSymptomsHospitalNameEt.setOnEditorActionListener { _, actionId, event ->
             if(actionId == EditorInfo.IME_ACTION_DONE){
@@ -82,8 +75,6 @@ class AddPrescriptionActivity : AppCompatActivity(), DatePickerDialog.OnDateSetL
                 inputMethodManager.hideSoftInputFromWindow(binding.addSymptomsHospitalNameEt.windowToken, 0)
                 binding.startLl.visibility = View.VISIBLE
                 binding.addSymptomsStartTv.visibility = View.VISIBLE
-                binding.nameBlankLl.visibility = View.GONE
-                binding.addSymptomsHospitalNameTv.visibility = View.GONE
                 return@setOnEditorActionListener true
             }else {
                 return@setOnEditorActionListener false
@@ -112,6 +103,11 @@ class AddPrescriptionActivity : AppCompatActivity(), DatePickerDialog.OnDateSetL
 
         //시작 날짜 설정
         binding.addSymptomsStartdayTv.setOnClickListener {
+
+            //종료일 레이아웃 뜨도록
+            binding.addSymptomsEndTv.visibility = View.VISIBLE
+            binding.endLl.visibility = View.VISIBLE
+
             val year = cal.get(Calendar.YEAR)
             StartMonth = cal.get(Calendar.MONTH)
             StartDay = cal.get(Calendar.DAY_OF_MONTH)
@@ -122,16 +118,13 @@ class AddPrescriptionActivity : AppCompatActivity(), DatePickerDialog.OnDateSetL
                 StartMonth = month + 1
                 StartDay = day
 
-                binding.addSymptomsEndTv.visibility = View.VISIBLE
-                binding.endLl.visibility = View.VISIBLE
-
             }, year, StartMonth, StartDay)
 
             datePickerDialog.show()
         }
 
         //종료 날짜 설정
-        binding.addSymptomsEnddayTv.setOnClickListener {
+        binding.addSymptomsEnddayClickTv.setOnClickListener {
             val year = cal.get(Calendar.YEAR)
             val month = cal.get(Calendar.MONTH)
             val dayOfMonth = cal.get(Calendar.DAY_OF_MONTH)
@@ -140,6 +133,8 @@ class AddPrescriptionActivity : AppCompatActivity(), DatePickerDialog.OnDateSetL
 
                 EndDate = year.toString() + "." + (month + 1).toString() + "." + day.toString()+ "."
                 binding.addSymptomsEnddayTv.text =EndDate
+                binding.addSymptomsAddbtnGrayLl.visibility = View.GONE
+                binding.addSymptomsAddbtnLl.visibility = View.VISIBLE
 
             }, year, month, dayOfMonth)
             datePickerDialog.show()
