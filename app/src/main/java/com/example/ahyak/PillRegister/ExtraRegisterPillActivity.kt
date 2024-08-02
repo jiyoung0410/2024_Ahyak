@@ -5,8 +5,10 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import androidx.core.widget.addTextChangedListener
 import com.example.ahyak.DB.AhyakDataBase
 import com.example.ahyak.DB.ExtraPillEntity
 import com.example.ahyak.DB.PrescriptionEntity
@@ -46,15 +48,15 @@ class ExtraRegisterPillActivity : AppCompatActivity() {
 
         //mg 버튼 누르면
         binding.extraRegisterPillDosageMgCv.setOnClickListener {
-            binding.extraRegisterPillDosageMgCv.setBackgroundResource(R.drawable.white_radi_5dp)
-            binding.extraRegisterPillDosageTabletCv.setBackgroundResource(R.drawable.bg_radi_5dp)
+            binding.extraRegisterPillDosageMgCv.setBackgroundResource(R.drawable.bg_radi_5dp)
+            binding.extraRegisterPillDosageTabletCv.setBackgroundResource(R.drawable.white_radi_5dp)
             pillType = "mg"
         }
 
         //정 버튼 누르면
         binding.extraRegisterPillDosageTabletCv.setOnClickListener {
-            binding.extraRegisterPillDosageTabletCv.setBackgroundResource(R.drawable.white_radi_5dp)
-            binding.extraRegisterPillDosageMgCv.setBackgroundResource(R.drawable.bg_radi_5dp)
+            binding.extraRegisterPillDosageTabletCv.setBackgroundResource(R.drawable.bg_radi_5dp)
+            binding.extraRegisterPillDosageMgCv.setBackgroundResource(R.drawable.white_radi_5dp)
             pillType = "정"
         }
 
@@ -91,10 +93,18 @@ class ExtraRegisterPillActivity : AppCompatActivity() {
             true
         }
 
+        // EditText 내용 변경 시 버튼 상태 업데이트
+        binding.extraRegisterPillNameInputEt.addTextChangedListener {
+            updateSaveButtonState()
+        }
+
+        binding.extraRegisterPillDosageInputEt.addTextChangedListener {
+            updateSaveButtonState()
+        }
+
         //저장하기 버튼 누르면
         binding.extraRegisterPillSaveLl.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
-
 
             //Edit Text에서 약 이름과 용량 정보 받아오기
             pillVolume = binding.extraRegisterPillDosageInputEt.getText().toString()
@@ -128,5 +138,18 @@ class ExtraRegisterPillActivity : AppCompatActivity() {
         }
 
         setContentView(binding.root)
+    }
+
+    private fun updateSaveButtonState() {
+        pillVolume = binding.extraRegisterPillDosageInputEt.text.toString()
+        pillName = binding.extraRegisterPillNameInputEt.text.toString()
+
+        if (pillVolume.isNullOrEmpty() || pillName.isNullOrEmpty()) {
+            binding.extraRegisterPillGraySaveLl.visibility = View.VISIBLE
+            binding.extraRegisterPillSaveLl.visibility = View.GONE
+        } else {
+            binding.extraRegisterPillGraySaveLl.visibility = View.GONE
+            binding.extraRegisterPillSaveLl.visibility = View.VISIBLE
+        }
     }
 }

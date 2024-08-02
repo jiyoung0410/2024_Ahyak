@@ -7,6 +7,7 @@
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="point">#10C2C0</color>
+    <color name="soft_point">#68CECC</color>
     <color name="light_deep_point">#10ABA8</color>
     <color name="regular_deep_point">#008F8C</color>
     <color name="light_point">#BEEFEE</color>

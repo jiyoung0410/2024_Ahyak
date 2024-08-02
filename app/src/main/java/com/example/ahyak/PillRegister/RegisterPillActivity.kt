@@ -15,6 +15,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.edit
+import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ahyak.DB.AhyakDataBase
 import com.example.ahyak.DB.MedicineEntity
@@ -156,8 +157,7 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
             layout.setOnClickListener {
                 toggletimeSelection(layout)
                 updateSelectedDaysTextView()
-                binding.registerPillSaveGrayLl.visibility = View.GONE
-                binding.registerPillSaveLl.visibility = View.VISIBLE
+                updateSaveButtonState()
             }
         }
 
@@ -278,6 +278,8 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
 
         }
 
+
+
         val freeRecordPillName = intent.getStringExtra("freeRecordPillInpoName") ?: ""
         if (freeRecordPillName.isNotEmpty()) {
             binding.registerPillNameInputEt.hint = freeRecordPillName
@@ -288,6 +290,15 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
             finish()
             editor.putInt("type", -1)
             editor.apply()
+        }
+
+        // EditText 내용 변경 시 버튼 상태 업데이트
+        binding.registerPillVolumeInputEt.addTextChangedListener {
+            updateSaveButtonState()
+        }
+
+        binding.registerPillNameInputEt.addTextChangedListener {
+            updateSaveButtonState()
         }
 
         //저장 눌렀을 때
@@ -337,7 +348,6 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
                 registerPillFree = existingMedicineNames.contains(registerPilltext)
 
                 //Free Medicine인지 확인
-
                 if (dates != null) {
                     for (date in dates) {
                         val splitDate = date.split(".") // 날짜를 월과 일로 분리
@@ -583,5 +593,24 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
     //시간대 선택해서 리스트 저장
     private fun updateSelectedDaysTextView() {
         selectedDays.joinToString(", ")
+    }
+
+    //항목이 null 값이 아니면 저장 버튼이 나타날 수 있도록 함.
+    private fun updateSaveButtonState() {
+        val pillname = binding.registerPillNameInputEt.text.toString()
+        val pillvolume = binding.registerPillVolumeInputEt.text.toString()
+
+        val sharedPref = this.getSharedPreferences("myPref", Context.MODE_PRIVATE)
+
+        val frequenctType = sharedPref.getInt("type",-1)
+
+        if(pillname.isNullOrEmpty() || pillvolume.isNullOrEmpty() || frequenctType == -1 || selectedDays.isNullOrEmpty()){
+            binding.registerPillSaveGrayLl.visibility = View.VISIBLE
+            binding.registerPillSaveLl.visibility = View.GONE
+        }else{
+            binding.registerPillSaveGrayLl.visibility = View.GONE
+            binding.registerPillSaveLl.visibility = View.VISIBLE
+        }
+//
     }
 }

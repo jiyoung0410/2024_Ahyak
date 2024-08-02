@@ -9,7 +9,7 @@ import com.example.ahyak.databinding.ItemCalendarExtraPillBinding
 class ExtraPillAdapter(val extrapillList: ArrayList<ExtraPillEntity>):RecyclerView.Adapter<ExtraPillAdapter.ViewHolder>() {
     inner class ViewHolder(val binding : ItemCalendarExtraPillBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(extarpill: ExtraPillEntity){
-            binding.itemCalendarExtraPillVolumeTv.text = extarpill.PillVolume.toString()
+            binding.itemCalendarExtraPillVolumeTv.text = extarpill.PillVolume + extarpill.PillType
             binding.itemCalendarExtraPillNameTv.text = extarpill.PillName
             binding.itemCalendarExtraPillEatTimeTv.text = extarpill.PillTime
         }
