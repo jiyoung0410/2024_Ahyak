@@ -14,6 +14,7 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.content.edit
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ahyak.DB.AhyakDataBase
 import com.example.ahyak.DB.MedicineEntity
@@ -123,6 +124,7 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
             }
         }
 
+
         //약 이름 입력 자동완성(not API)
         binding.registerPillNameInputEt.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -154,6 +156,8 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
             layout.setOnClickListener {
                 toggletimeSelection(layout)
                 updateSelectedDaysTextView()
+                binding.registerPillSaveGrayLl.visibility = View.GONE
+                binding.registerPillSaveLl.visibility = View.VISIBLE
             }
         }
 
@@ -240,7 +244,10 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
             binding.registerPillNameInputEt.setText(resultPillName)
             binding.registerPillSearchIv.visibility = View.GONE
             binding.registerPillDeleteIv.visibility = View.VISIBLE
+            binding.nameUnderbarView.visibility = View.VISIBLE
             binding.registerPillRv.visibility = View.GONE
+            binding.shapeVolumnLl.visibility = View.VISIBLE
+            binding.shapeVolumnTv.visibility = View.VISIBLE
         }
 
         searchPillName = intent.getStringExtra("resultPillInpoName")?:""
@@ -251,7 +258,10 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
             binding.registerPillNameInputEt.setText(searchPillName)
             binding.registerPillSearchIv.visibility = View.GONE
             binding.registerPillDeleteIv.visibility = View.VISIBLE
+            binding.nameUnderbarView.visibility = View.VISIBLE
             binding.registerPillRv.visibility = View.GONE
+            binding.shapeVolumnLl.visibility = View.VISIBLE
+            binding.shapeVolumnTv.visibility = View.VISIBLE
         }
 
         //검색 취소 아이콘 눌렀을 때
@@ -262,6 +272,9 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
             binding.registerPillNameInputEt.hint = "약의 이름을 검색해주세요"
             binding.registerPillSearchIv.visibility = View.VISIBLE
             binding.registerPillDeleteIv.visibility = View.GONE
+            binding.nameUnderbarView.visibility = View.GONE
+            binding.shapeVolumnLl.visibility = View.GONE
+            binding.shapeVolumnTv.visibility = View.GONE
 
         }
 
@@ -273,6 +286,8 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
         //'X'버튼 눌렀을 때
         binding.registerPillCancleIv.setOnClickListener {
             finish()
+            editor.putInt("type", -1)
+            editor.apply()
         }
 
         //저장 눌렀을 때

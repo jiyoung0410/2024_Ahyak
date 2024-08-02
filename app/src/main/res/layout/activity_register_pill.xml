@@ -65,6 +65,7 @@
                 android:textSize="15sp" />
             
             <ImageView
+                android:id="@+id/speech_bubble_register_ic"
                 android:layout_width="100dp"
                 android:layout_height="30dp"
                 android:layout_marginEnd="20dp"
@@ -119,14 +120,23 @@
 
             <ImageView
                 android:id="@+id/register_pill_delete_iv"
-                android:layout_width="18dp"
-                android:layout_height="20dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:src="@drawable/cancle_circle_ic"
+                android:layout_marginBottom="12dp"
                 android:visibility="gone"
-                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginEnd="10dp"/>
+
+            <View
+                android:id="@+id/name_underbar_view"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:visibility="gone"
+                android:background="@color/text_gray"
+                android:layout_marginTop="7dp"
+                app:layout_constraintBottom_toBottomOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
         
@@ -494,7 +504,27 @@
                 android:id="@+id/register_pill_save_ll"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:background="@drawable/point_radi_15dp"
+                android:visibility="gone"
+                android:background="@drawable/point_radi_10dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:gravity="center"
+                android:layout_marginTop="30dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="저장"
+                    android:textSize="14dp"
+                    android:fontFamily="@font/nanum_barun_gothic_bold"
+                    android:textColor="@color/white"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/register_pill_save_gray_ll"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/gray_radi_10dp"
                 android:layout_marginStart="30dp"
                 android:layout_marginEnd="30dp"
                 android:gravity="center"

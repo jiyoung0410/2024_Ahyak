@@ -279,11 +279,11 @@ class SearchPillActivity : AppCompatActivity(), DrugSearchNameView, DrugSearchSh
 
         //  2/5에서 '<'버튼 누르면
         binding.cancle2Iv.setOnClickListener {
-            //식별문자 레이아웃, 다음(1/4) 나타나고
+            //식별문자 레이아웃, 다음(1/6) 나타나고
             binding.codeLl.visibility = View.VISIBLE
             binding.next1Ll.visibility = View.VISIBLE
 
-            //모양 검색 레이아웃, < 이전버튼, 다음(2/4) 사라지기
+            //모양 검색 레이아웃, < 이전버튼, 다음(2/6) 사라지기
             binding.shapeLl.visibility = View.GONE
             binding.cancle2Iv.visibility = View.GONE
             binding.next2Ll.visibility = View.GONE

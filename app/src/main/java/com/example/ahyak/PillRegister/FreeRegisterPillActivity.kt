@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
@@ -16,7 +17,6 @@ import com.example.ahyak.databinding.ActivityFreeRegisterPillBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class FreeRegisterPillActivity : AppCompatActivity() {
 
@@ -50,7 +50,6 @@ class FreeRegisterPillActivity : AppCompatActivity() {
         binding.freeRecordPillShapeOblongLl.tag = "장방형"
         binding.freeRecordPillShapeOctagonLl.tag = "팔각형"
         binding.freeRecordPillShapePentagonLl.tag = "오각형"
-        binding.freeRecordPillShapeEtcLl.tag = "기타"
 
         //모양을 클릭했을 때
         val shapeList = listOf(
@@ -63,8 +62,7 @@ class FreeRegisterPillActivity : AppCompatActivity() {
             binding.freeRecordPillShapeHexagonLl,
             binding.freeRecordPillShapeOblongLl,
             binding.freeRecordPillShapeOctagonLl,
-            binding.freeRecordPillShapePentagonLl,
-            binding.freeRecordPillShapeEtcLl)
+            binding.freeRecordPillShapePentagonLl)
 
         var selectedShapeId: Int = -1
 
@@ -73,17 +71,18 @@ class FreeRegisterPillActivity : AppCompatActivity() {
                 //이전에 선택된 버튼의 배경색을 원래대로 되돌리기
                 if (selectedShapeId != -1) {
                     val previousButton = findViewById<LinearLayout>(selectedShapeId)
-                    previousButton.setBackgroundResource(R.drawable.white_gray3_stroke)
+                    previousButton.setBackgroundResource(R.drawable.white_radi_5dp)
                 }
 
                 // 클릭된 버튼의 배경색을 변경하기
-                button.setBackgroundResource(R.drawable.white_point_stroke)
+                button.setBackgroundResource(R.drawable.light_point_radi_5dp)
 
                 // 클릭된 버튼의 아이디 저장하기
                 selectedShapeId = button.id
                 val selectedShapeTag = it.tag as? String // 클릭된 버튼의 태그 읽어오기
                 if (selectedShapeTag != null) {
                     selectshape = selectedShapeTag
+                    binding.shapeFreeTv.text = selectedShapeTag.toString()
                 } else {
                     selectshape = "기타"
                 }
@@ -104,9 +103,9 @@ class FreeRegisterPillActivity : AppCompatActivity() {
         binding.freeRecordPillColorBlueLl.tag = "파랑"
         binding.freeRecordPillColorPurpleLl.tag = "자주"
         binding.freeRecordPillColorVioletLl.tag = "보라"
-        binding.freeRecordPillColorGreenbuleLl.tag = "청록"
+        binding.freeRecordPillColorGrayLl.tag = "회색"
+        binding.freeRecordPillColorGreenblueLl.tag = "청록"
         binding.freeRecordPillColorTransLl.tag = "투명"
-        binding.freeRecordPillColorEtcLl.tag = "기타"
 
         //색상을 클릭했을 때
         val colorList = listOf(
@@ -123,9 +122,9 @@ class FreeRegisterPillActivity : AppCompatActivity() {
             binding.freeRecordPillColorBlueLl,
             binding.freeRecordPillColorPurpleLl,
             binding.freeRecordPillColorVioletLl,
-            binding.freeRecordPillColorGreenbuleLl,
+            binding.freeRecordPillColorGreenblueLl,
             binding.freeRecordPillColorTransLl,
-            binding.freeRecordPillColorEtcLl)
+            binding.freeRecordPillColorGrayLl)
 
         var selectedColorId: Int = -1
 
@@ -134,17 +133,18 @@ class FreeRegisterPillActivity : AppCompatActivity() {
                 //이전에 선택된 버튼의 배경색을 원래대로 되돌리기
                 if (selectedColorId != -1) {
                     val previousButton = findViewById<LinearLayout>(selectedColorId)
-                    previousButton.setBackgroundResource(R.drawable.white_gray3_stroke)
+                    previousButton.setBackgroundResource(R.drawable.white_radi_5dp)
                 }
 
                 // 클릭된 버튼의 배경색을 변경하기
-                button.setBackgroundResource(R.drawable.white_point_stroke)
+                button.setBackgroundResource(R.drawable.light_point_radi_5dp)
 
                 // 클릭된 버튼의 아이디 저장하기
                 selectedColorId = button.id
                 val selectedColorTag = it.tag as? String // 클릭된 버튼의 태그 읽어오기
                 if (selectedColorTag != null) {
                     selectcolor = selectedColorTag
+                    binding.colorFreeTv.text = selectcolor
                 } else {
                     selectcolor = "기타"
                 }
@@ -152,14 +152,12 @@ class FreeRegisterPillActivity : AppCompatActivity() {
         }
         //각각 태그달기
         binding.freeRecordPillFormulationTabletLl.tag = "정제"
-        binding.freeRecordPillFormulationEtcLl.tag = "기타"
         binding.freeRecordPillFormulationReshffleLl.tag = "경질캡슐"
         binding.freeRecordPillFormulationSoftLl.tag = "연질캡슐"
 
         //제형을 클릭했을 때
         val formulationList = listOf(
             binding.freeRecordPillFormulationTabletLl,
-            binding.freeRecordPillFormulationEtcLl,
             binding.freeRecordPillFormulationReshffleLl,
             binding.freeRecordPillFormulationSoftLl)
 
@@ -170,17 +168,18 @@ class FreeRegisterPillActivity : AppCompatActivity() {
                 //이전에 선택된 버튼의 배경색을 원래대로 되돌리기
                 if (selectedFormulationId != -1) {
                     val previousButton = findViewById<LinearLayout>(selectedFormulationId)
-                    previousButton.setBackgroundResource(R.drawable.white_gray3_stroke)
+                    previousButton.setBackgroundResource(R.drawable.white_radi_5dp)
                 }
 
                 // 클릭된 버튼의 배경색을 변경하기
-                button.setBackgroundResource(R.drawable.white_point_stroke)
+                button.setBackgroundResource(R.drawable.light_point_radi_5dp)
 
                 // 클릭된 버튼의 아이디 저장하기
                 selectedFormulationId = button.id
                 val selectedformulationTag = it.tag as? String // 클릭된 버튼의 태그 읽어오기
                 if (selectedformulationTag != null) {
                     selecttype = selectedformulationTag
+                    binding.typeFreeTv.text = selecttype
                 } else {
                     selecttype = "기타"
                 }
@@ -207,11 +206,11 @@ class FreeRegisterPillActivity : AppCompatActivity() {
                 //이전에 선택된 버튼의 배경색을 원래대로 되돌리기
                 if (selectedLineId != -1) {
                     val previousButton = findViewById<LinearLayout>(selectedLineId)
-                    previousButton.setBackgroundResource(R.drawable.white_gray3_stroke)
+                    previousButton.setBackgroundResource(R.drawable.white_radi_5dp)
                 }
 
                 // 클릭된 버튼의 배경색을 변경하기
-                button.setBackgroundResource(R.drawable.white_point_stroke)
+                button.setBackgroundResource(R.drawable.light_point_radi_5dp)
 
                 // 클릭된 버튼의 아이디 저장하기
                 selectedLineId = button.id
@@ -219,8 +218,17 @@ class FreeRegisterPillActivity : AppCompatActivity() {
                 val selectedLineTag = it.tag as? String // 클릭된 버튼의 태그 읽어오기
                 if (selectedLineTag != null) {
                     selectline = selectedLineTag
+                    binding.lineFreeTv.text = selectline
+
+                    if(selectedLineTag == "-"){
+                        binding.lineFreeTv.text = "(-)형"
+                    }else if(selectedLineTag == "+"){
+                        binding.lineFreeTv.text = "(+)형"
+                    }else{
+                        binding.lineFreeTv.text = selectline
+                    }
                 } else {
-                    selectline = "기타"
+                    selectline = "NULL"
                 }
             }
         }
@@ -264,6 +272,137 @@ class FreeRegisterPillActivity : AppCompatActivity() {
         //'x'버튼 눌렀을때
         binding.freeRecordPillCancleIv.setOnClickListener {
             finish()
+        }
+
+        // 2/6에서 '<' 버튼 누르면
+        binding.cancleFree2Iv.setOnClickListener {
+            //식별문자 레이아웃, 다음(1/6) 나타나고
+            binding.freeNameLl.visibility = View.VISIBLE
+            binding.nextFree1Ll.visibility = View.VISIBLE
+
+            //모양 검색 레이아웃, < 이전버튼, 다음(2/6) 사라지기
+            binding.codeFreeLl.visibility = View.GONE
+            binding.cancleFree2Iv.visibility = View.GONE
+            binding.nextFree2Ll.visibility = View.GONE
+
+        }
+
+        //  3/6에서 '<'버튼 누르면
+        binding.cancleFree3Iv.setOnClickListener {
+            //식별문자 레이아웃, 다음(2/6) 나타나고
+            binding.codeFreeLl.visibility = View.VISIBLE
+            binding.cancleFree2Iv.visibility = View.VISIBLE
+            binding.nextFree2Ll.visibility = View.VISIBLE
+
+            //모양 레이아웃, < 이전버튼, 다음(3/6) 사라지기
+            binding.shapeFreeLl.visibility = View.GONE
+            binding.cancleFree3Iv.visibility = View.GONE
+            binding.nextFree3Ll.visibility = View.GONE
+
+        }
+
+        //  4/6에서 '<'버튼 누르면
+        binding.cancleFree4Iv.setOnClickListener {
+            //모양 레이아웃, 다음(3/6) 나타나고
+            binding.shapeFreeLl.visibility = View.VISIBLE
+            binding.cancleFree3Iv.visibility = View.VISIBLE
+            binding.nextFree3Ll.visibility = View.VISIBLE
+
+            //색상 레이아웃, < 이전버튼, 다음(4/6) 사라지기
+            binding.colorFreeLl.visibility = View.GONE
+            binding.cancleFree4Iv.visibility = View.GONE
+            binding.nextFree4Ll.visibility = View.GONE
+
+        }
+
+        //  5/6에서 '<'버튼 누르면
+        binding.cancleFree5Iv.setOnClickListener {
+            //색상 레이아웃, 다음(4/6) 나타나고
+            binding.colorFreeLl.visibility = View.VISIBLE
+            binding.cancleFree4Iv.visibility = View.VISIBLE
+            binding.nextFree4Ll.visibility = View.VISIBLE
+
+            //제형 레이아웃, < 이전버튼, 다음(5/6) 사라지기
+            binding.typeFreeLl.visibility = View.GONE
+            binding.cancleFree5Iv.visibility = View.GONE
+            binding.nextFree5Ll.visibility = View.GONE
+        }
+
+        //  6/6에서 '<'버튼 누르면
+        binding.cancleFree6Iv.setOnClickListener {
+            //제형 레이아웃, 다음(5/6) 나타나고
+            binding.typeFreeLl.visibility = View.VISIBLE
+            binding.cancleFree5Iv.visibility = View.VISIBLE
+            binding.nextFree5Ll.visibility = View.VISIBLE
+
+            //분할선 레이아웃, < 이전버튼, 다음(6/6) 사라지기
+            binding.lineFreeLl.visibility = View.GONE
+            binding.cancleFree6Iv.visibility = View.GONE
+            binding.freeRecordPillSearchLl.visibility = View.GONE
+        }
+
+        // 1/6에서 검색하기 버튼 누르면
+        binding.nextFree1Ll.setOnClickListener {
+            //이름 입력 레이아웃, 다음(1/6) 사라지고
+            binding.freeNameLl.visibility = View.GONE
+            binding.nextFree1Ll.visibility = View.GONE
+
+            //식별 문자 입력 레이아웃, < 이전버튼, 다음(2/6) 등장
+            binding.codeFreeLl.visibility = View.VISIBLE
+            binding.cancleFree2Iv.visibility = View.VISIBLE
+            binding.nextFree2Ll.visibility = View.VISIBLE
+        }
+
+        // 2/6에서 검색하기 버튼 누르면
+        binding.nextFree2Ll.setOnClickListener {
+            //식별 문자 레이아웃, 다음(2/6) 사라지고
+            binding.codeFreeLl.visibility = View.GONE
+            binding.cancleFree2Iv.visibility = View.GONE
+            binding.nextFree2Ll.visibility = View.GONE
+
+            //모양 레이아웃, < 이전버튼, 다음(3/6) 등장
+            binding.shapeFreeLl.visibility = View.VISIBLE
+            binding.cancleFree3Iv.visibility = View.VISIBLE
+            binding.nextFree3Ll.visibility = View.VISIBLE
+        }
+
+        // 3/6에서 검색하기 버튼 누르면
+        binding.nextFree3Ll.setOnClickListener {
+            //모양 레이아웃, 다음(3/6) 사라지고
+            binding.shapeFreeLl.visibility = View.GONE
+            binding.cancleFree3Iv.visibility = View.GONE
+            binding.nextFree3Ll.visibility = View.GONE
+
+            //색상 레이아웃, < 이전버튼, 다음(4/6) 등장
+            binding.colorFreeLl.visibility = View.VISIBLE
+            binding.cancleFree4Iv.visibility = View.VISIBLE
+            binding.nextFree4Ll.visibility = View.VISIBLE
+        }
+
+        // 4/6에서 검색하기 버튼 누르면
+        binding.nextFree4Ll.setOnClickListener {
+            //색상 레이아웃, 다음(4/6) 사라지고
+            binding.colorFreeLl.visibility = View.GONE
+            binding.cancleFree4Iv.visibility = View.GONE
+            binding.nextFree4Ll.visibility = View.GONE
+
+            //타입 레이아웃, < 이전버튼, 다음(5/6) 등장
+            binding.typeFreeLl.visibility = View.VISIBLE
+            binding.cancleFree5Iv.visibility = View.VISIBLE
+            binding.nextFree5Ll.visibility = View.VISIBLE
+        }
+
+        // 5/6에서 검색하기 버튼 누르면
+        binding.nextFree5Ll.setOnClickListener {
+            //타입 레이아웃, 다음(4/6) 사라지고
+            binding.typeFreeLl.visibility = View.GONE
+            binding.cancleFree5Iv.visibility = View.GONE
+            binding.nextFree5Ll.visibility = View.GONE
+
+            //분할선 레이아웃, < 이전버튼, 다음(6/6) 등장
+            binding.lineFreeLl.visibility = View.VISIBLE
+            binding.cancleFree6Iv.visibility = View.VISIBLE
+            binding.freeRecordPillSearchLl.visibility = View.VISIBLE
         }
 
         //저장하기 버튼 누르면

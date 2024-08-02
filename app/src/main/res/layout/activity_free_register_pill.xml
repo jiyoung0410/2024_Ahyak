@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/point"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     tools:context=".PillRegister.FreeRegisterPillActivity">
 
     <LinearLayout
@@ -30,1163 +30,1292 @@
 
         </LinearLayout>
 
-        <ScrollView
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:fillViewport="true"
             android:layout_weight="9"
+            android:background="@drawable/white_radi_top_30dp"
             android:layout_height="0dp">
 
-            <LinearLayout
-                android:id="@+id/freerecord_ll"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:background="@drawable/white_radi_top_30dp"
-                android:orientation="vertical">
+            <ImageView
+                android:id="@+id/free_record_pill_cancle_iv"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_cancle"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="30dp"/>
 
-                <ImageView
-                    android:id="@+id/free_record_pill_cancle_iv"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ic_cancle"
-                    android:layout_gravity="right"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginEnd="30dp"/>
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/cancle_free_2_iv"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/prev_ic"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="30dp"
+                android:layout_marginStart="30dp"/>
+
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/cancle_free_3_iv"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/prev_ic"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="30dp"
+                android:layout_marginStart="30dp"/>
+
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/cancle_free_4_iv"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/prev_ic"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="30dp"
+                android:layout_marginStart="30dp"/>
+
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/cancle_free_5_iv"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/prev_ic"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="30dp"
+                android:layout_marginStart="30dp"/>
+
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/cancle_free_6_iv"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/prev_ic"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="30dp"
+                android:layout_marginStart="30dp"/>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <LinearLayout
-                    android:layout_marginStart="29dp"
+                    android:id="@+id/free_name_ll"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_height="match_parent"
+                    android:layout_margin="30dp"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:fontFamily="@font/nanum_barun_gothic"
                         android:text="약 이름"
                         android:textColor="@color/black"
-                        android:textSize="18sp"
-                        android:fontFamily="@font/nanum_barun_gothic_bold"/>
-
-                    <TextView
+                        android:textSize="15dp"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="을 정해주세요"
-                        android:textColor="@color/gray1"
-                        android:textSize="18sp"
-                        android:fontFamily="@font/nanum_barun_gothic_bold"/>
-
-                </LinearLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="30dp"
-                    android:layout_marginEnd="30dp"
-                    android:layout_marginTop="17dp"
-                    android:background="@drawable/bg_radi_5dp">
+                        android:layout_height="wrap_content"/>
 
                     <EditText
                         android:id="@+id/free_record_pill_serach_for_name_et"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:hint="약을 기록하기 위해 이름을 정해주세요."
-                        android:textSize="12dp"
-                        android:inputType="text"
-                        android:background="@color/transparent"
+                        android:paddingBottom="15dp"
+                        android:layout_marginTop="9dp"
                         android:fontFamily="@font/nanum_barun_gothic_light"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        android:layout_marginStart="10dp"/>
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <LinearLayout
-                    android:layout_marginTop="28dp"
-                    android:layout_marginStart="29dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="약 정보"
-                        android:textColor="@color/black"
-                        android:textSize="18sp"
-                        android:fontFamily="@font/nanum_barun_gothic_bold"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text=" 기록"
-                        android:textColor="@color/gray1"
-                        android:textSize="18sp"
-                        android:fontFamily="@font/nanum_barun_gothic_bold"/>
+                        android:hint="약 이름 입력"
+                        android:inputType="text"
+                        android:textSize="20dp"/>
 
                 </LinearLayout>
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/code_free_ll"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="30dp"
-                    android:layout_marginEnd="30dp"
-                    android:layout_marginTop="17dp"
-                    android:background="@drawable/bg_radi_5dp">
+                    android:layout_height="match_parent"
+                    android:layout_margin="30dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_marginTop="30dp"
+                        android:fontFamily="@font/nanum_barun_gothic"
+                        android:text="식별 문자"
+                        android:textColor="@color/black"
+                        android:textSize="15dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
 
                     <EditText
                         android:id="@+id/free_record_pill_serach_code_et"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:hint="식별문자(약의 앞면이나 뒷면의 문자)를 기록해보세요"
-                        android:textSize="12dp"
-                        android:background="@color/transparent"
+                        android:paddingBottom="15dp"
+                        android:layout_marginTop="9dp"
                         android:fontFamily="@font/nanum_barun_gothic_light"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
+                        android:hint="식별 문자를 기록"
                         android:inputType="text"
-                        android:layout_marginStart="10dp"/>
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="모양 전체"
-                        android:layout_marginStart="30dp"
-                        android:textColor="@color/black"
-                        android:layout_marginTop="23dp"
-                        android:textSize="18sp"
-                        android:fontFamily="@font/nanum_barun_gothic_bold"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="오른쪽으로 슬라이드 해보세요"
-                        android:layout_marginStart="5dp"
-                        android:textColor="@color/gray1"
-                        android:layout_marginTop="23dp"
-                        android:textSize="12sp"
-                        android:fontFamily="@font/nanum_barun_gothic"/>
+                        android:textSize="20dp"/>
 
                 </LinearLayout>
 
-                <HorizontalScrollView
-                    android:fillViewport="true"
+                <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/shape_free_ll"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="30dp">
+                    android:layout_height="match_parent"
+                    android:layout_margin="30dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_marginTop="30dp"
+                        android:fontFamily="@font/nanum_barun_gothic"
+                        android:text="모양"
+                        android:textColor="@color/black"
+                        android:textSize="15dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:id="@+id/shape_free_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="9dp"
+                        android:fontFamily="@font/nanum_barun_gothic_light"
+                        android:hint="모양을 선택하세요"
+                        android:textColor="@color/black"
+                        android:inputType="text"
+                        android:textSize="20dp"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/point"/>
 
                     <LinearLayout
-                        android:layout_marginTop="5dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_marginTop="25dp"
                         android:orientation="horizontal">
 
                         <LinearLayout
                             android:id="@+id/free_record_pill_shape_circle_ll"
-                            android:layout_width="70dp"
-                            android:layout_height="70dp"
-                            android:orientation="vertical"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="80dp"
                             android:gravity="center"
-                            android:layout_gravity="center"
-                            android:layout_marginEnd="10dp"
-                            android:background="@drawable/white_gray3_stroke">
+                            android:layout_margin="5dp"
+                            android:orientation="vertical">
 
                             <ImageView
-                                android:layout_width="34dp"
-                                android:layout_height="34dp"
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
                                 android:src="@drawable/pill_shape_circle_ic"/>
 
                             <TextView
-                                android:layout_marginTop="5dp"
+                                android:layout_marginTop="15dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="원형"
                                 android:textSize="12dp"
                                 android:fontFamily="@font/nanum_barun_gothic"
-                                android:textColor="@color/gray1"/>
-
+                                android:textColor="@color/black"/>
                         </LinearLayout>
 
                         <LinearLayout
                             android:id="@+id/free_record_pill_shape_oval_ll"
-                            android:layout_width="70dp"
-                            android:layout_height="70dp"
-                            android:orientation="vertical"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="80dp"
                             android:gravity="center"
-                            android:layout_gravity="center"
-                            android:layout_marginEnd="10dp"
-                            android:background="@drawable/white_gray3_stroke">
+                            android:layout_margin="5dp"
+                            android:orientation="vertical">
 
                             <ImageView
-                                android:layout_width="34dp"
-                                android:layout_height="34dp"
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
                                 android:src="@drawable/pill_shape_oval"/>
 
                             <TextView
-                                android:layout_marginTop="5dp"
+                                android:layout_marginTop="15dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="타원형"
                                 android:textSize="12dp"
                                 android:fontFamily="@font/nanum_barun_gothic"
-                                android:textColor="@color/gray1"/>
-
+                                android:textColor="@color/black"/>
                         </LinearLayout>
 
                         <LinearLayout
                             android:id="@+id/free_record_pill_shape_ellipse_ll"
-                            android:layout_width="70dp"
-                            android:layout_height="70dp"
-                            android:orientation="vertical"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="80dp"
                             android:gravity="center"
-                            android:layout_gravity="center"
-                            android:layout_marginEnd="10dp"
-                            android:background="@drawable/white_gray3_stroke">
+                            android:layout_margin="5dp"
+                            android:orientation="vertical">
 
                             <ImageView
-                                android:layout_width="34dp"
-                                android:layout_height="34dp"
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
                                 android:src="@drawable/pill_shape_ellipse"/>
 
                             <TextView
-                                android:layout_marginTop="5dp"
+                                android:layout_marginTop="15dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="반원형"
                                 android:textSize="12dp"
                                 android:fontFamily="@font/nanum_barun_gothic"
-                                android:textColor="@color/gray1"/>
-
+                                android:textColor="@color/black"/>
                         </LinearLayout>
 
                         <LinearLayout
                             android:id="@+id/free_record_pill_shape_triangle_ll"
-                            android:layout_width="70dp"
-                            android:layout_height="70dp"
-                            android:orientation="vertical"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="80dp"
                             android:gravity="center"
-                            android:layout_gravity="center"
-                            android:layout_marginEnd="10dp"
-                            android:background="@drawable/white_gray3_stroke">
+                            android:layout_margin="5dp"
+                            android:orientation="vertical">
 
                             <ImageView
-                                android:layout_width="34dp"
-                                android:layout_height="34dp"
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
                                 android:src="@drawable/pill_shape_triangle"/>
 
                             <TextView
-                                android:layout_marginTop="5dp"
+                                android:layout_marginTop="15dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="삼각형"
                                 android:textSize="12dp"
                                 android:fontFamily="@font/nanum_barun_gothic"
-                                android:textColor="@color/gray1"/>
-
+                                android:textColor="@color/black"/>
                         </LinearLayout>
 
                         <LinearLayout
                             android:id="@+id/free_record_pill_shape_rectangler_ll"
-                            android:layout_width="70dp"
-                            android:layout_height="70dp"
-                            android:orientation="vertical"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="80dp"
                             android:gravity="center"
-                            android:layout_gravity="center"
-                            android:layout_marginEnd="10dp"
-                            android:background="@drawable/white_gray3_stroke">
+                            android:layout_margin="5dp"
+                            android:orientation="vertical">
 
                             <ImageView
-                                android:layout_width="32dp"
-                                android:layout_height="32dp"
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
                                 android:src="@drawable/pill_shape_rectangler"/>
 
                             <TextView
-                                android:layout_marginTop="5dp"
+                                android:layout_marginTop="15dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="사각형"
                                 android:textSize="12dp"
                                 android:fontFamily="@font/nanum_barun_gothic"
-                                android:textColor="@color/gray1"/>
-
+                                android:textColor="@color/black"/>
                         </LinearLayout>
 
-			<LinearLayout
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_marginTop="15dp"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
                             android:id="@+id/free_record_pill_shape_diamond_ll"
-                            android:layout_width="70dp"
-                            android:layout_height="70dp"
-                            android:orientation="vertical"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="80dp"
                             android:gravity="center"
-                            android:layout_gravity="center"
-                            android:layout_marginEnd="10dp"
-                            android:background="@drawable/white_gray3_stroke">
+                            android:layout_margin="5dp"
+                            android:orientation="vertical">
 
                             <ImageView
-                                android:layout_width="32dp"
-                                android:layout_height="32dp"
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
                                 android:src="@drawable/pill_shape_diamond"/>
 
                             <TextView
-                                android:layout_marginTop="5dp"
+                                android:layout_marginTop="15dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="마름모형"
                                 android:textSize="12dp"
                                 android:fontFamily="@font/nanum_barun_gothic"
-                                android:textColor="@color/gray1"/>
-
+                                android:textColor="@color/black"/>
                         </LinearLayout>
 
-			<LinearLayout
+                        <LinearLayout
                             android:id="@+id/free_record_pill_shape_hexagon_ll"
-                            android:layout_width="70dp"
-                            android:layout_height="70dp"
-                            android:orientation="vertical"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="80dp"
                             android:gravity="center"
-                            android:layout_gravity="center"
-                            android:layout_marginEnd="10dp"
-                            android:background="@drawable/white_gray3_stroke">
+                            android:layout_margin="5dp"
+                            android:orientation="vertical">
 
                             <ImageView
-                                android:layout_width="32dp"
-                                android:layout_height="32dp"
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
                                 android:src="@drawable/pill_shape_hexagon"/>
 
                             <TextView
-                                android:layout_marginTop="5dp"
+                                android:layout_marginTop="15dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="육각형"
                                 android:textSize="12dp"
                                 android:fontFamily="@font/nanum_barun_gothic"
-                                android:textColor="@color/gray1"/>
-
+                                android:textColor="@color/black"/>
                         </LinearLayout>
 
-			<LinearLayout
+                        <LinearLayout
                             android:id="@+id/free_record_pill_shape_octagon_ll"
-                            android:layout_width="70dp"
-                            android:layout_height="70dp"
-                            android:orientation="vertical"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="80dp"
                             android:gravity="center"
-                            android:layout_gravity="center"
-                            android:layout_marginEnd="10dp"
-                            android:background="@drawable/white_gray3_stroke">
+                            android:layout_margin="5dp"
+                            android:orientation="vertical">
 
                             <ImageView
-                                android:layout_width="32dp"
-                                android:layout_height="32dp"
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
                                 android:src="@drawable/pill_shape_octagon"/>
 
                             <TextView
-                                android:layout_marginTop="5dp"
+                                android:layout_marginTop="15dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="팔각형"
                                 android:textSize="12dp"
                                 android:fontFamily="@font/nanum_barun_gothic"
-                                android:textColor="@color/gray1"/>
-
+                                android:textColor="@color/black"/>
                         </LinearLayout>
 
-			<LinearLayout
+                        <LinearLayout
                             android:id="@+id/free_record_pill_shape_pentagon_ll"
-                            android:layout_width="70dp"
-                            android:layout_height="70dp"
-                            android:orientation="vertical"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="80dp"
                             android:gravity="center"
-                            android:layout_gravity="center"
-                            android:layout_marginEnd="10dp"
-                            android:background="@drawable/white_gray3_stroke">
+                            android:layout_margin="5dp"
+                            android:orientation="vertical">
 
                             <ImageView
-                                android:layout_width="32dp"
-                                android:layout_height="32dp"
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
                                 android:src="@drawable/pill_shape_pentagon"/>
 
                             <TextView
-                                android:layout_marginTop="5dp"
+                                android:layout_marginTop="15dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="오각형"
                                 android:textSize="12dp"
                                 android:fontFamily="@font/nanum_barun_gothic"
-                                android:textColor="@color/gray1"/>
-
+                                android:textColor="@color/black"/>
                         </LinearLayout>
 
-			<LinearLayout
+                        <LinearLayout
                             android:id="@+id/free_record_pill_shape_oblong_ll"
-                            android:layout_width="70dp"
-                            android:layout_height="70dp"
-                            android:orientation="vertical"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="80dp"
                             android:gravity="center"
-                            android:layout_gravity="center"
-                            android:layout_marginEnd="10dp"
-                            android:background="@drawable/white_gray3_stroke">
+                            android:layout_margin="5dp"
+                            android:orientation="vertical">
 
                             <ImageView
-                                android:layout_width="32dp"
-                                android:layout_height="32dp"
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
                                 android:src="@drawable/pill_shape_oblong"/>
 
                             <TextView
-                                android:layout_marginTop="5dp"
+                                android:layout_marginTop="15dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="장방형"
                                 android:textSize="12dp"
                                 android:fontFamily="@font/nanum_barun_gothic"
-                                android:textColor="@color/gray1"/>
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/free_record_pill_shape_etc_ll"
-                            android:layout_width="70dp"
-                            android:layout_height="70dp"
-                            android:orientation="vertical"
-                            android:gravity="center"
-                            android:layout_gravity="center"
-                            android:layout_marginEnd="10dp"
-                            android:background="@drawable/white_gray3_stroke">
-
-                            <TextView
-                                android:layout_marginTop="5dp"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="기타"
-                                android:textSize="12dp"
-                                android:fontFamily="@font/nanum_barun_gothic"
-                                android:textColor="@color/gray1"/>
-
+                                android:textColor="@color/black"/>
                         </LinearLayout>
 
                     </LinearLayout>
 
+                </LinearLayout>
 
-                </HorizontalScrollView>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="색상 전체"
-                    android:layout_marginStart="30dp"
-                    android:textColor="@color/black"
-                    android:layout_marginTop="23dp"
-                    android:textSize="18sp"
-                    android:fontFamily="@font/nanum_barun_gothic_bold"/>
-
-                <HorizontalScrollView
+                <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/color_Free_ll"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fillViewport="true"
-                    android:layout_marginStart="30dp">
+                    android:layout_height="match_parent"
+                    android:layout_margin="30dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_marginTop="30dp"
+                        android:fontFamily="@font/nanum_barun_gothic"
+                        android:text="색상"
+                        android:textColor="@color/black"
+                        android:textSize="15dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:id="@+id/color_free_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="9dp"
+                        android:fontFamily="@font/nanum_barun_gothic_light"
+                        android:hint="색상을 선택하세요"
+                        android:textColor="@color/black"
+                        android:inputType="text"
+                        android:textSize="20dp"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/point"/>
 
                     <LinearLayout
-                        android:layout_marginTop="5dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_marginTop="20dp"
                         android:orientation="horizontal">
 
                         <LinearLayout
-                            android:id="@+id/free_record_pill_color_white_ll"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:orientation="vertical"
+                            android:id="@+id/free_record_pill_color_red_ll"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_margin="5dp"
+                            android:layout_height="80dp"
                             android:gravity="center"
-                            android:layout_gravity="center"
-                            android:layout_marginEnd="10dp"
-                            android:background="@drawable/white_gray3_stroke">
+                            android:orientation="vertical">
 
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:src="@drawable/pill_color_white"/>
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
+                                android:src="@drawable/pill_color_red"/>
 
                             <TextView
-                                android:layout_marginTop="3dp"
+                                android:layout_marginTop="15dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="하양"
-                                android:textSize="8dp"
+                                android:text="빨강"
+                                android:textSize="12dp"
                                 android:fontFamily="@font/nanum_barun_gothic"
-                                android:textColor="@color/gray1"/>
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/free_record_pill_color_yellow_ll"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:orientation="vertical"
-                            android:gravity="center"
-                            android:layout_gravity="center"
-                            android:layout_marginEnd="10dp"
-                            android:background="@drawable/white_gray3_stroke">
-
-                            <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:src="@drawable/pill_color_yellow"/>
-
-                            <TextView
-                                android:layout_marginTop="3dp"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="노랑"
-                                android:textSize="8dp"
-                                android:fontFamily="@font/nanum_barun_gothic"
-                                android:textColor="@color/gray1"/>
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/free_record_pill_color_orange_ll"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:orientation="vertical"
-                            android:gravity="center"
-                            android:layout_gravity="center"
-                            android:layout_marginEnd="10dp"
-                            android:background="@drawable/white_gray3_stroke">
-
-                            <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:src="@drawable/pill_color_orange"/>
-
-                            <TextView
-                                android:layout_marginTop="3dp"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="주황"
-                                android:textSize="8dp"
-                                android:fontFamily="@font/nanum_barun_gothic"
-                                android:textColor="@color/gray1"/>
-
+                                android:textColor="@color/black"/>
                         </LinearLayout>
 
                         <LinearLayout
                             android:id="@+id/free_record_pill_color_pink_ll"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:orientation="vertical"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_margin="5dp"
+                            android:layout_height="80dp"
                             android:gravity="center"
-                            android:layout_gravity="center"
-                            android:layout_marginEnd="10dp"
-                            android:background="@drawable/white_gray3_stroke">
+                            android:orientation="vertical">
 
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
                                 android:src="@drawable/pill_color_pink"/>
 
                             <TextView
-                                android:layout_marginTop="3dp"
+                                android:layout_marginTop="15dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="분홍"
-                                android:textSize="8dp"
+                                android:textSize="12dp"
                                 android:fontFamily="@font/nanum_barun_gothic"
-                                android:textColor="@color/gray1"/>
-
+                                android:textColor="@color/black"/>
                         </LinearLayout>
 
                         <LinearLayout
-                            android:id="@+id/free_record_pill_color_red_ll"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:orientation="vertical"
+                            android:id="@+id/free_record_pill_color_orange_ll"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_margin="5dp"
+                            android:layout_height="80dp"
                             android:gravity="center"
-                            android:layout_gravity="center"
-                            android:layout_marginEnd="10dp"
-                            android:background="@drawable/white_gray3_stroke">
+                            android:orientation="vertical">
 
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:src="@drawable/pill_color_red"/>
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
+                                android:src="@drawable/pill_color_orange"/>
 
                             <TextView
-                                android:layout_marginTop="3dp"
+                                android:layout_marginTop="15dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="빨강"
-                                android:textSize="8dp"
+                                android:text="주황"
+                                android:textSize="12dp"
                                 android:fontFamily="@font/nanum_barun_gothic"
-                                android:textColor="@color/gray1"/>
-
+                                android:textColor="@color/black"/>
                         </LinearLayout>
 
                         <LinearLayout
-                            android:id="@+id/free_record_pill_color_brown_ll"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:orientation="vertical"
+                            android:id="@+id/free_record_pill_color_yellow_ll"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_margin="5dp"
+                            android:layout_height="80dp"
                             android:gravity="center"
-                            android:layout_gravity="center"
-                            android:layout_marginEnd="10dp"
-                            android:background="@drawable/white_gray3_stroke">
+                            android:orientation="vertical">
 
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:src="@drawable/pill_color_brown"/>
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
+                                android:src="@drawable/pill_color_yellow"/>
 
                             <TextView
-                                android:layout_marginTop="3dp"
+                                android:layout_marginTop="15dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="갈색"
-                                android:textSize="8dp"
+                                android:text="노랑"
+                                android:textSize="12dp"
                                 android:fontFamily="@font/nanum_barun_gothic"
-                                android:textColor="@color/gray1"/>
-
+                                android:textColor="@color/black"/>
                         </LinearLayout>
 
                         <LinearLayout
                             android:id="@+id/free_record_pill_color_lightgreen_ll"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:orientation="vertical"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_margin="5dp"
+                            android:layout_height="80dp"
                             android:gravity="center"
-                            android:layout_gravity="center"
-                            android:layout_marginEnd="10dp"
-                            android:background="@drawable/white_gray3_stroke">
+                            android:orientation="vertical">
 
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
                                 android:src="@drawable/pill_color_lightgreen"/>
 
                             <TextView
-                                android:layout_marginTop="3dp"
+                                android:layout_marginTop="15dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="연두"
-                                android:textSize="8dp"
+                                android:textSize="12dp"
                                 android:fontFamily="@font/nanum_barun_gothic"
-                                android:textColor="@color/gray1"/>
-
+                                android:textColor="@color/black"/>
                         </LinearLayout>
 
                         <LinearLayout
                             android:id="@+id/free_record_pill_color_green_ll"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:orientation="vertical"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_margin="5dp"
+                            android:layout_height="80dp"
                             android:gravity="center"
-                            android:layout_gravity="center"
-                            android:layout_marginEnd="10dp"
-                            android:background="@drawable/white_gray3_stroke">
+                            android:orientation="vertical">
 
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
                                 android:src="@drawable/pill_color_green"/>
 
                             <TextView
-                                android:layout_marginTop="3dp"
+                                android:layout_marginTop="15dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="초록"
-                                android:textSize="8dp"
+                                android:textSize="12dp"
                                 android:fontFamily="@font/nanum_barun_gothic"
-                                android:textColor="@color/gray1"/>
-
+                                android:textColor="@color/black"/>
                         </LinearLayout>
 
-                        <LinearLayout
-                            android:id="@+id/free_record_pill_color_black_ll"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:orientation="vertical"
-                            android:gravity="center"
-                            android:layout_gravity="center"
-                            android:layout_marginEnd="10dp"
-                            android:background="@drawable/white_gray3_stroke">
 
-                            <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:src="@drawable/pill_color_black"/>
+                    </LinearLayout>
 
-                            <TextView
-                                android:layout_marginTop="3dp"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="검정"
-                                android:textSize="8dp"
-                                android:fontFamily="@font/nanum_barun_gothic"
-                                android:textColor="@color/gray1"/>
-
-                        </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
 
                         <LinearLayout
-                            android:id="@+id/free_record_pill_color_navy_ll"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:orientation="vertical"
+                            android:id="@+id/free_record_pill_color_greenblue_ll"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_margin="5dp"
+                            android:layout_height="80dp"
                             android:gravity="center"
-                            android:layout_gravity="center"
-                            android:layout_marginEnd="10dp"
-                            android:background="@drawable/white_gray3_stroke">
+                            android:orientation="vertical">
 
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:src="@drawable/pill_color_navy"/>
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
+                                android:src="@drawable/pill_color_greenblue"/>
 
                             <TextView
-                                android:layout_marginTop="3dp"
+                                android:layout_marginTop="15dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="남색"
-                                android:textSize="8dp"
+                                android:text="청록"
+                                android:textSize="12dp"
                                 android:fontFamily="@font/nanum_barun_gothic"
-                                android:textColor="@color/gray1"/>
-
+                                android:textColor="@color/black"/>
                         </LinearLayout>
 
                         <LinearLayout
                             android:id="@+id/free_record_pill_color_blue_ll"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:orientation="vertical"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_margin="5dp"
+                            android:layout_height="80dp"
                             android:gravity="center"
-                            android:layout_gravity="center"
-                            android:layout_marginEnd="10dp"
-                            android:background="@drawable/white_gray3_stroke">
+                            android:orientation="vertical">
 
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
                                 android:src="@drawable/pill_color_blue"/>
 
                             <TextView
-                                android:layout_marginTop="3dp"
+                                android:layout_marginTop="15dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="파랑"
-                                android:textSize="8dp"
+                                android:textSize="12dp"
                                 android:fontFamily="@font/nanum_barun_gothic"
-                                android:textColor="@color/gray1"/>
-
+                                android:textColor="@color/black"/>
                         </LinearLayout>
 
                         <LinearLayout
-                            android:id="@+id/free_record_pill_color_purple_ll"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:orientation="vertical"
+                            android:id="@+id/free_record_pill_color_navy_ll"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_margin="5dp"
+                            android:layout_height="80dp"
                             android:gravity="center"
-                            android:layout_gravity="center"
-                            android:layout_marginEnd="10dp"
-                            android:background="@drawable/white_gray3_stroke">
+                            android:orientation="vertical">
 
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:src="@drawable/pill_color_purple"/>
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
+                                android:src="@drawable/pill_color_navy"/>
 
                             <TextView
-                                android:layout_marginTop="3dp"
+                                android:layout_marginTop="15dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="자주"
-                                android:textSize="8dp"
+                                android:text="남색"
+                                android:textSize="12dp"
                                 android:fontFamily="@font/nanum_barun_gothic"
-                                android:textColor="@color/gray1"/>
-
+                                android:textColor="@color/black"/>
                         </LinearLayout>
 
                         <LinearLayout
                             android:id="@+id/free_record_pill_color_violet_ll"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:orientation="vertical"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_margin="5dp"
+                            android:layout_height="80dp"
                             android:gravity="center"
-                            android:layout_gravity="center"
-                            android:layout_marginEnd="10dp"
-                            android:background="@drawable/white_gray3_stroke">
+                            android:orientation="vertical">
 
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
                                 android:src="@drawable/pill_color_violet"/>
 
                             <TextView
-                                android:layout_marginTop="3dp"
+                                android:layout_marginTop="15dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="보라"
-                                android:textSize="8dp"
+                                android:textSize="12dp"
                                 android:fontFamily="@font/nanum_barun_gothic"
-                                android:textColor="@color/gray1"/>
-
+                                android:textColor="@color/black"/>
                         </LinearLayout>
 
                         <LinearLayout
-                            android:id="@+id/free_record_pill_color_greenbule_ll"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:orientation="vertical"
+                            android:id="@+id/free_record_pill_color_purple_ll"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_margin="5dp"
+                            android:layout_height="80dp"
                             android:gravity="center"
-                            android:layout_gravity="center"
-                            android:layout_marginEnd="10dp"
-                            android:background="@drawable/white_gray3_stroke">
+                            android:orientation="vertical">
 
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:src="@drawable/pill_color_greenblue"/>
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
+                                android:src="@drawable/pill_color_purple"/>
 
                             <TextView
-                                android:layout_marginTop="3dp"
+                                android:layout_marginTop="15dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="청록"
-                                android:textSize="8dp"
+                                android:text="자주"
+                                android:textSize="12dp"
                                 android:fontFamily="@font/nanum_barun_gothic"
-                                android:textColor="@color/gray1"/>
+                                android:textColor="@color/black"/>
+                        </LinearLayout>
 
+                        <LinearLayout
+                            android:id="@+id/free_record_pill_color_brown_ll"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_margin="5dp"
+                            android:layout_height="80dp"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
+                                android:src="@drawable/pill_color_brown"/>
+
+                            <TextView
+                                android:layout_marginTop="15dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="갈색"
+                                android:textSize="12dp"
+                                android:fontFamily="@font/nanum_barun_gothic"
+                                android:textColor="@color/black"/>
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:id="@+id/free_record_pill_color_black_ll"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_margin="5dp"
+                            android:layout_height="80dp"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
+                                android:src="@drawable/pill_color_black"/>
+
+                            <TextView
+                                android:layout_marginTop="15dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="검정"
+                                android:textSize="12dp"
+                                android:fontFamily="@font/nanum_barun_gothic"
+                                android:textColor="@color/black"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/free_record_pill_color_gray_ll"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_margin="5dp"
+                            android:layout_height="80dp"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
+                                android:src="@drawable/pill_color_gray"/>
+
+                            <TextView
+                                android:layout_marginTop="15dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="회색"
+                                android:textSize="12dp"
+                                android:fontFamily="@font/nanum_barun_gothic"
+                                android:textColor="@color/black"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/free_record_pill_color_white_ll"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_margin="5dp"
+                            android:layout_height="80dp"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
+                                android:src="@drawable/pill_color_white"/>
+
+                            <TextView
+                                android:layout_marginTop="15dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="하양"
+                                android:textSize="12dp"
+                                android:fontFamily="@font/nanum_barun_gothic"
+                                android:textColor="@color/black"/>
                         </LinearLayout>
 
                         <LinearLayout
                             android:id="@+id/free_record_pill_color_trans_ll"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:orientation="vertical"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_margin="5dp"
+                            android:layout_height="80dp"
                             android:gravity="center"
-                            android:layout_gravity="center"
-                            android:layout_marginEnd="10dp"
-                            android:background="@drawable/white_gray3_stroke">
+                            android:orientation="vertical">
 
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
                                 android:src="@drawable/pill_color_transparency"/>
 
                             <TextView
-                                android:layout_marginTop="3dp"
+                                android:layout_marginTop="15dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="투명"
-                                android:textSize="8dp"
+                                android:textSize="12dp"
                                 android:fontFamily="@font/nanum_barun_gothic"
-                                android:textColor="@color/gray1"/>
-
+                                android:textColor="@color/black"/>
                         </LinearLayout>
 
                         <LinearLayout
-                            android:id="@+id/free_record_pill_color_etc형_ll"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:orientation="vertical"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_margin="5dp"
+                            android:layout_height="80dp"
                             android:gravity="center"
-                            android:layout_gravity="center"
-                            android:layout_marginEnd="10dp"
-                            android:background="@drawable/white_gray3_stroke">
+                            android:orientation="vertical"></LinearLayout>
 
-                            <TextView
-                                android:layout_marginTop="3dp"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="기타"
-                                android:textSize="8dp"
-                                android:fontFamily="@font/nanum_barun_gothic"
-                                android:textColor="@color/gray1"/>
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_margin="5dp"
+                            android:layout_height="80dp"
+                            android:gravity="center"
+                            android:orientation="vertical"></LinearLayout>
 
-                        </LinearLayout>
                     </LinearLayout>
-                </HorizontalScrollView>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="제형 전체"
-                    android:layout_marginStart="30dp"
-                    android:textColor="@color/black"
-                    android:layout_marginTop="23dp"
-                    android:textSize="18sp"
-                    android:fontFamily="@font/nanum_barun_gothic_bold"/>
+                </LinearLayout>
 
-                <HorizontalScrollView
+                <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/type_free_ll"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fillViewport="true"
-                    android:layout_marginStart="30dp">
+                    android:layout_height="match_parent"
+                    android:layout_margin="30dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_marginTop="30dp"
+                        android:fontFamily="@font/nanum_barun_gothic"
+                        android:text="제형"
+                        android:textColor="@color/black"
+                        android:textSize="15dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:id="@+id/type_free_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="9dp"
+                        android:fontFamily="@font/nanum_barun_gothic_light"
+                        android:hint="제형을 선택하세요"
+                        android:textColor="@color/black"
+                        android:inputType="text"
+                        android:textSize="20dp"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/point"/>
 
                     <LinearLayout
-                        android:layout_marginTop="5dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
                         android:orientation="horizontal">
 
                         <LinearLayout
                             android:id="@+id/free_record_pill_formulation_tablet_ll"
-                            android:layout_width="70dp"
-                            android:layout_height="70dp"
-                            android:orientation="vertical"
+                            android:layout_width="62dp"
+                            android:layout_height="100dp"
                             android:gravity="center"
-                            android:layout_gravity="center"
-                            android:layout_marginEnd="10dp"
-                            android:background="@drawable/white_gray3_stroke">
+                            android:layout_margin="5dp"
+                            android:orientation="vertical">
 
                             <ImageView
-                                android:layout_width="34dp"
-                                android:layout_height="34dp"
+                                android:layout_width="45dp"
+                                android:layout_height="45dp"
                                 android:src="@drawable/pill_formulation_tablet"/>
 
                             <TextView
-                                android:layout_marginTop="5dp"
+                                android:layout_marginTop="15dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="정제류"
                                 android:textSize="12dp"
                                 android:fontFamily="@font/nanum_barun_gothic"
-                                android:textColor="@color/gray1"/>
-
+                                android:textColor="@color/black"/>
                         </LinearLayout>
 
                         <LinearLayout
                             android:id="@+id/free_record_pill_formulation_reshffle_ll"
-                            android:layout_width="70dp"
-                            android:layout_height="70dp"
-                            android:orientation="vertical"
+                            android:layout_width="62dp"
+                            android:layout_height="100dp"
                             android:gravity="center"
-                            android:layout_gravity="center"
-                            android:layout_marginEnd="10dp"
-                            android:background="@drawable/white_gray3_stroke">
+                            android:layout_margin="5dp"
+                            android:orientation="vertical">
 
                             <ImageView
-                                android:layout_width="34dp"
-                                android:layout_height="34dp"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
                                 android:src="@drawable/pill_formulation_reshuffle"/>
 
                             <TextView
-                                android:layout_marginTop="5dp"
+                                android:layout_marginTop="15dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="경질캡슐"
                                 android:textSize="12dp"
                                 android:fontFamily="@font/nanum_barun_gothic"
-                                android:textColor="@color/gray1"/>
-
+                                android:textColor="@color/black"/>
                         </LinearLayout>
 
                         <LinearLayout
                             android:id="@+id/free_record_pill_formulation_soft_ll"
-                            android:layout_width="70dp"
-                            android:layout_height="70dp"
-                            android:orientation="vertical"
+                            android:layout_width="62dp"
+                            android:layout_height="100dp"
                             android:gravity="center"
-                            android:layout_gravity="center"
-                            android:layout_marginEnd="10dp"
-                            android:background="@drawable/white_gray3_stroke">
+                            android:layout_margin="5dp"
+                            android:orientation="vertical">
 
                             <ImageView
-                                android:layout_width="34dp"
-                                android:layout_height="34dp"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
                                 android:src="@drawable/pill_formulation_soft"/>
 
                             <TextView
-                                android:layout_marginTop="5dp"
+                                android:layout_marginTop="15dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="연질캡슐"
                                 android:textSize="12dp"
                                 android:fontFamily="@font/nanum_barun_gothic"
-                                android:textColor="@color/gray1"/>
+                                android:textColor="@color/black"/>
+                        </LinearLayout>
 
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/line_free_ll"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="30dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_marginTop="30dp"
+                        android:fontFamily="@font/nanum_barun_gothic"
+                        android:text="분할선"
+                        android:textColor="@color/black"
+                        android:textSize="15dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:id="@+id/line_free_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="9dp"
+                        android:fontFamily="@font/nanum_barun_gothic_light"
+                        android:hint="분할선을 선택하세요"
+                        android:textColor="@color/black"
+                        android:inputType="text"
+                        android:textSize="20dp"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/point"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:id="@+id/free_record_pill_line_no_ll"
+                            android:layout_width="62dp"
+                            android:layout_height="100dp"
+                            android:gravity="center"
+                            android:layout_margin="10dp"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:src="@drawable/pill_line_none"/>
+
+                            <TextView
+                                android:layout_marginTop="15dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="없음"
+                                android:textSize="12dp"
+                                android:fontFamily="@font/nanum_barun_gothic"
+                                android:textColor="@color/black"/>
                         </LinearLayout>
 
                         <LinearLayout
-                            android:id="@+id/free_record_pill_formulation_etc_ll"
-                            android:layout_width="70dp"
-                            android:layout_height="70dp"
-                            android:orientation="vertical"
+                            android:id="@+id/free_record_pill_line_minus_ll"
+                            android:layout_width="62dp"
+                            android:layout_height="100dp"
                             android:gravity="center"
-                            android:layout_gravity="center"
-                            android:layout_marginEnd="10dp"
-                            android:background="@drawable/white_gray3_stroke">
+                            android:layout_margin="10dp"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:src="@drawable/pill_line_minus"/>
 
                             <TextView
-                                android:layout_marginTop="5dp"
+                                android:layout_marginTop="15dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="(-)형"
+                                android:textSize="12dp"
+                                android:fontFamily="@font/nanum_barun_gothic"
+                                android:textColor="@color/black"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/free_record_pill_line_plus_ll"
+                            android:layout_width="62dp"
+                            android:layout_height="100dp"
+                            android:gravity="center"
+                            android:layout_margin="10dp"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:src="@drawable/pill_line_plus"/>
+
+                            <TextView
+                                android:layout_marginTop="15dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="(+)형"
+                                android:textSize="12dp"
+                                android:fontFamily="@font/nanum_barun_gothic"
+                                android:textColor="@color/black"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/free_record_pill_line_etc_ll"
+                            android:layout_width="62dp"
+                            android:layout_height="100dp"
+                            android:gravity="center"
+                            android:layout_margin="10dp"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:src="@drawable/pill_line_etc"/>
+
+                            <TextView
+                                android:layout_marginTop="15dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="기타"
                                 android:textSize="12dp"
                                 android:fontFamily="@font/nanum_barun_gothic"
-                                android:textColor="@color/gray1"/>
-
+                                android:textColor="@color/black"/>
                         </LinearLayout>
-
 
                     </LinearLayout>
 
+                </LinearLayout>
+
+            </LinearLayout>
 
 
-                </HorizontalScrollView>
+            <LinearLayout
+                android:id="@+id/next_Free_1_ll"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/point_radi_15dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:gravity="center"
+                android:layout_gravity="bottom"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="50dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="분할선 전체"
-                    android:layout_marginStart="30dp"
-                    android:textColor="@color/black"
-                    android:layout_marginTop="23dp"
-                    android:textSize="18sp"
-                    android:fontFamily="@font/nanum_barun_gothic_bold"/>
-
-                <HorizontalScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fillViewport="true"
-                    android:layout_marginStart="30dp">
-
-                    <LinearLayout
-                        android:layout_marginTop="5dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <LinearLayout
-                            android:id="@+id/free_record_pill_line_no_ll"
-                            android:layout_width="52dp"
-                            android:layout_height="56dp"
-                            android:orientation="vertical"
-                            android:gravity="center"
-                            android:layout_gravity="center"
-                            android:layout_marginEnd="10dp"
-                            android:background="@drawable/white_gray3_stroke">
-
-                            <ImageView
-                                android:layout_width="28dp"
-                                android:layout_height="28dp"
-                                android:src="@drawable/pill_line_none"/>
-
-                            <TextView
-                                android:layout_marginTop="5dp"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="없음"
-                                android:textSize="10dp"
-                                android:fontFamily="@font/nanum_barun_gothic"
-                                android:textColor="@color/gray1"/>
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/free_record_pill_line_minus_ll"
-                            android:layout_width="52dp"
-                            android:layout_height="56dp"
-                            android:orientation="vertical"
-                            android:gravity="center"
-                            android:layout_gravity="center"
-                            android:layout_marginEnd="10dp"
-                            android:background="@drawable/white_gray3_stroke">
-
-                            <ImageView
-                                android:layout_width="28dp"
-                                android:layout_height="28dp"
-                                android:src="@drawable/pill_line_minus"/>
-
-                            <TextView
-                                android:layout_marginTop="5dp"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="(-)형"
-                                android:textSize="10dp"
-                                android:fontFamily="@font/nanum_barun_gothic"
-                                android:textColor="@color/gray1"/>
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/free_record_pill_line_plus_ll"
-                            android:layout_width="52dp"
-                            android:layout_height="56dp"
-                            android:orientation="vertical"
-                            android:gravity="center"
-                            android:layout_gravity="center"
-                            android:layout_marginEnd="10dp"
-                            android:background="@drawable/white_gray3_stroke">
-
-                            <ImageView
-                                android:layout_width="28dp"
-                                android:layout_height="28dp"
-                                android:src="@drawable/pill_line_plus"/>
-
-                            <TextView
-                                android:layout_marginTop="5dp"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="(+)형"
-                                android:textSize="10dp"
-                                android:fontFamily="@font/nanum_barun_gothic"
-                                android:textColor="@color/gray1"/>
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/free_record_pill_line_etc_ll"
-                            android:layout_width="52dp"
-                            android:layout_height="56dp"
-                            android:orientation="vertical"
-                            android:gravity="center"
-                            android:layout_gravity="center"
-                            android:layout_marginEnd="10dp"
-                            android:background="@drawable/white_gray3_stroke">
-
-                            <ImageView
-                                android:layout_width="28dp"
-                                android:layout_height="28dp"
-                                android:src="@drawable/pill_line_etc"/>
-
-                            <TextView
-                                android:layout_marginTop="5dp"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="기타"
-                                android:textSize="10dp"
-                                android:fontFamily="@font/nanum_barun_gothic"
-                                android:textColor="@color/gray1"/>
-
-                        </LinearLayout>
-                    </LinearLayout>
-                </HorizontalScrollView>
-
-                <LinearLayout
-                    android:id="@+id/free_record_pill_search_ll"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:background="@drawable/point_radi_15dp"
-                    android:layout_marginStart="30dp"
-                    android:layout_marginEnd="30dp"
-                    android:gravity="center"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginBottom="50dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="저장하기"
-                        android:textSize="14dp"
-                        android:fontFamily="@font/nanum_barun_gothic_bold"
-                        android:textColor="@color/white"/>
-                </LinearLayout>
+                    android:text="다음 (1/6)"
+                    android:textSize="14dp"
+                    android:fontFamily="@font/nanum_barun_gothic_bold"
+                    android:textColor="@color/white"/>
             </LinearLayout>
 
-        </ScrollView>
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/next_Free_2_ll"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/point_radi_15dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:gravity="center"
+                android:layout_gravity="bottom"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="50dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="다음 (2/6)"
+                    android:textSize="14dp"
+                    android:fontFamily="@font/nanum_barun_gothic_bold"
+                    android:textColor="@color/white"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/next_Free_3_ll"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/point_radi_15dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:gravity="center"
+                android:layout_gravity="bottom"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="50dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="다음 (3/6)"
+                    android:textSize="14dp"
+                    android:fontFamily="@font/nanum_barun_gothic_bold"
+                    android:textColor="@color/white"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/next_Free_4_ll"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/point_radi_15dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:gravity="center"
+                android:layout_gravity="bottom"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="50dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="다음 (4/6)"
+                    android:textSize="14dp"
+                    android:fontFamily="@font/nanum_barun_gothic_bold"
+                    android:textColor="@color/white"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/next_Free_5_ll"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/point_radi_15dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:gravity="center"
+                android:layout_gravity="bottom"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="50dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="다음 (5/6)"
+                    android:textSize="14dp"
+                    android:fontFamily="@font/nanum_barun_gothic_bold"
+                    android:textColor="@color/white"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/free_record_pill_search_ll"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/point_radi_15dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:gravity="center"
+                android:layout_gravity="bottom"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="50dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="저장하기"
+                    android:textSize="14dp"
+                    android:fontFamily="@font/nanum_barun_gothic_bold"
+                    android:textColor="@color/white"/>
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
 
