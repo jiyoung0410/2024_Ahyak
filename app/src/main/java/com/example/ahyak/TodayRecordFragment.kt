@@ -1,14 +1,9 @@
 package com.example.ahyak
 
-import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
-import android.speech.RecognitionListener
-import android.speech.RecognizerIntent
-import android.speech.SpeechRecognizer
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -35,9 +30,6 @@ class TodayRecordFragment : Fragment() {
     lateinit var calendarAdapter: CalendarAdapter
     private var calendarList = ArrayList<CalendarVO>()
     private val tabItems = arrayOf<String>("기상 직후", "아침", "점심", "저녁", "취침 전")
-
-    //음성 인식 관련
-    private lateinit var speechRecognizer: SpeechRecognizer
 
     // 전역 변수로 Month와 Day를 저장할 변수 선언
     private var selectedMonth: Int = 0
@@ -293,106 +285,6 @@ class TodayRecordFragment : Fragment() {
             tab.text = tabItems[position]
         }.attach()
 
-        //음성인식 관련 코드
-        requestPermission()
-
-        // RecognizerIntent 생성
-        val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
-        intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, "com.example.ahyak")    // 여분의 키
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "ko-KR")
-        intent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true)// 언어 설정
-
-        // <말하기> 버튼 눌러서 음성인식 시작
-        binding.speechBtn.setOnClickListener {
-            // 새 SpeechRecognizer 를 만드는 팩토리 메서드
-            speechRecognizer = SpeechRecognizer.createSpeechRecognizer(requireActivity())
-            speechRecognizer.setRecognitionListener(recognitionListener)    // 리스너 설정
-            speechRecognizer.startListening(intent)                         // 듣기 시작
-
-        }
     }
 
-//     권한 설정 메소드
-    private fun requestPermission() {
-        // 버전 체크, 권한 허용했는지 체크
-        if (Build.VERSION.SDK_INT >= 23 &&
-            ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.RECORD_AUDIO)
-            != PackageManager.PERMISSION_GRANTED
-        ) {
-            ActivityCompat.requestPermissions(
-                requireActivity(),
-                arrayOf(Manifest.permission.RECORD_AUDIO), 0
-            )
-        }
-    }
-
-    // 리스너 설정
-    private val recognitionListener: RecognitionListener = object : RecognitionListener {
-        // 말하기 시작할 준비가 되면 호출
-        override fun onReadyForSpeech(params: Bundle) {
-            Toast.makeText(requireActivity(), "음성인식 시작", Toast.LENGTH_SHORT).show()
-//            binding.tvState.text = "이제 말씀하세요!"
-        }
-
-        // 말하기 시작했을 때 호출
-        override fun onBeginningOfSpeech() {
-            binding.speechBtn.visibility = View.GONE
-            binding.speechIngBtn.visibility = View.VISIBLE
-//            binding.tvState.text = "잘 듣고 있어요."
-        }
-
-        // 입력받는 소리의 크기를 알려줌
-        override fun onRmsChanged(rmsdB: Float) {}
-
-        // 말을 시작하고 인식이 된 단어를 buffer에 담음
-        override fun onBufferReceived(buffer: ByteArray) {}
-
-        // 말하기를 중지하면 호출
-        override fun onEndOfSpeech() {
-//            binding.tvState.text = "끝!"
-            binding.speechBtn.visibility = View.VISIBLE
-            binding.speechIngBtn.visibility = View.GONE
-        }
-
-        // 오류 발생했을 때 호출
-        override fun onError(error: Int) {
-            val message = when (error) {
-                SpeechRecognizer.ERROR_AUDIO -> "오디오 에러"
-                SpeechRecognizer.ERROR_CLIENT -> "클라이언트 에러"
-                SpeechRecognizer.ERROR_INSUFFICIENT_PERMISSIONS -> "퍼미션 없음"
-                SpeechRecognizer.ERROR_NETWORK -> "네트워크 에러"
-                SpeechRecognizer.ERROR_NETWORK_TIMEOUT -> "네트웍 타임아웃"
-                SpeechRecognizer.ERROR_NO_MATCH -> "찾을 수 없음"
-                SpeechRecognizer.ERROR_RECOGNIZER_BUSY -> "RECOGNIZER 가 바쁨"
-                SpeechRecognizer.ERROR_SERVER -> "서버가 이상함"
-                SpeechRecognizer.ERROR_SPEECH_TIMEOUT -> "말하는 시간초과"
-                else -> "알 수 없는 오류임"
-            }
-            Toast.makeText(requireActivity(), "에러 발생 $message", Toast.LENGTH_SHORT).show()
-//
-        }
-
-        // 인식 결과가 준비되면 호출
-        override fun onResults(results: Bundle) {
-            // 말을 하면 ArrayList에 단어를 넣고 textView에 단어를 이어줌
-            binding.speechBubbleLl.visibility = View.VISIBLE
-            val matches = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
-//            for (i in matches!!.indices){
-//                binding.speechBubbleTv.text = matches[i]
-//                //val result = matches[i]
-//                //Toast.makeText(requireActivity(), "$result", Toast.LENGTH_LONG).show()
-//                //Log.d("speech result", "$result")
-//                //binding.textView.text = matches[i]
-//            }
-            for (i in matches!!.indices) {
-                binding.speechBubbleTv.setText(matches[i])
-            }
-        }
-
-        // 부분 인식 결과를 사용할 수 있을 때 호출
-        override fun onPartialResults(partialResults: Bundle) {}
-
-        // 향후 이벤트를 추가하기 위해 예약
-        override fun onEvent(eventType: Int, params: Bundle) {}
-    }
 }

@@ -43,6 +43,25 @@ class AddPrescriptionActivity : AppCompatActivity(), DatePickerDialog.OnDateSetL
         binding = ActivityAddSymptomsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        //음성 인식으로 얻은 데이터를 EditText에 설정
+        // Intent로부터 데이터 수신
+        val prescription = intent.getStringExtra("Speech_Prescription")
+        val hospital = intent.getStringExtra("Speech_Hospital")
+
+        // 수신된 데이터를 EditText에 설정
+        if (prescription != null) {
+            binding.addSymptomsSymptomNameEt.setText(prescription)
+            binding.addSymptomsSymptomNameEt.clearFocus()
+        }
+        if (hospital != null) {
+            binding.addSymptomsHospitalNameEt.setText(hospital+"병원")
+            binding.addSymptomsSymptomNameEt.clearFocus()
+            binding.addSymptomsHospitalNameEt.visibility = View.VISIBLE
+            binding.addSymptomsHospitalNameTv.visibility = View.VISIBLE
+            binding.startLl.visibility = View.VISIBLE
+            binding.addSymptomsStartTv.visibility = View.VISIBLE
+        }
+
         //처방 이름 Edit Text
         binding.addSymptomsSymptomNameEt.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
