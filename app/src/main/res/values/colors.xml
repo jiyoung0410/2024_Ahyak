@@ -10,6 +10,7 @@
     <color name="light_deep_point">#10ABA8</color>
     <color name="regular_deep_point">#008F8C</color>
     <color name="light_point">#BEEFEE</color>
+    <color name="red">#FF5E57</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="bg">#F9F9FA</color>

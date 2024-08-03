@@ -46,6 +46,30 @@ class PrescriptionAdapter(val onClick: () -> Unit, val onAddPillClick: (Prescrip
                 onAddPillClick(sympotm)
             }
 
+            binding.root.setOnLongClickListener {
+                if(binding.itemCalendarSymptomDeleteCl.visibility == View.GONE) {
+                    binding.itemCalendarSymptomDeleteCl.visibility = View.VISIBLE
+                } else if(binding.itemCalendarSymptomDeleteCl.visibility == View.VISIBLE) {
+                    binding.itemCalendarSymptomDeleteCl.visibility = View.GONE
+                }
+                true
+            }
+
+            binding.itemCalendarSymptomDeleteCl.setOnClickListener {
+                val position = adapterPosition
+                if(position != RecyclerView.NO_POSITION) {
+                    binding.itemCalendarSymptomDeleteCl.visibility = View.GONE
+                    sympotms.removeAt(position)
+                    GlobalScope.launch(Dispatchers.IO) {
+                        ahyakDatabase = AhyakDataBase.getInstance(context)
+                        ahyakDatabase!!.getMedicineDao().deletePrescriptionMedicine(sympotm.Prescription)
+                        ahyakDatabase!!.getPrescriptionDao().deletePrescription(sympotm.Prescription)
+                        notifyItemRemoved(position)
+                        notifyDataSetChanged()
+                    }
+                }
+            }
+
             binding.itemCalendarSymptomName.text = sympotm.Prescription
             binding.itemCalendarSymptomDate.text = sympotm.Start_Date
             binding.itemCalendarSymptomHospitalName.text = sympotm.Hospital
