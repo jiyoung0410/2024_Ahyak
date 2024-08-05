@@ -70,4 +70,10 @@ dependencies {
     implementation("androidx.room:room-ktx:2.4.0")
     annotationProcessor("androidx.room:room-compiler:2.6.0")
     kapt("androidx.room:room-compiler:2.6.0")
+    //카메라 프리뷰
+    implementation ("androidx.core:core-ktx:1.7.0")
+    //CameraX
+    implementation ("androidx.camera:camera-view:1.1.0")
+    implementation ("androidx.camera:camera-camera2:1.2.0-alpha03")
+    implementation ("androidx.camera:camera-lifecycle:1.1.0")
 }
