@@ -133,7 +133,7 @@ class MainActivity : AppCompatActivity() {
                 SpeechRecognizer.ERROR_SPEECH_TIMEOUT -> "말하는 시간초과"
                 else -> "알 수 없는 오류임"
             }
-            Toast.makeText(this@MainActivity, "error", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@MainActivity, "$message", Toast.LENGTH_SHORT).show()
             binding.speechBtn.visibility = View.VISIBLE
             binding.speechIngBtn.visibility = View.GONE
         }
