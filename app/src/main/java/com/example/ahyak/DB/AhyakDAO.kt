@@ -48,6 +48,12 @@ interface MedicineDao {
     @Insert
     fun insertMedicine(medicine: MedicineEntity)
 
+    @Query("DELETE FROM  MedicineTable WHERE id = :id")
+    fun deleteMedicine(id: Int)
+
+    @Query("DELETE FROM  MedicineTable WHERE PrescriptionName = :prescription")
+    fun deletePrescriptionMedicine(prescription: String)
+
     @Query("SELECT * FROM MedicineTable WHERE MedicineMonth = :month AND MedicineDay = :day AND MedicineSlot = :slot AND PrescriptionName = :prescription" )
     fun getMedicine(month: Int?, day: Int?, slot: String?, prescription: String?): List<MedicineEntity>
 
@@ -77,6 +83,8 @@ interface ExtraPillDao{
     @Query("SELECT * FROM ExtraPillTable WHERE PillMonth = :month AND PillDay = :day AND PillSlot = :slot")
     fun getPill(month: Int?, day: Int?, slot: String?): List<ExtraPillEntity>
 
+    @Query("DELETE FROM  ExtraPillTable WHERE PillName = :pillName AND PillDay = :day AND PillSlot = :slot")
+    fun deletePill(pillName: String, day: Int, slot: String): Int
 
 }
 

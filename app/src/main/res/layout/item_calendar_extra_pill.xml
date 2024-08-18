@@ -53,5 +53,29 @@
         android:textSize="10sp"
         android:layout_marginEnd="26dp"
         android:textColor="@color/gray1"/>
+    
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/item_calendar_extra_pill_delete_cl"
+        android:layout_width="75dp"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/red_radi_right_10dp"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="삭제"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            android:fontFamily="@font/nanum_barun_gothic_bold"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

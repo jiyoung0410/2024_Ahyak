@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
@@ -73,6 +74,29 @@ class MedicineAdapter() : RecyclerView.Adapter<MedicineAdapter.ViewHolder>() {
                     withContext(Dispatchers.Main) {
                         addpill.MedicineTake = newTakeState
                         updateTakeStatus(newTakeState)
+                    }
+                }
+            }
+
+            binding.root.setOnLongClickListener {
+                if(binding.itemCalendarDelSymptomPillLl.visibility == View.GONE) {
+                    binding.itemCalendarDelSymptomPillLl.visibility = View.VISIBLE
+                } else if(binding.itemCalendarDelSymptomPillLl.visibility == View.VISIBLE) {
+                    binding.itemCalendarDelSymptomPillLl.visibility = View.GONE
+                }
+                true
+            }
+
+            binding.itemCalendarDelSymptomPillLl.setOnClickListener {
+                val position = adapterPosition
+                if(position != RecyclerView.NO_POSITION) {
+                    binding.itemCalendarDelSymptomPillLl.visibility = View.GONE
+                    addpillList.removeAt(position)
+                    GlobalScope.launch(Dispatchers.IO) {
+                        ahyakDatabase = AhyakDataBase.getInstance(context)
+                        ahyakDatabase!!.getMedicineDao().deleteMedicine(addpill.id)
+                        notifyItemRemoved(position)
+                        notifyDataSetChanged()
                     }
                 }
             }
