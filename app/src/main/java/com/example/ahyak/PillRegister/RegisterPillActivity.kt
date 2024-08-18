@@ -14,6 +14,8 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.content.edit
+import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ahyak.DB.AhyakDataBase
 import com.example.ahyak.DB.MedicineEntity
@@ -107,6 +109,8 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
         binding.registerPillNameInputEt.imeOptions = EditorInfo.IME_ACTION_DONE
         binding.registerPillNameInputEt.setOnEditorActionListener { _, actionId1, _ ->
             if (actionId1 == EditorInfo.IME_ACTION_DONE) {
+                binding.shapeVolumnLl.visibility = View.VISIBLE
+                binding.shapeVolumnTv.visibility = View.VISIBLE
                 // Enter 키가 눌렸을 때 실행할 동작
                 binding.registerPillNameInputEt.clearFocus() // 포커스 해제
                 val inputMethodManager =
@@ -120,6 +124,7 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
                 return@setOnEditorActionListener false
             }
         }
+
 
         //약 이름 입력 자동완성(not API)
         binding.registerPillNameInputEt.addTextChangedListener(object : TextWatcher {
@@ -152,6 +157,7 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
             layout.setOnClickListener {
                 toggletimeSelection(layout)
                 updateSelectedDaysTextView()
+                updateSaveButtonState()
             }
         }
 
@@ -159,6 +165,9 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
         binding.registerPillVolumeInputEt.imeOptions = EditorInfo.IME_ACTION_DONE
         binding.registerPillVolumeInputEt.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
+                binding.shapeFreqLl.visibility = View.VISIBLE
+                binding.shapeFreqTv.visibility = View.VISIBLE
+                binding.shapeFreqView.visibility = View.VISIBLE
                 // Enter 키가 눌렸을 때 실행할 동작
                 binding.registerPillVolumeInputEt.clearFocus() // 포커스 해제
                 val inputMethodManager =
@@ -191,15 +200,15 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
 
         //mg 버튼 누르면
         binding.registerPillDosageMgCv.setOnClickListener {
-            binding.registerPillDosageMgCv.setBackgroundResource(R.drawable.white_radi_5dp)
-            binding.registerPillDosageTabletCv.setBackgroundResource(R.drawable.bg_radi_5dp)
+            binding.registerPillDosageMgCv.setBackgroundResource(R.drawable.bg_radi_5dp)
+            binding.registerPillDosageTabletCv.setBackgroundResource(R.drawable.white_radi_5dp)
             registerpillType = "mg"
         }
 
         //정 버튼 누르면
         binding.registerPillDosageTabletCv.setOnClickListener {
-            binding.registerPillDosageTabletCv.setBackgroundResource(R.drawable.white_radi_5dp)
-            binding.registerPillDosageMgCv.setBackgroundResource(R.drawable.bg_radi_5dp)
+            binding.registerPillDosageTabletCv.setBackgroundResource(R.drawable.bg_radi_5dp)
+            binding.registerPillDosageMgCv.setBackgroundResource(R.drawable.white_radi_5dp)
             registerpillType = "정"
         }
 
@@ -210,10 +219,20 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
             startActivity(intent)
         }
 
+
         //빈도 눌렀을 때
+        binding.registerPillFrequencyTv.setOnClickListener {
+            val intent = Intent(this, FrequencyTermActivity::class.java)
+            binding.shapeSlotLl.visibility = View.VISIBLE
+            binding.shapeSlotTv.visibility = View.VISIBLE
+            binding.shapeSlotView.visibility = View.VISIBLE
+            startActivity(intent)
+        }
         binding.registerPillFrequencySelectTv.setOnClickListener {
             val intent = Intent(this, FrequencyTermActivity::class.java)
-            //finish()
+            binding.shapeSlotLl.visibility = View.VISIBLE
+            binding.shapeSlotTv.visibility = View.VISIBLE
+            binding.shapeSlotView.visibility = View.VISIBLE
             startActivity(intent)
         }
 
@@ -225,7 +244,10 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
             binding.registerPillNameInputEt.setText(resultPillName)
             binding.registerPillSearchIv.visibility = View.GONE
             binding.registerPillDeleteIv.visibility = View.VISIBLE
+            binding.nameUnderbarView.visibility = View.VISIBLE
             binding.registerPillRv.visibility = View.GONE
+            binding.shapeVolumnLl.visibility = View.VISIBLE
+            binding.shapeVolumnTv.visibility = View.VISIBLE
         }
 
         searchPillName = intent.getStringExtra("resultPillInpoName")?:""
@@ -236,7 +258,10 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
             binding.registerPillNameInputEt.setText(searchPillName)
             binding.registerPillSearchIv.visibility = View.GONE
             binding.registerPillDeleteIv.visibility = View.VISIBLE
+            binding.nameUnderbarView.visibility = View.VISIBLE
             binding.registerPillRv.visibility = View.GONE
+            binding.shapeVolumnLl.visibility = View.VISIBLE
+            binding.shapeVolumnTv.visibility = View.VISIBLE
         }
 
         //검색 취소 아이콘 눌렀을 때
@@ -247,8 +272,13 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
             binding.registerPillNameInputEt.hint = "약의 이름을 검색해주세요"
             binding.registerPillSearchIv.visibility = View.VISIBLE
             binding.registerPillDeleteIv.visibility = View.GONE
+            binding.nameUnderbarView.visibility = View.GONE
+            binding.shapeVolumnLl.visibility = View.GONE
+            binding.shapeVolumnTv.visibility = View.GONE
 
         }
+
+
 
         val freeRecordPillName = intent.getStringExtra("freeRecordPillInpoName") ?: ""
         if (freeRecordPillName.isNotEmpty()) {
@@ -258,6 +288,17 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
         //'X'버튼 눌렀을 때
         binding.registerPillCancleIv.setOnClickListener {
             finish()
+            editor.putInt("type", -1)
+            editor.apply()
+        }
+
+        // EditText 내용 변경 시 버튼 상태 업데이트
+        binding.registerPillVolumeInputEt.addTextChangedListener {
+            updateSaveButtonState()
+        }
+
+        binding.registerPillNameInputEt.addTextChangedListener {
+            updateSaveButtonState()
         }
 
         //저장 눌렀을 때
@@ -307,11 +348,9 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
                 registerPillFree = existingMedicineNames.contains(registerPilltext)
 
                 //Free Medicine인지 확인
-
                 if (dates != null) {
                     for (date in dates) {
                         val splitDate = date.split(".") // 날짜를 월과 일로 분리
-                        Log.d("registerPill", "$splitDate")
                         val selectedMonth = splitDate[1].toInt()
                         val selectedDay = splitDate[2].toInt()
 
@@ -505,11 +544,11 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
         if (selectedDays.contains(day)) {
             selectedDays.remove(day)
             textView.setTextColor(Color.GRAY)
-            layout.setBackgroundResource(R.drawable.bg_radi_100dp)
+            layout.setBackgroundResource(R.drawable.whtte_radi_5dp)
         } else {
             selectedDays.add(day)
             textView.setTextColor(Color.WHITE)
-            layout.setBackgroundResource(R.drawable.point_radi_100dp)
+            layout.setBackgroundResource(R.drawable.point_radi_5dp)
         }
     }
 
@@ -554,5 +593,24 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
     //시간대 선택해서 리스트 저장
     private fun updateSelectedDaysTextView() {
         selectedDays.joinToString(", ")
+    }
+
+    //항목이 null 값이 아니면 저장 버튼이 나타날 수 있도록 함.
+    private fun updateSaveButtonState() {
+        val pillname = binding.registerPillNameInputEt.text.toString()
+        val pillvolume = binding.registerPillVolumeInputEt.text.toString()
+
+        val sharedPref = this.getSharedPreferences("myPref", Context.MODE_PRIVATE)
+
+        val frequenctType = sharedPref.getInt("type",-1)
+
+        if(pillname.isNullOrEmpty() || pillvolume.isNullOrEmpty() || frequenctType == -1 || selectedDays.isNullOrEmpty()){
+            binding.registerPillSaveGrayLl.visibility = View.VISIBLE
+            binding.registerPillSaveLl.visibility = View.GONE
+        }else{
+            binding.registerPillSaveGrayLl.visibility = View.GONE
+            binding.registerPillSaveLl.visibility = View.VISIBLE
+        }
+//
     }
 }

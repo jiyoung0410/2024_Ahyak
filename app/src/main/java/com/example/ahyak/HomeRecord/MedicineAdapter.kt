@@ -232,8 +232,7 @@ class MedicineAdapter() : RecyclerView.Adapter<MedicineAdapter.ViewHolder>() {
             "육각형" -> R.drawable.pill_shape_hexagon
             "팔각형" -> R.drawable.pill_shape_octagon
             "오각형" -> R.drawable.pill_shape_pentagon
-            "정방형" -> R.drawable.pill_shape_oblong
-            else -> R.drawable.pill_etc // 기본값 지정
+            else -> R.drawable.pill_shape_oblong
         }
     }
 
@@ -254,16 +253,15 @@ class MedicineAdapter() : RecyclerView.Adapter<MedicineAdapter.ViewHolder>() {
             "보라" -> R.drawable.pill_color_violet
             "청록" -> R.drawable.pill_color_greenblue
             "투명" -> R.drawable.pill_color_transparency
-            else -> R.drawable.pill_etc // 기본값 지정
+            else -> R.drawable.pill_color_gray // 기본값 지정
         }
     }
 
     fun getTypeDrawableId(shape: String): Int {
         return when (shape) {
-            "정제" -> R.drawable.pill_formulation_tablet
+            "정제류" -> R.drawable.pill_formulation_tablet
             "경질캡슐" -> R.drawable.pill_formulation_reshuffle
-            "정제캡슐" -> R.drawable.pill_formulation_soft
-            else -> R.drawable.pill_etc // 기본값 지정
+            else -> R.drawable.pill_formulation_soft
         }
     }
 

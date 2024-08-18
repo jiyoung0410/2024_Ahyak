@@ -147,7 +147,6 @@ class FrequencyTermActivity : AppCompatActivity() {
             binding.frequentcyTermCl.visibility = View.GONE
             binding.frequentcyTodayLl.visibility = View.GONE
             binding.frequentcyStartdayCl.visibility = View.GONE
-
             type = 2
         }
 
