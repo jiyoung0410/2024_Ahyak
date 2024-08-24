@@ -16,6 +16,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.ahyak.AddPrescription.AddPrescriptionActivity
+import com.example.ahyak.AddPrescription.OCRprescriptionActivity
 import com.example.ahyak.MonthlyCalendar.CalenderFragment
 import com.example.ahyak.PillRegister.ResultPillActivity
 import com.example.ahyak.Statistics.StatisticsFragment
@@ -195,6 +196,9 @@ class MainActivity : AppCompatActivity() {
                     putExtra("Speech_Hospital", hospital)
                     Log.d("check check", "$prescription, $hospital")
                 }
+                startActivity(intent)
+            } else if (speech.contains("처방전")) {
+                val intent = Intent(this@MainActivity, OCRprescriptionActivity::class.java)
                 startActivity(intent)
             } else {
                 Log.d("check check", "Prescription or Hospital is null")

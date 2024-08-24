@@ -76,4 +76,6 @@ dependencies {
     implementation("androidx.camera:camera-lifecycle:1.3.0")
     implementation("androidx.camera:camera-view:1.3.0")
     implementation("androidx.camera:camera-extensions:1.3.0")
+    //카메라 프리뷰
+    implementation ("androidx.core:core-ktx:1.7.0")
 }
