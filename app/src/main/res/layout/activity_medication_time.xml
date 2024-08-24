@@ -35,12 +35,12 @@
 
         <ImageView
             android:id="@+id/medication_time_cancle_iv"
-            android:layout_width="28.5dp"
-            android:layout_height="28.5dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:src="@drawable/ic_cancle"
             android:layout_gravity="right"
-            android:layout_marginTop="17dp"
-            android:layout_marginEnd="22dp"/>
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="30dp"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

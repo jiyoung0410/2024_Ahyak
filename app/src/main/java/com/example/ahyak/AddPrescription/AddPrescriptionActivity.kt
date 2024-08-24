@@ -6,9 +6,11 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.DatePicker
+import android.widget.Toast
 import com.example.ahyak.DB.AhyakDataBase
 import com.example.ahyak.DB.PrescriptionEntity
 import com.example.ahyak.MainActivity
@@ -41,13 +43,38 @@ class AddPrescriptionActivity : AppCompatActivity(), DatePickerDialog.OnDateSetL
         binding = ActivityAddSymptomsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        //음성 인식으로 얻은 데이터를 EditText에 설정
+        // Intent로부터 데이터 수신
+        val prescription = intent.getStringExtra("Speech_Prescription")
+        val hospital = intent.getStringExtra("Speech_Hospital")
+
+        // 수신된 데이터를 EditText에 설정
+        if (prescription != null) {
+            binding.addSymptomsSymptomNameEt.setText(prescription)
+            binding.addSymptomsSymptomNameEt.clearFocus()
+        }
+        if (hospital != null) {
+            binding.addSymptomsHospitalNameEt.setText(hospital+"병원")
+            binding.addSymptomsSymptomNameEt.clearFocus()
+            binding.addSymptomsHospitalNameEt.visibility = View.VISIBLE
+            binding.addSymptomsHospitalNameTv.visibility = View.VISIBLE
+            binding.startLl.visibility = View.VISIBLE
+            binding.addSymptomsStartTv.visibility = View.VISIBLE
+        }
+
         //처방 이름 Edit Text
+        binding.addSymptomsSymptomNameEt.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                binding.addSymptomsSymptomNameTv.visibility = View.VISIBLE } }
         binding.addSymptomsSymptomNameEt.imeOptions = EditorInfo.IME_ACTION_DONE
         binding.addSymptomsSymptomNameEt.setOnEditorActionListener { _, actionId, event ->
             if(actionId == EditorInfo.IME_ACTION_DONE){
                 binding.addSymptomsSymptomNameEt.clearFocus()
                 val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 inputMethodManager.hideSoftInputFromWindow(binding.addSymptomsSymptomNameEt.windowToken, 0)
+                binding.nameBlankLl.visibility = View.VISIBLE
+                binding.addSymptomsHospitalNameEt.visibility = View.VISIBLE
+                binding.addSymptomsHospitalNameTv.visibility = View.VISIBLE
                 return@setOnEditorActionListener true
             }else {
                 return@setOnEditorActionListener false
@@ -55,12 +82,18 @@ class AddPrescriptionActivity : AppCompatActivity(), DatePickerDialog.OnDateSetL
         }
 
         //병원 이름 Edit Text
+        binding.addSymptomsHospitalNameEt.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                binding.addSymptomsHospitalNameTv.visibility = View.VISIBLE
+                binding.nameBlankLl.visibility = View.INVISIBLE } }
         binding.addSymptomsHospitalNameEt.imeOptions = EditorInfo.IME_ACTION_DONE
         binding.addSymptomsHospitalNameEt.setOnEditorActionListener { _, actionId, event ->
             if(actionId == EditorInfo.IME_ACTION_DONE){
                 binding.addSymptomsHospitalNameEt.clearFocus()
                 val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 inputMethodManager.hideSoftInputFromWindow(binding.addSymptomsHospitalNameEt.windowToken, 0)
+                binding.startLl.visibility = View.VISIBLE
+                binding.addSymptomsStartTv.visibility = View.VISIBLE
                 return@setOnEditorActionListener true
             }else {
                 return@setOnEditorActionListener false
@@ -88,7 +121,12 @@ class AddPrescriptionActivity : AppCompatActivity(), DatePickerDialog.OnDateSetL
         binding.addSymptomsStartdayTv.text = StartDate
 
         //시작 날짜 설정
-        binding.addSymptomsStartdayLl.setOnClickListener {
+        binding.addSymptomsStartdayTv.setOnClickListener {
+
+            //종료일 레이아웃 뜨도록
+            binding.addSymptomsEndTv.visibility = View.VISIBLE
+            binding.endLl.visibility = View.VISIBLE
+
             val year = cal.get(Calendar.YEAR)
             StartMonth = cal.get(Calendar.MONTH)
             StartDay = cal.get(Calendar.DAY_OF_MONTH)
@@ -105,7 +143,7 @@ class AddPrescriptionActivity : AppCompatActivity(), DatePickerDialog.OnDateSetL
         }
 
         //종료 날짜 설정
-        binding.addSymptomsEnddayLl.setOnClickListener {
+        binding.addSymptomsEnddayClickTv.setOnClickListener {
             val year = cal.get(Calendar.YEAR)
             val month = cal.get(Calendar.MONTH)
             val dayOfMonth = cal.get(Calendar.DAY_OF_MONTH)
@@ -114,6 +152,8 @@ class AddPrescriptionActivity : AppCompatActivity(), DatePickerDialog.OnDateSetL
 
                 EndDate = year.toString() + "." + (month + 1).toString() + "." + day.toString()+ "."
                 binding.addSymptomsEnddayTv.text =EndDate
+                binding.addSymptomsAddbtnGrayLl.visibility = View.GONE
+                binding.addSymptomsAddbtnLl.visibility = View.VISIBLE
 
             }, year, month, dayOfMonth)
             datePickerDialog.show()
