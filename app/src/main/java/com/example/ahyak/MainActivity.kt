@@ -204,6 +204,21 @@ class MainActivity : AppCompatActivity() {
                 Log.d("check check", "Prescription or Hospital is null")
             }
 
+            // "처방전 등록"이라는 음성 인식이 있을 때 OCRprescriptionActivity 시작
+            if (speech.contains("처방전 등록")) {
+                val intent = Intent(this@MainActivity, OCRprescriptionActivity::class.java)
+                startActivity(intent)
+            } else if (prescription != null && hospital != null) {
+                val intent = Intent(this@MainActivity, AddPrescriptionActivity::class.java).apply {
+                    putExtra("Speech_Prescription", prescription)
+                    putExtra("Speech_Hospital", hospital)
+                    Log.d("check check", "$prescription, $hospital")
+                }
+                startActivity(intent)
+            } else {
+                Log.d("check check", "Prescription or Hospital is null")
+            }
+
         }
 
     }

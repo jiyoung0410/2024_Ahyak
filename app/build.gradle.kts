@@ -78,4 +78,7 @@ dependencies {
     implementation("androidx.camera:camera-extensions:1.3.0")
     //카메라 프리뷰
     implementation ("androidx.core:core-ktx:1.7.0")
+
+    //카메라 크롭 관련
+    implementation ("com.github.yalantis:ucrop:2.2.6")
 }
