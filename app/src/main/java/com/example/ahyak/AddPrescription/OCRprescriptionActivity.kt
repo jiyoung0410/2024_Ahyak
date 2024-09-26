@@ -18,6 +18,7 @@ class OCRprescriptionActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityOcrprescriptionBinding
     private val CAMERA_REQUEST_CODE = 100
+    private val GALLERY_REQUEST_CODE = 200
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,43 +32,61 @@ class OCRprescriptionActivity : AppCompatActivity() {
             startActivityForResult(cameraIntent, CAMERA_REQUEST_CODE)
         }
 
+        // 앨범 버튼 클릭 시 갤러리 실행
+        binding.albumButton.setOnClickListener {
+            val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            startActivityForResult(galleryIntent, GALLERY_REQUEST_CODE)
+        }
+
         // 취소 버튼 클릭 시 액티비티 종료
         binding.cameraCancleIc.setOnClickListener {
             finish()
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
+
+        // '<'버튼 클릭 시 처방전 가져오기 다시 등장
+        binding.retryLl.setOnClickListener {
+            binding.imageView.visibility = View.GONE
+            binding.albumButton.visibility = View.VISIBLE
+            binding.cameraButton.visibility = View.VISIBLE
+            binding.PrecriptionTv.visibility = View.VISIBLE
+            binding.selectLl.visibility = View.GONE
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+                CAMERA_REQUEST_CODE -> {
+                    // 카메라로 찍은 사진 처리
+                    val photo: Bitmap = data?.extras?.get("data") as Bitmap
+                    val tempUri = getImageUri(photo)
+                    tempUri?.let { startCrop(it) }
+                }
 
-        if (requestCode == UCrop.REQUEST_CROP && resultCode == Activity.RESULT_OK) {
-            val resultUri = UCrop.getOutput(data!!)
-            if (resultUri != null) {
-                binding.imageView.setImageURI(resultUri)
-                binding.imageView.visibility = View.VISIBLE
-            } else {
-                Log.e("CropError", "resultUri is null")
-            }
-        }
+                GALLERY_REQUEST_CODE -> {
+                    // 앨범에서 선택한 이미지 처리
+                    val selectedImageUri: Uri? = data?.data
+                    selectedImageUri?.let { startCrop(it) }
+                }
 
+                UCrop.REQUEST_CROP -> {
+                    // 크롭된 이미지 처리
+                    val resultUri = UCrop.getOutput(data!!)
+                    resultUri?.let {
+                        binding.imageView.setImageURI(it)
+                        binding.imageView.visibility = View.VISIBLE
+                        binding.albumButton.visibility = View.GONE
+                        binding.cameraButton.visibility = View.GONE
+                        binding.PrecriptionTv.visibility = View.GONE
+                        binding.selectLl.visibility = View.VISIBLE
 
-        if (requestCode == CAMERA_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            // 사진이 찍힌 후 바로 데이터로 변환
-            val photo: Bitmap = data?.extras?.get("data") as Bitmap
-            val tempUri = getImageUri(photo)
-            tempUri?.let {
-                startCrop(it)
-            }
-        } else if (requestCode == UCrop.REQUEST_CROP && resultCode == Activity.RESULT_OK) {
-            val resultUri = UCrop.getOutput(data!!)
-            resultUri?.let {
-                // 크롭된 이미지를 ImageView에 표시
-                binding.imageView.setImageURI(it)
-                binding.imageView.visibility = View.VISIBLE
-                Log.d("CropSuccess", "resultUri is not null")
+                        Log.d("CropSuccess", "resultUri is not null")
+                    } ?: Log.e("CropError", "resultUri is null")
+                }
             }
         }
     }
