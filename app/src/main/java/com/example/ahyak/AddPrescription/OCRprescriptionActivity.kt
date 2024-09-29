@@ -8,9 +8,16 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.graphics.drawable.toBitmap
 import com.example.ahyak.MainActivity
 import com.example.ahyak.databinding.ActivityOcrprescriptionBinding
+import com.google.mlkit.vision.common.InputImage
+import com.google.mlkit.vision.text.Text
+import com.google.mlkit.vision.text.TextRecognition
+import com.google.mlkit.vision.text.korean.KoreanTextRecognizerOptions
+import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import com.yalantis.ucrop.UCrop
 import java.io.File
 
@@ -43,6 +50,13 @@ class OCRprescriptionActivity : AppCompatActivity() {
             finish()
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
+        }
+
+        //ocr버튼 클릭 시
+        binding.ocrStartLl.setOnClickListener {
+            val bitmap = binding.imageView.drawable.toBitmap()  // imageView에 있는 이미지 비트맵 가져오기
+            recognizeTextFromImage(bitmap)
+
         }
 
         // '<'버튼 클릭 시 처방전 가져오기 다시 등장
@@ -103,5 +117,65 @@ class OCRprescriptionActivity : AppCompatActivity() {
         val uCrop = UCrop.of(uri, destinationUri)
         uCrop.withAspectRatio(1f, 1f) // 원하는 비율 설정
         uCrop.start(this)
+    }
+
+    //ocr 관련 코드
+    // OCR 처리 함수
+    private fun recognizeTextFromImage(bitmap: Bitmap) {
+        // InputImage로 비트맵을 변환
+        val image = InputImage.fromBitmap(bitmap, 0)
+
+        // ML Kit TextRecognizer 생성 (on-device, 라틴 문자)
+        // Cloud 기반의 텍스트 인식 (한글 등 다양한 언어 지원)
+        val recognizer = TextRecognition.getClient(KoreanTextRecognizerOptions.Builder().build())
+
+
+        recognizer.process(image)
+            .addOnSuccessListener { visionText ->
+                // 인식 성공 시 텍스트 처리
+                Log.d("OCR Result", "인식된 텍스트: ${visionText.text}")
+            }
+            .addOnFailureListener { e ->
+                // 인식 실패 시 에러 처리
+                Log.e("OCR Error", "텍스트 인식 실패: ${e.message}")
+            }
+    }
+
+    // 인식된 텍스트 처리
+    private fun processRecognizedText(visionText: Text) {
+        val resultText = visionText.text
+        Log.d("OCR Result", "인식된 텍스트: $resultText")
+
+        // 원하는 텍스트 형식으로 결과를 처리
+        for (block in visionText.textBlocks) {
+            for (line in block.lines) {
+                val lineText = line.text
+                Log.d("OCR Line", lineText)
+
+                // 여기서 약 이름, 투여 횟수, 투약 일수를 추출하는 로직 적용
+                extractPrescriptionInfo(lineText)
+            }
+        }
+    }
+
+    // 텍스트에서 약 이름과 투여 횟수, 일수를 추출하는 함수
+    private fun extractPrescriptionInfo(lineText: String) {
+        // 약 이름, 1일 투여 횟수, 총 투약 일수 추출을 위한 정규식
+        val pattern = Regex("([가-힣A-Za-z0-9]+)\\s+(\\d+)\\s+(\\d+)")
+        val matchResult = pattern.find(lineText)
+
+        if (matchResult != null) {
+            val drugName = matchResult.groupValues[1] // 약 이름
+            val dosePerDay = matchResult.groupValues[2] // 1일 투여 횟수
+            val totalDays = matchResult.groupValues[3] // 총 투약 일수
+
+            Log.d("OCR Extracted", "약 이름: $drugName, 투여 횟수: $dosePerDay, 총 일수: $totalDays")
+
+            // UI에 결과 출력 (필요에 따라 사용)
+            //binding.resultTextView.text = "약 이름: $drugName\n1일 투여 횟수: $dosePerDay\n총 투약 일수: $totalDays"
+            Toast.makeText(this, "약 이름: $drugName\n1일 투여 횟수: $dosePerDay\n총 투약 일수: $totalDays", Toast.LENGTH_SHORT).show()
+        } else {
+            Log.d("OCR Extracted", "추출된 정보가 없습니다.")
+        }
     }
 }

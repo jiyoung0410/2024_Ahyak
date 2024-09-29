@@ -81,4 +81,10 @@ dependencies {
 
     //카메라 크롭 관련
     implementation ("com.github.yalantis:ucrop:2.2.6")
+
+    //ocr 관련(Mlkit)
+    implementation ("com.google.mlkit:text-recognition:16.0.0")
+    implementation ("com.google.mlkit:text-recognition-korean:16.0.0")
+    // To recognize Korean script
+    implementation ("com.google.android.gms:play-services-mlkit-text-recognition-korean:16.0.1")
 }
