@@ -84,13 +84,14 @@
                     android:layout_margin="20dp"
                     android:elevation="10dp"
                     android:gravity="center"
-                    android:background="@drawable/white_radi_10dp">
+                    android:background="@drawable/point_radi_10dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/nanum_barun_gothic_bold"
                         android:textSize="16dp"
+                        android:textColor="@color/white"
                         android:text="OCR로 약 등록"/>
 
                 </LinearLayout>
