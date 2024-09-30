@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="150dp"
+    android:layout_height="150dp"
+    android:background="@drawable/white_radi_5dp_bg_stroke"
+    android:elevation="10dp"
+    android:padding="15dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/pill_info_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="코데농정\n1회 투여 용량 : 2\n1일 투여 횟수 : 3\n총 투약 일수 : 7"
+        android:fontFamily="@font/nanum_barun_gothic_bold"
+        android:textColor="@color/black"
+        android:textSize="16dp"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/ocr_delete_btn"
+                android:layout_width="55dp"
+                android:layout_height="25dp"
+                android:layout_marginEnd="4dp"
+                android:layout_weight="1"
+                android:background="@drawable/gray3_radi_10dp"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="삭제"
+                    android:textSize="14dp"
+                    android:fontFamily="@font/nanum_barun_gothic_bold"
+                    android:textColor="@color/red"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ocr_complete_btn"
+                android:layout_width="55dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="4dp"
+                android:layout_weight="1"
+                android:background="@drawable/point_radi_10dp"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="완료"
+                    android:textSize="14dp"
+                    android:fontFamily="@font/nanum_barun_gothic_bold"
+                    android:textColor="@color/white"/>
+            </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>
