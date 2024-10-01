@@ -1,4 +1,4 @@
-package com.example.ahyak.AddPrescription
+package com.example.ahyak.OCR
 
 import com.example.ahyak.RecordSymptoms.DataItemSearchSymptom
 

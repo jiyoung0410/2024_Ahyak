@@ -38,13 +38,13 @@
         android:theme="@style/Theme.Ahyak"
         tools:targetApi="31">
         <activity
-            android:name=".AddPrescription.OcrResultActivity"
+            android:name=".OCR.OcrResultActivity"
             android:exported="false" />
         <activity
             android:name=".PillRegister.CameraActivity"
             android:exported="false" />
         <activity
-            android:name=".AddPrescription.OCRprescriptionActivity"
+            android:name=".OCR.OCRprescriptionActivity"
             android:exported="false" /> <!-- <receiver -->
         <!-- android:name=".Alarm.AlarmReceiver" -->
         <!-- android:enabled="true" -->

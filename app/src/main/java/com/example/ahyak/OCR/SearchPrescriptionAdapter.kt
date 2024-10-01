@@ -1,4 +1,4 @@
-package com.example.ahyak.AddPrescription
+package com.example.ahyak.OCR
 
 import android.view.LayoutInflater
 import android.view.View
@@ -28,12 +28,12 @@ class SearchPrescriptionAdapter(var searchPrescriptions:ArrayList<DataItemSearch
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): SearchPrescriptionAdapter.ViewHolder {
+    ): ViewHolder {
         val binding = ItemPrescriptionSearchBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: SearchPrescriptionAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(searchPrescriptions[position])
     }
 

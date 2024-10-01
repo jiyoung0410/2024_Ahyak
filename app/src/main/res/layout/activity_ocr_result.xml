@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/point"
     android:orientation="vertical"
-    tools:context=".AddPrescription.OcrResultActivity">
+    tools:context=".OCR.OcrResultActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -94,22 +94,32 @@
             android:visibility="gone"
             android:layout_marginTop="20dp"/>
 
-        <TextView
-            android:id="@+id/ocr_title_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/nanum_barun_gothic_bold"
-            android:text="OCR 인식 "
-            android:textSize="18dp"
-            android:layout_marginTop="40dp"
-            android:layout_marginStart="30dp"
-            android:textColor="@color/gray1"/>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/ocr_pill_rv"
+        <LinearLayout
+            android:id="@+id/ocr_pill_ll"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"/>
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/ocr_title_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nanum_barun_gothic_bold"
+                android:text="OCR 인식 "
+                android:textSize="18dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginStart="30dp"
+                android:textColor="@color/gray1"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/ocr_pill_rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"/>
+
+        </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -123,7 +133,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_weight="1"
-                android:background="@drawable/gray3_radi_10dp"
+                android:background="@drawable/bg_radi_15dp"
                 android:gravity="center"
                 android:layout_marginEnd="8dp">
 
@@ -141,7 +151,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_weight="1"
-                android:background="@drawable/point_radi_10dp"
+                android:background="@drawable/point_radi_15dp"
                 android:gravity="center"
                 android:layout_marginStart="8dp">
 
@@ -157,15 +167,5 @@
         </LinearLayout>
 
     </LinearLayout>
-
-    <TextView
-        android:visibility="gone"
-        android:id="@+id/ocr_result_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </LinearLayout>

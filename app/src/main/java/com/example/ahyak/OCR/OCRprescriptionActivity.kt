@@ -1,4 +1,4 @@
-package com.example.ahyak.AddPrescription
+package com.example.ahyak.OCR
 
 import android.app.Activity
 import android.content.Intent
@@ -17,7 +17,6 @@ import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.Text
 import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.korean.KoreanTextRecognizerOptions
-import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import com.yalantis.ucrop.UCrop
 import java.io.File
 
@@ -201,6 +200,7 @@ class OCRprescriptionActivity : AppCompatActivity() {
             Log.d("OCR Processed", "약 정보: $drugInfo")
             Toast.makeText(this, "약 정보: ${drugInfo[0]}, 1회 투여량: ${drugInfo[1]}, 1일 투여횟수: ${drugInfo[2]}, 총 투약 일수: ${drugInfo[3]}", Toast.LENGTH_SHORT).show()
         }
+
 
         // recognizedData를 새로운 Activity로 전달
         finish()

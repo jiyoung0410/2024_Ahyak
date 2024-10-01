@@ -1,4 +1,4 @@
-package com.example.ahyak.AddPrescription
+package com.example.ahyak.OCR
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -7,6 +7,9 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ahyak.DB.AhyakDataBase
 import com.example.ahyak.MainActivity
@@ -22,7 +25,12 @@ class OcrResultActivity : AppCompatActivity(), OnItemClickListener2 {
     private lateinit var binding : ActivityOcrResultBinding
 
     private var searchPrescriptions : ArrayList<DataItemSearchSymptom> = arrayListOf()
-    private var searchPrescriptionadapter : SearchPrescriptionAdapter ?= null
+    private var searchPrescriptionadapter : SearchPrescriptionAdapter?= null
+    private var prescriptionName : String?= ""
+
+    //ocr로 받은 약 등록하기 위한 데이터 처리
+    var ocrDrugs : ArrayList<OcrDrugInfo> = arrayListOf()
+    var ocrPillAdapter : OcrPillAdapter?= null
 
     //DataBase 객체
     var ahyakDatabase : AhyakDataBase? = null
@@ -33,6 +41,21 @@ class OcrResultActivity : AppCompatActivity(), OnItemClickListener2 {
         ahyakDatabase = AhyakDataBase.getInstance(this)
 
         setContentView(binding.root)
+
+        val drugInfoList = intent.getStringArrayListExtra("drugInfoList")
+        val totalDrugs = drugInfoList?.size?.div(4) ?: 0
+
+        //ocr로 받은 약 등록하기 위한 데이터 처리
+        for (i in 0 until totalDrugs) {
+            val name = drugInfoList?.get(i * 4) ?: ""
+            val dosePerTime = drugInfoList?.get(i * 4 + 1) ?: ""
+            val dosesPerDay = drugInfoList?.get(i * 4 + 2) ?: ""
+            val totalDays = drugInfoList?.get(i * 4 + 3) ?: ""
+
+            ocrDrugs.add(OcrDrugInfo(name, dosePerTime, dosesPerDay, totalDays))
+            Log.d("ocrDrugs", "$ocrDrugs")
+
+        }
 
         searchPrescriptionInit()
         initPrescriptionadapter()
@@ -49,6 +72,7 @@ class OcrResultActivity : AppCompatActivity(), OnItemClickListener2 {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 // 입력 전에 실행할 작업
                 binding.searchPrescriptionRv.visibility = View.VISIBLE
+
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -57,13 +81,14 @@ class OcrResultActivity : AppCompatActivity(), OnItemClickListener2 {
             }
 
             override fun afterTextChanged(s: Editable?) {
-                // 입력 후에 실행할 작업
             }
         })
 
         //약 등록 누르면
         binding.ocrResultBtn.setOnClickListener {
-
+            finish()
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
         }
 
         //취소 누르면
@@ -72,30 +97,22 @@ class OcrResultActivity : AppCompatActivity(), OnItemClickListener2 {
             val intent = Intent(this, OCRprescriptionActivity::class.java)
             startActivity(intent)
         }
-
-
-        // 전달받은 데이터 처리
-        val drugInfoList = intent.getStringArrayListExtra("drugInfoList")
-
-        // 데이터를 화면에 표시
-        if (drugInfoList != null && drugInfoList.isNotEmpty()) {
-            val totalDrugs = drugInfoList.size / 4
-            val displayText = StringBuilder()
-
-            for (i in 0 until totalDrugs) {
-                displayText.append("약 이름: ${drugInfoList[i*4]}\n")
-                displayText.append("1회 투여량: ${drugInfoList[i*4 + 1]}\n")
-                displayText.append("1일 투여횟수: ${drugInfoList[i*4 + 2]}\n")
-                displayText.append("총 투약 일수: ${drugInfoList[i*4 + 3]}\n\n")
-            }
-
-            binding.ocrResultTv.text = displayText.toString() // ocr_result_tv에 표시
-        }
-
     }
 
+    //OCR 약 결과 가져오는 리사이클러뷰 어댑터 초기화
+    private fun ocrPilladapter() {
+        ocrPillAdapter = ahyakDatabase?.let { prescriptionName?.let { it1 ->
+            OcrPillAdapter(ocrDrugs, this, it,
+                it1
+            )
+        } }
+        binding.ocrPillRv.adapter = ocrPillAdapter
+        binding.ocrPillRv.layoutManager = GridLayoutManager(this, 2)
+    }
+
+    //OCR 약 결과 등록 시 증상 가져오는 어댑터 초기화
     private fun initPrescriptionadapter() {
-        searchPrescriptionadapter = SearchPrescriptionAdapter(searchPrescriptions, this)
+        searchPrescriptionadapter = SearchPrescriptionAdapter(searchPrescriptions,this)
         binding.searchPrescriptionRv.adapter = searchPrescriptionadapter
         binding.searchPrescriptionRv.layoutManager = LinearLayoutManager(this)
     }
@@ -117,6 +134,7 @@ class OcrResultActivity : AppCompatActivity(), OnItemClickListener2 {
                 if (uniqueNames != null) {
                     for (name in uniqueNames) {
                         searchPrescriptions.add(DataItemSearchSymptom(name))
+
                     }
 
                     // 어댑터에 데이터 변경 알림
@@ -125,7 +143,6 @@ class OcrResultActivity : AppCompatActivity(), OnItemClickListener2 {
             }
         }
     }
-
 
     private fun filterSymptoms(query: String) {
         val filteredList = ArrayList<DataItemSearchSymptom>()
@@ -143,6 +160,11 @@ class OcrResultActivity : AppCompatActivity(), OnItemClickListener2 {
 
     override fun onItemClick(searchPrescription: DataItemSearchSymptom) {
         binding.searchPrescripionEt.setText(searchPrescription.searchsympotmName)
+        prescriptionName = searchPrescription.searchsympotmName
+        ocrPilladapter()
         binding.searchPrescriptionRv.visibility = View.GONE
+        binding.searchPrescripionEt.clearFocus()
+        binding.ocrPillLl.visibility = View.VISIBLE
+
     }
 }

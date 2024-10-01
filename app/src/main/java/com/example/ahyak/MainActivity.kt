@@ -16,9 +16,8 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.ahyak.AddPrescription.AddPrescriptionActivity
-import com.example.ahyak.AddPrescription.OCRprescriptionActivity
+import com.example.ahyak.OCR.OCRprescriptionActivity
 import com.example.ahyak.MonthlyCalendar.CalenderFragment
-import com.example.ahyak.PillRegister.ResultPillActivity
 import com.example.ahyak.Statistics.StatisticsFragment
 import com.example.ahyak.databinding.ActivityMainBinding
 
