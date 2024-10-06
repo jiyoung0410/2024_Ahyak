@@ -68,16 +68,15 @@ class OcrPillAdapter(
                     for (day in 0 until totalDays) {
                         calendar.add(Calendar.DAY_OF_MONTH, 1) // 하루씩 증가
                         val month = calendar.get(Calendar.MONTH) + 1
-                        val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH) - 1
+                        val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
 
                         slots.forEach { slot ->
-
                             db!!.getMedicineDao()?.insertMedicine(
                                 MedicineEntity(
                                     drugInfo.name,
                                     prescriptionName,
                                     month,
-                                    dayOfMonth,
+                                    dayOfMonth,  // 날짜는 이미 하루 증가했으므로 더 이상 변경하지 않음
                                     slot,
                                     dosesPerDay.toFloat(),
                                     "정", // 정제 타입
@@ -91,10 +90,9 @@ class OcrPillAdapter(
                                     .getMedicine(month, dayOfMonth, slot, prescriptionName)
                             Log.d("register Medicine check", "$existingMedicineList")
 
-                            // 하루씩 증가
-                            calendar.add(Calendar.DAY_OF_MONTH, 1) // 다음 날로 이동
                         }
                     }
+
                     // 비동기 작업 완료 후 UI 업데이트는 메인 스레드에서 실행
                     withContext(Dispatchers.Main) {
 
@@ -103,7 +101,6 @@ class OcrPillAdapter(
                         binding.ocrDoneBtn.visibility = View.VISIBLE
                     }
                 }
-
 
             }
         }

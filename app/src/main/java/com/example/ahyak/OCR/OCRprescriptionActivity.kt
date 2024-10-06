@@ -123,7 +123,7 @@ class OCRprescriptionActivity : AppCompatActivity() {
         // 기본적으로 자유로운 비율 설정
         //uCrop.useSourceImageAspectRatio()  // 원본 이미지 비율 사용
         uCrop.withAspectRatio(0f, 0f)  // 자유롭게 비율 설정 가능 (0f, 0f는 비율 자유)
-        //uCrop.withAspectRatio(21f, 9f)  // 자유롭게 비율 설정 가능 (0f, 0f는 비율 자유)
+        uCrop.withAspectRatio(21f, 9f)  // 자유롭게 비율 설정 가능 (0f, 0f는 비율 자유)
 
         // 크롭 박스에 대해 최솟값과 최댓값 설정
         //uCrop.withMaxResultSize(1080, 1080)  // 최대 크기 설정

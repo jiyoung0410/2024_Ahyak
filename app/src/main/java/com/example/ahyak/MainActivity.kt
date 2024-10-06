@@ -77,6 +77,13 @@ class MainActivity : AppCompatActivity() {
             speechRecognizer.startListening(intent)                         // 듣기 시작
         }
 
+        //임시 OCR 코드 입력
+        binding.ocrBtn.setOnClickListener{
+            //처방전 페이지로 이동
+            val intent = Intent(this@MainActivity, OCRprescriptionActivity::class.java)
+            startActivity(intent)
+        }
+
     }
 
     //     권한 설정 메소드
