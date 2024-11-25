@@ -52,6 +52,9 @@ class AddPrescriptionActivity : AppCompatActivity(), DatePickerDialog.OnDateSetL
         if (prescription != null) {
             binding.addSymptomsSymptomNameEt.setText(prescription)
             binding.addSymptomsSymptomNameEt.clearFocus()
+            //종료일 레이아웃 뜨도록
+            binding.addSymptomsEndTv.visibility = View.VISIBLE
+            binding.endLl.visibility = View.VISIBLE
         }
         if (hospital != null) {
             binding.addSymptomsHospitalNameEt.setText(hospital+"병원")
