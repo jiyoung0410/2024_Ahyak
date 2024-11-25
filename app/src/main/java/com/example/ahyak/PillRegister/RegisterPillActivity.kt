@@ -28,6 +28,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ahyak.DB.AhyakDataBase
 import com.example.ahyak.DB.MedicineEntity
 import com.example.ahyak.MainActivity
+import com.example.ahyak.OCR.OCRprescriptionActivity
 import com.example.ahyak.R
 import com.example.ahyak.RecordSymptoms.frequency.FrequencyTermActivity
 import com.example.ahyak.databinding.ActivityRegisterPillBinding
@@ -312,6 +313,12 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
 
         binding.registerPillNameInputEt.addTextChangedListener {
             updateSaveButtonState()
+        }
+
+        binding.registerPillOcrIv.setOnClickListener {
+            val intent = Intent(this, OCRprescriptionActivity::class.java)
+            finish()
+            startActivity(intent)
         }
 
         //저장 눌렀을 때
