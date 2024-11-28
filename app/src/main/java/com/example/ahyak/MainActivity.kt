@@ -16,9 +16,8 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.ahyak.AddPrescription.AddPrescriptionActivity
-import com.example.ahyak.AddPrescription.OCRprescriptionActivity
+import com.example.ahyak.OCR.OCRprescriptionActivity
 import com.example.ahyak.MonthlyCalendar.CalenderFragment
-import com.example.ahyak.PillRegister.ResultPillActivity
 import com.example.ahyak.Statistics.StatisticsFragment
 import com.example.ahyak.databinding.ActivityMainBinding
 
@@ -76,6 +75,13 @@ class MainActivity : AppCompatActivity() {
             speechRecognizer = SpeechRecognizer.createSpeechRecognizer(this@MainActivity)
             speechRecognizer.setRecognitionListener(recognitionListener)    // 리스너 설정
             speechRecognizer.startListening(intent)                         // 듣기 시작
+        }
+
+        //임시 OCR 코드 입력
+        binding.ocrBtn.setOnClickListener{
+            //처방전 페이지로 이동
+            val intent = Intent(this@MainActivity, OCRprescriptionActivity::class.java)
+            startActivity(intent)
         }
 
     }
@@ -200,6 +206,21 @@ class MainActivity : AppCompatActivity() {
                 startActivity(intent)
             } else if (speech.contains("처방전")) {
                 val intent = Intent(this@MainActivity, OCRprescriptionActivity::class.java)
+                startActivity(intent)
+            } else {
+                Log.d("check check", "Prescription or Hospital is null")
+            }
+
+            // "처방전 등록"이라는 음성 인식이 있을 때 OCRprescriptionActivity 시작
+            if (speech.contains("처방전 등록")) {
+                val intent = Intent(this@MainActivity, OCRprescriptionActivity::class.java)
+                startActivity(intent)
+            } else if (prescription != null && hospital != null) {
+                val intent = Intent(this@MainActivity, AddPrescriptionActivity::class.java).apply {
+                    putExtra("Speech_Prescription", prescription)
+                    putExtra("Speech_Hospital", hospital)
+                    Log.d("check check", "$prescription, $hospital")
+                }
                 startActivity(intent)
             } else {
                 Log.d("check check", "Prescription or Hospital is null")

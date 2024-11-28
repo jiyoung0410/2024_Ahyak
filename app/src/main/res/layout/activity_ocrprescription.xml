@@ -4,39 +4,175 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddPrescription.OCRprescriptionActivity">
+    tools:context=".OCR.OCRprescriptionActivity">
 
-    <androidx.camera.view.PreviewView
-        android:id="@+id/viewFinder"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+    <!-- ImageView for displaying cropped image -->
 
-    <ImageView
-        android:id="@+id/camera_cancle_ic"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+    <TextView
+        android:id="@+id/Precription_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:src="@drawable/ic_cancle"
-        android:layout_margin="30dp"/>
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="200dp"
+        android:textSize="20dp"
+        android:fontFamily="@font/nanum_barun_gothic_bold"
+        android:textColor="@color/black"
+        android:text="처방전 가져오기"/>
 
     <LinearLayout
-        android:id="@+id/camera_btn"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:gravity="center"
-        android:layout_marginBottom="30dp"
-        android:background="@drawable/white_radi_stroke_100dp">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
 
-        <ImageView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:src="@drawable/camera_lens_ic"/>
+        <LinearLayout
+            android:id="@+id/select_ll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:fontFamily="@font/nanum_barun_gothic_bold"
+                android:textColor="@color/black"
+                android:text="가져온 처방전 이미지"/>
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="40dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:visibility="invisible"
+                android:contentDescription="Cropped Image" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:gravity="center"
+                android:layout_margin="30dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/retry_ll"
+                    android:layout_width="130dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="20dp"
+                    android:gravity="center"
+                    android:elevation="10dp"
+                    android:background="@drawable/white_radi_10dp"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/nanum_barun_gothic_bold"
+                        android:textSize="16dp"
+                        android:text="다시 불러오기"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ocr_start_ll"
+                    android:layout_width="130dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="20dp"
+                    android:elevation="10dp"
+                    android:gravity="center"
+                    android:background="@drawable/point_radi_10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/nanum_barun_gothic_bold"
+                        android:textSize="16dp"
+                        android:textColor="@color/white"
+                        android:text="OCR로 약 등록"/>
+
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/cameraButton"
+            android:background="@drawable/white_radi_10dp"
+            android:elevation="10dp"
+            android:layout_width="120dp"
+            android:layout_height="200dp"
+            android:gravity="center"
+            android:layout_margin="20dp"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginBottom="20dp"
+                android:src="@drawable/add_photo"/>
+
+            <!-- Camera button -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="카메라로\n처방전 찍기"
+                android:gravity="center"
+                android:textSize="15dp"
+                android:fontFamily="@font/nanum_barun_gothic"
+                android:textColor="@color/black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/albumButton"
+            android:background="@drawable/white_radi_10dp"
+            android:elevation="10dp"
+            android:layout_width="120dp"
+            android:layout_height="200dp"
+            android:gravity="center"
+            android:layout_margin="20dp"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginBottom="20dp"
+                android:src="@drawable/add_image"/>
+
+            <!-- Camera button -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="앨범에서\n처방전 가져오기"
+                android:gravity="center"
+                android:textSize="15dp"
+                android:fontFamily="@font/nanum_barun_gothic"
+                android:textColor="@color/black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </LinearLayout>
     </LinearLayout>
 
+    <!-- Cancel button -->
+    <ImageView
+        android:id="@+id/cameraCancleIc"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:src="@drawable/ic_cancle"
+        android:contentDescription="Cancel"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="40dp" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+

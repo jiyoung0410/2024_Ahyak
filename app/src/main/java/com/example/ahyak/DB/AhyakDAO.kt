@@ -15,6 +15,7 @@ interface AhyakDAO {
     fun getAllMyStrings() : List<AhyakEntity>
 }
 
+
 @Dao
 interface PrescriptionDAO {
     @Insert
@@ -23,6 +24,11 @@ interface PrescriptionDAO {
     // 더미 데이터를 한 번에 여러 개 삽입하는 메서드
     @Insert
     fun insertAll(prescriptions: List<PrescriptionEntity>)
+
+    //증상 이름만 가져오는 메서드
+    @Query("SELECT Prescription FROM PrescriptionTable")
+    fun getAllSymptomNames(): List<String>
+
 
     @Query("SELECT * FROM PrescriptionTable")
     fun getAllPrescriptions(): List<PrescriptionEntity>

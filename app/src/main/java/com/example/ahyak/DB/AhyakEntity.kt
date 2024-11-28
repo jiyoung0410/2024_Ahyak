@@ -88,3 +88,4 @@ data class FreeMedicineEntity(
     val FreeMedicineType : String,
     val FreeMedicineLine : String
 )
+

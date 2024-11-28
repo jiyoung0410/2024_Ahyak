@@ -12,13 +12,16 @@
     <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.INTERNET" /> <!-- 오디오 사용 권한 -->
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" /> <!-- 카메라 관련 -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <uses-feature android:name="android.hardware.camera.any" />
-    <uses-permission android:name="android.permission.CAMERA" />
+
     <queries>
         <intent>
             <action android:name="android.speech.RecognitionService" />
@@ -41,12 +44,14 @@
         android:theme="@style/Theme.Ahyak"
         tools:targetApi="31">
         <activity
+            android:name=".OCR.OcrResultActivity"
+            android:exported="false" />
+        <activity
             android:name=".PillRegister.CameraActivity"
             android:exported="false" />
         <activity
-            android:name=".AddPrescription.OCRprescriptionActivity"
-            android:exported="false" />
-        <!-- <receiver -->
+            android:name=".OCR.OCRprescriptionActivity"
+            android:exported="false" /> <!-- <receiver -->
         <!-- android:name=".Alarm.AlarmReceiver" -->
         <!-- android:enabled="true" -->
         <!-- android:exported="true"> -->
@@ -57,7 +62,25 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
-        </receiver>
+        </receiver> <!-- Mlkit OCR관련 -->
+        <meta-data
+            android:name="com.google.mlkit.vision.DEPENDENCIES"
+            android:value="ocr" /> <!-- To use multiple models: android:value="ocr,ocr_chinese,ocr_devanagari,ocr_japanese,ocr_korean,..." -->
+        <!-- </사진 크롭 관련> -->
+        <activity
+            android:name="com.yalantis.ucrop.UCropActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="ahyak.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
 
         <activity
             android:name=".FullScreenAlarmActivity"
