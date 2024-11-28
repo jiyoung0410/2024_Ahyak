@@ -7,6 +7,7 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.util.Size
 import android.widget.Toast
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
@@ -56,11 +57,11 @@ class CameraActivity : AppCompatActivity() {
         cameraProviderFuture.addListener(Runnable {
             val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
 
-            val preview = Preview.Builder()
-                .build()
-                .also {
-                    it.setSurfaceProvider(binding.cameraViewfinder.surfaceProvider)
-                }
+            val preview = Preview.Builder().apply {
+                setTargetResolution(Size(1920,1080))
+            }.build().also {
+                it.setSurfaceProvider(binding.cameraViewfinder.surfaceProvider)
+            }
 
             imageCapture = ImageCapture.Builder().build()
 
