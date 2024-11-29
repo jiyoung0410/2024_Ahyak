@@ -227,7 +227,7 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
         }
 
         //모양으로 검색하기 눌렀을 때
-        binding.registerPillSearchShapeTv.setOnClickListener {
+        binding.registerPillSearchShapeIv.setOnClickListener {
             val intent = Intent(this, SearchPillActivity::class.java)
             finish()
             startActivity(intent)
@@ -262,6 +262,8 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
             binding.registerPillRv.visibility = View.GONE
             binding.shapeVolumnLl.visibility = View.VISIBLE
             binding.shapeVolumnTv.visibility = View.VISIBLE
+            binding.registerPillSearchShapeIv.visibility = View.GONE
+            binding.registerPillSearchShapeTagTv.visibility = View.GONE
         }
 
         searchPillName = intent.getStringExtra("resultPillInpoName")?:""
@@ -276,6 +278,8 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
             binding.registerPillRv.visibility = View.GONE
             binding.shapeVolumnLl.visibility = View.VISIBLE
             binding.shapeVolumnTv.visibility = View.VISIBLE
+            binding.registerPillSearchShapeIv.visibility = View.GONE
+            binding.registerPillSearchShapeTagTv.visibility = View.GONE
         }
 
         //검색 취소 아이콘 눌렀을 때
@@ -289,6 +293,8 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
             binding.nameUnderbarView.visibility = View.GONE
             binding.shapeVolumnLl.visibility = View.GONE
             binding.shapeVolumnTv.visibility = View.GONE
+            binding.registerPillSearchShapeIv.visibility = View.VISIBLE
+            binding.registerPillSearchShapeTagTv.visibility = View.VISIBLE
 
         }
 
@@ -581,6 +587,8 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
         binding.registerPillRv.visibility = View.GONE
         binding.registerPillSearchIv.visibility = View.GONE
         binding.registerPillDeleteIv.visibility = View.VISIBLE
+        binding.registerPillSearchShapeIv.visibility = View.GONE
+        binding.registerPillSearchShapeTagTv.visibility = View.GONE
 
         finish()
         val intent = Intent(this, ResultPillActivity::class.java)
