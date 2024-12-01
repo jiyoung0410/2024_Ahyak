@@ -110,6 +110,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:hint="약 이름 검색"
+                android:textColorHint="@color/gray1"
+                android:textColor="@color/black"
                 android:textSize="20dp"
                 android:paddingBottom="15dp"
                 android:inputType="text"
@@ -182,6 +184,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="약의 이름을 모르는 경우 "
+                android:textColor="@color/black"
                 android:textSize="12dp"
                 android:fontFamily="@font/nanum_barun_gothic_light"/>
 
@@ -230,6 +233,8 @@
                     android:layout_height="match_parent"
                     android:hint="약 용량 입력"
                     android:textSize="20dp"
+                    android:textColorHint="@color/gray1"
+                    android:textColor="@color/black"
                     android:paddingBottom="15dp"
                     android:inputType="numberDecimal"
                     android:fontFamily="@font/nanum_barun_gothic_light"

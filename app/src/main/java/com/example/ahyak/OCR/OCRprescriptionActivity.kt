@@ -123,7 +123,7 @@ class OCRprescriptionActivity : AppCompatActivity() {
         // 기본적으로 자유로운 비율 설정
         //uCrop.useSourceImageAspectRatio()  // 원본 이미지 비율 사용
         uCrop.withAspectRatio(0f, 0f)  // 자유롭게 비율 설정 가능 (0f, 0f는 비율 자유)
-        uCrop.withAspectRatio(21f, 9f)  // 자유롭게 비율 설정 가능 (0f, 0f는 비율 자유)
+        //uCrop.withAspectRatio(21f, 9f)  // 자유롭게 비율 설정 가능 (0f, 0f는 비율 자유)
 
         // 크롭 박스에 대해 최솟값과 최댓값 설정
         //uCrop.withMaxResultSize(1080, 1080)  // 최대 크기 설정
@@ -156,57 +156,77 @@ class OCRprescriptionActivity : AppCompatActivity() {
 
     // 인식된 텍스트 처리
     private fun processRecognizedText(visionText: Text) {
-        val resultText = visionText.text
-        Log.d("OCR Result", "인식된 텍스트: $resultText")
+        val drugNames = mutableListOf<String>() // 약 이름 저장
+        val numericData = mutableListOf<String>() // 숫자 데이터 저장
 
-        val allData = mutableListOf<String>() // OCR로 인식된 모든 데이터를 저장할 리스트
-
-        // 원하는 텍스트 형식으로 결과를 처리
+        // OCR 데이터를 처리하여 약 이름과 숫자 데이터 분리
         for (block in visionText.textBlocks) {
             for (line in block.lines) {
                 val lineText = line.text.trim()
 
-                // 약 이름이나 숫자를 모두 저장
-                if (lineText.matches(Regex("[가-힣A-Za-z]+")) || lineText.matches(Regex("\\d+"))) {
-                    allData.add(lineText)
+                // 약 이름 처리
+                if (lineText.contains("(내복)")) {
+                    drugNames.add(lineText)
+                    Log.d("OCR Debug", "약 이름 저장: $lineText")
+                }
+                // 숫자만 포함된 텍스트 처리
+                else if (lineText.matches(Regex("^\\d+$"))) {
+                    numericData.add(lineText)
+                    Log.d("OCR Debug", "숫자 저장: $lineText")
+                }
+                // 숫자+문자 조합은 필터링
+                else if (lineText.matches(Regex(".*\\d.*"))) {
+                    Log.d("OCR Debug", "숫자+문자 조합 필터링: $lineText")
+                } else {
+                    Log.d("OCR Debug", "다른 텍스트 필터링: $lineText")
                 }
             }
         }
 
-        // 데이터 크기가 올바르지 않을 경우
-        if (allData.size % 4 != 0) {
-            Log.e("OCR Error", "데이터의 형식이 올바르지 않습니다. 총 데이터의 개수가 맞지 않습니다.")
+        // 약 이름과 숫자 데이터의 크기 일치 여부 확인
+        if (drugNames.size * 3 != numericData.size) {
+            Log.e("OCR Error", "약 이름과 숫자 데이터의 크기가 일치하지 않습니다.")
             return
         }
 
-        // 데이터를 순차적으로 묶어서 약 정보로 처리
+        // 약 이름과 숫자 데이터를 매칭하여 결과 생성
         val recognizedData = mutableListOf<List<String>>()
+        for (i in drugNames.indices) {
 
-        val totalDrugs = allData.size / 4 // 총 약의 개수는 데이터 총 길이 나누기 4
+            val numericOffset = i
 
-        for (i in 0 until totalDrugs) {
-            // 인덱스를 맞춰 4개의 데이터를 묶어줌
-            val drugInfo = listOf(
-                allData[i],                   // 약 이름
-                allData[i + totalDrugs],       // 1회 투여량
-                allData[i + totalDrugs * 2],   // 1일 투여횟수
-                allData[i + totalDrugs * 3]    // 총 투약 일수
-            )
-            recognizedData.add(drugInfo)
+            if (numericOffset + 2 < numericData.size) { // 숫자가 충분히 있는지 확인
+                recognizedData.add(
+                    listOf(
+                        drugNames[i],         // 약 이름
+                        numericData[i],     // 1회 투약량
+                        numericData[i+3], // 1일 투여 횟수
+                        numericData[i+6]  // 총 투약 일수
+                    )
+                )
+
+            } else {
+                Log.e("OCR Error", "숫자 데이터가 부족하여 약 정보 생성 실패: ${drugNames[i]}")
+            }
         }
+
 
         // 결과 출력
         for (drugInfo in recognizedData) {
-            Log.d("OCR Processed", "약 정보: $drugInfo")
-            Toast.makeText(this, "약 정보: ${drugInfo[0]}, 1회 투여량: ${drugInfo[1]}, 1일 투여횟수: ${drugInfo[2]}, 총 투약 일수: ${drugInfo[3]}", Toast.LENGTH_SHORT).show()
+            Log.d("OCR Processed", "약물 정보: $drugInfo")
+            Toast.makeText(
+                this,
+                "약: ${drugInfo[0]}, 1회: ${drugInfo[1]}, 1일: ${drugInfo[2]}, 총: ${drugInfo[3]}",
+                Toast.LENGTH_SHORT
+            ).show()
         }
 
-
-        // recognizedData를 새로운 Activity로 전달
+        // 결과 전달
         finish()
         val intent = Intent(this, OcrResultActivity::class.java)
-        intent.putStringArrayListExtra("drugInfoList", ArrayList(recognizedData.flatten()))  // 데이터를 1차원 배열로 전달
+        intent.putStringArrayListExtra("drugInfoList", ArrayList(recognizedData.flatten())) // 데이터를 1차원 배열로 전달
         startActivity(intent)
     }
+
 
 }

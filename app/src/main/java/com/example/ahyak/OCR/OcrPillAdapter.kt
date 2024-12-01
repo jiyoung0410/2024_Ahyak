@@ -65,10 +65,10 @@ class OcrPillAdapter(
                     }
 
                     // 총 투약 일수 동안 반복하여 날짜와 투약 슬롯별로 약 정보를 등록
+                    // 반복 시작 시 하루를 추가하지 않음
                     for (day in 0 until totalDays) {
-                        calendar.add(Calendar.DAY_OF_MONTH, 1) // 하루씩 증가
                         val month = calendar.get(Calendar.MONTH) + 1
-                        val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
+                        val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH) // 현재 날짜
 
                         slots.forEach { slot ->
                             db!!.getMedicineDao()?.insertMedicine(
@@ -76,7 +76,7 @@ class OcrPillAdapter(
                                     drugInfo.name,
                                     prescriptionName,
                                     month,
-                                    dayOfMonth,  // 날짜는 이미 하루 증가했으므로 더 이상 변경하지 않음
+                                    dayOfMonth,
                                     slot,
                                     dosesPerDay.toFloat(),
                                     "정", // 정제 타입
@@ -89,9 +89,11 @@ class OcrPillAdapter(
                                 db!!.getMedicineDao()
                                     .getMedicine(month, dayOfMonth, slot, prescriptionName)
                             Log.d("register Medicine check", "$existingMedicineList")
-
                         }
+
+                        calendar.add(Calendar.DAY_OF_MONTH, 1) // 하루 증가 (다음 날로 이동)
                     }
+
 
                     // 비동기 작업 완료 후 UI 업데이트는 메인 스레드에서 실행
                     withContext(Dispatchers.Main) {

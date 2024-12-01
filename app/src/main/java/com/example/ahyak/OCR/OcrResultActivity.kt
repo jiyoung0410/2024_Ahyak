@@ -136,7 +136,6 @@ class OcrResultActivity : AppCompatActivity(), OnItemClickListener2 {
                         searchPrescriptions.add(DataItemSearchSymptom(name))
 
                     }
-
                     // 어댑터에 데이터 변경 알림
                     searchPrescriptionadapter?.notifyDataSetChanged()
                 }
