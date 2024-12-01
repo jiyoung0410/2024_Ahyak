@@ -159,26 +159,50 @@ class OCRprescriptionActivity : AppCompatActivity() {
         val drugNames = mutableListOf<String>() // 약 이름 저장
         val numericData = mutableListOf<String>() // 숫자 데이터 저장
 
-        // OCR 데이터를 처리하여 약 이름과 숫자 데이터 분리
+        // "처방 의약품의 명칭" 및 "투약일수" 좌표 탐지
+        val startBlock = visionText.textBlocks.firstOrNull { it.text.contains("처방의약품의명칭") }
+        val endBlock = visionText.textBlocks.firstOrNull { it.text.contains("투약일수") }
+
+        if (startBlock == null || endBlock == null) {
+            Log.e("OCR Error", "처방 의약품의 명칭 또는 투약일수 영역을 찾을 수 없습니다.")
+            return
+        }
+
+        // 가로 좌표와 세로 좌표 설정
+        val referenceLeft = startBlock.boundingBox?.left ?: 0
+        val referenceRight = endBlock.boundingBox?.right ?: 0
+        val referenceTop = startBlock.boundingBox?.bottom ?: 0
+
+        Log.d("OCR Debug", "필터링 기준: left=$referenceLeft, right=$referenceRight, top=$referenceTop")
+
+        // OCR 데이터를 처리하여 필터링
         for (block in visionText.textBlocks) {
             for (line in block.lines) {
                 val lineText = line.text.trim()
+                val boundingBox = line.boundingBox
 
-                // 약 이름 처리
-                if (lineText.contains("(내복)")) {
-                    drugNames.add(lineText)
-                    Log.d("OCR Debug", "약 이름 저장: $lineText")
-                }
-                // 숫자만 포함된 텍스트 처리
-                else if (lineText.matches(Regex("^\\d+$"))) {
-                    numericData.add(lineText)
-                    Log.d("OCR Debug", "숫자 저장: $lineText")
-                }
-                // 숫자+문자 조합은 필터링
-                else if (lineText.matches(Regex(".*\\d.*"))) {
-                    Log.d("OCR Debug", "숫자+문자 조합 필터링: $lineText")
-                } else {
-                    Log.d("OCR Debug", "다른 텍스트 필터링: $lineText")
+                // 필터링 조건: 가로 범위 및 세로 범위 내
+                if (boundingBox != null &&
+                    boundingBox.left >= referenceLeft &&
+                    boundingBox.right <= referenceRight &&
+                    boundingBox.top >= referenceTop
+                ) {
+                    // 약 이름 처리
+                    if (lineText.contains("(내복)")) {
+                        drugNames.add(lineText)
+                        Log.d("OCR Debug", "약 이름 저장: $lineText")
+                    }
+                    // 숫자만 포함된 텍스트 처리
+                    else if (lineText.matches(Regex("^\\d+$"))) {
+                        numericData.add(lineText)
+                        Log.d("OCR Debug", "숫자 저장: $lineText")
+                    }
+                    // 숫자+문자 조합은 필터링
+                    else if (lineText.matches(Regex(".*\\d.*"))) {
+                        Log.d("OCR Debug", "숫자+문자 조합 필터링: $lineText")
+                    } else {
+                        Log.d("OCR Debug", "다른 텍스트 필터링: $lineText")
+                    }
                 }
             }
         }
@@ -192,24 +216,15 @@ class OCRprescriptionActivity : AppCompatActivity() {
         // 약 이름과 숫자 데이터를 매칭하여 결과 생성
         val recognizedData = mutableListOf<List<String>>()
         for (i in drugNames.indices) {
-
-            val numericOffset = i
-
-            if (numericOffset + 2 < numericData.size) { // 숫자가 충분히 있는지 확인
-                recognizedData.add(
-                    listOf(
-                        drugNames[i],         // 약 이름
-                        numericData[i],     // 1회 투약량
-                        numericData[i+3], // 1일 투여 횟수
-                        numericData[i+6]  // 총 투약 일수
-                    )
+            recognizedData.add(
+                listOf(
+                    drugNames[i],                  // 약 이름
+                    numericData[i],            // 1회 투약량
+                    numericData[i+3],        // 1일 투여 횟수
+                    numericData[i+6]         // 총 투약 일수
                 )
-
-            } else {
-                Log.e("OCR Error", "숫자 데이터가 부족하여 약 정보 생성 실패: ${drugNames[i]}")
-            }
+            )
         }
-
 
         // 결과 출력
         for (drugInfo in recognizedData) {
@@ -227,6 +242,5 @@ class OCRprescriptionActivity : AppCompatActivity() {
         intent.putStringArrayListExtra("drugInfoList", ArrayList(recognizedData.flatten())) // 데이터를 1차원 배열로 전달
         startActivity(intent)
     }
-
 
 }
