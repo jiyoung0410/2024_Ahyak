@@ -122,8 +122,8 @@ class OCRprescriptionActivity : AppCompatActivity() {
 
         // 기본적으로 자유로운 비율 설정
         //uCrop.useSourceImageAspectRatio()  // 원본 이미지 비율 사용
-        uCrop.withAspectRatio(0f, 0f)  // 자유롭게 비율 설정 가능 (0f, 0f는 비율 자유)
-        //uCrop.withAspectRatio(21f, 9f)  // 자유롭게 비율 설정 가능 (0f, 0f는 비율 자유)
+        //uCrop.withAspectRatio(0f, 0f)  // 자유롭게 비율 설정 가능 (0f, 0f는 비율 자유)
+        uCrop.withAspectRatio(21f, 9f)  // 자유롭게 비율 설정 가능 (0f, 0f는 비율 자유)
 
         // 크롭 박스에 대해 최솟값과 최댓값 설정
         //uCrop.withMaxResultSize(1080, 1080)  // 최대 크기 설정
@@ -160,8 +160,17 @@ class OCRprescriptionActivity : AppCompatActivity() {
         val numericData = mutableListOf<String>() // 숫자 데이터 저장
 
         // "처방 의약품의 명칭" 및 "투약일수" 좌표 탐지
-        val startBlock = visionText.textBlocks.firstOrNull { it.text.contains("처방의약품의명칭") }
-        val endBlock = visionText.textBlocks.firstOrNull { it.text.contains("투약일수") }
+        val targetKeywordsForStart = listOf("처방의약품의명칭", "처방의악품의명칭", "저방의악품의명칭", "저방의약품의명",
+            "처방의약품의", "처방의약품의 명칭", "처방의악품의 명칭", "처방의 약품의 명칭", "처방의약품의명청", "커방의약품의명칭", "처방의약품의평칭") // 오타 포함 키워드 리스트
+        val targetKeywordsForEnd = listOf("투약일수", "두약일수", "투악일수", "두악일","투약일", "투악일") // 오타 포함 키워드 리스트
+
+        val startBlock = visionText.textBlocks.firstOrNull { block ->
+            targetKeywordsForStart.any { keyword -> block.text.contains(keyword) }
+        }
+
+        val endBlock = visionText.textBlocks.firstOrNull { block ->
+            targetKeywordsForEnd.any { keyword -> block.text.contains(keyword) }
+        }
 
         if (startBlock == null || endBlock == null) {
             Log.e("OCR Error", "처방 의약품의 명칭 또는 투약일수 영역을 찾을 수 없습니다.")
@@ -187,9 +196,9 @@ class OCRprescriptionActivity : AppCompatActivity() {
                     boundingBox.right <= referenceRight &&
                     boundingBox.top >= referenceTop
                 ) {
-                    // 약 이름 처리
-                    if (lineText.contains("(내복)")) {
-                        drugNames.add(lineText)
+                    // 약 이름 처리: "내복" 포함 시 무조건 저장
+                    if (lineText.replace("\\s".toRegex(), "").contains("내복")) {
+                        drugNames.add(lineText.trim())
                         Log.d("OCR Debug", "약 이름 저장: $lineText")
                     }
                     // 숫자만 포함된 텍스트 처리
@@ -209,7 +218,10 @@ class OCRprescriptionActivity : AppCompatActivity() {
 
         // 약 이름과 숫자 데이터의 크기 일치 여부 확인
         if (drugNames.size * 3 != numericData.size) {
-            Log.e("OCR Error", "약 이름과 숫자 데이터의 크기가 일치하지 않습니다.")
+            Log.e(
+                "OCR Error",
+                "약 이름과 숫자 데이터의 크기가 일치하지 않습니다. 약 이름 개수: ${drugNames.size}, 숫자 데이터 개수: ${numericData.size}"
+            )
             return
         }
 
