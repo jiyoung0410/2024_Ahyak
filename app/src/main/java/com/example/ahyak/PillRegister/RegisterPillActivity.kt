@@ -1,16 +1,11 @@
 package com.example.ahyak.PillRegister
 
-import android.Manifest
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.Paint
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -19,10 +14,6 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import androidx.core.content.edit
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ahyak.DB.AhyakDataBase
@@ -154,7 +145,8 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
         })
 
         binding.registerPillSearchIv.setOnClickListener {
-            val intent = Intent(this, CameraActivity::class.java)
+//            val intent = Intent(this, CameraActivity::class.java)
+            val intent = Intent(this, SearchPillImageActivity::class.java)
             startActivity(intent)
         }
 
