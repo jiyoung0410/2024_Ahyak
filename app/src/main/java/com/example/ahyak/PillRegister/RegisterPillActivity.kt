@@ -257,6 +257,9 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
             binding.registerPillNameInputTv.text = resultPillName
             binding.registerPillNameInputEt.setText(resultPillName)
             binding.registerPillSearchIv.visibility = View.GONE
+            binding.speechBubbleRegisterIc.visibility = View.GONE
+            binding.registerPillOcrIv.visibility = View.GONE
+            binding.speechBubbleOcrIc.visibility = View.GONE
             binding.registerPillDeleteIv.visibility = View.VISIBLE
             binding.nameUnderbarView.visibility = View.VISIBLE
             binding.registerPillRv.visibility = View.GONE
@@ -271,6 +274,9 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
             binding.registerPillNameInputTv.text = searchPillName
             binding.registerPillNameInputEt.setText(searchPillName)
             binding.registerPillSearchIv.visibility = View.GONE
+            binding.speechBubbleRegisterIc.visibility = View.GONE
+            binding.registerPillOcrIv.visibility = View.GONE
+            binding.speechBubbleOcrIc.visibility = View.GONE
             binding.registerPillDeleteIv.visibility = View.VISIBLE
             binding.nameUnderbarView.visibility = View.VISIBLE
             binding.registerPillRv.visibility = View.GONE
@@ -285,6 +291,9 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
             binding.registerPillNameInputTv.visibility = View.GONE
             binding.registerPillNameInputEt.hint = "약의 이름을 검색해주세요"
             binding.registerPillSearchIv.visibility = View.VISIBLE
+            binding.speechBubbleRegisterIc.visibility = View.VISIBLE
+            binding.registerPillOcrIv.visibility = View.VISIBLE
+            binding.speechBubbleOcrIc.visibility = View.VISIBLE
             binding.registerPillDeleteIv.visibility = View.GONE
             binding.nameUnderbarView.visibility = View.GONE
             binding.shapeVolumnLl.visibility = View.GONE
@@ -581,6 +590,10 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
         binding.registerPillRv.visibility = View.GONE
         binding.registerPillSearchIv.visibility = View.GONE
         binding.registerPillDeleteIv.visibility = View.VISIBLE
+        binding.speechBubbleRegisterIc.visibility = View.GONE
+        binding.registerPillOcrIv.visibility = View.GONE
+        binding.speechBubbleOcrIc.visibility = View.GONE
+
 
         finish()
         val intent = Intent(this, ResultPillActivity::class.java)
