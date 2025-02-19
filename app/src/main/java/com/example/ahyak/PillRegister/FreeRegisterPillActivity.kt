@@ -50,6 +50,7 @@ class FreeRegisterPillActivity : AppCompatActivity() {
         binding.freeRecordPillShapeOblongLl.tag = "장방형"
         binding.freeRecordPillShapeOctagonLl.tag = "팔각형"
         binding.freeRecordPillShapePentagonLl.tag = "오각형"
+        binding.freeRecordPillShapeEtcLl.tag = "기타"
 
         //모양을 클릭했을 때
         val shapeList = listOf(
@@ -62,7 +63,8 @@ class FreeRegisterPillActivity : AppCompatActivity() {
             binding.freeRecordPillShapeHexagonLl,
             binding.freeRecordPillShapeOblongLl,
             binding.freeRecordPillShapeOctagonLl,
-            binding.freeRecordPillShapePentagonLl)
+            binding.freeRecordPillShapePentagonLl,
+            binding.freeRecordPillShapeEtcLl)
 
         var selectedShapeId: Int = -1
 
@@ -106,6 +108,7 @@ class FreeRegisterPillActivity : AppCompatActivity() {
         binding.freeRecordPillColorGrayLl.tag = "회색"
         binding.freeRecordPillColorGreenblueLl.tag = "청록"
         binding.freeRecordPillColorTransLl.tag = "투명"
+        binding.freeRecordPillColorEtcLl.tag = "기타"
 
         //색상을 클릭했을 때
         val colorList = listOf(
@@ -124,7 +127,8 @@ class FreeRegisterPillActivity : AppCompatActivity() {
             binding.freeRecordPillColorVioletLl,
             binding.freeRecordPillColorGreenblueLl,
             binding.freeRecordPillColorTransLl,
-            binding.freeRecordPillColorGrayLl)
+            binding.freeRecordPillColorGrayLl,
+            binding.freeRecordPillColorEtcLl)
 
         var selectedColorId: Int = -1
 
@@ -154,12 +158,14 @@ class FreeRegisterPillActivity : AppCompatActivity() {
         binding.freeRecordPillFormulationTabletLl.tag = "정제"
         binding.freeRecordPillFormulationReshffleLl.tag = "경질캡슐"
         binding.freeRecordPillFormulationSoftLl.tag = "연질캡슐"
+        binding.freeRecordPillFormulationEtcLl.tag = "기타"
 
         //제형을 클릭했을 때
         val formulationList = listOf(
             binding.freeRecordPillFormulationTabletLl,
             binding.freeRecordPillFormulationReshffleLl,
-            binding.freeRecordPillFormulationSoftLl)
+            binding.freeRecordPillFormulationSoftLl,
+            binding.freeRecordPillFormulationEtcLl)
 
         var selectedFormulationId: Int = -1
 

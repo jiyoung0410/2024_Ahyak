@@ -301,8 +301,6 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
 
         }
 
-
-
         val freeRecordPillName = intent.getStringExtra("freeRecordPillInpoName") ?: ""
         if (freeRecordPillName.isNotEmpty()) {
             binding.registerPillNameInputEt.hint = freeRecordPillName
@@ -343,7 +341,7 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
             //시간대 - list
             Log.d("시간대", "$selectedDays")
 
-            //빈도 가져오기
+//            //빈도 가져오기
 //            val dates = intent.getStringArrayListExtra("dates")
 //            dates?.let {
 //                // dates 리스트를 처리하는 코드
@@ -353,7 +351,10 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
             // 저장된 문자열을 dates 리스트로 변환하여 사용
             val datesString = sharedPref.getString("dates", "") ?: ""
             val dates = datesString.split(",").map { it.trim() }
-
+            dates?.let {
+                // dates 리스트를 처리하는 코드
+                Log.d("RegisterPillActivity", "Received dates: $it")
+            }
 
             //용량 데이터 가져오기
             registerPillVolume = binding.registerPillVolumeInputEt.text.toString()

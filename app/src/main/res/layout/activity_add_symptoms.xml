@@ -21,7 +21,7 @@
             android:textColor="@color/white"
             android:fontFamily="@font/nanum_barun_gothic_bold"
             android:gravity="center"
-            android:text="증상 추가하기"
+            android:text="처방 추가하기"
             android:textSize="15dp" />
 
     </LinearLayout>
@@ -58,7 +58,7 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    android:text="증상 이름"
+                    android:text="처방명"
                     android:textSize="15sp"
                     android:textColor="@color/text_gray"
                     android:fontFamily="@font/nanum_barun_gothic"/>
@@ -72,7 +72,7 @@
                     android:inputType="text"
                     android:textColor="@color/black"
                     android:backgroundTint="@color/gray1"
-                    android:hint="증상 이름을 입력해주세요"
+                    android:hint="처방명을 입력해주세요"
                     android:textColorHint="@color/gray1"
                     android:textSize="20dp"/>
 

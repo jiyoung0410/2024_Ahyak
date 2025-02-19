@@ -128,27 +128,80 @@ class MedicineAdapter() : RecyclerView.Adapter<MedicineAdapter.ViewHolder>() {
                                 bottomSheetView.findViewById<TextView>(R.id.pill_name_tv).text = addpill.MedicineName
                                 bottomSheetView.findViewById<TextView>(R.id.pill_shape_name_tv).text = freeMedicineData[0].FreeMedicineShape
                                 bottomSheetView.findViewById<TextView>(R.id.pill_color_name_tv).text = freeMedicineData[0].FreeMedicineColor
-                                bottomSheetView.findViewById<TextView>(R.id.pill_line_name_tv).text = freeMedicineData[0].FreeMedicineLine
+                                val linetemp = freeMedicineData[0].FreeMedicineLine
+                                if (linetemp == "+" || linetemp == "-") {
+                                    bottomSheetView.findViewById<TextView>(R.id.pill_line_name_tv).text = "$linetemp"+"형"
+                                } else {
+                                    bottomSheetView.findViewById<TextView>(R.id.pill_line_name_tv).text = freeMedicineData[0].FreeMedicineLine
+                                }
                                 bottomSheetView.findViewById<TextView>(R.id.pill_formulation_name_tv).text = freeMedicineData[0].FreeMedicineType
 
                                 //shape 이미지 설정
-                                val shapeDrawableId = getShapeDrawableId(freeMedicineData[0].FreeMedicineShape)
-                                bottomSheetView.findViewById<ImageView>(R.id.pill_shape_iv).setImageResource(shapeDrawableId)
+                                val shapeImageView = bottomSheetView.findViewById<ImageView>(R.id.pill_shape_iv)
+                                val shape = freeMedicineData[0].FreeMedicineShape
+                                when (shape) {
+                                    "삼각형" -> shapeImageView.setImageResource(R.drawable.pill_shape_triangle)
+                                    "사각형" -> shapeImageView.setImageResource(R.drawable.pill_shape_rectangler)
+                                    "원형" -> shapeImageView.setImageResource(R.drawable.pill_shape_circle_ic)
+                                    "타원형" -> shapeImageView.setImageResource(R.drawable.pill_shape_oval)
+                                    "반원형" -> shapeImageView.setImageResource(R.drawable.pill_shape_ellipse)
+                                    "마름모형" -> shapeImageView.setImageResource(R.drawable.pill_shape_diamond)
+                                    "육각형" -> shapeImageView.setImageResource(R.drawable.pill_shape_hexagon)
+                                    "장방형" -> shapeImageView.setImageResource(R.drawable.pill_shape_oblong)
+                                    "팔각형" -> shapeImageView.setImageResource(R.drawable.pill_shape_octagon)
+                                    "오각형" -> shapeImageView.setImageResource(R.drawable.pill_shape_pentagon)
+                                    "기타" -> shapeImageView.setImageResource(R.drawable.pill_etc) // '기타'의 경우 특정 이미지 설정
+                                    else -> shapeImageView.setImageResource(R.drawable.pill_etc) // 기본 이미지
+                                }
 
                                 //color 이미지 설정
-                                val ColorDrawableId = getColorDrawableId(freeMedicineData[0].FreeMedicineColor)
-                                bottomSheetView.findViewById<ImageView>(R.id.pill_color_iv).setImageResource(ColorDrawableId)
+                                val colorImageView = bottomSheetView.findViewById<ImageView>(R.id.pill_color_iv)
+                                val color = freeMedicineData[0].FreeMedicineColor
+                                when (color){
+                                    "하양" -> colorImageView.setImageResource(R.drawable.pill_color_white)
+                                    "갈색" -> colorImageView.setImageResource(R.drawable.pill_color_brown)
+                                    "노랑" -> colorImageView.setImageResource(R.drawable.pill_color_yellow)
+                                    "주황" -> colorImageView.setImageResource(R.drawable.pill_color_orange)
+                                    "분홍" -> colorImageView.setImageResource(R.drawable.pill_color_pink)
+                                    "빨강" -> colorImageView.setImageResource(R.drawable.pill_color_red)
+                                    "초록" -> colorImageView.setImageResource(R.drawable.pill_color_green)
+                                    "연두" -> colorImageView.setImageResource(R.drawable.pill_color_lightgreen)
+                                    "검정" -> colorImageView.setImageResource(R.drawable.pill_color_black)
+                                    "남색" -> colorImageView.setImageResource(R.drawable.pill_color_navy)
+                                    "파랑" -> colorImageView.setImageResource(R.drawable.pill_color_blue)
+                                    "자주" -> colorImageView.setImageResource(R.drawable.pill_color_purple)
+                                    "보라" -> colorImageView.setImageResource(R.drawable.pill_color_violet)
+                                    "회색" -> colorImageView.setImageResource(R.drawable.pill_color_gray)
+                                    "청록" -> colorImageView.setImageResource(R.drawable.pill_color_greenblue)
+                                    "투명" -> colorImageView.setImageResource(R.drawable.pill_color_transparency)
+                                    "기타" -> colorImageView.setImageResource(R.drawable.pill_etc)
+                                    else -> colorImageView.setImageResource(R.drawable.pill_etc)
+                                }
 
                                 //type 이미지 설정
-                                val TypeDrawableId = getTypeDrawableId(freeMedicineData[0].FreeMedicineType)
-                                bottomSheetView.findViewById<ImageView>(R.id.pill_formulation_iv).setImageResource(TypeDrawableId)
+                                val typeImageView = bottomSheetView.findViewById<ImageView>(R.id.pill_formulation_iv)
+                                val type = freeMedicineData[0].FreeMedicineType
+                                when(type){
+                                    "정제" -> typeImageView.setImageResource(R.drawable.pill_formulation_tablet)
+                                    "경질캡슐" -> typeImageView.setImageResource(R.drawable.pill_formulation_reshuffle)
+                                    "연질캡슐" -> typeImageView.setImageResource(R.drawable.pill_formulation_soft)
+                                    "기타" -> typeImageView.setImageResource(R.drawable.pill_formulation_etc)
+                                    else ->  typeImageView.setImageResource(R.drawable.pill_formulation_etc)
+                                }
 
-                                //Line 이미지 설정
-                                val LineDrawableId = getLineDrawableId(freeMedicineData[0].FreeMedicineLine)
-                                bottomSheetView.findViewById<ImageView>(R.id.pill_line_iv).setImageResource(LineDrawableId)
+                                val lineImageView = bottomSheetView.findViewById<ImageView>(R.id.pill_line_iv)
+                                val line = freeMedicineData[0].FreeMedicineLine
+                                when(line){
+                                    "기타" -> lineImageView.setImageResource(R.drawable.pill_line_etc)
+                                    "-" -> lineImageView.setImageResource(R.drawable.pill_line_minus)
+                                    "없음" -> lineImageView.setImageResource(R.drawable.pill_line_none)
+                                    "+" -> lineImageView.setImageResource(R.drawable.pill_line_plus)
+                                    else ->  lineImageView.setImageResource(R.drawable.pill_line_etc)
+                                }
 
                                 bottomSheetDialog.setContentView(bottomSheetView)
                                 bottomSheetDialog.show()
+
                             }else{
                                 val pillName = addpillList[position].MedicineName // 현재 아이템의 약 이름 가져오기
                                 Log.d("pillName", "$pillName")
