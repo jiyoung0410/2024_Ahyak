@@ -6,17 +6,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.ahyak.R
 import com.example.ahyak.databinding.ItemCalendarWhetherTakePillBinding
 
-class CalenderTakePillAdapter(val takepillList:ArrayList<DataItemTakePill>):RecyclerView.Adapter<CalenderTakePillAdapter.ViewHolder>() {
+class CalenderTakePillAdapter(val takepillList:ArrayList<DailyDataItemTakePill>):RecyclerView.Adapter<CalenderTakePillAdapter.ViewHolder>() {
 
     inner class ViewHolder(val binding : ItemCalendarWhetherTakePillBinding) : RecyclerView.ViewHolder(binding.root){
-        fun bind(takepill:DataItemTakePill){
+        fun bind(takepill:DailyDataItemTakePill){
             binding.itemCalendarTakePillNameTv.text = takepill.takepillname
 
-            if(takepill.takepillwhether==true){
-                binding.itemCalendarTakePillCheckbox.setBackgroundResource(R.drawable.checkbox_check)
-            }else{
-                binding.itemCalendarTakePillCheckbox.setBackgroundResource(R.drawable.checkbox_nocheck)
-            }
+//            if(takepill.takepillwhether==true){
+//                binding.itemCalendarTakePillCheckbox.setBackgroundResource(R.drawable.checkbox_check)
+//            }else{
+//                binding.itemCalendarTakePillCheckbox.setBackgroundResource(R.drawable.checkbox_nocheck)
+//            }
+            binding.itemCalendarTakePillPercentTv.text = takepill.takepillpercent.toString() + "%"
         }
     }
 

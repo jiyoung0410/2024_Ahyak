@@ -2,7 +2,7 @@ package com.example.ahyak.MonthlyCalendar
 
 import java.io.Serializable
 
-data class DataItemTakePill(
+data class DailyDataItemTakePill(
     val takepillname:String,
-    val takepillwhether:Boolean
+    val takepillpercent:Int
 ): Serializable

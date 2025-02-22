@@ -40,52 +40,13 @@ class CalenderFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-//        var newSympomList = arrayListOf<TodayRecordSymptomEntity>()
-//        var newMedicineList = arrayListOf<MedicineEntity>()
-//        var newSympomContent = arrayListOf<TodayRecordEntity>()
         binding = FragmentCalenderBinding.inflate(layoutInflater)
         // Inflate the layout for this fragment
 
         val month = cal.get(Calendar.MONTH) + 1
         val day = cal.get(Calendar.DAY_OF_MONTH)
         setDataOfDay(month,day)
-//        CoroutineScope(Dispatchers.IO).launch {
-//            ahyakDataBase = AhyakDataBase.getInstance(requireContext())
-//
-//            val month = cal.get(Calendar.MONTH) + 1
-//            val day = cal.get(Calendar.DAY_OF_MONTH)
-//            var checkCount = 0
-//
-//            newSympomList += ahyakDataBase!!.getTodayRecordSymptomDao().getTodayRecordSymptom(month,day)
-//            for(item in newSympomList) {
-//                calendarsymptomsList.add(DataItemCalenderSymptoms(item.SymptomName,item.SymptomStrength))
-//            }
-//
-//            newMedicineList += ahyakDataBase!!.getMedicineDao().getMedicineTakeOfDay(month,day)
-//            for(item in newMedicineList) {
-//                takepillList.add(DataItemTakePill(item.MedicineName,item.MedicineTake))
-//                if(item.MedicineTake == true) {
-//                    checkCount++
-//                }
-//            }
-//
-//            newSympomContent += ahyakDataBase!!.getTodayRecordDao().getTodayRecordContent(month,day)
-//            if(newSympomContent.size == 0) {
-//                binding.calendarRecordTextTv.text = ""
-//            } else {
-//                binding.calendarRecordTextTv.text = newSympomContent[0].RecordContent
-//            }
-//
-//            //프로그레스바 설정
-//            val progress = checkCount * 100 / takepillList.size
-//            binding.calendarProgressbarPb.progress = progress
-//            binding.calenderProgressPercentTv.text = progress.toString() + "%"
-//        }
-//        takepillListInit()
         inittakepilladapter()
-
-//        calendarsymptomsListInit()
         initcalendarsymptomsadapter()
 
         var calendarWeekAdapter = CalendarWeekAdapter(arrayListOf("월","화","수","목","금","토","일"))
@@ -161,23 +122,13 @@ class CalenderFragment : Fragment() {
                     }
                 }
 
-                //프로그레스바 설정
-//                var isToday : Int
-//                if(year == todayCal.get(Calendar.YEAR) && month == todayCal.get(Calendar.MONTH) + 1 && i == todayCal.get(Calendar.DAY_OF_MONTH)) {
-//                    isToday = 3
-//                } else {
-//                    isToday = 0
-//                }
                 if(dayTakePillList.size != 0) {
                     if(checkCount * 100 / dayTakePillList.size == 100) {
-//                        dayList.add(CalDaysInfo(year.toString(),month.toString(),i.toString(),1 + isToday))
                         dayList.add(CalDaysInfo(year.toString(),month.toString(),i.toString(),1))
                     } else {
-//                        dayList.add(CalDaysInfo(year.toString(),month.toString(),i.toString(),2 + isToday))
                         dayList.add(CalDaysInfo(year.toString(),month.toString(),i.toString(),2))
                     }
                 } else {
-//                    dayList.add(CalDaysInfo(year.toString(),month.toString(),i.toString(),0 + isToday))
                     dayList.add(CalDaysInfo(year.toString(),month.toString(),i.toString(),0))
                 }
             }
@@ -245,21 +196,17 @@ class CalenderFragment : Fragment() {
         binding.calendarInconvenienceRv.layoutManager = GridLayoutManager(requireContext(), 2)
     }
 
-    private fun calendarsymptomsListInit() {
-        calendarsymptomsList.addAll(
-            arrayListOf(
-                DataItemCalenderSymptoms("구역", 1),
-                DataItemCalenderSymptoms("속쓰림", 5),
-                DataItemCalenderSymptoms("두통", 3),
-                DataItemCalenderSymptoms("두근거림", 3),
-                DataItemCalenderSymptoms("불면", 5),
-                DataItemCalenderSymptoms("식욕감소", 4)
-            )
-        )
-    }
-
     private fun inittakepilladapter() {
-        takepilladapter = CalenderTakePillAdapter(takepillList)
+        val newTakePillList = takepillList
+            .groupBy { it.takepillname }
+            .map { (key, values) ->
+                val trueCount = values.count { it.takepillwhether }
+                val percentage = (trueCount.toDouble() / values.size * 100).toInt()
+                DailyDataItemTakePill(key, percentage)
+            }
+            .let { ArrayList(it) }
+
+        takepilladapter = CalenderTakePillAdapter(newTakePillList)
         binding.calendarWhetherTakePillRv.adapter = takepilladapter
         binding.calendarWhetherTakePillRv.layoutManager = LinearLayoutManager(requireContext(),
             LinearLayoutManager.VERTICAL,false)

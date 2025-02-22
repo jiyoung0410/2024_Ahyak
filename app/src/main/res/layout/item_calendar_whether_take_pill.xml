@@ -20,19 +20,32 @@
         android:text="인테놀정"/>
 
 
-    <CheckBox
-        android:id="@+id/item_calendar_take_pill_checkbox"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+<!--    <CheckBox-->
+<!--        android:id="@+id/item_calendar_take_pill_checkbox"-->
+<!--        android:layout_width="30dp"-->
+<!--        android:layout_height="30dp"-->
+<!--        android:textColor="@color/point"-->
+<!--        android:fontFamily="@font/nanum_barun_gothic_bold"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        android:button="@null"-->
+<!--        android:background="@drawable/checkbox_point_gray1"-->
+<!--        android:checked="true"-->
+<!--        android:layout_marginEnd="20dp" />-->
+
+    <TextView
+        android:id="@+id/item_calendar_take_pill_percent_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="100%"
+        android:textSize="14sp"
         android:textColor="@color/point"
         android:fontFamily="@font/nanum_barun_gothic_bold"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:button="@null"
-        android:background="@drawable/checkbox_point_gray1"
-        android:checked="true"
-        android:layout_marginEnd="20dp" />
+        android:layout_marginEnd="20dp"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
