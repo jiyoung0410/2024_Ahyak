@@ -91,7 +91,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="증상 추가하기"
+                android:text="처방 추가하기"
                 android:fontFamily="@font/nanum_barun_gothic_bold"
                 android:textSize="12dp"
                 android:textColor="@color/black" />
