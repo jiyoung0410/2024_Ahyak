@@ -8,4 +8,10 @@
     <style name="AppBottomSheetDialogTheme" parent="Theme.Design.BottomSheetDialog">
         <item name="android:background">@color/transparent_black</item>
     </style>
+
+    <style name="numberPickerCustomSize">
+        <item name="android:textSize">15sp</item>
+        <item name="android:editTextColor">@color/gray1</item>
+    </style>
+
 </resources>

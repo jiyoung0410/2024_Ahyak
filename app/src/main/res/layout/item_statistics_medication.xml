@@ -15,7 +15,7 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="21dp"
         android:text="환절기 피부질환"
-        android:textSize="16sp"
+        android:textSize="16dp"
         android:textColor="@color/black"
         android:fontFamily="@font/nanum_barun_gothic_bold"/>
 

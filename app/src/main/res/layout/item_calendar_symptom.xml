@@ -16,8 +16,8 @@
 
         <ImageView
             android:id="@+id/ic_hospital"
-            android:layout_width="21sp"
-            android:layout_height="21sp"
+            android:layout_width="21dp"
+            android:layout_height="21dp"
             android:src="@drawable/ic_hospital"
             android:layout_marginStart="17dp"
             android:layout_marginTop="17dp"
@@ -80,7 +80,7 @@
                 android:layout_height="wrap_content"
                 android:text="약 추가하기"
                 android:fontFamily="@font/nanum_barun_gothic_bold"
-                android:textSize="12sp"
+                android:textSize="12dp"
                 android:textColor="@color/black" />
 
             <TextView
@@ -88,7 +88,7 @@
                 android:layout_height="wrap_content"
                 android:text=" +"
                 android:fontFamily="@font/nanum_barun_gothic_bold"
-                android:textSize="20sp"
+                android:textSize="20dp"
                 android:textColor="@color/point" />
         </LinearLayout>
 
@@ -120,7 +120,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:text="삭제"
-            android:textSize="18sp"
+            android:textSize="18dp"
             android:textColor="@color/white"
             android:fontFamily="@font/nanum_barun_gothic_bold"/>
 

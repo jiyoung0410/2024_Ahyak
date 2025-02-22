@@ -23,7 +23,7 @@
             android:layout_gravity="center"
             android:text="약1"
             android:layout_marginTop="40dp"
-            android:textSize="24sp"
+            android:textSize="24dp"
             android:textColor="@color/black"
             android:fontFamily="@font/nanum_barun_gothic_bold"/>
 
@@ -33,9 +33,10 @@
             android:layout_gravity="center"
             android:text="‘약1’에 대해 기록한 내용을 알려드릴게요!"
             android:layout_marginStart="35dp"
+            android:textColor="@color/gray1"
             android:layout_marginEnd="35dp"
             android:layout_marginTop="16dp"
-            android:textSize="12sp"
+            android:textSize="12dp"
             android:fontFamily="@font/nanum_barun_gothic"/>
 
         <LinearLayout
@@ -68,6 +69,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:textColor="@color/gray1"
                     android:layout_marginTop="8dp"
                     android:fontFamily="@font/nanum_barun_gothic_bold"
                     android:text="삼각형"
@@ -94,6 +96,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="8dp"
+                    android:textColor="@color/gray1"
                     android:fontFamily="@font/nanum_barun_gothic_bold"
                     android:text="노랑"
                     android:textSize="10dp"/>
@@ -119,6 +122,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="8dp"
+                    android:textColor="@color/gray1"
                     android:fontFamily="@font/nanum_barun_gothic_bold"
                     android:text="경질캡"
                     android:textSize="10dp"/>
@@ -143,6 +147,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="8dp"
+                    android:textColor="@color/gray1"
                     android:fontFamily="@font/nanum_barun_gothic_bold"
                     android:text="(-)형"
                     android:textSize="10dp"/>

@@ -62,7 +62,7 @@
                 android:layout_marginTop="20dp"
                 android:fontFamily="@font/nanum_barun_gothic"
                 android:textColor="@color/text_gray"
-                android:textSize="15sp" />
+                android:textSize="15dp" />
             
             <ImageView
                 android:id="@+id/speech_bubble_register_ic"
@@ -110,6 +110,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:hint="약 이름 검색"
+                android:backgroundTint="@color/gray1"
+                android:textColorHint="@color/gray1"
+                android:textColor="@color/black"
                 android:textSize="20dp"
                 android:paddingBottom="15dp"
                 android:inputType="text"
@@ -183,6 +186,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="약의 이름을 모르는 경우 "
+                android:textColor="@color/black"
                 android:textSize="12dp"
                 android:fontFamily="@font/nanum_barun_gothic_light"/>
 
@@ -206,7 +210,7 @@
             android:text="용량"
             android:fontFamily="@font/nanum_barun_gothic"
             android:textColor="@color/text_gray"
-            android:textSize="15sp"
+            android:textSize="15dp"
             android:layout_marginTop="15dp"
             android:layout_marginStart="30dp"/>
 
@@ -231,7 +235,10 @@
                     android:layout_height="match_parent"
                     android:hint="약 용량 입력"
                     android:textSize="20dp"
+                    android:textColorHint="@color/gray1"
+                    android:textColor="@color/black"
                     android:paddingBottom="15dp"
+                    android:backgroundTint="@color/gray1"
                     android:inputType="numberDecimal"
                     android:fontFamily="@font/nanum_barun_gothic_light"
                     app:layout_constraintTop_toTopOf="parent"
@@ -264,6 +271,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="mg"
+                        android:textSize="15dp"
                         android:textColor="@color/black"
                         android:fontFamily="@font/nanum_barun_gothic"/>
 
@@ -290,6 +298,7 @@
                         android:layout_gravity="center"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textSize="15dp"
                         android:text="정"
                         android:textColor="@color/black"
                         android:fontFamily="@font/nanum_barun_gothic"/>
@@ -308,7 +317,7 @@
             android:text="빈도"
             android:fontFamily="@font/nanum_barun_gothic"
             android:textColor="@color/text_gray"
-            android:textSize="15sp"
+            android:textSize="15dp"
             android:layout_marginTop="30dp"
             android:layout_marginStart="30dp"/>
 
@@ -330,6 +339,7 @@
                 android:text="투여 빈도 선택"
                 android:textSize="20dp"
                 android:gravity="left|center"
+                android:layout_marginEnd="10dp"
                 android:background="@color/transparent"
                 android:fontFamily="@font/nanum_barun_gothic_light" />
 
@@ -364,7 +374,7 @@
             android:text="시간"
             android:fontFamily="@font/nanum_barun_gothic"
             android:textColor="@color/text_gray"
-            android:textSize="15sp"
+            android:textSize="15dp"
             android:layout_marginTop="30dp"
             android:layout_marginStart="30dp"/>
 
@@ -392,7 +402,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="기상 직후"
-                    android:textSize="12sp"
+                    android:textSize="12dp"
                     android:textColor="@color/text_gray"
                     android:fontFamily="@font/nanum_barun_gothic"/>
 
@@ -419,7 +429,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="아침"
-                    android:textSize="12sp"
+                    android:textSize="12dp"
                     android:textColor="@color/text_gray"
                     android:fontFamily="@font/nanum_barun_gothic"/>
 
@@ -445,7 +455,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="점심"
-                    android:textSize="12sp"
+                    android:textSize="12dp"
                     android:textColor="@color/text_gray"
                     android:fontFamily="@font/nanum_barun_gothic"/>
 
@@ -471,7 +481,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="저녁"
-                    android:textSize="12sp"
+                    android:textSize="12dp"
                     android:textColor="@color/text_gray"
                     android:fontFamily="@font/nanum_barun_gothic"/>
 
@@ -497,7 +507,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="취침 전"
-                    android:textSize="12sp"
+                    android:textSize="12dp"
                     android:textColor="@color/text_gray"
                     android:fontFamily="@font/nanum_barun_gothic"/>
 
@@ -517,7 +527,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="400dp">
+            android:layout_height="100dp">
 
             <ImageView
                 android:id="@+id/register_pill_search_shape_tag_tv"

@@ -51,9 +51,10 @@ class SearchPillImageActivity : AppCompatActivity() {
         binding.imageStartLl.setOnClickListener {
             //val bitmap = binding.imageView.drawable.toBitmap()  // imageView에 있는 이미지 비트맵 가져오기
             //bringImage(bitmap)
-            Toast.makeText(applicationContext,imageName,Toast.LENGTH_SHORT).show()
             val intent = Intent(this, PillImageResultActivity::class.java)
             intent.putExtra("imageName",imageName)
+            //이거 무조건 지워야함!
+            Thread.sleep(2000)
             startActivity(intent)
         }
 

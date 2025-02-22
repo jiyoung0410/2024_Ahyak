@@ -1,11 +1,16 @@
 package com.example.ahyak.PillRegister
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.Paint
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -14,6 +19,10 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.core.content.edit
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ahyak.DB.AhyakDataBase
@@ -145,8 +154,7 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
         })
 
         binding.registerPillSearchIv.setOnClickListener {
-//            val intent = Intent(this, CameraActivity::class.java)
-            val intent = Intent(this, SearchPillImageActivity::class.java)
+            val intent = Intent(this, CameraActivity::class.java)
             startActivity(intent)
         }
 
@@ -219,7 +227,7 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
         }
 
         //모양으로 검색하기 눌렀을 때
-        binding.registerPillSearchShapeIv.setOnClickListener {
+        binding.registerPillSearchShapeTv.setOnClickListener {
             val intent = Intent(this, SearchPillActivity::class.java)
             finish()
             startActivity(intent)
@@ -249,13 +257,14 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
             binding.registerPillNameInputTv.text = resultPillName
             binding.registerPillNameInputEt.setText(resultPillName)
             binding.registerPillSearchIv.visibility = View.GONE
+            binding.speechBubbleRegisterIc.visibility = View.GONE
+            binding.registerPillOcrIv.visibility = View.GONE
+            binding.speechBubbleOcrIc.visibility = View.GONE
             binding.registerPillDeleteIv.visibility = View.VISIBLE
             binding.nameUnderbarView.visibility = View.VISIBLE
             binding.registerPillRv.visibility = View.GONE
             binding.shapeVolumnLl.visibility = View.VISIBLE
             binding.shapeVolumnTv.visibility = View.VISIBLE
-            binding.registerPillSearchShapeIv.visibility = View.GONE
-            binding.registerPillSearchShapeTagTv.visibility = View.GONE
         }
 
         searchPillName = intent.getStringExtra("resultPillInpoName")?:""
@@ -265,13 +274,14 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
             binding.registerPillNameInputTv.text = searchPillName
             binding.registerPillNameInputEt.setText(searchPillName)
             binding.registerPillSearchIv.visibility = View.GONE
+            binding.speechBubbleRegisterIc.visibility = View.GONE
+            binding.registerPillOcrIv.visibility = View.GONE
+            binding.speechBubbleOcrIc.visibility = View.GONE
             binding.registerPillDeleteIv.visibility = View.VISIBLE
             binding.nameUnderbarView.visibility = View.VISIBLE
             binding.registerPillRv.visibility = View.GONE
             binding.shapeVolumnLl.visibility = View.VISIBLE
             binding.shapeVolumnTv.visibility = View.VISIBLE
-            binding.registerPillSearchShapeIv.visibility = View.GONE
-            binding.registerPillSearchShapeTagTv.visibility = View.GONE
         }
 
         //검색 취소 아이콘 눌렀을 때
@@ -281,12 +291,13 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
             binding.registerPillNameInputTv.visibility = View.GONE
             binding.registerPillNameInputEt.hint = "약의 이름을 검색해주세요"
             binding.registerPillSearchIv.visibility = View.VISIBLE
+            binding.speechBubbleRegisterIc.visibility = View.VISIBLE
+            binding.registerPillOcrIv.visibility = View.VISIBLE
+            binding.speechBubbleOcrIc.visibility = View.VISIBLE
             binding.registerPillDeleteIv.visibility = View.GONE
             binding.nameUnderbarView.visibility = View.GONE
             binding.shapeVolumnLl.visibility = View.GONE
             binding.shapeVolumnTv.visibility = View.GONE
-            binding.registerPillSearchShapeIv.visibility = View.VISIBLE
-            binding.registerPillSearchShapeTagTv.visibility = View.VISIBLE
 
         }
 
@@ -579,8 +590,10 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
         binding.registerPillRv.visibility = View.GONE
         binding.registerPillSearchIv.visibility = View.GONE
         binding.registerPillDeleteIv.visibility = View.VISIBLE
-        binding.registerPillSearchShapeIv.visibility = View.GONE
-        binding.registerPillSearchShapeTagTv.visibility = View.GONE
+        binding.speechBubbleRegisterIc.visibility = View.GONE
+        binding.registerPillOcrIv.visibility = View.GONE
+        binding.speechBubbleOcrIc.visibility = View.GONE
+
 
         finish()
         val intent = Intent(this, ResultPillActivity::class.java)

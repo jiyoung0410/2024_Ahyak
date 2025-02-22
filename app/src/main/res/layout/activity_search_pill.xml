@@ -121,7 +121,10 @@
                         android:layout_marginTop="9dp"
                         android:fontFamily="@font/nanum_barun_gothic_light"
                         android:hint="식별 문자로 검색해보세요"
+                        android:textColorHint="@color/gray1"
+                        android:backgroundTint="@color/gray1"
                         android:inputType="text"
+                        android:textColor="@color/black"
                         android:textSize="20dp"/>
 
                 </LinearLayout>

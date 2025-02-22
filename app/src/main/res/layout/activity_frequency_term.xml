@@ -274,8 +274,8 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintBottom_toBottomOf="parent"
                             android:layout_marginStart="10dp"
-                            android:layout_marginEnd="10dp"
-                            android:theme="@style/AppTheme.NumberPicker"/>
+                            android:theme="@style/numberPickerCustomSize"
+                            android:layout_marginEnd="10dp" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -325,6 +325,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="일"
+                        android:textColor="@color/gray1"
                         android:fontFamily="@font/nanum_barun_gothic"
                         android:textSize="12dp"
                         android:gravity="center"/>
@@ -466,6 +467,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="시작일"
+                android:textColor="@color/black"
                 android:textSize="14dp"
                 android:inputType="text"
                 android:gravity="start|center"
@@ -496,7 +498,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:text="날짜 선택"
-                    android:textSize="12sp"
+                    android:textSize="12dp"
                     android:padding="5dp"
                     android:textColor="@color/gray1"
                     android:fontFamily="@font/nanum_barun_gothic"/>

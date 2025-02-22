@@ -44,7 +44,7 @@ class PillImageResultActivity : AppCompatActivity() {
         val drawableIds = arrayOf(
             R.drawable.ic_202202893,
             R.drawable.ic_199303108,
-            R.drawable.ic_199303109,
+            //R.drawable.ic_199303109,
             R.drawable.ic_199603003,
             R.drawable.ic_199903739,
             R.drawable.ic_200202893,

@@ -24,7 +24,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="39dp"
             android:text="2024년 1월"
-            android:textSize="18sp"
+            android:textSize="18dp"
             android:textColor="@color/white"
             android:fontFamily="@font/nanum_barun_gothic"/>
 
@@ -35,7 +35,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="68dp"/>
+            android:layout_marginTop="73dp"/>
 
         <ImageView
             android:id="@+id/today_record_next_week_btn_cl"

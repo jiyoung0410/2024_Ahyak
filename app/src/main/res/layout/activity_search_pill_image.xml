@@ -8,24 +8,12 @@
 
     <!-- ImageView for displaying cropped image -->
 
-    <TextView
-        android:id="@+id/Pill_image_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="200dp"
-        android:textSize="20dp"
-        android:fontFamily="@font/nanum_barun_gothic_bold"
-        android:textColor="@color/black"
-        android:text="약 사진 가져오기"/>
-
     <LinearLayout
         android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="@color/white">
 
         <LinearLayout
             android:id="@+id/select_ll"
@@ -74,7 +62,8 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/nanum_barun_gothic_bold"
                         android:textSize="16dp"
-                        android:text="다시 불러오기"/>
+                        android:text="다시 불러오기"
+                        android:textColor="@color/black"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -161,6 +150,19 @@
 
         </LinearLayout>
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/Pill_image_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="200dp"
+        android:textSize="20dp"
+        android:fontFamily="@font/nanum_barun_gothic_bold"
+        android:textColor="@color/black"
+        android:text="약 사진 가져오기"/>
 
     <!-- Cancel button -->
     <ImageView

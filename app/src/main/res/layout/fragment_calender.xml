@@ -69,7 +69,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         android:layout_marginTop="36dp"
                         android:text="2024년 1월"
-                        android:textSize="20sp"
+                        android:textSize="20dp"
                         android:textColor="@color/black"
                         android:fontFamily="@font/nanum_barun_gothic_bold"/>
 
