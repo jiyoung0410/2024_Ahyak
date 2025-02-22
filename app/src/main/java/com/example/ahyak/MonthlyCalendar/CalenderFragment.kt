@@ -41,7 +41,6 @@ class CalenderFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentCalenderBinding.inflate(layoutInflater)
-        // Inflate the layout for this fragment
 
         val month = cal.get(Calendar.MONTH) + 1
         val day = cal.get(Calendar.DAY_OF_MONTH)
@@ -67,8 +66,6 @@ class CalenderFragment : Fragment() {
             cal.add(Calendar.MONTH,-1)
             localDate = monthFormat.format(cal.time)
             binding.calendarTitleDateTv.text = localDate
-
-            Log.d("logcat",cal.time.toString())
             setDate(cal)
         }
 
@@ -76,8 +73,6 @@ class CalenderFragment : Fragment() {
             cal.add(Calendar.MONTH,1)
             localDate = monthFormat.format(cal.time)
             binding.calendarTitleDateTv.text = localDate
-
-            Log.d("logcat",cal.time.toString())
             setDate(cal)
         }
 
@@ -94,7 +89,6 @@ class CalenderFragment : Fragment() {
 
         newCal.add(Calendar.MONTH,-1)
 
-        var prevMonthLastDay = newCal.getActualMaximum(Calendar.DATE)
         var dayList = ArrayList<CalDaysInfo>()
 
         val parts = binding.calendarTitleDateTv.text.toString().split(" ")
@@ -210,14 +204,5 @@ class CalenderFragment : Fragment() {
         binding.calendarWhetherTakePillRv.adapter = takepilladapter
         binding.calendarWhetherTakePillRv.layoutManager = LinearLayoutManager(requireContext(),
             LinearLayoutManager.VERTICAL,false)
-    }
-
-    private fun takepillListInit() {
-        takepillList.addAll(
-            arrayListOf(
-                DataItemTakePill("인테놀정", true),
-                DataItemTakePill("콘서타", false)
-            )
-        )
     }
 }
