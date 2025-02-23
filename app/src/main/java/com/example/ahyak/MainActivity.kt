@@ -2,6 +2,7 @@ package com.example.ahyak
 
 import android.os.Bundle
 import android.Manifest
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
@@ -11,6 +12,9 @@ import android.speech.SpeechRecognizer
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import android.provider.Settings
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -28,6 +32,15 @@ class MainActivity : AppCompatActivity() {
     //음성 인식 관련
     private lateinit var speechRecognizer: SpeechRecognizer
 
+    private val requestPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                Toast.makeText(this, "알림이 허용되었습니다.", Toast.LENGTH_SHORT).show()
+            } else {
+                showNotificationDialog(this)
+            }
+        }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -42,6 +55,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         replaceFragment(TodayRecordFragment())
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            }
+        }
 
         binding.bottomNavigationview.setOnNavigationItemSelectedListener { item ->
             when(item.itemId){
@@ -140,6 +159,7 @@ class MainActivity : AppCompatActivity() {
                 SpeechRecognizer.ERROR_SPEECH_TIMEOUT -> "말하는 시간초과"
                 else -> "알 수 없는 오류임"
             }
+            Log.e("SpeechRecognizer", "Error occurred: $message")
             Toast.makeText(this@MainActivity, "$message", Toast.LENGTH_SHORT).show()
             binding.speechBtn.visibility = View.VISIBLE
             binding.speechIngBtn.visibility = View.GONE
@@ -227,5 +247,26 @@ class MainActivity : AppCompatActivity() {
 
         }
 
+    }
+
+    // 알림 설정 화면으로 이동하는 함수
+    private fun openNotificationSettings(context: Context) {
+        val intent = Intent().apply {
+            action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
+            putExtra(Settings.EXTRA_APP_PACKAGE, context.packageName)
+        }
+        context.startActivity(intent)
+    }
+
+    // 알림 권한이 없을 때 설정 이동을 유도하는 다이얼로그
+    private fun showNotificationDialog(context: Context) {
+        AlertDialog.Builder(context)
+            .setTitle("알림 권한 필요")
+            .setMessage("앱의 알림이 차단되어 있습니다. 설정에서 허용해 주세요.")
+            .setPositiveButton("설정으로 이동") { _, _ ->
+                openNotificationSettings(context)
+            }
+            .setNegativeButton("취소", null)
+            .show()
     }
 }

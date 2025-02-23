@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ahyak.AddPrescription.AddPrescriptionActivity
 import com.example.ahyak.AddPrescription.MedicationTimeActivity
@@ -66,13 +67,13 @@ class TodayRecordHomeFragment : Fragment() {
 
         binding.calendarAfterwakeTimeTv.text = alarmTime
 
-        GlobalScope.launch(Dispatchers.IO) {
+        lifecycleScope.launch(Dispatchers.IO) {
 
             // 데이터베이스 초기화
             ahyakDatabase = AhyakDataBase.getInstance(requireContext())
 
-            symptomList.clear()
-            extrapillList.clear()
+//            symptomList.clear()
+//            extrapillList.clear()
 
             // 데이터베이스에서 데이터 가져오기 - 월/일/시간대 정보 전송(Prescription)
             val NewsymptomList = ahyakDatabase!!.getPrescriptionDao().getPrescription(selectedMonth, selectedDay, selectedSlot).toMutableList()
@@ -81,11 +82,11 @@ class TodayRecordHomeFragment : Fragment() {
             val NewPillList = ahyakDatabase!!.getExtraPillDao().getPill(selectedMonth, selectedDay, selectedSlot)
 
             // 리사이클러뷰 아이템 구성
-            symptomList.addAll(NewsymptomList)
-            extrapillList.addAll(NewPillList)
-
-            binding.calendarAfterwakeChangeSymptomRv.adapter?.notifyDataSetChanged()
-            binding.calendarAfterwakeChangeExtraPillRv.adapter?.notifyDataSetChanged()
+//            symptomList.addAll(NewsymptomList)
+//            extrapillList.addAll(NewPillList)
+//
+//            binding.calendarAfterwakeChangeSymptomRv.adapter?.notifyDataSetChanged()
+//            binding.calendarAfterwakeChangeExtraPillRv.adapter?.notifyDataSetChanged()
 
             //특정 항목 삭제
 //            ahyakDatabase!!.getPrescriptionDao()?.deletePrescription("환절기 피부질환")
