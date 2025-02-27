@@ -227,12 +227,11 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
         }
 
         //모양으로 검색하기 눌렀을 때
-        binding.registerPillSearchShapeTv.setOnClickListener {
+        binding.registerPillSearchShapeIv.setOnClickListener {
             val intent = Intent(this, SearchPillActivity::class.java)
             finish()
             startActivity(intent)
         }
-
 
         //빈도 눌렀을 때
         binding.registerPillFrequencyTv.setOnClickListener {

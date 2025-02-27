@@ -274,7 +274,9 @@ class SearchPillActivity : AppCompatActivity(), DrugSearchNameView, DrugSearchSh
 
         // 'X'버튼 누르면
         binding.cancleIv.setOnClickListener {
+            val intent = Intent(this, RegisterPillActivity::class.java)
             finish()
+            startActivity(intent)
         }
 
         //  2/5에서 '<'버튼 누르면
