@@ -114,7 +114,7 @@ class AddPrescriptionActivity : AppCompatActivity(), DatePickerDialog.OnDateSetL
         }
 
         //시작일 기본 설정은 오늘 날짜
-        // 오늘 날짜의 연도와 월을 가져와서 변수에 할당합니다.
+        // 오늘 날짜의 연도와 월을 가져와서 변수에 할당
         val localDate = LocalDateTime.now()
         val todayYear = localDate.year
         StartMonth = localDate.monthValue

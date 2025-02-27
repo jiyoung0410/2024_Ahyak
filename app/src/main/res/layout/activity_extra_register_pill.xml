@@ -181,7 +181,151 @@
 
             </LinearLayout>
 
+
         </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="복약일"
+            android:fontFamily="@font/nanum_barun_gothic"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="30dp"/>
+
+        <LinearLayout
+            android:id="@+id/take_day_ll"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginTop="17dp"
+            android:orientation="horizontal" >
+
+            <LinearLayout
+                android:id="@+id/take_day_detail_ll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/take_day_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="2dp"
+                        android:layout_marginEnd="2dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:fontFamily="@font/nanum_barun_gothic"
+                        android:inputType="text"
+                        android:textColor="@color/gray1"
+                        android:text="복약일"
+                        android:textSize="20dp"/>
+
+                    <TextView
+                        android:id="@+id/take_day_select_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="2dp"
+                        android:layout_marginEnd="2dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_marginTop="9dp"
+                        android:textColor="@color/point"
+                        android:fontFamily="@font/nanum_barun_gothic_bold"
+                        android:textSize="20dp"/>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.6dp"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginEnd="2dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/black"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="복약 시간"
+            android:fontFamily="@font/nanum_barun_gothic"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="30dp"/>
+
+        <LinearLayout
+            android:id="@+id/take_time_ll"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginTop="17dp"
+            android:orientation="horizontal" >
+
+            <LinearLayout
+                android:id="@+id/take_time_detail_ll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/take_time_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="2dp"
+                        android:layout_marginEnd="2dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:fontFamily="@font/nanum_barun_gothic"
+                        android:inputType="text"
+                        android:textColor="@color/gray1"
+                        android:text="복약 시간"
+                        android:textSize="20dp"/>
+
+                    <TextView
+                        android:id="@+id/take_time_select_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="2dp"
+                        android:layout_marginEnd="2dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_marginTop="9dp"
+                        android:textColor="@color/point"
+                        android:fontFamily="@font/nanum_barun_gothic_bold"
+                        android:textSize="20dp"/>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.6dp"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginEnd="2dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/black"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"

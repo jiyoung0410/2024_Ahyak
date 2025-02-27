@@ -47,13 +47,26 @@
         android:layout_height="wrap_content"
         android:text="오전 11:00"
         android:fontFamily="@font/nanum_barun_gothic_bold"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="10dp"
+        app:layout_constraintStart_toEndOf="@id/item_calendar_extra_pill_volume_tv"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:textSize="10sp"
-        android:layout_marginEnd="26dp"
         android:textColor="@color/gray1"/>
-    
+
+    <ImageView
+        android:id="@+id/more_ic"
+        android:layout_width="5dp"
+        android:layout_height="15dp"
+        android:src="@drawable/more_ic"
+        android:layout_marginEnd="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/item_calendar_extra_pill_delete_cl"
         android:layout_width="75dp"
