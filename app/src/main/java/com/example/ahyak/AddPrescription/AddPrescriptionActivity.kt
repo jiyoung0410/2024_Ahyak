@@ -96,7 +96,7 @@ class AddPrescriptionActivity : AppCompatActivity(), DatePickerDialog.OnDateSetL
                 val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 inputMethodManager.hideSoftInputFromWindow(binding.addSymptomsHospitalNameEt.windowToken, 0)
                 binding.startLl.visibility = View.VISIBLE
-                binding.addSymptomsStartTv.visibility = View.VISIBLE
+                binding.addSymptomsStartSetTv.visibility = View.VISIBLE
                 return@setOnEditorActionListener true
             }else {
                 return@setOnEditorActionListener false
@@ -124,7 +124,7 @@ class AddPrescriptionActivity : AppCompatActivity(), DatePickerDialog.OnDateSetL
         binding.addSymptomsStartdayTv.text = StartDate
 
         //시작 날짜 설정
-        binding.addSymptomsStartdayTv.setOnClickListener {
+        binding.addSymptomsStartTv.setOnClickListener {
 
             //종료일 레이아웃 뜨도록
             binding.addSymptomsEndTv.visibility = View.VISIBLE
@@ -141,26 +141,44 @@ class AddPrescriptionActivity : AppCompatActivity(), DatePickerDialog.OnDateSetL
                 StartDay = day
 
             }, year, StartMonth, StartDay)
-
-            datePickerDialog.show()
+                datePickerDialog.show()
         }
 
-        //종료 날짜 설정
+
+        // 종료 날짜 설정
         binding.addSymptomsEnddayClickTv.setOnClickListener {
-            val year = cal.get(Calendar.YEAR)
-            val month = cal.get(Calendar.MONTH)
-            val dayOfMonth = cal.get(Calendar.DAY_OF_MONTH)
+            val startCalendar = Calendar.getInstance()
 
-            val datePickerDialog = DatePickerDialog(this, { _, year, month, day ->
+            // StartDate를 Calendar 객체로 변환
+            val dateFormat = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
+            val startDateParsed = dateFormat.parse(StartDate)
 
-                EndDate = year.toString() + "." + (month + 1).toString() + "." + day.toString()+ "."
-                binding.addSymptomsEnddayTv.text =EndDate
+            startDateParsed?.let {
+                startCalendar.time = it
+            }
+
+            val year = startCalendar.get(Calendar.YEAR)
+            val month = startCalendar.get(Calendar.MONTH)
+            val dayOfMonth = startCalendar.get(Calendar.DAY_OF_MONTH)
+
+            val datePickerDialog = DatePickerDialog(this, { _, selectedYear, selectedMonth, selectedDay ->
+
+                // 선택한 종료일 저장
+                EndDate = "$selectedYear.${selectedMonth + 1}.$selectedDay."
+                binding.addSymptomsEnddayTv.text = EndDate
+
+                // 버튼 활성화
                 binding.addSymptomsAddbtnGrayLl.visibility = View.GONE
                 binding.addSymptomsAddbtnLl.visibility = View.VISIBLE
 
-            }, year, month, dayOfMonth)
+            }, year, month, dayOfMonth).apply {
+                // 종료일의 최소 선택 가능 날짜를 시작일로 설정
+                datePicker.minDate = startCalendar.timeInMillis
+            }
+
             datePickerDialog.show()
         }
+
 
         //'X'누르면 실행
         binding.addSymptomsCancleIv.setOnClickListener {

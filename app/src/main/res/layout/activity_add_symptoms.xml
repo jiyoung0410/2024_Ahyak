@@ -117,7 +117,7 @@
 
                 <TextView
                     android:visibility="gone"
-                    android:id="@+id/add_symptoms_start_tv"
+                    android:id="@+id/add_symptoms_start_set_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toBottomOf="@id/add_symptoms_symptom_name_et"
@@ -140,6 +140,7 @@
                         android:layout_height="match_parent">
 
                         <TextView
+                            android:id="@+id/add_symptoms_start_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             app:layout_constraintStart_toStartOf="parent"
