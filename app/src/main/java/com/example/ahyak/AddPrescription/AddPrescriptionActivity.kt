@@ -11,10 +11,12 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.DatePicker
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import com.example.ahyak.DB.AhyakDataBase
 import com.example.ahyak.DB.PrescriptionEntity
 import com.example.ahyak.MainActivity
 import com.example.ahyak.PillRegister.ExtraRegisterPillActivity
+import com.example.ahyak.R
 import com.example.ahyak.databinding.ActivityAddSymptomsBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -134,16 +136,20 @@ class AddPrescriptionActivity : AppCompatActivity(), DatePickerDialog.OnDateSetL
             StartMonth = cal.get(Calendar.MONTH)
             StartDay = cal.get(Calendar.DAY_OF_MONTH)
 
-            val datePickerDialog = DatePickerDialog(this, { _, year, month, day ->
+            val datePickerDialog = DatePickerDialog(this,
+                { _, year, month, day ->
                 StartDate = year.toString() + "." + (month + 1).toString() + "." + day.toString()+ "."
                 binding.addSymptomsStartdayTv.text = StartDate
                 StartMonth = month + 1
                 StartDay = day
 
             }, year, StartMonth, StartDay)
-                datePickerDialog.show()
-        }
+                val textColor : Int = ContextCompat.getColor(this, R.color.point)
 
+                datePickerDialog.show()
+                datePickerDialog.getButton(DatePickerDialog.BUTTON_POSITIVE).setTextColor(textColor)
+                datePickerDialog.getButton(DatePickerDialog.BUTTON_NEGATIVE).setTextColor(textColor)
+        }
 
         // 종료 날짜 설정
         binding.addSymptomsEnddayClickTv.setOnClickListener {
@@ -176,7 +182,11 @@ class AddPrescriptionActivity : AppCompatActivity(), DatePickerDialog.OnDateSetL
                 datePicker.minDate = startCalendar.timeInMillis
             }
 
+            val textColor : Int = ContextCompat.getColor(this, R.color.point)
+
             datePickerDialog.show()
+            datePickerDialog.getButton(DatePickerDialog.BUTTON_POSITIVE).setTextColor(textColor)
+            datePickerDialog.getButton(DatePickerDialog.BUTTON_NEGATIVE).setTextColor(textColor)
         }
 
 

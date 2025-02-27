@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import com.example.ahyak.DB.AhyakDataBase
 import com.example.ahyak.DB.ExtraPillEntity
@@ -130,7 +131,11 @@ class ExtraRegisterPillActivity : AppCompatActivity() {
                 Log.d("Takedate", "$Takedate")
             }, todayYear, TakeMonth-1, TakeDay)
 
+            val textColor : Int = ContextCompat.getColor(this, R.color.point)
+
             datePickerDialog.show()
+            datePickerDialog.getButton(DatePickerDialog.BUTTON_POSITIVE).setTextColor(textColor)
+            datePickerDialog.getButton(DatePickerDialog.BUTTON_NEGATIVE).setTextColor(textColor)
         }
 
         //복약 시간 설정
