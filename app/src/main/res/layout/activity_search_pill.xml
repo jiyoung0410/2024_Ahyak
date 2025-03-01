@@ -104,14 +104,30 @@
                     android:layout_margin="30dp"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:layout_marginTop="30dp"
-                        android:fontFamily="@font/nanum_barun_gothic"
-                        android:text="식별 문자"
-                        android:textColor="@color/black"
-                        android:textSize="15dp"
+                    <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/nanum_barun_gothic"
+                            android:text="식별 문자"
+                            android:textColor="@color/black"
+                            android:textSize="15dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/nanum_barun_gothic"
+                            android:layout_marginStart="10dp"
+                            android:text="오타가 있는지 한 번 더 확인해주세요!"
+                            android:textColor="@color/gray1"
+                            android:textSize="10dp" />
+
+                    </LinearLayout>
 
                     <EditText
                         android:id="@+id/serach_pill_serach_text_et"
