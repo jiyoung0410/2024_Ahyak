@@ -1,6 +1,7 @@
 package com.example.ahyak.HomeRecord
 
 import android.content.Context
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,7 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.ahyak.AddPrescription.AddPrescriptionActivity
 import com.example.ahyak.DB.AhyakDataBase
 import com.example.ahyak.DB.MedicineEntity
 import com.example.ahyak.DB.PrescriptionEntity
@@ -48,6 +50,11 @@ class PrescriptionAdapter(val onClick: () -> Unit, val onAddPillClick: (Prescrip
                 onAddPillClick(sympotm)
             }
 
+            var sharedPref = context.getSharedPreferences("myPref", Context.MODE_PRIVATE)
+            var selectedMonth = sharedPref.getInt("selectedMonth", 0)
+            var selectedDay = sharedPref.getInt("selectedDay", 0)
+            var selectedSlot = sharedPref.getString("selectSlot", "")
+
             binding.itemCalendarSymptomName.text = sympotm.Prescription
             binding.itemCalendarSymptomDate.text = sympotm.Start_Date
             binding.itemCalendarSymptomHospitalName.text = sympotm.Hospital
@@ -56,11 +63,6 @@ class PrescriptionAdapter(val onClick: () -> Unit, val onAddPillClick: (Prescrip
 
                 binding.root.setOnClickListener {
                     // 해당 증상에 대한 약 데이터 가져오기
-                    var sharedPref = context.getSharedPreferences("myPref", Context.MODE_PRIVATE)
-                    var selectedMonth = sharedPref.getInt("selectedMonth", 0)
-                    var selectedDay = sharedPref.getInt("selectedDay", 0)
-                    var selectedSlot = sharedPref.getString("selectSlot", "")
-
                     loadMedicinesForPrescription(sympotm.Prescription, selectedMonth, selectedDay, selectedSlot!!)
 
                     selectedPosition = adapterPosition // 현재 선택된 아이템의 위치 저장
@@ -92,6 +94,14 @@ class PrescriptionAdapter(val onClick: () -> Unit, val onAddPillClick: (Prescrip
                     when(menuItem.itemId) {
                         R.id.item_more_menu1 -> {
                             //수정 시 행동
+                            val intent = Intent(binding.root.context, AddPrescriptionActivity::class.java).apply {
+                                putExtra("presmodify_prescription", sympotm.Prescription)
+                                putExtra("presmodify_hospital", sympotm.Hospital)
+                                putExtra("presmodify_startdate", sympotm.Start_Date)
+                                putExtra("presmodify_enddate",sympotm.End_Date)
+                            }
+                            //parentFragmentManager.popBackStack()
+                            binding.root.context.startActivity(intent)
                             true
                         }
                         R.id.item_more_menu2 -> {
