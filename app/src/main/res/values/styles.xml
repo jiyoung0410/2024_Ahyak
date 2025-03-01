@@ -14,4 +14,9 @@
         <item name="android:editTextColor">@color/gray1</item>
     </style>
 
+<!--    <style name="CustomPopupMenu" parent="Widget.AppCompat.PopupMenu.Overflow">-->
+<!--        <item name="android:background">@drawable/bg_popup_menu</item>-->
+<!--        <item name="android:elevation">8dp</item>-->
+<!--    </style>-->
+
 </resources>

@@ -5,11 +5,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ahyak.DB.AhyakDataBase
 import com.example.ahyak.DB.MedicineEntity
 import com.example.ahyak.DB.PrescriptionEntity
+import com.example.ahyak.R
 import com.example.ahyak.databinding.ItemCalendarSymptomBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -46,30 +48,6 @@ class PrescriptionAdapter(val onClick: () -> Unit, val onAddPillClick: (Prescrip
                 onAddPillClick(sympotm)
             }
 
-            binding.root.setOnLongClickListener {
-                if(binding.itemCalendarSymptomDeleteCl.visibility == View.GONE) {
-                    binding.itemCalendarSymptomDeleteCl.visibility = View.VISIBLE
-                } else if(binding.itemCalendarSymptomDeleteCl.visibility == View.VISIBLE) {
-                    binding.itemCalendarSymptomDeleteCl.visibility = View.GONE
-                }
-                true
-            }
-
-            binding.itemCalendarSymptomDeleteCl.setOnClickListener {
-                val position = adapterPosition
-                if(position != RecyclerView.NO_POSITION) {
-                    binding.itemCalendarSymptomDeleteCl.visibility = View.GONE
-                    sympotms.removeAt(position)
-                    GlobalScope.launch(Dispatchers.IO) {
-                        ahyakDatabase = AhyakDataBase.getInstance(context)
-                        ahyakDatabase!!.getMedicineDao().deletePrescriptionMedicine(sympotm.Prescription)
-                        ahyakDatabase!!.getPrescriptionDao().deletePrescription(sympotm.Prescription)
-                        notifyItemRemoved(position)
-                        notifyDataSetChanged()
-                    }
-                }
-            }
-
             binding.itemCalendarSymptomName.text = sympotm.Prescription
             binding.itemCalendarSymptomDate.text = sympotm.Start_Date
             binding.itemCalendarSymptomHospitalName.text = sympotm.Hospital
@@ -91,17 +69,52 @@ class PrescriptionAdapter(val onClick: () -> Unit, val onAddPillClick: (Prescrip
                         binding.itemCalendarSymptomDate.visibility = View.GONE
                         binding.itemCalendarSymptomPillRv.visibility = View.VISIBLE
                         binding.itemCalendarSymptomHospitalName.visibility = View.INVISIBLE
+                        binding.itemCalendarSymptomMoreCl.visibility = View.GONE
                         selectedBoolean = false
                     } else {
                         binding.itemCalendarAddSymptomPillLl.visibility = View.GONE
                         binding.itemCalendarSymptomDate.visibility = View.VISIBLE
                         binding.itemCalendarSymptomPillRv.visibility = View.GONE
                         binding.itemCalendarSymptomHospitalName.visibility = View.VISIBLE
+                        binding.itemCalendarSymptomMoreCl.visibility = View.VISIBLE
                         selectedBoolean = true
                     }
 
                     onClick() // 생성자 파라미터로 받은 람다함수 onClick 실행
                 }
+            }
+
+            binding.itemCalendarSymptomMoreCl.setOnClickListener {
+                val popupmenu = PopupMenu(context, binding.itemCalendarSymptomMoreCl)
+                popupmenu.menuInflater.inflate(R.menu.menu_item_more, popupmenu.menu)
+
+                popupmenu.setOnMenuItemClickListener { menuItem ->
+                    when(menuItem.itemId) {
+                        R.id.item_more_menu1 -> {
+                            //수정 시 행동
+                            true
+                        }
+                        R.id.item_more_menu2 -> {
+                            //삭제 시 행동
+                            val position = adapterPosition
+                            if(position != RecyclerView.NO_POSITION) {
+                                sympotms.removeAt(position)
+                                GlobalScope.launch(Dispatchers.IO) {
+                                    ahyakDatabase = AhyakDataBase.getInstance(context)
+                                    ahyakDatabase!!.getMedicineDao().deletePrescriptionMedicine(sympotm.Prescription)
+                                    ahyakDatabase!!.getPrescriptionDao().deletePrescription(sympotm.Prescription)
+                                    withContext(Dispatchers.Main) {
+                                        notifyItemRemoved(position)
+                                        notifyDataSetChanged()
+                                    }
+                                }
+                            }
+                            true
+                        }
+                        else -> false
+                    }
+                }
+                popupmenu.show()
             }
         }
 
