@@ -9,11 +9,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView
+import com.example.ahyak.AddPrescription.AddPrescriptionActivity
 import com.example.ahyak.DB.AhyakDataBase
 import com.example.ahyak.DB.FreeMedicineEntity
 import com.example.ahyak.DB.MedicineEntity
 import com.example.ahyak.PillDetailGuide.DetailPillActivity
+import com.example.ahyak.PillRegister.RegisterPillActivity
 import com.example.ahyak.R
 import com.example.ahyak.databinding.ItemCalendarAddPillBinding
 import com.example.ahyak.remote.AuthService
@@ -78,27 +81,67 @@ class MedicineAdapter() : RecyclerView.Adapter<MedicineAdapter.ViewHolder>() {
                 }
             }
 
-            binding.root.setOnLongClickListener {
-                if(binding.itemCalendarDelSymptomPillLl.visibility == View.GONE) {
-                    binding.itemCalendarDelSymptomPillLl.visibility = View.VISIBLE
-                } else if(binding.itemCalendarDelSymptomPillLl.visibility == View.VISIBLE) {
-                    binding.itemCalendarDelSymptomPillLl.visibility = View.GONE
-                }
-                true
-            }
+//            binding.root.setOnLongClickListener {
+//                if(binding.itemCalendarDelSymptomPillLl.visibility == View.GONE) {
+//                    binding.itemCalendarDelSymptomPillLl.visibility = View.VISIBLE
+//                } else if(binding.itemCalendarDelSymptomPillLl.visibility == View.VISIBLE) {
+//                    binding.itemCalendarDelSymptomPillLl.visibility = View.GONE
+//                }
+//                true
+//            }
+//
+//            binding.itemCalendarDelSymptomPillLl.setOnClickListener {
+//                val position = adapterPosition
+//                if(position != RecyclerView.NO_POSITION) {
+//                    binding.itemCalendarDelSymptomPillLl.visibility = View.GONE
+//                    addpillList.removeAt(position)
+//                    GlobalScope.launch(Dispatchers.IO) {
+//                        ahyakDatabase = AhyakDataBase.getInstance(context)
+//                        ahyakDatabase!!.getMedicineDao().deleteMedicine(addpill.id)
+//                        notifyItemRemoved(position)
+//                        notifyDataSetChanged()
+//                    }
+//                }
+//            }
 
-            binding.itemCalendarDelSymptomPillLl.setOnClickListener {
-                val position = adapterPosition
-                if(position != RecyclerView.NO_POSITION) {
-                    binding.itemCalendarDelSymptomPillLl.visibility = View.GONE
-                    addpillList.removeAt(position)
-                    GlobalScope.launch(Dispatchers.IO) {
-                        ahyakDatabase = AhyakDataBase.getInstance(context)
-                        ahyakDatabase!!.getMedicineDao().deleteMedicine(addpill.id)
-                        notifyItemRemoved(position)
-                        notifyDataSetChanged()
+            binding.itemCalendarPillMoreCl.setOnClickListener {
+                val popupmenu = PopupMenu(context, binding.itemCalendarPillMoreCl)
+                popupmenu.menuInflater.inflate(R.menu.menu_item_more, popupmenu.menu)
+
+                popupmenu.setOnMenuItemClickListener { menuItem ->
+                    when(menuItem.itemId) {
+                        R.id.item_more_menu1 -> {
+                            //수정 시 행동
+                            val intent = Intent(binding.root.context, RegisterPillActivity::class.java).apply {
+//                                putExtra("presmodify_prescription", sympotm.Prescription)
+//                                putExtra("presmodify_hospital", sympotm.Hospital)
+//                                putExtra("presmodify_startdate", sympotm.Start_Date)
+//                                putExtra("presmodify_enddate",sympotm.End_Date)
+                            }
+                            //parentFragmentManager.popBackStack()
+                            binding.root.context.startActivity(intent)
+                            true
+                        }
+                        R.id.item_more_menu2 -> {
+                            //삭제 시 행동
+                            val position = adapterPosition
+                            if(position != RecyclerView.NO_POSITION) {
+                                addpillList.removeAt(position)
+                                GlobalScope.launch(Dispatchers.IO) {
+                                    ahyakDatabase = AhyakDataBase.getInstance(context)
+                                    ahyakDatabase!!.getMedicineDao().deleteMedicine(addpill.id)
+                                    withContext(Dispatchers.Main) {
+                                        notifyItemRemoved(position)
+                                        notifyDataSetChanged()
+                                    }
+                                }
+                            }
+                            true
+                        }
+                        else -> false
                     }
                 }
+                popupmenu.show()
             }
 
             //상세 약 조회

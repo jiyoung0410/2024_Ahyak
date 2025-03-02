@@ -63,27 +63,48 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/item_calendar_del_symptom_pill_ll"
-        android:layout_width="60dp"
-        android:layout_height="22dp"
-        app:layout_constraintEnd_toEndOf="parent"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/item_calendar_pill_more_cl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginEnd="26dp"
-        android:gravity="center"
-        android:background="@drawable/red_radi_50dp"
-        android:visibility="gone">
+        app:layout_constraintStart_toEndOf="@id/item_calendar_pill_take_state_ll"
+        android:layout_marginStart="1dp"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="4dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="삭제"
-            android:fontFamily="@font/nanum_barun_gothic_bold"
-            android:textSize="10dp"
-            android:textColor="@color/white"/>
+        <ImageView
+            android:layout_width="3dp"
+            android:layout_height="11dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:src="@drawable/more_ic"
+            android:visibility="visible"/>
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+<!--    <LinearLayout-->
+<!--        android:id="@+id/item_calendar_del_symptom_pill_ll"-->
+<!--        android:layout_width="60dp"-->
+<!--        android:layout_height="22dp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        android:layout_marginEnd="26dp"-->
+<!--        android:gravity="center"-->
+<!--        android:background="@drawable/red_radi_50dp"-->
+<!--        android:visibility="gone">-->
+
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="삭제"-->
+<!--            android:fontFamily="@font/nanum_barun_gothic_bold"-->
+<!--            android:textSize="10dp"-->
+<!--            android:textColor="@color/white"/>-->
+
+<!--    </LinearLayout>-->
     
     <View
         android:layout_width="301dp"

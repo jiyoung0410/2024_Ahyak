@@ -52,18 +52,60 @@ class ExtraRegisterPillActivity : AppCompatActivity() {
     //데이터 베이스 객체
     var ahyakDatabase : AhyakDataBase? = null
 
+    val localDate = LocalDateTime.now()
+    val todayYear = localDate.year
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        binding = ActivityExtraRegisterPillBinding.inflate(layoutInflater)
 
         //월, 일 정보 받아오기
         //추가 약 저장하기 위함
         val sharedPref = this.getSharedPreferences("myPref", Context.MODE_PRIVATE)
 
-        val selectedMonth = sharedPref.getInt("selectedMonth", 0)
-        val selectedDay = sharedPref.getInt("selectedDay", 0)
+        var name_modify = intent.getStringExtra("extrapillmodify_name")
+        var vol_modify = intent.getStringExtra("extrapillmodify_volume")
+        var type_modify = intent.getStringExtra("extrapillmodify_type")
+        var selectedMonth = intent.getIntExtra("extrapillmodify_month",0)
+        var selectedDay = intent.getIntExtra("extrapillmodify_day",0)
+        var time_modify = intent.getStringExtra("extrapillmodify_time")
 
+        if (name_modify != null) {
+            Log.d("msg",selectedMonth.toString() + " " + selectedDay.toString())
+            binding.extraRegisterPillNameInputEt.setText(name_modify)
+            binding.extraRegisterPillDosageInputEt.setText(vol_modify)
+            if (type_modify == "mg") {
+                binding.extraRegisterPillDosageMgCv.setBackgroundResource(R.drawable.bg_radi_5dp)
+                binding.extraRegisterPillDosageTabletCv.setBackgroundResource(R.drawable.white_radi_5dp)
+                pillType = "mg"
+            } else {
+                binding.extraRegisterPillDosageTabletCv.setBackgroundResource(R.drawable.bg_radi_5dp)
+                binding.extraRegisterPillDosageMgCv.setBackgroundResource(R.drawable.white_radi_5dp)
+                pillType = "정"
+            }
+            binding.takeDaySelectTv.text = LocalDateTime.now().year.toString() + "." +
+                    (selectedMonth).toString() + "." + (selectedDay).toString() + "."
+            binding.takeTimeSelectTv.text = time_modify
+        } else {
+            selectedMonth = sharedPref.getInt("selectedMonth", 0)
+            selectedDay = sharedPref.getInt("selectedDay", 0)
 
-        binding = ActivityExtraRegisterPillBinding.inflate(layoutInflater)
+            //복약일 기본 설정은 [추가 약]화면으로 진입한 날짜로 선택
+            // 오늘 날짜의 "연도"를 가져와서 변수에 할당(연도만 가져옴)
+            Takedate = todayYear.toString() + "." + (selectedMonth).toString() + "." + (selectedDay).toString() + "."
+            binding.takeDaySelectTv.text = Takedate
+
+            //복약 시간 설정
+            //복약일 디폴트 설정은 [추가 약]화면으로 진입한 시간
+            //현재 시간 가져오기
+            val now = LocalDateTime.now()
+            // 시간 형식 지정 (a: 오전/오후, h:mm -> 12시간제)
+            val formatter = DateTimeFormatter.ofPattern("a hh:mm")
+            //포맷 적용
+            var formattedTime = now.format(formatter)
+            binding.takeTimeSelectTv.text = formattedTime
+        }
 
         binding.extraRegisterPillNameInputEt.imeOptions = EditorInfo.IME_ACTION_DONE
 
@@ -108,13 +150,6 @@ class ExtraRegisterPillActivity : AppCompatActivity() {
             }
         }
 
-        //복약일 기본 설정은 [추가 약]화면으로 진입한 날짜로 선택
-        // 오늘 날짜의 "연도"를 가져와서 변수에 할당(연도만 가져옴)
-        val localDate = LocalDateTime.now()
-        val todayYear = localDate.year
-        Takedate = todayYear.toString() + "." + (selectedMonth).toString() + "." + (selectedDay).toString() + "."
-        binding.takeDaySelectTv.text = Takedate
-
         //날짜 선택
         var TakeMonth = selectedMonth
         var TakeDay = selectedDay
@@ -137,18 +172,6 @@ class ExtraRegisterPillActivity : AppCompatActivity() {
             datePickerDialog.getButton(DatePickerDialog.BUTTON_POSITIVE).setTextColor(textColor)
             datePickerDialog.getButton(DatePickerDialog.BUTTON_NEGATIVE).setTextColor(textColor)
         }
-
-        //복약 시간 설정
-        //복약일 디폴트 설정은 [추가 약]화면으로 진입한 시간
-
-        //현재 시간 가져오기
-        val now = LocalDateTime.now()
-        // 시간 형식 지정 (a: 오전/오후, h:mm -> 12시간제)
-        val formatter = DateTimeFormatter.ofPattern("a hh:mm")
-        //포맷 적용
-        var formattedTime = now.format(formatter)
-
-        binding.takeTimeSelectTv.text = formattedTime
 
         //타임 피커 사용해서 복약 시간 설정하기 - 스피너 형식
         // 타임 피커 사용해서 복약 시간 설정하기 - 스피너 형식
@@ -220,10 +243,10 @@ class ExtraRegisterPillActivity : AppCompatActivity() {
                 //데이터베이스 초기화
                 ahyakDatabase = AhyakDataBase.getInstance(this@ExtraRegisterPillActivity)
 
-                Log.d("Prescription Saving", "$pillName, $selectedMonth, $selectedDay, $pillVolume, $pillType, $formattedTime")
+                Log.d("Prescription Saving", "$pillName, $TakeMonth, $TakeDay, $pillVolume, $pillType, $formattedTime")
                 //추가 약 등록
                 ahyakDatabase!!.getExtraPillDao()?.insertPill(
-                    ExtraPillEntity(pillName, selectedMonth, selectedDay, "기상 직후", pillVolume, pillType, formattedTime)
+                    ExtraPillEntity(pillName, TakeMonth, TakeDay, "기상 직후", pillVolume, pillType, formattedTime)
                 )
             }
 
