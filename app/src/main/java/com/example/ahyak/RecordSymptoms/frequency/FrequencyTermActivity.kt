@@ -113,7 +113,6 @@ class FrequencyTermActivity : AppCompatActivity() {
             //check icon 가시성 관련
             binding.registerFrequentcyTermCheckIc.visibility = View.VISIBLE
             binding.registerFrequentcyDayIv.visibility = View.GONE
-            binding.registerFrequentcyNeedIv.visibility = View.GONE
 
             //간격 지정 레이아웃 등장
             binding.frequentcyTermCl.visibility = View.VISIBLE
@@ -127,27 +126,12 @@ class FrequencyTermActivity : AppCompatActivity() {
             //check icon 가시성 관련
             binding.registerFrequentcyTermCheckIc.visibility = View.GONE
             binding.registerFrequentcyDayIv.visibility = View.VISIBLE
-            binding.registerFrequentcyNeedIv.visibility = View.GONE
 
             //요일 지정 레이아웃 등장
             binding.frequentcyTermCl.visibility = View.GONE
             binding.frequentcyTodayLl.visibility = View.VISIBLE
             binding.frequentcyStartdayCl.visibility = View.VISIBLE
             type = 1
-        }
-
-        //필요할 때 투여 눌렀을 때
-        binding.registerFrequentcyNeedCl.setOnClickListener {
-            //check icon 가시성 관련
-            binding.registerFrequentcyTermCheckIc.visibility = View.GONE
-            binding.registerFrequentcyDayIv.visibility = View.GONE
-            binding.registerFrequentcyNeedIv.visibility = View.VISIBLE
-
-            //요일 지정 레이아웃 등장
-            binding.frequentcyTermCl.visibility = View.GONE
-            binding.frequentcyTodayLl.visibility = View.GONE
-            binding.frequentcyStartdayCl.visibility = View.GONE
-            type = 2
         }
 
         //취소 버튼 눌렀을 때
