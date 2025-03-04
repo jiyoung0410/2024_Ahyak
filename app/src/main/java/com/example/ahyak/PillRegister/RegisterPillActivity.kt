@@ -1,6 +1,7 @@
 package com.example.ahyak.PillRegister
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -92,6 +93,7 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
         }
     }
 
+    @SuppressLint("ResourceAsColor")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -214,15 +216,19 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
 
         //mg 버튼 누르면
         binding.registerPillDosageMgCv.setOnClickListener {
-            binding.registerPillDosageMgCv.setBackgroundResource(R.drawable.bg_radi_5dp)
+            binding.registerPillDosageMgCv.setBackgroundResource(R.drawable.point_radi_5dp)
+            binding.registerPillDosageMgTv.setTextColor(this.getColor(R.color.white))
             binding.registerPillDosageTabletCv.setBackgroundResource(R.drawable.white_radi_5dp)
+            binding.registerPillDosageTabletTv.setTextColor(this.getColor(R.color.black))
             registerpillType = "mg"
         }
 
         //정 버튼 누르면
         binding.registerPillDosageTabletCv.setOnClickListener {
-            binding.registerPillDosageTabletCv.setBackgroundResource(R.drawable.bg_radi_5dp)
+            binding.registerPillDosageTabletCv.setBackgroundResource(R.drawable.point_radi_5dp)
+            binding.registerPillDosageTabletTv.setTextColor(this.getColor(R.color.white))
             binding.registerPillDosageMgCv.setBackgroundResource(R.drawable.white_radi_5dp)
+            binding.registerPillDosageMgTv.setTextColor(this.getColor(R.color.black))
             registerpillType = "정"
         }
 

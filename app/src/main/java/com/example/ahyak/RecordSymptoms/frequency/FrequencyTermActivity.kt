@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import com.example.ahyak.DB.AhyakDataBase
 import com.example.ahyak.PillRegister.RegisterPillActivity
 import com.example.ahyak.R
@@ -165,7 +166,12 @@ class FrequencyTermActivity : AppCompatActivity() {
                 day = selectedDay
             }, year, month, day)
 
+            val textColor : Int = ContextCompat.getColor(this, R.color.point)
+
             datePickerDialog.show()
+            datePickerDialog.getButton(DatePickerDialog.BUTTON_POSITIVE).setTextColor(textColor)
+            datePickerDialog.getButton(DatePickerDialog.BUTTON_NEGATIVE).setTextColor(textColor)
+
         }
 
         //저장 누르면

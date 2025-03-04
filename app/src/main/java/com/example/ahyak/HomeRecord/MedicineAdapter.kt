@@ -56,8 +56,7 @@ class MedicineAdapter() : RecyclerView.Adapter<MedicineAdapter.ViewHolder>() {
         val authService = AuthService(context)
 
         fun bind(addpill: MedicineEntity){
-            binding.itemCalendarPillVolumeTv.text = addpill.MedicineVolume.toString() + addpill.MedicineType
-            binding.itemCalendarPillNameTv.text = addpill.MedicineName
+            binding.itemCalendarPillNameTv.text = addpill.MedicineName + addpill.MedicineVolume.toString() + addpill.MedicineType
 
             // 복용 상태에 따라 layout 스타일 변경
             updateTakeStatus(addpill.MedicineTake)
