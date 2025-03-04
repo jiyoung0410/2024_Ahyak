@@ -19,8 +19,8 @@ class ExtraPillAdapter(val extrapillList: ArrayList<ExtraPillEntity>):RecyclerVi
     var ahyakDatabase : AhyakDataBase? = null
     inner class ViewHolder(val binding : ItemCalendarExtraPillBinding, val context: Context) : RecyclerView.ViewHolder(binding.root){
         fun bind(extarpill: ExtraPillEntity){
-            binding.itemCalendarExtraPillVolumeTv.text = extarpill.PillVolume + extarpill.PillType
-            binding.itemCalendarExtraPillNameTv.text = extarpill.PillName
+            binding.itemCalendarExtraPillNameTv.text = extarpill.PillVolume + extarpill.PillType + " " + extarpill.PillName
+//            binding.itemCalendarExtraPillNameTv.text = extarpill.PillName
             binding.itemCalendarExtraPillEatTimeTv.text = extarpill.PillTime
 
             binding.root.setOnLongClickListener {

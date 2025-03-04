@@ -29,8 +29,6 @@
         android:layout_margin="15dp"
         app:layout_constraintBottom_toBottomOf="parent" />
 
-
-
     <LinearLayout
         android:id="@+id/item_calendar_pill_take_state_ll"
         android:layout_width="60dp"

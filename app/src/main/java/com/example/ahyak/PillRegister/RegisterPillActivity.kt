@@ -1,17 +1,12 @@
 package com.example.ahyak.PillRegister
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.Paint
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -20,10 +15,6 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import androidx.core.content.edit
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ahyak.DB.AhyakDataBase
@@ -39,7 +30,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
+class RegisterPillActivity : AppCompatActivity(), OnItemRegisterClickListener, AutoCompleteView {
 
     private lateinit var binding: ActivityRegisterPillBinding
     var registerpillType: String = "mg"
@@ -594,7 +585,7 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
         }
     }
 
-    fun onItemClick(dataItemRegisterPill: DataItemRegisterPill) {
+    override fun onItemClick(dataItemRegisterPill: DataItemRegisterPill) {
         binding.registerPillNameInputEt.visibility = View.GONE
         binding.registerPillNameInputEt.text.clear()
         binding.registerPillNameInputTv.text = dataItemRegisterPill.RegisterPillName
