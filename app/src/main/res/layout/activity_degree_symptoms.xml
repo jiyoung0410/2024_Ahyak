@@ -57,7 +57,7 @@
             android:gravity="center"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
-            android:background="@drawable/white_radi_15dp_gray1_stroke">
+            android:background="@drawable/light_point_radi_15dp">
 
             <TextView
                 android:id="@+id/degree_symptoms_name_tv"

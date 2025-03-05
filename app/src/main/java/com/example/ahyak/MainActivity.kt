@@ -75,6 +75,10 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_calender -> {
                     replaceFragment(CalenderFragment())
                     return@setOnNavigationItemSelectedListener true
+                }
+                R.id.navigation_setting -> {
+                    replaceFragment(SettingFragment())
+                    return@setOnNavigationItemSelectedListener true
                 }else -> return@setOnNavigationItemSelectedListener false
             }
         }

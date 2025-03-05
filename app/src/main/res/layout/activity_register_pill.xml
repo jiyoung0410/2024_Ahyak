@@ -112,6 +112,7 @@
                 android:layout_marginEnd="5dp"/>
 
             <ImageView
+                android:id="@+id/search_shape_speech_iv"
                 android:layout_width="100dp"
                 android:layout_height="30dp"
                 app:layout_constraintBottom_toTopOf="@id/register_pill_name_input_et"
@@ -285,16 +286,17 @@
                     android:layout_height="27dp"
                     android:gravity="center"
                     android:layout_margin="5dp"
-                    android:background="@drawable/white_radi_5dp"
+                    android:background="@drawable/point_radi_5dp"
                     android:layout_weight="1">
 
                     <TextView
+                        android:id="@+id/register_pill_dosage_mg_tv"
                         android:layout_gravity="center"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="mg"
                         android:textSize="15dp"
-                        android:textColor="@color/black"
+                        android:textColor="@color/white"
                         android:fontFamily="@font/nanum_barun_gothic"/>
 
                 </LinearLayout>
@@ -313,10 +315,11 @@
                     android:layout_height="27dp"
                     android:layout_margin="5dp"
                     android:gravity="center"
-                    android:background="@drawable/bg_radi_5dp"
+                    android:background="@drawable/white_radi_5dp"
                     android:layout_weight="1">
 
                     <TextView
+                        android:id="@+id/register_pill_dosage_tablet_tv"
                         android:layout_gravity="center"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

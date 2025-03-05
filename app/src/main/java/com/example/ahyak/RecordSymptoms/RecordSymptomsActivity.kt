@@ -138,16 +138,15 @@ class RecordSymptomsActivity : AppCompatActivity() {
             binding.recordSymptomsEt.visibility = View.INVISIBLE
             val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(binding.recordSymptomsEt.windowToken, 0) // 키보드 숨김
-
         }
 
-        //저장 누르면
-        binding.recordSymptomsSaveLl.setOnClickListener {
-
-            finish()
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-        }
+//        //저장 누르면
+//        binding.recordSymptomsSaveLl.setOnClickListener {
+//
+//            finish()
+//            val intent = Intent(this, MainActivity::class.java)
+//            startActivity(intent)
+//        }
 
         //'x'누르면
         binding.recordSymptomsCancleIv.setOnClickListener {
