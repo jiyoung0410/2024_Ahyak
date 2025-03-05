@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:id="@+id/item_more_group1">
+        <item
+            android:id="@+id/item_more_menu1"
+            android:title="수정"/>
+    </group>
+
+    <group android:id="@+id/item_more_group2">
+        <item
+            android:id="@+id/item_more_menu2"
+            android:title="삭제"/>
+    </group>
+</menu>

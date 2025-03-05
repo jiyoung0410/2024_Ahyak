@@ -67,6 +67,29 @@ class AddPrescriptionActivity : AppCompatActivity(), DatePickerDialog.OnDateSetL
             binding.addSymptomsStartTv.visibility = View.VISIBLE
         }
 
+        //증상 수정으로 인한 데이터 불러오기
+        val pres_modify = intent.getStringExtra("presmodify_prescription")
+        val hosp_modify = intent.getStringExtra("presmodify_hospital")
+        val start_modify = intent.getStringExtra("presmodify_startdate")
+        val end_modify = intent.getStringExtra("presmodify_enddate")
+
+        if(pres_modify != null) {
+            binding.addSymptomsSymptomNameEt.setText(pres_modify)
+            binding.addSymptomsSymptomNameEt.clearFocus()
+            binding.addSymptomsHospitalNameEt.setText(hosp_modify)
+            binding.addSymptomsSymptomNameEt.clearFocus()
+            binding.addSymptomsStartdayTv.text = start_modify
+            binding.addSymptomsEnddayTv.text = end_modify
+            binding.addSymptomsHospitalNameEt.visibility = View.VISIBLE
+            binding.addSymptomsHospitalNameTv.visibility = View.VISIBLE
+            binding.startLl.visibility = View.VISIBLE
+            binding.addSymptomsStartTv.visibility = View.VISIBLE
+            binding.addSymptomsStartdayTv.visibility = View.VISIBLE
+            binding.endLl.visibility = View.VISIBLE
+            binding.addSymptomsEndTv.visibility = View.VISIBLE
+            binding.addSymptomsEnddayTv.visibility = View.VISIBLE
+        }
+
         //처방 이름 Edit Text
         binding.addSymptomsSymptomNameEt.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {

@@ -115,6 +115,8 @@ interface TodayRecordSymptomDao {
     @Query("SELECT * FROM todayrecordsymptomtable WHERE RecordSymptomMonth =:month AND RecordSymptomDay = :day")
     fun getTodayRecordSymptom(month: Int, day: Int): List<TodayRecordSymptomEntity>
 
+    @Query("DELETE FROM todayrecordsymptomtable WHERE SymptomName = :name")
+    fun deleteTodayRecordSymptom(name: String)
 }
 
 @Dao

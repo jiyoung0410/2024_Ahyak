@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.example.ahyak.FullScreenAlarmActivity
+import com.example.ahyak.MainActivity
 import com.example.ahyak.R
 
 //class AlarmReceiver : BroadcastReceiver() {
@@ -45,7 +46,7 @@ class AlarmReceiver : BroadcastReceiver() { // Alarm이 발생했을 때의 동�
 //        val intent2 = Intent(context, FullScreenAlarmActivity::class.java).apply {
 //            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
 //        }
-        val intent2 = Intent(context, FullScreenAlarmActivity::class.java)
+        val intent2 = Intent(context, MainActivity::class.java)
         val requestCode = intent?.extras!!.getInt("alarm_rqCode")
         val title = intent.extras!!.getString("content")
 
@@ -76,7 +77,7 @@ class AlarmReceiver : BroadcastReceiver() { // Alarm이 발생했을 때의 동�
             setAutoCancel(true)
             setStyle(NotificationCompat.BigTextStyle().bigText("약을 복용하실 시간입니다!"))
 //            addAction(R.drawable.ic_logo,"Snooze",snoozeP)
-            setFullScreenIntent(pendingIntent,true)
+            //setFullScreenIntent(pendingIntent,true)
         }
 
 //        builder2 = NotificationCompat.Builder(context, CHANNEL_ID).apply {

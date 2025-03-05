@@ -13,6 +13,7 @@
         <item name="android:statusBarColor">@color/point</item>
 
         <!-- Customize your theme here. -->
+        <item name="popupMenuBackground">@drawable/bg_popup_menu</item>
     </style>
   <!-- Base application theme. -->
     <style name="Base.Theme.Ahyak" parent="Theme.Material3.DayNight.NoActionBar">

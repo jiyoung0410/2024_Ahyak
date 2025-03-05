@@ -19,6 +19,7 @@
     <color name="text_gray">#878787</color>
     <color name="gray2">#DBDBDB</color>
     <color name="gray3">#EEEEEE</color>
+    <color name="gray_popup">#F6F6F6</color>
     <color name="transparent">#00000000</color>
     <color name="transparent_black">#26000000</color>
 </resources>
