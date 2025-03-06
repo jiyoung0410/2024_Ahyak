@@ -179,6 +179,10 @@ class FrequencyTermActivity : AppCompatActivity() {
                 year = selectedYear
                 month = selectedMonth
                 day = selectedDay
+
+                binding.registerPillSaveGrayLl.visibility = View.GONE
+                binding.registerPillSaveLl.visibility = View.VISIBLE
+
             }, year, month, day)
 
             datePickerDialog.show()
