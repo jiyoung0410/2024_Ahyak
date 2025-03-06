@@ -1,16 +1,12 @@
 package com.example.ahyak.PillRegister
 
-import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.Paint
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -19,10 +15,6 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import androidx.core.content.edit
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ahyak.DB.AhyakDataBase
@@ -38,7 +30,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
+class RegisterPillActivity : AppCompatActivity(), OnItemRegisterClickListener, AutoCompleteView {
 
     private lateinit var binding: ActivityRegisterPillBinding
     var registerpillType: String = "mg"
@@ -92,6 +84,7 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
         }
     }
 
+    @SuppressLint("ResourceAsColor")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -214,15 +207,19 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
 
         //mg 버튼 누르면
         binding.registerPillDosageMgCv.setOnClickListener {
-            binding.registerPillDosageMgCv.setBackgroundResource(R.drawable.bg_radi_5dp)
+            binding.registerPillDosageMgCv.setBackgroundResource(R.drawable.point_radi_5dp)
+            binding.registerPillDosageMgTv.setTextColor(this.getColor(R.color.white))
             binding.registerPillDosageTabletCv.setBackgroundResource(R.drawable.white_radi_5dp)
+            binding.registerPillDosageTabletTv.setTextColor(this.getColor(R.color.black))
             registerpillType = "mg"
         }
 
         //정 버튼 누르면
         binding.registerPillDosageTabletCv.setOnClickListener {
-            binding.registerPillDosageTabletCv.setBackgroundResource(R.drawable.bg_radi_5dp)
+            binding.registerPillDosageTabletCv.setBackgroundResource(R.drawable.point_radi_5dp)
+            binding.registerPillDosageTabletTv.setTextColor(this.getColor(R.color.white))
             binding.registerPillDosageMgCv.setBackgroundResource(R.drawable.white_radi_5dp)
+            binding.registerPillDosageMgTv.setTextColor(this.getColor(R.color.black))
             registerpillType = "정"
         }
 
@@ -255,10 +252,12 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
             binding.registerPillNameInputTv.visibility = View.VISIBLE
             binding.registerPillNameInputTv.text = resultPillName
             binding.registerPillNameInputEt.setText(resultPillName)
-            binding.registerPillSearchIv.visibility = View.GONE
-            binding.speechBubbleRegisterIc.visibility = View.GONE
-            binding.registerPillOcrIv.visibility = View.GONE
-            binding.speechBubbleOcrIc.visibility = View.GONE
+//            binding.registerPillSearchIv.visibility = View.GONE
+//            binding.speechBubbleRegisterIc.visibility = View.GONE
+//            binding.registerPillOcrIv.visibility = View.GONE
+//            binding.speechBubbleOcrIc.visibility = View.GONE
+            binding.searchShapeSpeechIv.visibility = View.GONE
+            binding.registerPillSearchShapeIv.visibility = View.GONE
             binding.registerPillDeleteIv.visibility = View.VISIBLE
             binding.nameUnderbarView.visibility = View.VISIBLE
             binding.registerPillRv.visibility = View.GONE
@@ -272,10 +271,12 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
             binding.registerPillNameInputTv.visibility = View.VISIBLE
             binding.registerPillNameInputTv.text = searchPillName
             binding.registerPillNameInputEt.setText(searchPillName)
-            binding.registerPillSearchIv.visibility = View.GONE
-            binding.speechBubbleRegisterIc.visibility = View.GONE
-            binding.registerPillOcrIv.visibility = View.GONE
-            binding.speechBubbleOcrIc.visibility = View.GONE
+//            binding.registerPillSearchIv.visibility = View.GONE
+//            binding.speechBubbleRegisterIc.visibility = View.GONE
+//            binding.registerPillOcrIv.visibility = View.GONE
+//            binding.speechBubbleOcrIc.visibility = View.GONE
+            binding.searchShapeSpeechIv.visibility = View.GONE
+            binding.registerPillSearchShapeIv.visibility = View.GONE
             binding.registerPillDeleteIv.visibility = View.VISIBLE
             binding.nameUnderbarView.visibility = View.VISIBLE
             binding.registerPillRv.visibility = View.GONE
@@ -289,14 +290,17 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
             binding.registerPillNameInputEt.setText(null)
             binding.registerPillNameInputTv.visibility = View.GONE
             binding.registerPillNameInputEt.hint = "약의 이름을 검색해주세요"
-            binding.registerPillSearchIv.visibility = View.VISIBLE
-            binding.speechBubbleRegisterIc.visibility = View.VISIBLE
-            binding.registerPillOcrIv.visibility = View.VISIBLE
-            binding.speechBubbleOcrIc.visibility = View.VISIBLE
+//            binding.registerPillSearchIv.visibility = View.VISIBLE
+//            binding.speechBubbleRegisterIc.visibility = View.VISIBLE
+//            binding.registerPillOcrIv.visibility = View.VISIBLE
+//            binding.speechBubbleOcrIc.visibility = View.VISIBLE
+            binding.searchShapeSpeechIv.visibility = View.VISIBLE
+            binding.registerPillSearchShapeIv.visibility = View.VISIBLE
             binding.registerPillDeleteIv.visibility = View.GONE
             binding.nameUnderbarView.visibility = View.GONE
             binding.shapeVolumnLl.visibility = View.GONE
             binding.shapeVolumnTv.visibility = View.GONE
+            binding.registerPillRv.visibility = View.GONE
 
         }
 
@@ -581,18 +585,21 @@ class RegisterPillActivity : AppCompatActivity(), AutoCompleteView {
         }
     }
 
-    fun onItemClick(dataItemRegisterPill: DataItemRegisterPill) {
+    override fun onItemClick(dataItemRegisterPill: DataItemRegisterPill) {
         binding.registerPillNameInputEt.visibility = View.GONE
         binding.registerPillNameInputEt.text.clear()
         binding.registerPillNameInputTv.text = dataItemRegisterPill.RegisterPillName
         binding.registerPillNameInputEt.setText(dataItemRegisterPill.RegisterPillName)
         binding.registerPillNameInputTv.visibility = View.VISIBLE
         binding.registerPillRv.visibility = View.GONE
-        binding.registerPillSearchIv.visibility = View.GONE
         binding.registerPillDeleteIv.visibility = View.VISIBLE
-        binding.speechBubbleRegisterIc.visibility = View.GONE
-        binding.registerPillOcrIv.visibility = View.GONE
-        binding.speechBubbleOcrIc.visibility = View.GONE
+        //모양으로 검색 아이콘 비가시
+        binding.registerPillSearchShapeIv.visibility = View.GONE
+        binding.searchShapeSpeechIv.visibility = View.GONE
+//        binding.registerPillSearchIv.visibility = View.GONE
+//        binding.speechBubbleRegisterIc.visibility = View.GONE
+//        binding.registerPillOcrIv.visibility = View.GONE
+//        binding.speechBubbleOcrIc.visibility = View.GONE
 
 
         finish()

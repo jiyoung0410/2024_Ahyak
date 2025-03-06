@@ -25,37 +25,13 @@ class ExtraPillAdapter(val extrapillList: ArrayList<ExtraPillEntity>):RecyclerVi
     var ahyakDatabase : AhyakDataBase? = null
     inner class ViewHolder(val binding : ItemCalendarExtraPillBinding, val context: Context) : RecyclerView.ViewHolder(binding.root){
         fun bind(extrapill: ExtraPillEntity){
-            binding.itemCalendarExtraPillVolumeTv.text = extrapill.PillVolume + extrapill.PillType
-            binding.itemCalendarExtraPillNameTv.text = extrapill.PillName
+            binding.itemCalendarExtraPillNameTv.text = extrapill.PillVolume + extrapill.PillType + " " + extrapill.PillName
+//            binding.itemCalendarExtraPillNameTv.text = extrapill.PillName
             binding.itemCalendarExtraPillEatTimeTv.text = extrapill.PillTime
-
-//            binding.root.setOnLongClickListener {
-//                if(binding.itemCalendarExtraPillDeleteCl.visibility == View.VISIBLE) {
-//                    binding.itemCalendarExtraPillDeleteCl.visibility = View.GONE
-//                } else if(binding.itemCalendarExtraPillDeleteCl.visibility == View.GONE) {
-//                    binding.itemCalendarExtraPillDeleteCl.visibility = View.VISIBLE
-//                }
-//                true
-//            }
-//
-//            binding.itemCalendarExtraPillDeleteCl.setOnClickListener {
-//                val position = adapterPosition
-//                if(position != RecyclerView.NO_POSITION) {
-//                    binding.itemCalendarExtraPillDeleteCl.visibility = View.GONE
-//                    extrapillList.removeAt(position)
-//                    GlobalScope.launch(Dispatchers.IO) {
-//                        ahyakDatabase = AhyakDataBase.getInstance(context)
-//                        ahyakDatabase!!.getExtraPillDao().deletePill(extarpill.PillName,extarpill.PillDay,extarpill.PillSlot)
-//                        notifyItemRemoved(position)
-//                        notifyDataSetChanged()
-//                    }
-//                }
-//            }
 
             binding.itemCalendarExtraPillMoreCl.setOnClickListener {
                 val popupmenu = PopupMenu(context, binding.itemCalendarExtraPillMoreCl)
                 popupmenu.menuInflater.inflate(R.menu.menu_item_more, popupmenu.menu)
-
                 popupmenu.setOnMenuItemClickListener { menuItem ->
                     when(menuItem.itemId) {
                         R.id.item_more_menu1 -> {

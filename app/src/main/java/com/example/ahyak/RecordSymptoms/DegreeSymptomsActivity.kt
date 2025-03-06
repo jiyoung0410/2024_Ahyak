@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 class DegreeSymptomsActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityDegreeSymptomsBinding
-    var degreecolor: Int = 0
+    var degreecolor: Int = 1
 
     //데이터 베이스 객체
     var ahyakDatabase: AhyakDataBase? = null
