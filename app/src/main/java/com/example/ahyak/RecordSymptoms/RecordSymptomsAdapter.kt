@@ -24,16 +24,21 @@ class RecordSymptomsAdapter(val recordSymptoms: ArrayList<TodayRecordSymptomEnti
             val backgroundColor = recordSymptom.SymptomStrength
 
             when (backgroundColor) {
-                1 -> { binding.itemSymptom.setBackgroundResource(R.drawable.light_point_radi_15dp) }
+                1 -> { binding.itemSymptom.setBackgroundResource(R.drawable.light_point_radi_15dp)
+                    binding.itemSymptomName.setTextColor(Color.BLACK)
+                    binding.itemSymptomCancelIv.setImageResource(R.drawable.ic_cancel_black)}
                 2 -> { binding.itemSymptom.setBackgroundResource(R.drawable.point_radi_15dp)
-                    binding.itemSymptomName.setTextColor(Color.WHITE)}
-                3 -> { binding.itemSymptom.setBackgroundResource(R.drawable.light_deep_point_radi_15dp)
-                    binding.itemSymptomName.setTextColor(Color.WHITE)}
-                4 -> { binding.itemSymptom.setBackgroundResource(R.drawable.reguler_deep_point_radi_15dp_)
-                    binding.itemSymptomName.setTextColor(Color.WHITE)}
-                5 -> {
-                    binding.itemSymptom.setBackgroundResource(R.drawable.deep_point_radi_15dp)
                     binding.itemSymptomName.setTextColor(Color.WHITE)
+                    binding.itemSymptomCancelIv.setImageResource(R.drawable.ic_cancel_white)}
+                3 -> { binding.itemSymptom.setBackgroundResource(R.drawable.light_deep_point_radi_15dp)
+                    binding.itemSymptomName.setTextColor(Color.WHITE)
+                    binding.itemSymptomCancelIv.setImageResource(R.drawable.ic_cancel_white)}
+                4 -> { binding.itemSymptom.setBackgroundResource(R.drawable.reguler_deep_point_radi_15dp_)
+                    binding.itemSymptomName.setTextColor(Color.WHITE)
+                    binding.itemSymptomCancelIv.setImageResource(R.drawable.ic_cancel_white)}
+                5 -> { binding.itemSymptom.setBackgroundResource(R.drawable.deep_point_radi_15dp)
+                    binding.itemSymptomName.setTextColor(Color.WHITE)
+                    binding.itemSymptomCancelIv.setImageResource(R.drawable.ic_cancel_white)
                 }
                 else -> { binding.itemSymptom.setBackgroundResource(R.drawable.white_radi_15dp_gray1_stroke) }
             }

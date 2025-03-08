@@ -1,20 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/item_symptom"
-    android:layout_width="100dp"
-    android:layout_height="32dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:gravity="center"
     android:layout_marginTop="10dp"
+    android:paddingVertical="8dp"
+    android:paddingHorizontal="22dp"
     android:background="@drawable/white_radi_15dp_gray1_stroke">
 
         <TextView
             android:id="@+id/item_symptom_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             android:text="불규칙한 심박"
-            android:textSize="14dp"
+            android:textSize="14sp"
             android:textColor="@color/black"
             android:fontFamily="@font/nanum_barun_gothic_bold" />
+
+        <ImageView
+            android:id="@+id/item_symptom_cancel_iv"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/item_symptom_name"
+            android:layout_marginStart="5dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_cancel_black"/>
 
 </LinearLayout>
