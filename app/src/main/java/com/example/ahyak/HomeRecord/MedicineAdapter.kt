@@ -128,7 +128,8 @@ class MedicineAdapter() : RecyclerView.Adapter<MedicineAdapter.ViewHolder>() {
                                 addpillList.removeAt(position)
                                 GlobalScope.launch(Dispatchers.IO) {
                                     ahyakDatabase = AhyakDataBase.getInstance(context)
-                                    ahyakDatabase!!.getMedicineDao().deleteMedicine(addpill.id)
+                                    ahyakDatabase!!.getMedicineDao().deletePrescriptionAllMedicine(
+                                        addpill.PrescriptionName, addpill.MedicineName, addpill.MedicineVolume, addpill.MedicineType)
                                     withContext(Dispatchers.Main) {
                                         notifyItemRemoved(position)
                                         notifyDataSetChanged()
