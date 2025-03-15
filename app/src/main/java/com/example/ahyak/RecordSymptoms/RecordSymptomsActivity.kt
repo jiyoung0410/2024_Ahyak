@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.ahyak.DB.AhyakDataBase
 import com.example.ahyak.DB.TodayRecordEntity
 import com.example.ahyak.DB.TodayRecordSymptomEntity
@@ -159,8 +160,34 @@ class RecordSymptomsActivity : AppCompatActivity() {
     }
 
     private fun initrecordSymptomsadapter() {
+
+        val staggeredGridLayoutManager = StaggeredGridLayoutManager(
+            2, // 가로 3개 열
+            StaggeredGridLayoutManager.HORIZONTAL // 가로 방향
+        )
+
         recordSymptomsadapter = RecordSymptomsAdapter(todayrecordSymptoms)
+        binding.recordSymptomsRv.layoutManager = staggeredGridLayoutManager
         binding.recordSymptomsRv.adapter = recordSymptomsadapter
-        binding.recordSymptomsRv.layoutManager = GridLayoutManager(this, 3)
+        staggeredGridLayoutManager.reverseLayout = false // 추가 순서를 왼쪽부터 강제
+        binding.recordSymptomsRv.setHasFixedSize(false) // 크기 고정 해제 시 화면에 안 뜰 가능성 방지
+        binding.recordSymptomsRv.isNestedScrollingEnabled = true // NestedScrollView 내부라면 추가
+        binding.recordSymptomsRv.itemAnimator = null
+
+
+
+        //그리드 레이아웃 칸 크기 설정
+//        val columnWidth = 300 // 각 열의 최소 너비 지정 (단위: px)
+//        val autoFitGridLayoutManager = AutoFitGridLayoutManager(this, columnWidth)
+//        recordSymptomsadapter = RecordSymptomsAdapter(todayrecordSymptoms)
+//        binding.recordSymptomsRv.layoutManager = autoFitGridLayoutManager
+//        binding.recordSymptomsRv.adapter =recordSymptomsadapter
+//        binding.recordSymptomsRv.setHasFixedSize(true)
+
+        //기본 그리드 레이아웃 설정(3칸)
+//        recordSymptomsadapter = RecordSymptomsAdapter(todayrecordSymptoms)
+//        binding.recordSymptomsRv.setHasFixedSize(false)
+//        binding.recordSymptomsRv.adapter = recordSymptomsadapter
+//        binding.recordSymptomsRv.layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
     }
 }

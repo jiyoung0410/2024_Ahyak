@@ -5,9 +5,9 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:gravity="center"
-    android:layout_marginTop="10dp"
+    android:layout_margin="6dp"
     android:paddingVertical="8dp"
-    android:paddingHorizontal="22dp"
+    android:paddingHorizontal="15dp"
     android:background="@drawable/white_radi_15dp_gray1_stroke">
 
         <TextView
@@ -17,8 +17,9 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:text="불규칙한 심박"
-            android:textSize="14sp"
+            android:text="질 분비물 이상"
+            android:lines="1"
+            android:textSize="12sp"
             android:textColor="@color/black"
             android:fontFamily="@font/nanum_barun_gothic_bold" />
 
@@ -31,6 +32,6 @@
             app:layout_constraintStart_toEndOf="@id/item_symptom_name"
             android:layout_marginStart="5dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/ic_cancel_black"/>
+            android:src="@drawable/ic_cancel_white"/>
 
 </LinearLayout>
