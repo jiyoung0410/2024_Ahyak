@@ -61,9 +61,11 @@ class PrescriptionAdapter(val onClick: () -> Unit, val onAddPillClick: (Prescrip
             binding.itemCalendarSymptomPillRv.apply {
                 layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
+                loadMedicinesForPrescription(sympotm.Prescription, selectedMonth, selectedDay, selectedSlot!!)
+
                 binding.root.setOnClickListener {
                     // 해당 증상에 대한 약 데이터 가져오기
-                    loadMedicinesForPrescription(sympotm.Prescription, selectedMonth, selectedDay, selectedSlot!!)
+                    //loadMedicinesForPrescription(sympotm.Prescription, selectedMonth, selectedDay, selectedSlot!!)
 
                     selectedPosition = adapterPosition // 현재 선택된 아이템의 위치 저장
                     if (selectedBoolean) {
