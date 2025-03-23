@@ -112,10 +112,10 @@ class MedicineAdapter() : RecyclerView.Adapter<MedicineAdapter.ViewHolder>() {
                         R.id.item_more_menu1 -> {
                             //수정 시 행동
                             val intent = Intent(binding.root.context, RegisterPillActivity::class.java).apply {
-//                                putExtra("presmodify_prescription", sympotm.Prescription)
-//                                putExtra("presmodify_hospital", sympotm.Hospital)
-//                                putExtra("presmodify_startdate", sympotm.Start_Date)
-//                                putExtra("presmodify_enddate",sympotm.End_Date)
+                                putExtra("mdcmodify_medicine", addpill.MedicineName)
+                                putExtra("mdcmodify_type", addpill.MedicineType)
+                                putExtra("mdcmodify_vol", addpill.MedicineVolume)
+                                putExtra("mdcmodify_flag", true)
                             }
                             //parentFragmentManager.popBackStack()
                             binding.root.context.startActivity(intent)

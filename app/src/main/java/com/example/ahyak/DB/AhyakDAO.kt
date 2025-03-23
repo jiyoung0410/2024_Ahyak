@@ -63,6 +63,9 @@ interface MedicineDao {
     @Query("DELETE FROM MedicineTable WHERE PrescriptionName = :prescription AND MedicineName = :medicine AND MedicineVolume = :volume AND MedicineType = :type")
     fun deletePrescriptionAllMedicine(prescription: String, medicine: String, volume: Float, type: String)
 
+    @Query("DELETE FROM MedicineTable WHERE PrescriptionName = :prescription AND MedicineName = :medicine AND MedicineVolume = :volume AND MedicineType = :type AND MedicineTake = :take")
+    fun deletePrescriptionWhetherTakeMedicine(prescription: String, medicine: String, volume: Float, type: String, take: Boolean)
+
     @Query("SELECT * FROM MedicineTable WHERE MedicineMonth = :month AND MedicineDay = :day AND MedicineSlot = :slot AND PrescriptionName = :prescription" )
     fun getMedicine(month: Int?, day: Int?, slot: String?, prescription: String?): List<MedicineEntity>
 

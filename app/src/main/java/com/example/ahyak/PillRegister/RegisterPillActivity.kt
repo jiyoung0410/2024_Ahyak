@@ -29,8 +29,9 @@ import com.example.ahyak.remote.AutoCompleteView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class RegisterPillActivity : AppCompatActivity(), OnItemRegisterClickListener, AutoCompleteView {
+class RegisterPillActivity : AppCompatActivity(), OnItemRegisterClickListener, AutoCompleteView, ModifyPillDialogInterface {
 
     private lateinit var binding: ActivityRegisterPillBinding
     var registerpillType: String = "mg"
@@ -60,6 +61,10 @@ class RegisterPillActivity : AppCompatActivity(), OnItemRegisterClickListener, A
     private var frequenctType : Int = -1
 
     private val selectedTimes = mutableListOf<String>()
+    var mdc_modify: String? = ""
+    var type_modify: String? = ""
+    var vol_modify: Float? = 0.0f
+    var flag_modify = false
 
     override fun onResume() {
         super.onResume()
@@ -81,6 +86,43 @@ class RegisterPillActivity : AppCompatActivity(), OnItemRegisterClickListener, A
             binding.registerPillFrequencySelectTv.setText("$frequenct 마다")
         }else{
             binding.registerPillFrequencySelectTv.setText("필요시 투여")
+        }
+
+        mdc_modify = intent.getStringExtra("mdcmodify_medicine")
+        type_modify = intent.getStringExtra("mdcmodify_type")
+        vol_modify = intent.getFloatExtra("mdcmodify_vol", -1.0f)
+        flag_modify = intent.getBooleanExtra("mdcmodify_flag", false)
+
+        if (flag_modify) {
+            binding.registerPillNameInputEt.visibility = View.GONE
+            binding.registerPillNameInputTv.visibility = View.VISIBLE
+            binding.registerPillNameInputTv.text = mdc_modify
+            binding.registerPillNameInputEt.setText(mdc_modify)
+            binding.registerPillDeleteIv.visibility = View.VISIBLE
+            binding.nameUnderbarView.visibility = View.VISIBLE
+            binding.searchShapeSpeechIv.visibility = View.GONE
+            binding.registerPillSearchShapeIv.visibility = View.GONE
+            binding.registerPillRv.visibility = View.GONE
+            binding.shapeVolumnLl.visibility = View.VISIBLE
+            binding.shapeVolumnTv.visibility = View.VISIBLE
+            binding.registerPillVolumeInputEt.setText(vol_modify.toString())
+            if (type_modify == "mg") {
+                binding.registerPillDosageMgCv.setBackgroundResource(R.drawable.point_radi_5dp)
+                binding.registerPillDosageMgTv.setTextColor(this.getColor(R.color.white))
+                binding.registerPillDosageTabletCv.setBackgroundResource(R.drawable.white_radi_5dp)
+                binding.registerPillDosageTabletTv.setTextColor(this.getColor(R.color.black))
+                registerpillType = "mg"
+            } else {
+                binding.registerPillDosageTabletCv.setBackgroundResource(R.drawable.point_radi_5dp)
+                binding.registerPillDosageTabletTv.setTextColor(this.getColor(R.color.white))
+                binding.registerPillDosageMgCv.setBackgroundResource(R.drawable.white_radi_5dp)
+                binding.registerPillDosageMgTv.setTextColor(this.getColor(R.color.black))
+                registerpillType = "정"
+            }
+            binding.shapeFreqLl.visibility = View.VISIBLE
+            binding.shapeFreqTv.visibility = View.VISIBLE
+            binding.shapeFreqView.visibility = View.VISIBLE
+            binding.registerPillVolumeInputEt.clearFocus()
         }
     }
 
@@ -333,90 +375,79 @@ class RegisterPillActivity : AppCompatActivity(), OnItemRegisterClickListener, A
 
         //저장 눌렀을 때
         binding.registerPillSaveLl.setOnClickListener {
-            //처방 이름 - prescriptionName
-            //약 이름 가져오기
-            val registerPilltext = binding.registerPillNameInputEt.text.toString()
+            if (flag_modify) {
+                val dialog = ModifyPillDialogFragment(this)
+                //Dialog가 띄워진 동안 배경 클릭 막기
+                dialog.isCancelable = false
+                dialog.show(this.supportFragmentManager, "ModifyPillDialog")
+            } else {
+                //처방 이름 - prescriptionName
+                //약 이름 가져오기
+                val registerPilltext = binding.registerPillNameInputEt.text.toString()
 
-            //월, 일
-            val selectedMonth = sharedPref.getInt("selectedMonth", 0)
-            val selectedDay = sharedPref.getInt("selectedDay", 0)
+                // 저장된 문자열을 dates 리스트로 변환하여 사용
+                val datesString = sharedPref.getString("dates", "") ?: ""
+                val dates = datesString.split(",").map { it.trim() }
 
-            //시간대 - list
-            Log.d("시간대", "$selectedDays")
+                //용량 데이터 가져오기
+                registerPillVolume = binding.registerPillVolumeInputEt.text.toString()
+                val floatVolume = registerPillVolume.toFloat()
 
-//            //빈도 가져오기
-//            val dates = intent.getStringArrayListExtra("dates")
-//            dates?.let {
-//                // dates 리스트를 처리하는 코드
-//                Log.d("RegisterPillActivity", "Received dates: $it")
-//            }
+                //용량 타입 - registerPillType
+                //Take - 0
 
-            // 저장된 문자열을 dates 리스트로 변환하여 사용
-            val datesString = sharedPref.getString("dates", "") ?: ""
-            val dates = datesString.split(",").map { it.trim() }
-            dates?.let {
-                // dates 리스트를 처리하는 코드
-                Log.d("RegisterPillActivity", "Received dates: $it")
-            }
+                GlobalScope.launch(Dispatchers.IO) {
+                    //데이터베이스 초기화
+                    ahyakDatabase = AhyakDataBase.getInstance(this@RegisterPillActivity)
 
-            //용량 데이터 가져오기
-            registerPillVolume = binding.registerPillVolumeInputEt.text.toString()
-            val floatVolume = registerPillVolume.toFloat()
+                    // 데이터베이스에서 해당 이름을 가진 자유기록 약이 있는지 불러오기
+                    val existingMedicineList2 =
+                        ahyakDatabase!!.getFreeMedicineDao().getFreeMedicine(registerPilltext)
 
-            //용량 타입 - registerPillType
-            //Take - 0
+                    // 약 이름만 추출
+                    existingMedicineNames =
+                        existingMedicineList2?.map { it.FreeMedicineName }.toString()
 
-            GlobalScope.launch(Dispatchers.IO) {
-                //데이터베이스 초기화
-                ahyakDatabase = AhyakDataBase.getInstance(this@RegisterPillActivity)
+                    registerPillFree = existingMedicineNames.contains(registerPilltext)
 
-                // 데이터베이스에서 해당 이름을 가진 자유기록 약이 있는지 불러오기
-                val existingMedicineList2 =
-                    ahyakDatabase!!.getFreeMedicineDao().getFreeMedicine(registerPilltext)
+                    //Free Medicine인지 확인
+                    if (dates != null) {
+                        for (date in dates) {
+                            val splitDate = date.split(".") // 날짜를 월과 일로 분리
+                            val selectedMonth = splitDate[1].toInt()
+                            val selectedDay = splitDate[2].toInt()
 
-                // 약 이름만 추출
-                existingMedicineNames =
-                    existingMedicineList2?.map { it.FreeMedicineName }.toString()
-
-                registerPillFree = existingMedicineNames.contains(registerPilltext)
-
-                //Free Medicine인지 확인
-                if (dates != null) {
-                    for (date in dates) {
-                        val splitDate = date.split(".") // 날짜를 월과 일로 분리
-                        val selectedMonth = splitDate[1].toInt()
-                        val selectedDay = splitDate[2].toInt()
-
-                        for (time in selectedDays) {
-                            // 약 추가
-                            ahyakDatabase!!.getMedicineDao().insertMedicine(
-                                MedicineEntity(
-                                    registerPilltext,
-                                    PrescriptionName,
-                                    selectedMonth,
-                                    selectedDay,
-                                    time,
-                                    floatVolume,
-                                    registerpillType,
-                                    false,
-                                    registerPillFree
+                            for (time in selectedDays) {
+                                // 약 추가
+                                ahyakDatabase!!.getMedicineDao().insertMedicine(
+                                    MedicineEntity(
+                                        registerPilltext,
+                                        PrescriptionName,
+                                        selectedMonth,
+                                        selectedDay,
+                                        time,
+                                        floatVolume,
+                                        registerpillType,
+                                        false,
+                                        registerPillFree
+                                    )
                                 )
-                            )
-                            //잘 저장되었는지 확인
-                            val existingMedicineList =
-                                ahyakDatabase!!.getMedicineDao()
-                                    .getMedicine(selectedMonth, selectedDay, time, PrescriptionName)
-                            Log.d("register Medicine check", "$existingMedicineList")
+                                //잘 저장되었는지 확인
+                                val existingMedicineList =
+                                    ahyakDatabase!!.getMedicineDao()
+                                        .getMedicine(selectedMonth, selectedDay, time, PrescriptionName)
+                                Log.d("register Medicine check", "$existingMedicineList")
+                            }
                         }
                     }
+                    //빈도 text 설정 reset을 위한 코드
+                    editor.putInt("type",-1)
+                    editor.apply()
                 }
-                //빈도 text 설정 reset을 위한 코드
-                editor.putInt("type",-1)
-                editor.apply()
+                finish()
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
             }
-            finish()
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
         }
         setContentView(binding.root)
     }
@@ -651,6 +682,92 @@ class RegisterPillActivity : AppCompatActivity(), OnItemRegisterClickListener, A
             binding.registerPillSaveGrayLl.visibility = View.GONE
             binding.registerPillSaveLl.visibility = View.VISIBLE
         }
-//
+    }
+
+    override fun onConfirmButton1Click() {
+        GlobalScope.launch(Dispatchers.IO) {
+            ahyakDatabase = AhyakDataBase.getInstance(this@RegisterPillActivity)
+            ahyakDatabase!!.getMedicineDao().deletePrescriptionAllMedicine(PrescriptionName, mdc_modify!!, vol_modify!!, type_modify!!)
+        }
+        RegisterPill()
+    }
+
+    override fun onConfirmButton2Click() {
+        GlobalScope.launch(Dispatchers.IO) {
+            ahyakDatabase = AhyakDataBase.getInstance(this@RegisterPillActivity)
+            ahyakDatabase!!.getMedicineDao().deletePrescriptionWhetherTakeMedicine(PrescriptionName, mdc_modify!!, vol_modify!!, type_modify!!, false)
+        }
+        RegisterPill()
+    }
+
+    override fun onConfirmButton3Click() {
+        RegisterPill()
+    }
+
+    fun RegisterPill() {
+        val sharedPref = this.getSharedPreferences("myPref", Context.MODE_PRIVATE)
+        val editor = sharedPref.edit()
+
+        //약 이름 가져오기
+        val registerPilltext = binding.registerPillNameInputEt.text.toString()
+
+        // 저장된 문자열을 dates 리스트로 변환하여 사용
+        val datesString = sharedPref.getString("dates", "") ?: ""
+        val dates = datesString.split(",").map { it.trim() }
+
+        //용량 데이터 가져오기
+        registerPillVolume = binding.registerPillVolumeInputEt.text.toString()
+        val floatVolume = registerPillVolume.toFloat()
+
+        GlobalScope.launch(Dispatchers.IO) {
+            //데이터베이스 초기화
+            ahyakDatabase = AhyakDataBase.getInstance(this@RegisterPillActivity)
+
+            // 데이터베이스에서 해당 이름을 가진 자유기록 약이 있는지 불러오기
+            val existingMedicineList2 =
+                ahyakDatabase!!.getFreeMedicineDao().getFreeMedicine(registerPilltext)
+
+            // 약 이름만 추출
+            existingMedicineNames =
+                existingMedicineList2?.map { it.FreeMedicineName }.toString()
+
+            registerPillFree = existingMedicineNames.contains(registerPilltext)
+
+            //Free Medicine인지 확인
+            if (dates != null) {
+                for (date in dates) {
+                    val splitDate = date.split(".") // 날짜를 월과 일로 분리
+                    val selectedMonth = splitDate[1].toInt()
+                    val selectedDay = splitDate[2].toInt()
+
+                    for (time in selectedDays) {
+                        // 약 추가
+                        ahyakDatabase!!.getMedicineDao().insertMedicine(
+                            MedicineEntity(
+                                registerPilltext,
+                                PrescriptionName,
+                                selectedMonth,
+                                selectedDay,
+                                time,
+                                floatVolume,
+                                registerpillType,
+                                false,
+                                registerPillFree
+                            )
+                        )
+                        //잘 저장되었는지 확인
+                        val existingMedicineList =
+                            ahyakDatabase!!.getMedicineDao()
+                                .getMedicine(selectedMonth, selectedDay, time, PrescriptionName)
+                        Log.d("register Medicine check", "$existingMedicineList")
+                    }
+                }
+            }
+            //빈도 text 설정 reset을 위한 코드
+            editor.putInt("type",-1)
+            editor.apply()
+
+            finish()
+        }
     }
 }
