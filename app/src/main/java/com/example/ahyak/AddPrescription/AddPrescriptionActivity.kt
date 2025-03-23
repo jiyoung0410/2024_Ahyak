@@ -77,7 +77,7 @@ class AddPrescriptionActivity : AppCompatActivity(), DatePickerDialog.OnDateSetL
             binding.addSymptomsSymptomNameEt.setText(pres_modify)
             binding.addSymptomsSymptomNameEt.clearFocus()
             binding.addSymptomsHospitalNameEt.setText(hosp_modify)
-            binding.addSymptomsSymptomNameEt.clearFocus()
+            binding.addSymptomsHospitalNameEt.clearFocus()
             binding.addSymptomsStartdayTv.text = start_modify
             binding.addSymptomsEnddayTv.text = end_modify
             binding.addSymptomsHospitalNameEt.visibility = View.VISIBLE
