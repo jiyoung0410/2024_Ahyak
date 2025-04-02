@@ -87,4 +87,8 @@ dependencies {
     implementation ("com.google.mlkit:text-recognition-korean:16.0.0")
     // To recognize Korean script
     implementation ("com.google.android.gms:play-services-mlkit-text-recognition-korean:16.0.1")
+    //HTTP Request 정보 관련
+    implementation("com.squareup.okhttp3:logging-interceptor:3.12.1")
+    //kakao 로그인
+    implementation("com.kakao.sdk:v2-user:2.13.0")
 }
