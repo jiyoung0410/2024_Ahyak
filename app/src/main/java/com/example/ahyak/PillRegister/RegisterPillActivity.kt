@@ -343,6 +343,14 @@ class RegisterPillActivity : AppCompatActivity(), OnItemRegisterClickListener, A
             binding.shapeVolumnLl.visibility = View.GONE
             binding.shapeVolumnTv.visibility = View.GONE
             binding.registerPillRv.visibility = View.GONE
+            binding.shapeVolumnTv.visibility = View.GONE
+            binding.shapeVolumnLl.visibility = View.GONE
+            binding.shapeFreqTv.visibility = View.GONE
+            binding.shapeFreqLl.visibility = View.GONE
+            binding.shapeFreqView.visibility = View.GONE
+            binding.shapeSlotTv.visibility = View.GONE
+            binding.shapeSlotLl.visibility = View.GONE
+            binding.shapeSlotView.visibility = View.GONE
 
         }
 
