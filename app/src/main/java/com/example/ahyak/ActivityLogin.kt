@@ -35,6 +35,17 @@ class ActivityLogin : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        var count = 0
+        binding.logoLl.setOnClickListener {
+            count = count+1
+            if(count==5){
+                val intent = Intent(this, MainActivity::class.java)
+                finish()
+                startActivity(intent)
+            }
+            Log.d("count", "$count")
+        }
+
         binding.loginBtn.setOnClickListener{
             // 카카오톡이 설치되어 있으면 카카오톡으로 로그인, 아니면 카카오계정으로 로그인
             if (UserApiClient.instance.isKakaoTalkLoginAvailable(this)) {
