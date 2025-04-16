@@ -155,6 +155,14 @@ class RegisterPillActivity : AppCompatActivity(), OnItemRegisterClickListener, A
             if (actionId1 == EditorInfo.IME_ACTION_DONE) {
                 binding.shapeVolumnLl.visibility = View.VISIBLE
                 binding.shapeVolumnTv.visibility = View.VISIBLE
+                binding.registerPillNameInputTv.visibility = View.VISIBLE
+                binding.registerPillNameInputTv.text = binding.registerPillNameInputEt.text
+                binding.registerPillNameInputEt.visibility = View.GONE
+                binding.searchShapeSpeechIv.visibility = View.GONE
+                binding.registerPillSearchShapeIv.visibility = View.GONE
+                binding.registerPillDeleteIv.visibility = View.VISIBLE
+                binding.nameUnderbarView.visibility = View.VISIBLE
+                binding.registerPillRv.visibility = View.GONE
                 // Enter 키가 눌렸을 때 실행할 동작
                 binding.registerPillNameInputEt.clearFocus() // 포커스 해제
                 val inputMethodManager =
@@ -343,8 +351,6 @@ class RegisterPillActivity : AppCompatActivity(), OnItemRegisterClickListener, A
             binding.shapeVolumnLl.visibility = View.GONE
             binding.shapeVolumnTv.visibility = View.GONE
             binding.registerPillRv.visibility = View.GONE
-            binding.shapeVolumnTv.visibility = View.GONE
-            binding.shapeVolumnLl.visibility = View.GONE
             binding.shapeFreqTv.visibility = View.GONE
             binding.shapeFreqLl.visibility = View.GONE
             binding.shapeFreqView.visibility = View.GONE
