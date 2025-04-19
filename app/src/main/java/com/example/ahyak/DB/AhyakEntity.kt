@@ -3,7 +3,24 @@ package com.example.ahyak.DB
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.google.gson.annotations.SerializedName
 
+//API 연동
+data class MessageResponse(
+    @SerializedName("message") val message : String
+)
+
+data class SignupRequest(
+    @SerializedName("nickName") val nickname : String,
+    @SerializedName("email") val email : String
+)
+
+data class LoginResponse(
+    @SerializedName("accessToken") val accessToken : String,
+    @SerializedName("refreshToken") val refreshToken : String
+)
+
+//RoomDB
 @Entity(tableName = "AhyakTable" )
 data class AhyakEntity(
     val searchsympotmName : String
