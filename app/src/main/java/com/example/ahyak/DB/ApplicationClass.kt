@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit
 class ApplicationClass : Application() {
     companion object {
         //const val X_ACCESS_TOKEN : String = "x-access-token"
-        const val DEV_URL : String = "https://www.kuit2mealplanb.shop" //개발용 URL
+        const val DEV_URL : String = "https://ahyak-be.vercel.app" //개발용 URL
         const val PROD_URL : String = "" //배포용 URL
 
         const val BASE_URL : String = DEV_URL // 상황에 따라 DEV와 PROD로 바뀐는 작업용 URL
