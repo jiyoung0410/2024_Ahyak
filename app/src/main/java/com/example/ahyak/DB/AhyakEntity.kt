@@ -20,6 +20,10 @@ data class LoginResponse(
     @SerializedName("refreshToken") val refreshToken : String
 )
 
+data class RefreshTokenRequest(
+    @SerializedName("refreshToken") val refreshToken: String
+)
+
 //RoomDB
 @Entity(tableName = "AhyakTable" )
 data class AhyakEntity(

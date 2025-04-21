@@ -4,6 +4,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import com.example.ahyak.DB.AuthService
+import com.example.ahyak.DB.LoginView
 import com.example.ahyak.OCR.OCRprescriptionActivity
 import com.example.ahyak.databinding.ActivityLoginBinding
 import com.example.ahyak.databinding.ActivityMainBinding
@@ -12,7 +14,7 @@ import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
 
-class ActivityLogin : AppCompatActivity() {
+class ActivityLogin : AppCompatActivity(), LoginView {
 
     companion object {
         fun newInstance() = ActivityLogin()
@@ -52,14 +54,59 @@ class ActivityLogin : AppCompatActivity() {
                         UserApiClient.instance.loginWithKakaoAccount(this, callback = callback)
                     } else if (token != null) {
                         Log.i("KakaoLogin", "카카오톡으로 로그인 성공 ${token.accessToken}")
-                        val intent = Intent(this, MainActivity::class.java)
-                        finish()
-                        startActivity(intent)
+                        // 사용자 정보 요청
+                        UserApiClient.instance.me { user, meError ->
+                            if (meError != null) {
+                                Log.e("KakaoLogin", "사용자 정보 요청 실패", meError)
+                            } else if (user != null) {
+                                val nickname = user.kakaoAccount?.profile?.nickname
+                                val email = user.kakaoAccount?.email
+
+                                Log.i("KakaoLogin", "사용자 이름: $nickname")
+                                Log.i("KakaoLogin", "사용자 이메일: $email")
+
+                                // 여기서 서버에 nickname, email 전달해서 회원가입 or 로그인 처리 가능
+                                // signup(nickname ?: "Unknown", email ?: "Unknown")
+                                val authService = AuthService(this)
+                                authService.setLoginView(this)
+                                authService.signup(nickname!!,email!!)
+
+                                // 다음 화면으로 이동 예시
+//                                val intent = Intent(this, MainActivity::class.java)
+//                                startActivity(intent)
+//                                finish()
+                            }
+                        }
                     }
                 }
             } else {
                 UserApiClient.instance.loginWithKakaoAccount(this, callback = callback)
             }
         }
+    }
+
+    override fun SignupLoading() {
+
+    }
+
+    override fun SignupSuccess() {
+        Log.d("signup","회원가입 성공")
+    }
+
+    override fun SignupFailure() {
+        Log.d("signup","회원가입 실패")
+    }
+
+    override fun LoginLoading() {
+
+    }
+
+    override fun LoginSuccess() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+    }
+
+    override fun LoginFailure() {
+
     }
 }
