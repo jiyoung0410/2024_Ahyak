@@ -12,6 +12,11 @@ interface RetroInterface {
         @Body request: SignupRequest
     ) : Call<BaseResponse<MessageResponse>>
 
+    @POST("auth/refresh")
+    fun refreshToken(
+        @Body request: RefreshTokenRequest
+    ) : Call<BaseResponse<LoginResponse>>
+
     @POST("auth/login")
     fun login(
         @Body request: SignupRequest

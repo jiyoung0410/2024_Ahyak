@@ -32,7 +32,7 @@
     </queries>
 
     <application
-        android:name=".DB.GlobalApplication"
+        android:name=".DB.ApplicationClass"
         android:allowBackup="false"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
