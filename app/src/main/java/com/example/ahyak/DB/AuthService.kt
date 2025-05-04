@@ -104,4 +104,32 @@ class AuthService(private val context: Context) {
                 }
             })
     }
+    //Daily Status - 조회
+    fun getDailyStatus(date: String) {
+        authService.getDailyStatus(date)
+            .enqueue(object : Callback<BaseResponse<DailyStatusResponse>> {
+                override fun onResponse(
+                    call: Call<BaseResponse<DailyStatusResponse>>,
+                    response: Response<BaseResponse<DailyStatusResponse>>
+                ) {
+                    if (response.isSuccessful) {
+                        val symptomData = response.body()?.data
+                        if (symptomData != null) {
+                            Log.d("DailyStatus", symptomData.toString())
+                            Toast.makeText(context, "데이터 로딩 성공", Toast.LENGTH_SHORT).show()
+                        } else {
+                            Toast.makeText(context, "데이터 없음", Toast.LENGTH_SHORT).show()
+                        }
+                    } else {
+                        Log.e("DailyStatus", "응답 실패: ${response.code()}")
+                    }
+                }
+
+                override fun onFailure(call: Call<BaseResponse<DailyStatusResponse>>, t: Throwable) {
+                    Log.e("DailyStatus", "API 호출 실패: ${t.message}")
+                    Toast.makeText(context, "API 호출 실패", Toast.LENGTH_SHORT).show()
+                }
+            })
+    }
+
 }
