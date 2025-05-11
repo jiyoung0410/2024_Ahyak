@@ -45,6 +45,7 @@ data class Prescription(
     @SerializedName("is_Active") val is_Active: Boolean,
     @SerializedName("_id") val _id: String,
     @SerializedName("__v") val __v: Int
+)
 
 //DailyStatus - 조회(Request) 및 등록(Response)
 data class DailyStatusResponse(
