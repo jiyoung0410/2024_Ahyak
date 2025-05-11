@@ -24,6 +24,7 @@ data class RefreshTokenRequest(
     @SerializedName("refreshToken") val refreshToken: String
 )
 
+
 data class RegistPresRequest(
     @SerializedName("name") val name: String,
     @SerializedName("hospital") val hospital: String,
@@ -44,6 +45,26 @@ data class Prescription(
     @SerializedName("is_Active") val is_Active: Boolean,
     @SerializedName("_id") val _id: String,
     @SerializedName("__v") val __v: Int
+
+//DailyStatus - 조회(Request) 및 등록(Response)
+data class DailyStatusResponse(
+    @SerializedName("status") val status: String,
+    @SerializedName("data") val dailyStatus: DailyStatus
+)
+
+data class DailyStatus(
+    @SerializedName("_id") val id: String,
+    @SerializedName("user_id") val userId: String,
+    @SerializedName("date") val date: String,
+    @SerializedName("discomforts") val discomforts: List<Discomfort>,
+    @SerializedName("additional_info") val additionalInfo: String,
+    @SerializedName("__v") val version: Int
+)
+
+data class Discomfort(
+    @SerializedName("description") val description: String,
+    @SerializedName("severity") val severity: Int,
+    @SerializedName("_id") val id: String
 )
 
 //RoomDB

@@ -10,6 +10,7 @@ class XAccessTokenInterceptor: Interceptor {
         val builder: Request.Builder = chain.request().newBuilder()
 
         val accessToken: String? = getAccessToken()
+        Log.d("Interceptor", "AccessToken: $accessToken")
 
         accessToken?.let {
             builder.addHeader("Authorization","Bearer $accessToken")

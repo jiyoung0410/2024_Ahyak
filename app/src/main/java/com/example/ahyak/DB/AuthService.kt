@@ -42,6 +42,7 @@ class AuthService(private val context: Context) {
                     if (resp!!.status == "success") {
                         loginView.SignupSuccess()
                         login(nickname,email)
+                        Log.d("Login Test", "Login Test") //25-05-05 Test
                     } else {
                         loginView.SignupFailure()
                     }
@@ -76,9 +77,9 @@ class AuthService(private val context: Context) {
                         Log.d("로그인 정보",resp.toString())
                         val accessToken = resp?.data?.accessToken
                         val refreshToken = resp?.data?.refreshToken
+                        Log.d("accessT, refreshT", "$accessToken, $refreshToken")
                         //saveJwt(resp!!.result.jwt)와 같은 토큰 저장 필요
                         saveTokens(accessToken!!,refreshToken!!)
-                        Log.d("accessToken", getAccessToken().toString())
                         loginView.LoginSuccess()
                     } else {
                         //서버에서 응답을 했으나, 성공적인 응답이 아닌 경우
@@ -135,4 +136,36 @@ class AuthService(private val context: Context) {
                 }
             })
     }
+
+    //Daily Status - 조회
+    fun getDailyStatus(date: String, callback: DailyStatusCallback) {
+        authService.getDailyStatus(date)
+            .enqueue(object : Callback<BaseResponse<DailyStatusResponse>> {
+                override fun onResponse(
+                    call: Call<BaseResponse<DailyStatusResponse>>,
+                    response: Response<BaseResponse<DailyStatusResponse>>
+                ) {
+                    if (response.isSuccessful) {
+                        val symptomData = response.body()?.data
+                        if (symptomData != null) {
+                            callback.onDailyStatusSuccess(symptomData)
+                        } else {
+                            callback.onDailyStatusFailure("데이터가 없습니다.")
+                        }
+                    } else {
+                        callback.onDailyStatusFailure("응답 실패: ${response.code()}")
+                    }
+                }
+
+                override fun onFailure(call: Call<BaseResponse<DailyStatusResponse>>, t: Throwable) {
+                    callback.onDailyStatusFailure("API 호출 실패: ${t.message}")
+                }
+            })
+    }
+}
+
+// DailyStatusCallback.kt
+interface DailyStatusCallback {
+    fun onDailyStatusSuccess(data: DailyStatusResponse)
+    fun onDailyStatusFailure(message: String)
 }

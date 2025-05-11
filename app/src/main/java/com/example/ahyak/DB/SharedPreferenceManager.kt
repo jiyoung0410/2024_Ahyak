@@ -6,6 +6,8 @@ private const val ACCESS_TOKEN = "accessToken"
 private const val REFRESH_TOKEN = "refreshToken"
 
 fun getAccessToken() : String? {
+    val getsp = ApplicationClass.mSharedPreferences?.getString(ACCESS_TOKEN,null)
+    Log.d("getAccessToken", "$getsp")
     return ApplicationClass.mSharedPreferences?.getString(ACCESS_TOKEN,null)
 }
 
@@ -25,7 +27,6 @@ fun saveTokens(accessToken: String, refreshToken: String) {
         Log.d("Signup Response", "Sharedpreference 안 빔")
         Log.d("token", accessToken + " " + refreshToken)
     }
-//    ApplicationClass.mSharedPreferences?.edit()?.putString("token", token)?.apply()
     ApplicationClass.mSharedPreferences.edit().apply{
         putString(ACCESS_TOKEN,accessToken)
         putString(REFRESH_TOKEN,refreshToken)

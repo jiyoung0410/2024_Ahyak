@@ -13,6 +13,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import android.provider.Settings
+import android.util.Base64
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -24,6 +25,7 @@ import com.example.ahyak.OCR.OCRprescriptionActivity
 import com.example.ahyak.MonthlyCalendar.CalenderFragment
 import com.example.ahyak.Statistics.StatisticsFragment
 import com.example.ahyak.databinding.ActivityMainBinding
+import java.security.MessageDigest
 
 class MainActivity : AppCompatActivity() {
 
