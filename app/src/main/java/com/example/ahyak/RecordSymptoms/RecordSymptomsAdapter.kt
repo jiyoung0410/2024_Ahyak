@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ahyak.DB.AhyakDataBase
-import com.example.ahyak.DB.TodayRecordSymptomEntity
 import com.example.ahyak.R
 import com.example.ahyak.databinding.ItemSymptomsRecordBinding
 import kotlinx.coroutines.Dispatchers

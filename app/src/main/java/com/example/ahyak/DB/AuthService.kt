@@ -37,6 +37,7 @@ class AuthService(private val context: Context) {
                     if (resp!!.status == "success") {
                         loginView.SignupSuccess()
                         login(nickname,email)
+                        Log.d("Login Test", "Login Test") //25-05-05 Test
                     } else {
                         loginView.SignupFailure()
                     }
@@ -71,8 +72,11 @@ class AuthService(private val context: Context) {
                         Log.d("로그인 정보",resp.toString())
                         val accessToken = resp?.data?.accessToken
                         val refreshToken = resp?.data?.refreshToken
+                        Log.d("accessT, refreshT", "$accessToken, $refreshToken")
                         //saveJwt(resp!!.result.jwt)와 같은 토큰 저장 필요
                         saveTokens(accessToken!!,refreshToken!!)
+                        val st = saveTokens(accessToken!!,refreshToken!!).toString()
+                        Log.d("saveToken Ing", "saveToken OK , $st") //25-05-05 Test
                         loginView.LoginSuccess()
                     } else {
                         //서버에서 응답을 했으나, 성공적인 응답이 아닌 경우
@@ -105,7 +109,7 @@ class AuthService(private val context: Context) {
             })
     }
     //Daily Status - 조회
-    fun getDailyStatus(date: String) {
+    fun getDailyStatus(date: String, callback: DailyStatusCallback) {
         authService.getDailyStatus(date)
             .enqueue(object : Callback<BaseResponse<DailyStatusResponse>> {
                 override fun onResponse(
@@ -115,21 +119,24 @@ class AuthService(private val context: Context) {
                     if (response.isSuccessful) {
                         val symptomData = response.body()?.data
                         if (symptomData != null) {
-                            Log.d("DailyStatus", symptomData.toString())
-                            Toast.makeText(context, "데이터 로딩 성공", Toast.LENGTH_SHORT).show()
+                            callback.onDailyStatusSuccess(symptomData)
                         } else {
-                            Toast.makeText(context, "데이터 없음", Toast.LENGTH_SHORT).show()
+                            callback.onDailyStatusFailure("데이터가 없습니다.")
                         }
                     } else {
-                        Log.e("DailyStatus", "응답 실패: ${response.code()}")
+                        callback.onDailyStatusFailure("응답 실패: ${response.code()}")
                     }
                 }
 
                 override fun onFailure(call: Call<BaseResponse<DailyStatusResponse>>, t: Throwable) {
-                    Log.e("DailyStatus", "API 호출 실패: ${t.message}")
-                    Toast.makeText(context, "API 호출 실패", Toast.LENGTH_SHORT).show()
+                    callback.onDailyStatusFailure("API 호출 실패: ${t.message}")
                 }
             })
     }
+}
 
+// DailyStatusCallback.kt
+interface DailyStatusCallback {
+    fun onDailyStatusSuccess(data: DailyStatusResponse)
+    fun onDailyStatusFailure(message: String)
 }

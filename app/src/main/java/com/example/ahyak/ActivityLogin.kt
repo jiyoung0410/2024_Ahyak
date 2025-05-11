@@ -1,8 +1,11 @@
 package com.example.ahyak
 
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Base64
 import android.util.Log
 import com.example.ahyak.DB.AuthService
 import com.example.ahyak.DB.LoginView
@@ -13,6 +16,7 @@ import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
+import java.security.MessageDigest
 
 class ActivityLogin : AppCompatActivity(), LoginView {
 
@@ -36,6 +40,8 @@ class ActivityLogin : AppCompatActivity(), LoginView {
 
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        //getKeyHash(this)
 
         var count = 0
         binding.logoLl.setOnClickListener {
@@ -119,5 +125,25 @@ class ActivityLogin : AppCompatActivity(), LoginView {
 
     override fun LoginFailure() {
 
+    }
+    //Hash Key
+    fun getKeyHash(context: Context): String? {
+        try {
+            val info = context.packageManager.getPackageInfo(
+                context.packageName,
+                PackageManager.GET_SIGNING_CERTIFICATES
+            )
+            val signatures = info.signingInfo.apkContentsSigners
+            for (signature in signatures) {
+                val md = MessageDigest.getInstance("SHA")
+                md.update(signature.toByteArray())
+                val keyHash = Base64.encodeToString(md.digest(), Base64.NO_WRAP)
+                Log.d("KeyHash", "Friend KeyHash: $keyHash")
+                return keyHash
+            }
+        } catch (e: Exception) {
+            Log.e("KeyHash", "Error", e)
+        }
+        return null
     }
 }
