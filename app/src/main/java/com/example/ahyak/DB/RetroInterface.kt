@@ -21,4 +21,10 @@ interface RetroInterface {
     fun login(
         @Body request: SignupRequest
     ) : Call<BaseResponse<LoginResponse>>
+
+    //처방 등록
+    @POST("prescription")
+    fun registPrescription(
+        @Body request: RegistPresRequest
+    ) : Call<BaseResponse<RegistPresResponse>>
 }

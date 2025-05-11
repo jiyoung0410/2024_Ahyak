@@ -17,9 +17,14 @@ class AuthService(private val context: Context) {
     private val authService = ApplicationClass.retrofit.create(RetroInterface::class.java)
 
     private lateinit var loginView: LoginView
+    private lateinit var prescriptionView: PrescriptionView
 
     fun setLoginView(loginView: LoginView) {
         this.loginView = loginView
+    }
+
+    fun setPrescriptionView(prescriptionView: PrescriptionView) {
+        this.prescriptionView = prescriptionView
     }
 
     fun signup(nickname: String, email: String) {
@@ -73,6 +78,7 @@ class AuthService(private val context: Context) {
                         val refreshToken = resp?.data?.refreshToken
                         //saveJwt(resp!!.result.jwt)와 같은 토큰 저장 필요
                         saveTokens(accessToken!!,refreshToken!!)
+                        Log.d("accessToken", getAccessToken().toString())
                         loginView.LoginSuccess()
                     } else {
                         //서버에서 응답을 했으나, 성공적인 응답이 아닌 경우
@@ -101,6 +107,31 @@ class AuthService(private val context: Context) {
 
                 override fun onFailure(call: Call<BaseResponse<LoginResponse>>, t: Throwable) {
                     Log.d("Login Failure",t.toString())
+                }
+            })
+    }
+
+    fun registPrescription(name: String, hospital: String, startDate: String, endDate: String) {
+        prescriptionView.PrescriptionLoading()
+        val request = RegistPresRequest(name,hospital,startDate,endDate)
+        authService.registPrescription(request)
+            .enqueue(object : Callback<BaseResponse<RegistPresResponse>> {
+                override fun onResponse(
+                    call: Call<BaseResponse<RegistPresResponse>>,
+                    response: Response<BaseResponse<RegistPresResponse>>
+                ) {
+                    val resp = response.body()
+                    Log.d("Prescription Register response body", resp.toString())
+                    //saveJwt(resp!!.result.jwt)
+                    if (resp!!.status == "success") {
+                        prescriptionView.PrescriptionSuccess()
+                    } else {
+                        prescriptionView.PrescriptionFailure()
+                    }
+                }
+
+                override fun onFailure(call: Call<BaseResponse<RegistPresResponse>>, t: Throwable) {
+                    Log.d("Prescription Register Failure",t.toString())
                 }
             })
     }

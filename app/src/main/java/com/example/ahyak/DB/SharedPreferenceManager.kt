@@ -23,6 +23,7 @@ fun saveTokens(accessToken: String, refreshToken: String) {
         Log.d("Signup response", "sharedpreference 빔")
     } else {
         Log.d("Signup Response", "Sharedpreference 안 빔")
+        Log.d("token", accessToken + " " + refreshToken)
     }
 //    ApplicationClass.mSharedPreferences?.edit()?.putString("token", token)?.apply()
     ApplicationClass.mSharedPreferences.edit().apply{
@@ -30,4 +31,5 @@ fun saveTokens(accessToken: String, refreshToken: String) {
         putString(REFRESH_TOKEN,refreshToken)
         apply()
     }
+
 }
