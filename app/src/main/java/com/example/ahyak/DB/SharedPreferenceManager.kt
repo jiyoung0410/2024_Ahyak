@@ -21,17 +21,16 @@ fun removeTokens() { //회원탈퇴 = 삭제
 
 
 fun saveTokens(accessToken: String, refreshToken: String) {
-    //    ApplicationClass.mSharedPreferences?.edit()?.putString("token", token)?.apply()
+    if (ApplicationClass.mSharedPreferences == null) {
+        Log.d("Signup response", "sharedpreference 빔")
+    } else {
+        Log.d("Signup Response", "Sharedpreference 안 빔")
+        Log.d("token", accessToken + " " + refreshToken)
+    }
     ApplicationClass.mSharedPreferences.edit().apply{
         putString(ACCESS_TOKEN,accessToken)
         putString(REFRESH_TOKEN,refreshToken)
         apply()
-    }
-    if (ApplicationClass.mSharedPreferences == null) {
-        Log.d("Signup response", "sharedpreference 빔")
-    } else {
-        val sp = ApplicationClass.mSharedPreferences?.getString(ACCESS_TOKEN,null).toString()
-        Log.d("Signup Response", "Sharedpreference 안 빔, $sp")
     }
 
 }

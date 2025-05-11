@@ -30,9 +30,26 @@ class ActivityLogin : AppCompatActivity(), LoginView {
             Log.e("KakaoLogin", "카카오계정으로 로그인 실패", error)
         } else if (token != null) {
             Log.i("KakaoLogin", "카카오계정으로 로그인 성공 ${token.accessToken}")
-            val intent = Intent(this, MainActivity::class.java)
-            finish()
-            startActivity(intent)
+            UserApiClient.instance.me { user, meError ->
+                if (meError != null) {
+                    Log.e("KakaoLogin", "사용자 정보 요청 실패", meError)
+                } else if (user != null) {
+                    val nickname = user.kakaoAccount?.profile?.nickname
+                    val email = user.kakaoAccount?.email
+
+                    Log.i("KakaoLogin", "사용자 이름: $nickname")
+                    Log.i("KakaoLogin", "사용자 이메일: $email")
+
+                    // 여기서 서버에 nickname, email 전달해서 회원가입 or 로그인 처리 가능
+                    // signup(nickname ?: "Unknown", email ?: "Unknown")
+                    val authService = AuthService(this)
+                    authService.setLoginView(this)
+                    authService.signup(nickname!!,email!!)
+                }
+            }
+//            val intent = Intent(this, MainActivity::class.java)
+//            finish()
+//            startActivity(intent)
         }
     }
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -87,11 +104,6 @@ class ActivityLogin : AppCompatActivity(), LoginView {
                                 val authService = AuthService(this)
                                 authService.setLoginView(this)
                                 authService.signup(nickname!!,email!!)
-
-                                // 다음 화면으로 이동 예시
-//                                val intent = Intent(this, MainActivity::class.java)
-//                                startActivity(intent)
-//                                finish()
                             }
                         }
                     }

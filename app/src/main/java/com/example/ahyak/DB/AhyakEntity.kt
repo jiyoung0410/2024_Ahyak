@@ -24,6 +24,28 @@ data class RefreshTokenRequest(
     @SerializedName("refreshToken") val refreshToken: String
 )
 
+
+data class RegistPresRequest(
+    @SerializedName("name") val name: String,
+    @SerializedName("hospital") val hospital: String,
+    @SerializedName("startDate") val startDate: String,
+    @SerializedName("endDate") val endDate: String
+)
+
+data class RegistPresResponse(
+    @SerializedName("prescription") val prescription: Prescription
+)
+
+data class Prescription(
+    @SerializedName("user_id") val user_id: String,
+    @SerializedName("name") val name: String,
+    @SerializedName("hospital") val hospital: String,
+    @SerializedName("start_date") val start_date: String,
+    @SerializedName("end_date") val end_date: String,
+    @SerializedName("is_Active") val is_Active: Boolean,
+    @SerializedName("_id") val _id: String,
+    @SerializedName("__v") val __v: Int
+
 //DailyStatus - 조회(Request) 및 등록(Response)
 data class DailyStatusResponse(
     @SerializedName("status") val status: String,

@@ -13,7 +13,9 @@ import android.widget.DatePicker
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.example.ahyak.DB.AhyakDataBase
+import com.example.ahyak.DB.AuthService
 import com.example.ahyak.DB.PrescriptionEntity
+import com.example.ahyak.DB.PrescriptionView
 import com.example.ahyak.MainActivity
 import com.example.ahyak.PillRegister.ExtraRegisterPillActivity
 import com.example.ahyak.R
@@ -27,7 +29,7 @@ import java.time.LocalDateTime
 import java.util.Calendar
 import java.util.Locale
 
-class AddPrescriptionActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
+class AddPrescriptionActivity : AppCompatActivity(), PrescriptionView, DatePickerDialog.OnDateSetListener {
     lateinit var binding : ActivityAddSymptomsBinding
     private var cal : Calendar = Calendar.getInstance()
 
@@ -144,7 +146,7 @@ class AddPrescriptionActivity : AppCompatActivity(), DatePickerDialog.OnDateSetL
         val todayYear = localDate.year
         StartMonth = localDate.monthValue
         StartDay = localDate.dayOfMonth
-        StartDate = todayYear.toString() + "." + (StartMonth).toString() + "." + StartDay.toString()+ "."
+        StartDate = todayYear.toString() + "-" + (StartMonth).toString() + "-" + StartDay.toString()
 
         binding.addSymptomsStartdayTv.text = StartDate
 
@@ -161,7 +163,7 @@ class AddPrescriptionActivity : AppCompatActivity(), DatePickerDialog.OnDateSetL
 
             val datePickerDialog = DatePickerDialog(this,
                 { _, year, month, day ->
-                StartDate = year.toString() + "." + (month + 1).toString() + "." + day.toString()+ "."
+                StartDate = year.toString() + "-" + (month + 1).toString() + "-" + day.toString()
                 binding.addSymptomsStartdayTv.text = StartDate
                 StartMonth = month + 1
                 StartDay = day
@@ -179,7 +181,7 @@ class AddPrescriptionActivity : AppCompatActivity(), DatePickerDialog.OnDateSetL
             val startCalendar = Calendar.getInstance()
 
             // StartDate를 Calendar 객체로 변환
-            val dateFormat = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
+            val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
             val startDateParsed = dateFormat.parse(StartDate)
 
             startDateParsed?.let {
@@ -193,7 +195,7 @@ class AddPrescriptionActivity : AppCompatActivity(), DatePickerDialog.OnDateSetL
             val datePickerDialog = DatePickerDialog(this, { _, selectedYear, selectedMonth, selectedDay ->
 
                 // 선택한 종료일 저장
-                EndDate = "$selectedYear.${selectedMonth + 1}.$selectedDay."
+                EndDate = "$selectedYear-${selectedMonth + 1}-$selectedDay"
                 binding.addSymptomsEnddayTv.text = EndDate
 
                 // 버튼 활성화
@@ -221,47 +223,56 @@ class AddPrescriptionActivity : AppCompatActivity(), DatePickerDialog.OnDateSetL
         }
 
         binding.addSymptomsAddbtnLl.setOnClickListener {
+            val prescriptionName = binding.addSymptomsSymptomNameEt.text.toString()
+            val hospitalName = binding.addSymptomsHospitalNameEt.text.toString()
+            val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+            val start_Date = dateFormat.parse(StartDate)!!.toString()
+            val end_Date = dateFormat.parse(EndDate)!!.toString()
 
-            GlobalScope.launch(Dispatchers.IO) {
+            val authService = AuthService(this)
+            authService.setPrescriptionView(this)
+            authService.registPrescription(prescriptionName,hospitalName,start_Date,end_Date)
 
-                val prescriptionName = binding.addSymptomsSymptomNameEt.text.toString()
-                val hospitalName = binding.addSymptomsHospitalNameEt.text.toString()
-
-                //데이터베이스 초기화
-                ahyakDatabase = AhyakDataBase.getInstance(this@AddPrescriptionActivity)
-
-                val times = listOf("아침", "저녁", "점심","취침 전", "기상 직후")
-
-                val dateFormat = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
-                val start_Date = dateFormat.parse(StartDate)!!
-                val end_Date = dateFormat.parse(EndDate)!!
-
-                val calendar = Calendar.getInstance()
-                calendar.time = start_Date
-
-                while (calendar.time <= end_Date) {
-                    val currentDateString = dateFormat.format(calendar.time)
-
-                    for (time in times) {
-                        // 증상 등록
-                        ahyakDatabase!!.getPrescriptionDao()?.insertPrescription(
-                            PrescriptionEntity(
-                                prescriptionName,
-                                calendar.get(Calendar.MONTH) + 1, // 월 (1부터 시작)
-                                calendar.get(Calendar.DAY_OF_MONTH), // 일
-                                time,
-                                hospitalName,
-                                currentDateString,
-                                EndDate
-                            )
-                        )
-                    }
-                    calendar.add(Calendar.DAY_OF_MONTH, 1) // 다음 날짜로 이동
-                }
-            }
-            finish()
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+//            GlobalScope.launch(Dispatchers.IO) {
+//
+//                val prescriptionName = binding.addSymptomsSymptomNameEt.text.toString()
+//                val hospitalName = binding.addSymptomsHospitalNameEt.text.toString()
+//
+//                //데이터베이스 초기화
+//                ahyakDatabase = AhyakDataBase.getInstance(this@AddPrescriptionActivity)
+//
+//                val times = listOf("아침", "저녁", "점심","취침 전", "기상 직후")
+//
+//                val dateFormat = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
+//                val start_Date = dateFormat.parse(StartDate)!!
+//                val end_Date = dateFormat.parse(EndDate)!!
+//
+//                val calendar = Calendar.getInstance()
+//                calendar.time = start_Date
+//
+//                while (calendar.time <= end_Date) {
+//                    val currentDateString = dateFormat.format(calendar.time)
+//
+//                    for (time in times) {
+//                        // 증상 등록
+//                        ahyakDatabase!!.getPrescriptionDao()?.insertPrescription(
+//                            PrescriptionEntity(
+//                                prescriptionName,
+//                                calendar.get(Calendar.MONTH) + 1, // 월 (1부터 시작)
+//                                calendar.get(Calendar.DAY_OF_MONTH), // 일
+//                                time,
+//                                hospitalName,
+//                                currentDateString,
+//                                EndDate
+//                            )
+//                        )
+//                    }
+//                    calendar.add(Calendar.DAY_OF_MONTH, 1) // 다음 날짜로 이동
+//                }
+//            }
+//            finish()
+//            val intent = Intent(this, MainActivity::class.java)
+//            startActivity(intent)
 
         }
     }
@@ -271,5 +282,54 @@ class AddPrescriptionActivity : AppCompatActivity(), DatePickerDialog.OnDateSetL
         cal.set(Calendar.HOUR_OF_DAY,0)
         cal.set(Calendar.MINUTE,0)
         cal.set(Calendar.SECOND,0)
+    }
+
+    override fun PrescriptionLoading() {
+
+    }
+
+    override fun PrescriptionSuccess() {
+        val prescriptionName = binding.addSymptomsSymptomNameEt.text.toString()
+        val hospitalName = binding.addSymptomsHospitalNameEt.text.toString()
+        val times = listOf("아침", "저녁", "점심","취침 전", "기상 직후")
+
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val start_Date = dateFormat.parse(StartDate)!!
+        val end_Date = dateFormat.parse(EndDate)!!
+
+        val calendar = Calendar.getInstance()
+        calendar.time = start_Date
+
+        GlobalScope.launch(Dispatchers.IO) {
+            ahyakDatabase = AhyakDataBase.getInstance(this@AddPrescriptionActivity)
+
+            while (calendar.time <= end_Date) {
+                val currentDateString = dateFormat.format(calendar.time)
+
+                for (time in times) {
+                    // 증상 등록
+                    ahyakDatabase!!.getPrescriptionDao()?.insertPrescription(
+                        PrescriptionEntity(
+                            prescriptionName,
+                            calendar.get(Calendar.MONTH) + 1, // 월 (1부터 시작)
+                            calendar.get(Calendar.DAY_OF_MONTH), // 일
+                            time,
+                            hospitalName,
+                            currentDateString,
+                            EndDate
+                        )
+                    )
+                }
+                calendar.add(Calendar.DAY_OF_MONTH, 1) // 다음 날짜로 이동
+            }
+            Log.d("addPrescription","처방 추가 성공")
+            finish()
+            val intent = Intent(this@AddPrescriptionActivity, MainActivity::class.java)
+            startActivity(intent)
+        }
+    }
+
+    override fun PrescriptionFailure() {
+        Log.d("addPrescription","처방 추가 실패")
     }
 }
