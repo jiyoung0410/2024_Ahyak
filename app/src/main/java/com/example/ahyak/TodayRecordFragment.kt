@@ -31,7 +31,9 @@ class TodayRecordFragment : Fragment() {
     private var calendarList = ArrayList<CalendarVO>()
     private val tabItems = arrayOf<String>("기상 직후", "아침", "점심", "저녁", "취침 전")
 
-    // 전역 변수로 Month와 Day를 저장할 변수 선언
+    // 전역 변수로 년/월/일 데이터를 저장할 변수 선언
+    //25-06-07 년도 변수 생성
+    private var selectedYear: Int = 0
     private var selectedMonth: Int = 0
     private var selectedDay: Int = 0
     override fun onCreateView(
@@ -63,6 +65,7 @@ class TodayRecordFragment : Fragment() {
         val editor = sharedPref.edit()
 
         // 오늘 날짜의 연도와 월을 가져와서 변수에 할당합니다.
+        selectedYear = localDate.year
         selectedMonth = localDate.monthValue
         selectedDay = localDate.dayOfMonth
 
@@ -83,15 +86,17 @@ class TodayRecordFragment : Fragment() {
 //                    binding.todayRecordYearmonthTv.text = calSelectedDay.format(monthFormat)
 
                     // 선택된 날짜의 월과 일을 구합니다.
+                    selectedYear = calSelectedDay.year
                     selectedMonth = calSelectedDay.monthValue
                     selectedDay = calSelectedDay.dayOfMonth
 
+                    editor.putInt("selectedYear", selectedYear)
                     editor.putInt("selectedDay", selectedDay)
                     editor.putInt("selectedMonth", selectedMonth)
                     editor.putString("selectSlot", "기상 직후")
                     editor.apply()
 
-                    Log.d("set click", "selectedDay : $selectedDay, selectedMonth : $selectedMonth")
+                    Log.d("set click", "selectedDay : $selectedDay, selectedMonth : $selectedMonth, selectedYear: $selectedYear")
 
                     binding.todayRecordVp.adapter = TodayRecordSliderVPAdapter(requireActivity())
                     TabLayoutMediator(
@@ -126,6 +131,7 @@ class TodayRecordFragment : Fragment() {
                 // 선택된 시간대에 따라 해당하는 Fragment로 데이터를 전달
                 fun saveSelectedData(selectedMonth: Int, selectedDay: Int, selectSlot: String) {
                     with(sharedPref.edit()) {
+                        putInt("selectedYear", selectedYear)
                         putInt("selectedDay", selectedDay)
                         putInt("selectedMonth", selectedMonth)
                         putString("selectSlot", selectSlot)
@@ -189,6 +195,7 @@ class TodayRecordFragment : Fragment() {
                 }
             }
 
+
             calendarAdapter =
                 CalendarAdapter(calendarList, calSelectedDay, existSelectedItem) { item ->
                     //캘린더 click event 내용
@@ -198,9 +205,11 @@ class TodayRecordFragment : Fragment() {
                             binding.todayRecordYearmonthTv.text = calSelectedDay.format(monthFormat)
 
                             // 선택된 날짜의 월과 일을 구합니다.
+                            selectedYear = calSelectedDay.year
                             selectedMonth = calSelectedDay.monthValue
                             selectedDay = calSelectedDay.dayOfMonth
 
+                            editor.putInt("selectedYear", selectedYear)
                             editor.putInt("selectedDay", selectedDay)
                             editor.putInt("selectedMonth", selectedMonth)
                             editor.putString("selectSlot", "기상 직후")
@@ -254,9 +263,12 @@ class TodayRecordFragment : Fragment() {
                             binding.todayRecordYearmonthTv.text = calSelectedDay.format(monthFormat)
 
                             // 선택된 날짜의 월과 일을 구합니다.
+                            selectedYear = calSelectedDay.year
                             selectedMonth = calSelectedDay.monthValue
                             selectedDay = calSelectedDay.dayOfMonth
 
+
+                            editor.putInt("selectedYear", selectedYear)
                             editor.putInt("selectedDay", selectedDay)
                             editor.putInt("selectedMonth", selectedMonth)
                             editor.putString("selectSlot", "기상 직후")

@@ -91,7 +91,6 @@ data class PrescriptionEntity(
     var id : Int = 0
 }
 
-
 @Entity(tableName = "MedicineTable")
 data class MedicineEntity(
     val MedicineName : String,
