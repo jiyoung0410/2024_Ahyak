@@ -8,6 +8,7 @@ import com.example.ahyak.DB.RetroInterface
 import com.example.ahyak.MainActivity
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.kakao.sdk.user.UserApiClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -17,14 +18,24 @@ class AuthService(private val context: Context) {
     private val authService = ApplicationClass.retrofit.create(RetroInterface::class.java)
 
     private lateinit var loginView: LoginView
+    private lateinit var logoutView: LogoutView
     private lateinit var prescriptionView: PrescriptionView
+    private lateinit var additionalMediView: AdditionalMediView
 
     fun setLoginView(loginView: LoginView) {
         this.loginView = loginView
     }
 
+    fun setLogoutView(logoutView: LogoutView) {
+        this.logoutView = logoutView
+    }
+
     fun setPrescriptionView(prescriptionView: PrescriptionView) {
         this.prescriptionView = prescriptionView
+    }
+
+    fun setAddtionalMediView(additionalMediView: AdditionalMediView) {
+        this.additionalMediView = additionalMediView
     }
 
     fun signup(nickname: String, email: String) {
@@ -112,6 +123,38 @@ class AuthService(private val context: Context) {
             })
     }
 
+    fun deleteUser() {
+        logoutView.deleteUserLoading()
+//        val accessToken = getAccessToken()
+//        val authHeader = "Bearer $accessToken"
+//        Log.d("accessToken 확인", authHeader)
+        authService.deleteUser()
+            .enqueue(object : Callback<BaseResponse<MessageResponse>> {
+                override fun onResponse(
+                    call: Call<BaseResponse<MessageResponse>>,
+                    response: Response<BaseResponse<MessageResponse>>
+                ) {
+                    if (response.isSuccessful) {
+                        Toast.makeText(context, "회원 탈퇴 성공", Toast.LENGTH_SHORT).show()
+                        Log.d("회원 탈퇴 응답", response.body()?.toString() ?: "응답 없음")
+                        removeTokens()
+                        logoutView.deleteUserSuccess()
+                    } else {
+                        val errorMsg = response.errorBody()?.string()
+                        Log.e("회원 탈퇴 실패", "HTTP ${response.code()}: $errorMsg")
+                        Toast.makeText(context, "회원 탈퇴 실패", Toast.LENGTH_SHORT).show()
+                        logoutView.deleteUserFailure()
+                    }
+                }
+
+                override fun onFailure(call: Call<BaseResponse<MessageResponse>>, t: Throwable) {
+                    Log.e("회원 탈퇴 실패", "에러: ${t.localizedMessage}")
+                    Toast.makeText(context, "네트워크 오류", Toast.LENGTH_SHORT).show()
+                    loginView.LoginFailure()
+                }
+            })
+    }
+
     fun registPrescription(name: String, hospital: String, startDate: String, endDate: String) {
         prescriptionView.PrescriptionLoading()
         val request = RegistPresRequest(name,hospital,startDate,endDate)
@@ -159,6 +202,31 @@ class AuthService(private val context: Context) {
 
                 override fun onFailure(call: Call<BaseResponse<DailyStatusResponse>>, t: Throwable) {
                     callback.onDailyStatusFailure("API 호출 실패: ${t.message}")
+                }
+            })
+    }
+
+    fun additionMedRegi(name: String, dose: String, unit: String, date: String) {
+        additionalMediView.AdditionalMediLoading()
+        val request = AdditionMedRegiRequest(name,dose,unit,date)
+        authService.additionMedRegi(request)
+            .enqueue(object : Callback<BaseResponse<AdditionMedDataWrapper>> {
+                override fun onResponse(
+                    call: Call<BaseResponse<AdditionMedDataWrapper>>,
+                    response: Response<BaseResponse<AdditionMedDataWrapper>>
+                ) {
+                    val resp = response.body()
+                    Log.d("Additional Medicine Register response body", resp.toString())
+                    //saveJwt(resp!!.result.jwt)
+                    if (resp!!.status == "success") {
+                        additionalMediView.AdditionalMediSuccess()
+                    } else {
+                        additionalMediView.AdditionalMediFailure()
+                    }
+                }
+
+                override fun onFailure(call: Call<BaseResponse<AdditionMedDataWrapper>>, t: Throwable) {
+                    Log.d("Additional Medicine Register Failure",t.toString())
                 }
             })
     }

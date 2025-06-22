@@ -15,7 +15,9 @@ import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.ahyak.DB.AdditionalMediView
 import com.example.ahyak.DB.AhyakDataBase
+import com.example.ahyak.DB.AuthService
 import com.example.ahyak.DB.ExtraPillEntity
 import com.example.ahyak.MainActivity
 import com.example.ahyak.R
@@ -23,11 +25,16 @@ import com.example.ahyak.databinding.ActivityExtraRegisterPillBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.LocalTime
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeFormatter.ISO_INSTANT
 import java.util.Calendar
+import java.util.Locale
 
-class ExtraRegisterPillActivity : AppCompatActivity(), OnItemRegisterClickListener {
+class ExtraRegisterPillActivity : AppCompatActivity(), AdditionalMediView, OnItemRegisterClickListener {
 
     private lateinit var binding : ActivityExtraRegisterPillBinding
 
@@ -102,10 +109,11 @@ class ExtraRegisterPillActivity : AppCompatActivity(), OnItemRegisterClickListen
             //현재 시간 가져오기
             val now = LocalDateTime.now()
             // 시간 형식 지정 (a: 오전/오후, h:mm -> 12시간제)
-            val formatter = DateTimeFormatter.ofPattern("a hh:mm")
+            val formatter = DateTimeFormatter.ofPattern("a h:mm", Locale.ENGLISH)
             //포맷 적용
-            var formattedTime = now.format(formatter)
-            binding.takeTimeSelectTv.text = formattedTime
+            var nowFormattedTime = now.format(formatter)
+            binding.takeTimeSelectTv.text = nowFormattedTime
+            formattedTime = nowFormattedTime
         }
 
         //약 자동완성 관련 초기화
@@ -252,20 +260,12 @@ class ExtraRegisterPillActivity : AppCompatActivity(), OnItemRegisterClickListen
 
         //저장하기 버튼 누르면
         binding.extraRegisterPillSaveLl.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
 
             //Edit Text에서 약 이름과 용량 정보 받아오기
             pillVolume = binding.extraRegisterPillDosageInputEt.getText().toString()
             pillName = binding.extraRegisterPillNameInputEt.getText().toString()
 
-//            //현재 시간 계산하기
-//            val currentTimeMillis = System.currentTimeMillis()
-//            val dateFormat = SimpleDateFormat("a hh:mm", Locale.getDefault())
-//            val formattedTime = dateFormat.format(currentTimeMillis)
-
-
             GlobalScope.launch(Dispatchers.IO) {
-
                 //데이터베이스 초기화
                 ahyakDatabase = AhyakDataBase.getInstance(this@ExtraRegisterPillActivity)
 
@@ -276,8 +276,26 @@ class ExtraRegisterPillActivity : AppCompatActivity(), OnItemRegisterClickListen
                 )
             }
 
-            finish()
-            startActivity(intent)
+            val pillUnit = (if (pillType == "mg") 1 else 2).toString()
+
+            val dateFormatter = DateTimeFormatter.ofPattern("yyyy.M.d.", Locale.ENGLISH)
+            val date = LocalDate.parse(binding.takeDaySelectTv.text, dateFormatter)
+            val timeFormatter = DateTimeFormatter.ofPattern("a h:mm", Locale.ENGLISH)
+            val time = LocalTime.parse(binding.takeTimeSelectTv.text, timeFormatter)
+            val localDateTime = LocalDateTime.of(date, time)
+            val pillDateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.ENGLISH)
+            val pillDate = localDateTime.format(pillDateFormatter)
+
+            val authService = AuthService(this)
+            authService.setAddtionalMediView(this)
+            Log.d("extrapillregist",pillName+pillVolume+pillUnit+pillDate)
+            authService.additionMedRegi(pillName,pillVolume,pillUnit,pillDate)
+
+//            //현재 시간 계산하기
+//            val currentTimeMillis = System.currentTimeMillis()
+//            val dateFormat = SimpleDateFormat("a hh:mm", Locale.getDefault())
+//            val formattedTime = dateFormat.format(currentTimeMillis)
+
         }
 
         //'X'버튼 눌렀을 때
@@ -453,6 +471,21 @@ class ExtraRegisterPillActivity : AppCompatActivity(), OnItemRegisterClickListen
         binding.extraRegisterPillNameInputEt.setText(dataItemRegisterPill.RegisterPillName)
         binding.extraRegisterPillNameInputEt.clearFocus()
         binding.listPillRv.visibility = View.GONE
+    }
+
+    override fun AdditionalMediLoading() {
+    }
+
+    override fun AdditionalMediSuccess() {
+        Log.d("Prescription Saving", "등록 성공")
+        val intent = Intent(this, MainActivity::class.java)
+
+        finish()
+        startActivity(intent)
+    }
+
+    override fun AdditionalMediFailure() {
+        Log.d("Prescription Saving", "등록 실패")
     }
 
 }

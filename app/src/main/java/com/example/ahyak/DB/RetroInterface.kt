@@ -2,7 +2,9 @@ package com.example.ahyak.DB
 
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -25,6 +27,11 @@ interface RetroInterface {
         @Body request: SignupRequest
     ) : Call<BaseResponse<LoginResponse>>
 
+    @DELETE("auth/withdraw")
+    fun deleteUser(
+//        @Header("Authorization") token: String
+    ) : Call<BaseResponse<MessageResponse>>
+
     //처방 등록
     @POST("prescription")
     fun registPrescription(
@@ -37,4 +44,8 @@ interface RetroInterface {
         @Query("date") date: String
     ): Call<BaseResponse<DailyStatusResponse>>
 
+    @POST("/additionalMeds")
+    fun additionMedRegi(
+        @Body request: AdditionMedRegiRequest
+    ): Call<BaseResponse<AdditionMedDataWrapper>>
 }

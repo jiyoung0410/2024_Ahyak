@@ -68,6 +68,29 @@ data class Discomfort(
     @SerializedName("_id") val id: String
 )
 
+data class AdditionMedRegiRequest(
+    @SerializedName("name") val name: String,
+    @SerializedName("dose") val dose: String,
+    @SerializedName("unit") val unit: String,
+    @SerializedName("date") val date: String
+)
+
+data class AdditionMedDataWrapper(
+    @SerializedName("success") val success: Boolean,
+    @SerializedName("data") val data: AdditionMedRegiResponse
+)
+
+data class AdditionMedRegiResponse(
+    @SerializedName("user_id") val user_id: String,
+    @SerializedName("name") val name: String,
+    @SerializedName("dose") val hospital: String,
+    @SerializedName("unit") val start_date: String,
+    @SerializedName("takenTime") val end_date: String,
+    @SerializedName("is_Active") val is_Active: Boolean,
+    @SerializedName("_id") val _id: String,
+    @SerializedName("__v") val __v: Int
+)
+
 //RoomDB
 @Entity(tableName = "AhyakTable" )
 data class AhyakEntity(
