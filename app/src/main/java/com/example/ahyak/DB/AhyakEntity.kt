@@ -75,20 +75,28 @@ data class AdditionMedRegiRequest(
     @SerializedName("date") val date: String
 )
 
-data class AdditionMedDataWrapper(
+data class AdditionMedDataWrapper <T>(
     @SerializedName("success") val success: Boolean,
-    @SerializedName("data") val data: AdditionMedRegiResponse
+    @SerializedName("data") val data: T
 )
 
 data class AdditionMedRegiResponse(
     @SerializedName("user_id") val user_id: String,
     @SerializedName("name") val name: String,
-    @SerializedName("dose") val hospital: String,
-    @SerializedName("unit") val start_date: String,
-    @SerializedName("takenTime") val end_date: String,
+    @SerializedName("dose") val dose: String,
+    @SerializedName("unit") val unit: String,
+    @SerializedName("takenTime") val takenTime: String,
     @SerializedName("is_Active") val is_Active: Boolean,
     @SerializedName("_id") val _id: String,
     @SerializedName("__v") val __v: Int
+)
+
+data class GetAddMedResponse(
+    @SerializedName("_id") val _id: String,
+    @SerializedName("name") val name: String,
+    @SerializedName("dose") val dose: String,
+    @SerializedName("unit") val unit: String,
+    @SerializedName("takenTime") val takenTime: String
 )
 
 //RoomDB
@@ -102,6 +110,7 @@ data class AhyakEntity(
 
 @Entity(tableName = "PrescriptionTable")
 data class PrescriptionEntity(
+    val PrescriptionId: String,
     val Prescription: String,
     val Month: Int,
     val Day: Int,

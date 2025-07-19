@@ -11,8 +11,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ahyak.AddPrescription.AddPrescriptionActivity
 import com.example.ahyak.DB.AhyakDataBase
+import com.example.ahyak.DB.AuthService
+import com.example.ahyak.DB.HomeStatusView
 import com.example.ahyak.DB.MedicineEntity
 import com.example.ahyak.DB.PrescriptionEntity
+import com.example.ahyak.DB.PrescriptionItemView
 import com.example.ahyak.R
 import com.example.ahyak.databinding.ItemCalendarSymptomBinding
 import kotlinx.coroutines.Dispatchers
@@ -20,10 +23,14 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class PrescriptionAdapter(val onClick: () -> Unit, val onAddPillClick: (PrescriptionEntity) -> Unit) : RecyclerView.Adapter<PrescriptionAdapter.ViewHolder>() {
+class PrescriptionAdapter(
+    private val context: Context,
+    val onClick: () -> Unit,
+    val onAddPillClick: (PrescriptionEntity) -> Unit) : RecyclerView.Adapter<PrescriptionAdapter.ViewHolder>(), PrescriptionItemView {
 
     lateinit var sympotms: MutableList<PrescriptionEntity>
     private var selectedPosition = -1 // 선택된 아이템의 위치를 저장하는 변수 추가
+    private var optionPosition = -1 // 수정 혹은 삭제할 아이템의 위치를 저장하는 변수 추가
     private var medicines : ArrayList<MedicineEntity> = arrayListOf() // Medicine List
 
     //데이터 베이스 객체
@@ -43,7 +50,7 @@ class PrescriptionAdapter(val onClick: () -> Unit, val onAddPillClick: (Prescrip
         init {
             binding.itemCalendarSymptomPillRv.adapter = addPillAdapter
         }
-        fun bind(sympotm:PrescriptionEntity) {
+        fun bind(sympotm: PrescriptionEntity) {
 
             binding.itemCalendarAddSymptomPillLl.setOnClickListener {
                 // 아이템 추가 이벤트 발생
@@ -107,18 +114,20 @@ class PrescriptionAdapter(val onClick: () -> Unit, val onAddPillClick: (Prescrip
                             true
                         }
                         R.id.item_more_menu2 -> {
-                            //삭제 시 행동
-                            val position = adapterPosition
-                            if(position != RecyclerView.NO_POSITION) {
-                                sympotms.removeAt(position)
+                            optionPosition = adapterPosition
+                            if(optionPosition != RecyclerView.NO_POSITION) {
+                                sympotms.removeAt(optionPosition)
                                 GlobalScope.launch(Dispatchers.IO) {
-                                    ahyakDatabase = AhyakDataBase.getInstance(context)
-                                    ahyakDatabase!!.getMedicineDao().deletePrescriptionMedicine(sympotm.Prescription)
-                                    ahyakDatabase!!.getPrescriptionDao().deletePrescription(sympotm.Prescription)
-                                    withContext(Dispatchers.Main) {
-                                        notifyItemRemoved(position)
-                                        notifyDataSetChanged()
-                                    }
+//                                    ahyakDatabase = AhyakDataBase.getInstance(context)
+//                                    ahyakDatabase!!.getMedicineDao().deletePrescriptionMedicine(sympotm.Prescription)
+//                                    ahyakDatabase!!.getPrescriptionDao().deletePrescription(sympotm.Prescription)
+//                                    withContext(Dispatchers.Main) {
+//                                        notifyItemRemoved(position)
+//                                        notifyDataSetChanged()
+//                                    }
+                                    val authService = AuthService(context)
+                                    authService.setPrescriptionItemView(this@PrescriptionAdapter)
+                                    authService.deletePrescription(sympotm)
                                 }
                             }
                             true
@@ -163,4 +172,23 @@ class PrescriptionAdapter(val onClick: () -> Unit, val onAddPillClick: (Prescrip
     }
 
     override fun getItemCount(): Int = sympotms.size
+    override fun DelPrescriptionLoading() {
+    }
+
+    override fun DelPrescriptionSuccess(prescription: PrescriptionEntity) {
+        Log.d("Prescription Delete","Prescription Delete Success")
+        GlobalScope.launch(Dispatchers.IO) {
+            ahyakDatabase = AhyakDataBase.getInstance(context)
+            ahyakDatabase!!.getMedicineDao().deletePrescriptionMedicine(prescription.Prescription)
+            ahyakDatabase!!.getPrescriptionDao().deletePrescription(prescription.Prescription)
+            withContext(Dispatchers.Main) {
+                notifyItemRemoved(optionPosition)
+                notifyDataSetChanged()
+            }
+        }
+    }
+
+    override fun DelPrescriptionFailure() {
+        Log.d("Prescription Delete", "Prescription Delete Failure")
+    }
 }

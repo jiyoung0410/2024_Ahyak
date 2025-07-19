@@ -21,6 +21,8 @@ class AuthService(private val context: Context) {
     private lateinit var logoutView: LogoutView
     private lateinit var prescriptionView: PrescriptionView
     private lateinit var additionalMediView: AdditionalMediView
+    private lateinit var homeStatusView: HomeStatusView
+    private lateinit var prescriptionItemView: PrescriptionItemView
 
     fun setLoginView(loginView: LoginView) {
         this.loginView = loginView
@@ -36,6 +38,14 @@ class AuthService(private val context: Context) {
 
     fun setAddtionalMediView(additionalMediView: AdditionalMediView) {
         this.additionalMediView = additionalMediView
+    }
+
+    fun setHomeStatusView(homeStatusView: HomeStatusView) {
+        this.homeStatusView = homeStatusView
+    }
+
+    fun setPrescriptionItemView(prescriptionItemView: PrescriptionItemView) {
+        this.prescriptionItemView = prescriptionItemView
     }
 
     fun signup(nickname: String, email: String) {
@@ -155,6 +165,29 @@ class AuthService(private val context: Context) {
             })
     }
 
+    fun deletePrescription(prescription: PrescriptionEntity) {
+        prescriptionItemView.DelPrescriptionLoading()
+        authService.deletePrescription(prescription.PrescriptionId)
+            .enqueue(object : Callback<BaseResponse<MessageResponse>> {
+                override fun onResponse(
+                    call: Call<BaseResponse<MessageResponse>>,
+                    response: Response<BaseResponse<MessageResponse>>
+                ) {
+                    val resp = response.body()
+                    Log.d("Prescription Delete response body", resp.toString())
+                    if (resp!!.status == "success") {
+                        prescriptionItemView.DelPrescriptionSuccess(prescription)
+                    } else {
+                        prescriptionItemView.DelPrescriptionFailure()
+                    }
+                }
+
+                override fun onFailure(call: Call<BaseResponse<MessageResponse>>, t: Throwable) {
+                    Log.d("Prescription Delete Failure",t.toString())
+                }
+            })
+    }
+
     fun registPrescription(name: String, hospital: String, startDate: String, endDate: String) {
         prescriptionView.PrescriptionLoading()
         val request = RegistPresRequest(name,hospital,startDate,endDate)
@@ -168,7 +201,7 @@ class AuthService(private val context: Context) {
                     Log.d("Prescription Register response body", resp.toString())
                     //saveJwt(resp!!.result.jwt)
                     if (resp!!.status == "success") {
-                        prescriptionView.PrescriptionSuccess()
+                        prescriptionView.PrescriptionSuccess(resp.data.prescription._id)
                     } else {
                         prescriptionView.PrescriptionFailure()
                     }
@@ -210,10 +243,10 @@ class AuthService(private val context: Context) {
         additionalMediView.AdditionalMediLoading()
         val request = AdditionMedRegiRequest(name,dose,unit,date)
         authService.additionMedRegi(request)
-            .enqueue(object : Callback<BaseResponse<AdditionMedDataWrapper>> {
+            .enqueue(object : Callback<BaseResponse<AdditionMedDataWrapper<AdditionMedRegiResponse>>> {
                 override fun onResponse(
-                    call: Call<BaseResponse<AdditionMedDataWrapper>>,
-                    response: Response<BaseResponse<AdditionMedDataWrapper>>
+                    call: Call<BaseResponse<AdditionMedDataWrapper<AdditionMedRegiResponse>>>,
+                    response: Response<BaseResponse<AdditionMedDataWrapper<AdditionMedRegiResponse>>>
                 ) {
                     val resp = response.body()
                     Log.d("Additional Medicine Register response body", resp.toString())
@@ -225,8 +258,32 @@ class AuthService(private val context: Context) {
                     }
                 }
 
-                override fun onFailure(call: Call<BaseResponse<AdditionMedDataWrapper>>, t: Throwable) {
+                override fun onFailure(call: Call<BaseResponse<AdditionMedDataWrapper<AdditionMedRegiResponse>>>, t: Throwable) {
                     Log.d("Additional Medicine Register Failure",t.toString())
+                }
+            })
+    }
+
+    fun getAddMed(date: String) {
+        homeStatusView.AddMedDataLoading()
+        authService.getAddMed(date)
+            .enqueue(object : Callback<BaseResponse<AdditionMedDataWrapper<ArrayList<GetAddMedResponse>>>> {
+                override fun onResponse(
+                    call: Call<BaseResponse<AdditionMedDataWrapper<ArrayList<GetAddMedResponse>>>>,
+                    response: Response<BaseResponse<AdditionMedDataWrapper<ArrayList<GetAddMedResponse>>>>
+                ) {
+                    val resp = response.body()
+                    Log.d("Get Additional Medicine response body", resp.toString())
+                    //saveJwt(resp!!.result.jwt)
+                    if (resp!!.status == "success") {
+                        homeStatusView.AddMedDataSuccess(resp.data.data)
+                    } else {
+                        homeStatusView.AddMedDataFailure()
+                    }
+                }
+
+                override fun onFailure(call: Call<BaseResponse<AdditionMedDataWrapper<ArrayList<GetAddMedResponse>>>>, t: Throwable) {
+                    Log.d("Get Additional Medicine Register Failure",t.toString())
                 }
             })
     }

@@ -14,7 +14,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ahyak.AddPrescription.AddPrescriptionActivity
 import com.example.ahyak.AddPrescription.MedicationTimeActivity
 import com.example.ahyak.DB.AhyakDataBase
+import com.example.ahyak.DB.AuthService
 import com.example.ahyak.DB.ExtraPillEntity
+import com.example.ahyak.DB.GetAddMedResponse
+import com.example.ahyak.DB.HomeStatusView
 import com.example.ahyak.DB.PrescriptionEntity
 import com.example.ahyak.PillRegister.ExtraRegisterPillActivity
 import com.example.ahyak.PillRegister.RegisterPillActivity
@@ -24,8 +27,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.time.LocalDate
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
-class TodayRecordHomeFragment : Fragment() {
+class TodayRecordHomeFragment : Fragment(), HomeStatusView {
 
     private lateinit var binding: FragmentCalendarAfterwakeBinding
     private var extrapillList : ArrayList<ExtraPillEntity> = arrayListOf()
@@ -33,8 +40,9 @@ class TodayRecordHomeFragment : Fragment() {
     private var symptomList: MutableList<PrescriptionEntity> = mutableListOf()
 
     var selectedSlot : String? = ""
-    var selectedDay : Int? = null
-    var selectedMonth : Int? = null
+    var selectedDay : Int = 0
+    var selectedMonth : Int = 0
+    var selectedYear : Int = 0
 
     //데이터 베이스 객체
     var ahyakDatabase : AhyakDataBase? = null
@@ -49,6 +57,10 @@ class TodayRecordHomeFragment : Fragment() {
         val sharedPref = requireActivity().getSharedPreferences("myPref", Context.MODE_PRIVATE)
         val editor = sharedPref.edit()
 
+        //추가 약 기록 어댑터 초기화
+        initextrapilladapter()
+
+        selectedYear = sharedPref.getInt("selectedYear", 0)
         selectedMonth = sharedPref.getInt("selectedMonth", 0)
         selectedDay = sharedPref.getInt("selectedDay", 0)
         selectedSlot = sharedPref.getString("selectSlot", "기상 직후")
@@ -79,7 +91,12 @@ class TodayRecordHomeFragment : Fragment() {
             val NewsymptomList = ahyakDatabase!!.getPrescriptionDao().getPrescription(selectedMonth, selectedDay, selectedSlot).toMutableList()
 
             // 데이터베이스에서 데이터 가져오기 - 월/일/시간대 정보 전송(추가 약 기록)
-            val NewPillList = ahyakDatabase!!.getExtraPillDao().getPill(selectedMonth, selectedDay, selectedSlot)
+            //val NewPillList = ahyakDatabase!!.getExtraPillDao().getPill(selectedMonth, selectedDay, selectedSlot)
+
+            val date = String.format("%04d-%02d-%02d", selectedYear, selectedMonth, selectedDay)
+            val authService = AuthService(requireContext())
+            authService.setHomeStatusView(this@TodayRecordHomeFragment)
+            authService.getAddMed(date)
 
             // 리사이클러뷰 아이템 구성
 //            symptomList.addAll(NewsymptomList)
@@ -88,19 +105,6 @@ class TodayRecordHomeFragment : Fragment() {
 //            binding.calendarAfterwakeChangeSymptomRv.adapter?.notifyDataSetChanged()
 //            binding.calendarAfterwakeChangeExtraPillRv.adapter?.notifyDataSetChanged()
 
-            //특정 항목 삭제
-//            ahyakDatabase!!.getPrescriptionDao()?.deletePrescription("환절기 피부질환")
-//            ahyakDatabase!!.getPrescriptionDao()?.deletePrescription("특발성 돌풍")
-//            ahyakDatabase!!.getPrescriptionDao()?.deletePrescription("테스트6")
-//            ahyakDatabase!!.getPrescriptionDao()?.deletePrescription("테스트8")
-//            ahyakDatabase!!.getPrescriptionDao()?.deletePrescription("테스트9")
-//            ahyakDatabase!!.getPrescriptionDao()?.deletePrescription("테스트10")
-//            ahyakDatabase!!.getPrescriptionDao()?.deletePrescription("테스트11")
-//            ahyakDatabase!!.getPrescriptionDao()?.deletePrescription("테스트12")
-//            ahyakDatabase!!.getPrescriptionDao()?.deletePrescription("테스트9")
-//            ahyakDatabase!!.getPrescriptionDao()?.deletePrescription("테스트11")
-//            ahyakDatabase!!.getPrescriptionDao()?.deletePrescription("테스트10")
-
             //테이블 전체 삭제
             //ahyakDatabase!!.getPrescriptionDao().deleteAllPrescriptions()
             //symptomList.addAll(ahyakDatabase!!.getPrescriptionDao().getAllPrescriptions())
@@ -108,14 +112,14 @@ class TodayRecordHomeFragment : Fragment() {
             //화면에 적용할 내용
             withContext(Dispatchers.Main) {
                 symptomList.clear()
-                extrapillList.clear()
+                //extrapillList.clear()
 
                 // 리사이클러뷰 아이템 구성
                 symptomList.addAll(NewsymptomList)
-                extrapillList.addAll(NewPillList)
+                //extrapillList.addAll(NewPillList)
 
                 binding.calendarAfterwakeChangeSymptomRv.adapter?.notifyDataSetChanged()
-                binding.calendarAfterwakeChangeExtraPillRv.adapter?.notifyDataSetChanged()
+                //binding.calendarAfterwakeChangeExtraPillRv.adapter?.notifyDataSetChanged()
             }
         }
 
@@ -133,9 +137,6 @@ class TodayRecordHomeFragment : Fragment() {
         val sharedPref = requireActivity().getSharedPreferences("myPref", Context.MODE_PRIVATE)
         val editor = sharedPref.edit()
 
-        //추가 약 기록 어댑터 초기화
-        initextrapilladapter()
-
         //오늘의 증상 기록하기 누르면
         binding.todayRecordLl.setOnClickListener {
             val intent = Intent(getActivity(), RecordSymptomsActivity::class.java)
@@ -145,6 +146,7 @@ class TodayRecordHomeFragment : Fragment() {
         binding.calendarAfterwakeChangeSymptomRv.apply {
             // 어댑터를 미리 초기화하고 리사이클러뷰에 설정
             val adapter = PrescriptionAdapter(
+                context,
                 onClick = { ->
                     // 선택된 아이템 클릭 이벤트
                 }
@@ -192,5 +194,44 @@ class TodayRecordHomeFragment : Fragment() {
         extrapilladapter = ExtraPillAdapter(extrapillList)
         binding.calendarAfterwakeChangeExtraPillRv.adapter = extrapilladapter
         binding.calendarAfterwakeChangeExtraPillRv.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
+    }
+
+    override fun AddMedDataLoading() {
+    }
+
+    override fun AddMedDataSuccess(dataResponse: ArrayList<GetAddMedResponse>) {
+        //var newPillList = arrayListOf<ExtraPillEntity>()
+        extrapillList.clear()
+        lifecycleScope.launch(Dispatchers.IO) {
+            for (item in dataResponse) {
+                val itemType = if (item.unit == "1") "mg" else "정"
+
+                val inputFormatter = DateTimeFormatter.ofPattern("HH:mm")
+                val time = LocalTime.parse(item.takenTime, inputFormatter)
+                val outputFormatter = DateTimeFormatter.ofPattern("a hh:mm", Locale.KOREAN)
+                val formattedTime = time.format(outputFormatter)
+
+                extrapillList.add(
+                    ExtraPillEntity(
+                        item.name,
+                        selectedMonth,
+                        selectedDay,
+                        selectedSlot!!,
+                        item.dose,
+                        itemType,
+                        formattedTime
+                    )
+                )
+
+                Log.d("Additional PillList",extrapillList.toString())
+            }
+
+            withContext(Dispatchers.Main) {
+                binding.calendarAfterwakeChangeExtraPillRv.adapter?.notifyDataSetChanged()
+            }
+        }
+    }
+
+    override fun AddMedDataFailure() {
     }
 }

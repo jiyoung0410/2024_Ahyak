@@ -32,6 +32,12 @@ interface RetroInterface {
 //        @Header("Authorization") token: String
     ) : Call<BaseResponse<MessageResponse>>
 
+    //Medication
+    @DELETE("/prescription")
+    fun deletePrescription(
+        @Query("prescription_id") prescriptionId: String
+    ) : Call<BaseResponse<MessageResponse>>
+
     //처방 등록
     @POST("prescription")
     fun registPrescription(
@@ -44,8 +50,14 @@ interface RetroInterface {
         @Query("date") date: String
     ): Call<BaseResponse<DailyStatusResponse>>
 
+    //추가 약 등록
     @POST("/additionalMeds")
     fun additionMedRegi(
         @Body request: AdditionMedRegiRequest
-    ): Call<BaseResponse<AdditionMedDataWrapper>>
+    ): Call<BaseResponse<AdditionMedDataWrapper<AdditionMedRegiResponse>>>
+
+    @GET("/additionalMeds")
+    fun getAddMed(
+        @Query("date") date: String
+    ): Call<BaseResponse<AdditionMedDataWrapper<ArrayList<GetAddMedResponse>>>>
 }
