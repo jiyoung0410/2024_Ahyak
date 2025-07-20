@@ -25,7 +25,7 @@ class ExtraPillAdapter(val extrapillList: ArrayList<ExtraPillEntity>):RecyclerVi
     var ahyakDatabase : AhyakDataBase? = null
     inner class ViewHolder(val binding : ItemCalendarExtraPillBinding, val context: Context) : RecyclerView.ViewHolder(binding.root){
         fun bind(extrapill: ExtraPillEntity){
-            binding.itemCalendarExtraPillNameTv.text = extrapill.PillVolume + extrapill.PillType + " " + extrapill.PillName
+            binding.itemCalendarExtraPillNameTv.text = extrapill.PillName + " " + extrapill.PillVolume + extrapill.PillType
 //            binding.itemCalendarExtraPillNameTv.text = extrapill.PillName
             binding.itemCalendarExtraPillEatTimeTv.text = extrapill.PillTime
 

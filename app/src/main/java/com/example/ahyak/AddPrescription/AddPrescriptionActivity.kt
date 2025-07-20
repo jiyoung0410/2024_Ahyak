@@ -288,7 +288,7 @@ class AddPrescriptionActivity : AppCompatActivity(), PrescriptionView, DatePicke
 
     }
 
-    override fun PrescriptionSuccess() {
+    override fun PrescriptionSuccess(prescriptionId: String) {
         val prescriptionName = binding.addSymptomsSymptomNameEt.text.toString()
         val hospitalName = binding.addSymptomsHospitalNameEt.text.toString()
         val times = listOf("아침", "저녁", "점심","취침 전", "기상 직후")
@@ -310,6 +310,7 @@ class AddPrescriptionActivity : AppCompatActivity(), PrescriptionView, DatePicke
                     // 증상 등록
                     ahyakDatabase!!.getPrescriptionDao()?.insertPrescription(
                         PrescriptionEntity(
+                            prescriptionId,
                             prescriptionName,
                             calendar.get(Calendar.MONTH) + 1, // 월 (1부터 시작)
                             calendar.get(Calendar.DAY_OF_MONTH), // 일

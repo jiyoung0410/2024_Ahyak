@@ -69,6 +69,37 @@ data class Discomfort(
     @SerializedName("_id") val id: String
 )
 
+data class AdditionMedRegiRequest(
+    @SerializedName("name") val name: String,
+    @SerializedName("dose") val dose: String,
+    @SerializedName("unit") val unit: String,
+    @SerializedName("date") val date: String
+)
+
+data class AdditionMedDataWrapper <T>(
+    @SerializedName("success") val success: Boolean,
+    @SerializedName("data") val data: T
+)
+
+data class AdditionMedRegiResponse(
+    @SerializedName("user_id") val user_id: String,
+    @SerializedName("name") val name: String,
+    @SerializedName("dose") val dose: String,
+    @SerializedName("unit") val unit: String,
+    @SerializedName("takenTime") val takenTime: String,
+    @SerializedName("is_Active") val is_Active: Boolean,
+    @SerializedName("_id") val _id: String,
+    @SerializedName("__v") val __v: Int
+)
+
+data class GetAddMedResponse(
+    @SerializedName("_id") val _id: String,
+    @SerializedName("name") val name: String,
+    @SerializedName("dose") val dose: String,
+    @SerializedName("unit") val unit: String,
+    @SerializedName("takenTime") val takenTime: String
+)
+
 //등록(Response) - DailyStatus
 data class DiscomfortRequest(
     @SerializedName("description") val description: String,
@@ -81,7 +112,6 @@ data class SymptomRequest(
     @SerializedName("additionalInfo") val additionalInfo: String
 )
 
-
 //RoomDB
 @Entity(tableName = "AhyakTable" )
 data class AhyakEntity(
@@ -93,6 +123,7 @@ data class AhyakEntity(
 
 @Entity(tableName = "PrescriptionTable")
 data class PrescriptionEntity(
+    val PrescriptionId: String,
     val Prescription: String,
     val Month: Int,
     val Day: Int,

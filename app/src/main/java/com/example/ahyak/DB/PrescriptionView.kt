@@ -2,6 +2,6 @@ package com.example.ahyak.DB
 
 interface PrescriptionView {
     fun PrescriptionLoading()
-    fun PrescriptionSuccess()
+    fun PrescriptionSuccess(prescriptionId: String)
     fun PrescriptionFailure()
 }

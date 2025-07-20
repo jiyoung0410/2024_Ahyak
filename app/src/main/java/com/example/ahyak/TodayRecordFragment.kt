@@ -36,6 +36,7 @@ class TodayRecordFragment : Fragment() {
     private var selectedYear: Int = 0
     private var selectedMonth: Int = 0
     private var selectedDay: Int = 0
+    private var selectedYear: Int = 0
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -90,6 +91,7 @@ class TodayRecordFragment : Fragment() {
                     selectedMonth = calSelectedDay.monthValue
                     selectedDay = calSelectedDay.dayOfMonth
 
+
                     editor.putInt("selectedYear", selectedYear)
                     editor.putInt("selectedDay", selectedDay)
                     editor.putInt("selectedMonth", selectedMonth)
@@ -129,7 +131,7 @@ class TodayRecordFragment : Fragment() {
                 val selectedSlot = tabItems[tab?.position ?: 0]
 
                 // 선택된 시간대에 따라 해당하는 Fragment로 데이터를 전달
-                fun saveSelectedData(selectedMonth: Int, selectedDay: Int, selectSlot: String) {
+                fun saveSelectedData(selectedYear: Int, selectedMonth: Int, selectedDay: Int, selectSlot: String) {
                     with(sharedPref.edit()) {
                         putInt("selectedYear", selectedYear)
                         putInt("selectedDay", selectedDay)
@@ -142,23 +144,23 @@ class TodayRecordFragment : Fragment() {
                 // TabLayout에서 선택될 때 호출되는 함수
                 when (tab?.position) {
                     0 -> {
-                        saveSelectedData(selectedMonth, selectedDay, "기상 직후")
+                        saveSelectedData(selectedYear, selectedMonth, selectedDay, "기상 직후")
                     }
 
                     1 -> {
-                        saveSelectedData(selectedMonth, selectedDay, "아침")
+                        saveSelectedData(selectedYear, selectedMonth, selectedDay, "아침")
                     }
 
                     2 -> {
-                        saveSelectedData(selectedMonth, selectedDay, "점심")
+                        saveSelectedData(selectedYear, selectedMonth, selectedDay, "점심")
                     }
 
                     3 -> {
-                        saveSelectedData(selectedMonth, selectedDay, "저녁")
+                        saveSelectedData(selectedYear, selectedMonth, selectedDay, "저녁")
                     }
 
                     else -> {
-                        saveSelectedData(selectedMonth, selectedDay, "취침 전")
+                        saveSelectedData(selectedYear, selectedMonth, selectedDay, "취침 전")
                     }
                 }
             }
@@ -208,6 +210,7 @@ class TodayRecordFragment : Fragment() {
                             selectedYear = calSelectedDay.year
                             selectedMonth = calSelectedDay.monthValue
                             selectedDay = calSelectedDay.dayOfMonth
+
 
                             editor.putInt("selectedYear", selectedYear)
                             editor.putInt("selectedDay", selectedDay)
@@ -266,7 +269,6 @@ class TodayRecordFragment : Fragment() {
                             selectedYear = calSelectedDay.year
                             selectedMonth = calSelectedDay.monthValue
                             selectedDay = calSelectedDay.dayOfMonth
-
 
                             editor.putInt("selectedYear", selectedYear)
                             editor.putInt("selectedDay", selectedDay)

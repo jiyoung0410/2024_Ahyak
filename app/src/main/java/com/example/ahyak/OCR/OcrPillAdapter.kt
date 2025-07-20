@@ -10,7 +10,6 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ahyak.DB.AhyakDataBase
 import com.example.ahyak.DB.MedicineEntity
-import com.example.ahyak.DB.PrescriptionEntity
 import com.example.ahyak.R
 import com.example.ahyak.databinding.ItemOcrResultBinding
 import kotlinx.coroutines.CoroutineScope
