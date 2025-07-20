@@ -37,4 +37,10 @@ interface RetroInterface {
         @Query("date") date: String
     ): Call<BaseResponse<DailyStatusResponse>>
 
+    //Daily Status - 등록
+    @POST("/dailyStatus")
+    fun postDailyStatus(
+        @Body request: SymptomRequest
+    ): Call<DailyStatusResponse>
+
 }

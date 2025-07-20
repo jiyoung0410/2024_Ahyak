@@ -162,10 +162,44 @@ class AuthService(private val context: Context) {
                 }
             })
     }
+
+    fun postDailyStatus(
+        request: SymptomRequest,
+        callback: SymptomCallback
+    ) {
+        authService.postDailyStatus(request)
+            .enqueue(object : Callback<DailyStatusResponse> {
+                override fun onResponse(
+                    call: Call<DailyStatusResponse>,
+                    response: Response<DailyStatusResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        val body = response.body()
+                        if (body?.status == "success") {
+                            callback.onSymptomSuccess(body.dailyStatus)
+                        } else {
+                            callback.onSymptomFailure("서버 응답 실패: ${body?.status}")
+                        }
+                    } else {
+                        callback.onSymptomFailure("HTTP 오류: ${response.code()}")
+                    }
+                }
+
+                override fun onFailure(call: Call<DailyStatusResponse>, t: Throwable) {
+                    callback.onSymptomFailure("네트워크 오류: ${t.message}")
+                }
+            })
+    }
 }
 
-// DailyStatusCallback.kt
+// DailyStatus - 조회 인터페이스
 interface DailyStatusCallback {
     fun onDailyStatusSuccess(data: DailyStatusResponse)
     fun onDailyStatusFailure(message: String)
+}
+
+//DailyStatus - 등록 인터페이스
+interface SymptomCallback {
+    fun onSymptomSuccess(data: DailyStatus)
+    fun onSymptomFailure(message: String)
 }

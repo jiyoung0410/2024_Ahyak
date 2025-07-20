@@ -47,7 +47,8 @@ data class Prescription(
     @SerializedName("__v") val __v: Int
 )
 
-//DailyStatus - 조회(Request) 및 등록(Response)
+//DailyStatus
+// 조회(Request) - DailyStatus
 data class DailyStatusResponse(
     @SerializedName("status") val status: String,
     @SerializedName("data") val dailyStatus: DailyStatus
@@ -67,6 +68,19 @@ data class Discomfort(
     @SerializedName("severity") val severity: Int,
     @SerializedName("_id") val id: String
 )
+
+//등록(Response) - DailyStatus
+data class DiscomfortRequest(
+    @SerializedName("description") val description: String,
+    @SerializedName("severity") val severity: Int
+)
+
+data class SymptomRequest(
+    @SerializedName("date") val date: String,
+    @SerializedName("discomforts") val discomforts: List<DiscomfortRequest>,
+    @SerializedName("additionalInfo") val additionalInfo: String
+)
+
 
 //RoomDB
 @Entity(tableName = "AhyakTable" )

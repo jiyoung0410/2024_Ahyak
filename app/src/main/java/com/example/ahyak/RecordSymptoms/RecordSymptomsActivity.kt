@@ -123,7 +123,7 @@ class RecordSymptomsActivity : AppCompatActivity() {
         postDate = String.format("%04d-%02d-%02d", selectedYear, selectedMonth, selectedDay)
         Log.d("postDate", "$postDate")
 
-        //Daily Status API 호출
+        //Daily Status API 호출 - 증상&기록 조회
         val authService = AuthService(this@RecordSymptomsActivity)
         val postDate = String.format("%04d-%02d-%02d", selectedYear, selectedMonth, selectedDay)
         Log.d("postDate_debug", "postDate = $postDate")
