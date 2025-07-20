@@ -32,8 +32,15 @@ class RecordSymptomsActivity : AppCompatActivity() {
     private var recordSymptomsadapter: RecordSymptomsAdapter? = null
     var texted : String = ""
     var additional_info : String = ""
+
+    //25-06-07 year 변수 추가
+    var selectedYear : Int = 0
     var selectedMonth : Int = 0
     var selectedDay : Int = 0
+
+    //0000-00-00 형식으로 날짜를 저장하는 변수
+    var postDate : String = ""
+
     var getContent : String = ""
 
     //데이터 베이스 객체
@@ -42,36 +49,49 @@ class RecordSymptomsActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        // 코루틴을 사용하여 백그라운드 스레드에서 데이터베이스 작업 실행
-        GlobalScope.launch(Dispatchers.IO) {
+//        //선택한 날짜 불러오는 코드(년-월-일)
+//        var sharedPref = this@RecordSymptomsActivity.getSharedPreferences("myPref", Context.MODE_PRIVATE)
+//        selectedYear = sharedPref.getInt("selectedYear", 0)
+//        selectedMonth = sharedPref.getInt("selectedMonth", 0)
+//        selectedDay = sharedPref.getInt("selectedDay", 0)
+//        Log.d("selet day", "$selectedYear+$selectedMonth+$selectedDay")
+//
+//        //YYYY-MM-DD 형식으로 변경
+//        postDate = String.format("%04d-%02d-%02d", selectedYear, selectedMonth, selectedDay)
+//        Log.d("postDate", "$postDate")
 
-            var sharedPref = this@RecordSymptomsActivity.getSharedPreferences("myPref", Context.MODE_PRIVATE)
-            selectedMonth = sharedPref.getInt("selectedMonth", 0)
-            selectedDay = sharedPref.getInt("selectedDay", 0)
-
-
-//            // 데이터베이스 초기화
-//            ahyakDatabase = AhyakDataBase.getInstance(this@RecordSymptomsActivity)
-//            todayrecordSymptoms.clear()
-
-//            // 데이터베이스에서 content 데이터 가져오기 - 월/일/시간대 정보 전송
-//            val NewContent = ahyakDatabase!!.getTodayRecordDao()
-//                .getTodayRecordContent(selectedMonth, selectedDay)
-//            todayRecordContent.addAll(NewContent)
-
-            // 데이터베이스에서 symptoms 데이터 가져오기 - 월/일/시간대 정보 전송
-//            val NewSymptom = ahyakDatabase!!.getTodayRecordSymptomDao()
-//                .getTodayRecordSymptom(selectedMonth, selectedDay)
-//            Log.d("NewSymptom", "$NewSymptom")
-//            todayrecordSymptoms.addAll(NewSymptom)
-
-//            withContext(Dispatchers.Main) {
-//                // 리사이클러뷰 아이템 구성
-//                binding.recordSymptomsRv.adapter?.notifyDataSetChanged()
-//                getContent = extractSymptomNames(NewContent)
-//                binding.recordSymptomsTv.text = getContent
-//            }
-        }
+        // 코루틴을 사용하여 백그라운드 스레드에서 데이터베이스 작업 실행 - 사용X
+//        GlobalScope.launch(Dispatchers.IO) {
+//
+//            //선택한 날짜 불러오는 코드
+////            var sharedPref = this@RecordSymptomsActivity.getSharedPreferences("myPref", Context.MODE_PRIVATE)
+////            selectedYear = sharedPref.getInt("selectedYear", 0)
+////            selectedMonth = sharedPref.getInt("selectedMonth", 0)
+////            selectedDay = sharedPref.getInt("selectedDay", 0)
+////            Log.d("selet day", "$selectedYear+$selectedMonth+$selectedDay")
+//
+////            // 데이터베이스 초기화
+////            ahyakDatabase = AhyakDataBase.getInstance(this@RecordSymptomsActivity)
+////            todayrecordSymptoms.clear()
+//
+////            // 데이터베이스에서 content 데이터 가져오기 - 월/일/시간대 정보 전송
+////            val NewContent = ahyakDatabase!!.getTodayRecordDao()
+////                .getTodayRecordContent(selectedMonth, selectedDay)
+////            todayRecordContent.addAll(NewContent)
+//
+//            // 데이터베이스에서 symptoms 데이터 가져오기 - 월/일/시간대 정보 전송
+////            val NewSymptom = ahyakDatabase!!.getTodayRecordSymptomDao()
+////                .getTodayRecordSymptom(selectedMonth, selectedDay)
+////            Log.d("NewSymptom", "$NewSymptom")
+////            todayrecordSymptoms.addAll(NewSymptom)
+//
+////            withContext(Dispatchers.Main) {
+////                // 리사이클러뷰 아이템 구성
+////                binding.recordSymptomsRv.adapter?.notifyDataSetChanged()
+////                getContent = extractSymptomNames(NewContent)
+////                binding.recordSymptomsTv.text = getContent
+////            }
+//        }
     }
 
     private fun extractSymptomNames(contentList: List<TodayRecordEntity>): String {
@@ -92,9 +112,22 @@ class RecordSymptomsActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        // ✅ 여기서 Daily Status API 호출
+        //선택한 날짜 불러오는 코드(년-월-일)
+        var sharedPref = this@RecordSymptomsActivity.getSharedPreferences("myPref", Context.MODE_PRIVATE)
+        selectedYear = sharedPref.getInt("selectedYear", 0)
+        selectedMonth = sharedPref.getInt("selectedMonth", 0)
+        selectedDay = sharedPref.getInt("selectedDay", 0)
+        Log.d("selet day", "$selectedYear+$selectedMonth+$selectedDay")
+
+        //YYYY-MM-DD 형식으로 변경
+        postDate = String.format("%04d-%02d-%02d", selectedYear, selectedMonth, selectedDay)
+        Log.d("postDate", "$postDate")
+
+        //Daily Status API 호출 - 증상&기록 조회
         val authService = AuthService(this@RecordSymptomsActivity)
-        authService.getDailyStatus("2025-03-21", object : DailyStatusCallback {
+        val postDate = String.format("%04d-%02d-%02d", selectedYear, selectedMonth, selectedDay)
+        Log.d("postDate_debug", "postDate = $postDate")
+        authService.getDailyStatus(postDate, object : DailyStatusCallback {
             override fun onDailyStatusSuccess(data: DailyStatusResponse) {
                 val dailyStatus = data.dailyStatus
                 val date = dailyStatus.date
@@ -130,7 +163,15 @@ class RecordSymptomsActivity : AppCompatActivity() {
             }
 
             override fun onDailyStatusFailure(message: String) {
-                TODO("Not yet implemented")
+                if (message.contains("null", ignoreCase = true) || message.contains("없", ignoreCase = true)) {
+                    //데이터가 없거나 null일 때
+                    Toast.makeText(this@RecordSymptomsActivity, "기록된 데이터가 없습니다.", Toast.LENGTH_SHORT).show()
+                    Log.w("DailyStatus", "데이터는 받았지만 내용이 null이거나 없음")
+                } else {
+                    //서버 요청 실패 등 일반 오류
+                    Toast.makeText(this@RecordSymptomsActivity, "서버 통신 실패: $message", Toast.LENGTH_SHORT).show()
+                    Log.e("DailyStatus", "서버에서 데이터를 가져오는 데 실패함: $message")
+                }
             }
         })
 

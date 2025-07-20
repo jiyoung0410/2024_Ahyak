@@ -60,4 +60,11 @@ interface RetroInterface {
     fun getAddMed(
         @Query("date") date: String
     ): Call<BaseResponse<AdditionMedDataWrapper<ArrayList<GetAddMedResponse>>>>
+
+    //Daily Status - 등록
+    @POST("/dailyStatus")
+    fun postDailyStatus(
+        @Body request: SymptomRequest
+    ): Call<DailyStatusResponse>
+
 }
