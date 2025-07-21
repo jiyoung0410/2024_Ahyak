@@ -11,14 +11,18 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
 import android.widget.Toast
 import com.example.ahyak.DB.AhyakDataBase
+import com.example.ahyak.DB.AuthService
 import com.example.ahyak.DB.FreeMedicineEntity
+import com.example.ahyak.DB.Medicine
+import com.example.ahyak.DB.PostMedicineCallback
+import com.example.ahyak.DB.PostMedicineRequest
 import com.example.ahyak.R
 import com.example.ahyak.databinding.ActivityFreeRegisterPillBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class FreeRegisterPillActivity : AppCompatActivity() {
+class  FreeRegisterPillActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityFreeRegisterPillBinding
     var selectshape : String = ""
@@ -36,6 +40,8 @@ class FreeRegisterPillActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         binding = ActivityFreeRegisterPillBinding.inflate(layoutInflater)
+
+        setContentView(binding.root)
 
         binding.freeRecordPillSerachForNameEt.imeOptions = EditorInfo.IME_ACTION_DONE
 
@@ -420,31 +426,65 @@ class FreeRegisterPillActivity : AppCompatActivity() {
             //식별 정보
             val FreeMedicineCode = binding.freeRecordPillSerachCodeEt.text.toString()
 
-            // 코루틴을 사용하여 백그라운드 스레드에서 데이터베이스 작업 실행
-            GlobalScope.launch(Dispatchers.IO) {
-                // 데이터베이스 초기화
-                ahyakDatabase = AhyakDataBase.getInstance(this@FreeRegisterPillActivity)
-
-                // 데이터베이스에서 해당 이름을 가진 자유기록 약이 있는지 불러오기
-                val existingMedicineList =
-                    ahyakDatabase!!.getFreeMedicineDao()?.getFreeMedicine(FreeMedicineName)
-
-                // 약 이름만 추출
-                existingMedicineNames = existingMedicineList?.map { it.FreeMedicineName }.toString()
-            }
-            if (existingMedicineNames.contains(FreeMedicineName)) {
-                // 메인 스레드에서 Toast 메시지 표시
-                    Toast.makeText(this, "이미 등록된 약입니다.", Toast.LENGTH_SHORT).show()
-
-            } else {
-                GlobalScope.launch(Dispatchers.IO) {
-                    //자유 약 기록하기
-                    ahyakDatabase!!.getFreeMedicineDao()?.insertFreeMedicine(FreeMedicineEntity(
-                        FreeMedicineName, FreeMedicineCode, selectshape, selectcolor, selecttype, selectline))
-
-                    val existingMedicine2 = ahyakDatabase!!.getFreeMedicineDao().getFreeMedicine(FreeMedicineName)
-                    Log.d("제대로 저장되었는지 check", "$existingMedicine2")
+            //API 연결
+            val authService = AuthService(this)
+            authService.setPostMedicineView(object: PostMedicineCallback {
+                override fun onPostMedicineLoading() {
+                    // 로딩 인디케이터 표시
                 }
+
+                override fun onPostMedicineSuccess(medicine: Medicine) {
+                    Toast.makeText(
+                        this@FreeRegisterPillActivity,
+                        "약 추가 성공: ${medicine.name}",  // 이제 실제 name 값이 찍힙니다!
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
+                override fun onPostMedicineFailure(message: String) {
+                    Toast.makeText(this@FreeRegisterPillActivity, "약 추가 실패: $message", Toast.LENGTH_SHORT).show()
+                }
+            })
+
+            // 요청 객체 생성
+            val req = PostMedicineRequest(
+                name  = FreeMedicineName,
+                print = FreeMedicineCode,
+                shape = selectshape,
+                color = selectcolor,
+                type  = selecttype,
+                line  = selectline
+            )
+
+            // 호출
+            authService.postMedicine(req)
+
+
+//            // 코루틴을 사용하여 백그라운드 스레드에서 데이터베이스 작업 실행
+//            GlobalScope.launch(Dispatchers.IO) {
+//                // 데이터베이스 초기화
+//                ahyakDatabase = AhyakDataBase.getInstance(this@FreeRegisterPillActivity)
+//
+//                // 데이터베이스에서 해당 이름을 가진 자유기록 약이 있는지 불러오기
+//                val existingMedicineList =
+//                    ahyakDatabase!!.getFreeMedicineDao()?.getFreeMedicine(FreeMedicineName)
+//
+//                // 약 이름만 추출
+//                existingMedicineNames = existingMedicineList?.map { it.FreeMedicineName }.toString()
+//            }
+//            if (existingMedicineNames.contains(FreeMedicineName)) {
+//                // 메인 스레드에서 Toast 메시지 표시
+//                    Toast.makeText(this, "이미 등록된 약입니다.", Toast.LENGTH_SHORT).show()
+//
+//            } else {
+//                GlobalScope.launch(Dispatchers.IO) {
+//                    //자유 약 기록하기
+//                    ahyakDatabase!!.getFreeMedicineDao()?.insertFreeMedicine(FreeMedicineEntity(
+//                        FreeMedicineName, FreeMedicineCode, selectshape, selectcolor, selecttype, selectline))
+//
+//                    val existingMedicine2 = ahyakDatabase!!.getFreeMedicineDao().getFreeMedicine(FreeMedicineName)
+//                    Log.d("제대로 저장되었는지 check", "$existingMedicine2")
+//                }
 
                 // 약 이름이 중복되지 않으면 다음 화면으로 이동
                 val intent = Intent(this@FreeRegisterPillActivity, RegisterPillActivity::class.java)
@@ -453,6 +493,6 @@ class FreeRegisterPillActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         }
-        setContentView(binding.root)
-    }
+
 }
+

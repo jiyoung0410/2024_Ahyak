@@ -112,6 +112,54 @@ data class SymptomRequest(
     @SerializedName("additionalInfo") val additionalInfo: String
 )
 
+//Medicine > 약 정보 조회(모양으로 저장한 약)
+data class MedicineResponse(
+    @SerializedName("status") val status: String,
+    @SerializedName("data")   val data: MedicineData
+)
+
+data class MedicineData(
+    @SerializedName("medicine") val medicine: List<Medicine>
+)
+
+//Medicine-약 추가하기(모양으로 약 추가)
+// 1) POST 요청 바디용 DTO (요청할 때 이걸 씁니다)
+data class PostMedicineRequest(
+    @SerializedName("name")  val name: String,
+    @SerializedName("print") val print: String,
+    @SerializedName("shape") val shape: String,
+    @SerializedName("color") val color: String,
+    @SerializedName("type")  val type: String,
+    @SerializedName("line")  val line: String
+)
+
+// 2) 응답 전체를 감쌀 최상위 DTO
+data class PostMedicineResponse(
+    @SerializedName("status") val status: String,
+    @SerializedName("data")   val wrapper: PostMedicineWrapper
+)
+
+// 3) 첫 번째 "data" 객체
+data class PostMedicineWrapper(
+    @SerializedName("status") val status: String,
+    @SerializedName("data")   val medicine: Medicine
+)
+
+// 4) 실제 약 정보 객체 (seq 필드도 포함)
+data class Medicine(
+    @SerializedName("seq")       val seq: String,
+    @SerializedName("name")      val name: String,
+    @SerializedName("print")     val print: String,
+    @SerializedName("shape")     val shape: String,
+    @SerializedName("color")     val color: String,
+    @SerializedName("type")      val type: String,
+    @SerializedName("line")      val line: String,
+    @SerializedName("tokenized") val tokenized: String,
+    @SerializedName("_id")       val id: String,
+    @SerializedName("__v")       val version: Int
+)
+
+
 //RoomDB
 @Entity(tableName = "AhyakTable" )
 data class AhyakEntity(
