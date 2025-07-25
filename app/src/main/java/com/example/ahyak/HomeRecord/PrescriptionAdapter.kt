@@ -108,6 +108,7 @@ class PrescriptionAdapter(
                                 putExtra("presmodify_hospital", sympotm.Hospital)
                                 putExtra("presmodify_startdate", sympotm.Start_Date)
                                 putExtra("presmodify_enddate",sympotm.End_Date)
+                                putExtra("presmodify_id",sympotm.PrescriptionId)
                             }
                             //parentFragmentManager.popBackStack()
                             binding.root.context.startActivity(intent)
@@ -180,7 +181,7 @@ class PrescriptionAdapter(
         GlobalScope.launch(Dispatchers.IO) {
             ahyakDatabase = AhyakDataBase.getInstance(context)
             ahyakDatabase!!.getMedicineDao().deletePrescriptionMedicine(prescription.Prescription)
-            ahyakDatabase!!.getPrescriptionDao().deletePrescription(prescription.Prescription)
+            ahyakDatabase!!.getPrescriptionDao().deletePrescription(prescription.PrescriptionId)
             withContext(Dispatchers.Main) {
                 notifyItemRemoved(optionPosition)
                 notifyDataSetChanged()

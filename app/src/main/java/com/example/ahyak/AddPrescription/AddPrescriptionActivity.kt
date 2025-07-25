@@ -42,6 +42,9 @@ class AddPrescriptionActivity : AppCompatActivity(), PrescriptionView, DatePicke
     //데이터 베이스 객체
     var ahyakDatabase : AhyakDataBase? = null
 
+    //수정 여부를 나타내는 flag
+    private var modifyFlag : Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddSymptomsBinding.inflate(layoutInflater)
@@ -74,8 +77,10 @@ class AddPrescriptionActivity : AppCompatActivity(), PrescriptionView, DatePicke
         val hosp_modify = intent.getStringExtra("presmodify_hospital")
         val start_modify = intent.getStringExtra("presmodify_startdate")
         val end_modify = intent.getStringExtra("presmodify_enddate")
+        val id_modify = intent.getStringExtra("presmodify_id")
 
         if(pres_modify != null) {
+            modifyFlag = true
             binding.addSymptomsSymptomNameEt.setText(pres_modify)
             binding.addSymptomsSymptomNameEt.clearFocus()
             binding.addSymptomsHospitalNameEt.setText(hosp_modify)
@@ -231,7 +236,12 @@ class AddPrescriptionActivity : AppCompatActivity(), PrescriptionView, DatePicke
 
             val authService = AuthService(this)
             authService.setPrescriptionView(this)
-            authService.registPrescription(prescriptionName,hospitalName,start_Date,end_Date)
+
+            if (modifyFlag == true) {
+                authService.modifyPrescription(prescriptionName,hospitalName,start_Date,end_Date,id_modify!!)
+            } else {
+                authService.registPrescription(prescriptionName,hospitalName,start_Date,end_Date)
+            }
 
 //            GlobalScope.launch(Dispatchers.IO) {
 //
@@ -332,5 +342,57 @@ class AddPrescriptionActivity : AppCompatActivity(), PrescriptionView, DatePicke
 
     override fun PrescriptionFailure() {
         Log.d("addPrescription","처방 추가 실패")
+    }
+
+    override fun PrescriptionModifyLoading() {
+    }
+
+    override fun PrescriptionModifySuccess(prescriptionId: String, prescriptionName: String) {
+        val prescriptionName = binding.addSymptomsSymptomNameEt.text.toString()
+        val hospitalName = binding.addSymptomsHospitalNameEt.text.toString()
+        val times = listOf("아침", "저녁", "점심","취침 전", "기상 직후")
+
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val start_Date = dateFormat.parse(StartDate)!!
+        val end_Date = dateFormat.parse(EndDate)!!
+
+        val calendar = Calendar.getInstance()
+        calendar.time = start_Date
+
+        GlobalScope.launch(Dispatchers.IO) {
+            ahyakDatabase = AhyakDataBase.getInstance(this@AddPrescriptionActivity)
+
+            ahyakDatabase!!.getMedicineDao().deletePrescriptionMedicine(prescriptionName)
+            ahyakDatabase!!.getPrescriptionDao().deletePrescription(prescriptionId)
+
+            while (calendar.time <= end_Date) {
+                val currentDateString = dateFormat.format(calendar.time)
+
+                for (time in times) {
+                    // 증상 등록
+                    ahyakDatabase!!.getPrescriptionDao()?.insertPrescription(
+                        PrescriptionEntity(
+                            prescriptionId,
+                            prescriptionName,
+                            calendar.get(Calendar.MONTH) + 1, // 월 (1부터 시작)
+                            calendar.get(Calendar.DAY_OF_MONTH), // 일
+                            time,
+                            hospitalName,
+                            currentDateString,
+                            EndDate
+                        )
+                    )
+                }
+                calendar.add(Calendar.DAY_OF_MONTH, 1) // 다음 날짜로 이동
+            }
+            Log.d("modifyPrescription","처방 수정 성공")
+            finish()
+            val intent = Intent(this@AddPrescriptionActivity, MainActivity::class.java)
+            startActivity(intent)
+        }
+    }
+
+    override fun PrescriptionModifyFailure() {
+        Log.d("modifyPrescription","처방 수정 실패")
     }
 }
