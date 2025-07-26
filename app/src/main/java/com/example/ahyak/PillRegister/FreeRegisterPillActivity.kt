@@ -33,6 +33,9 @@ class  FreeRegisterPillActivity : AppCompatActivity() {
     //약 이름 중복확인
     var existingMedicineNames :String = ""
 
+    //약 ID 넘기기 위한 변수
+    var medicine_id : String = ""
+
     //데이터 베이스 객체
     var ahyakDatabase : AhyakDataBase? = null
 
@@ -434,6 +437,7 @@ class  FreeRegisterPillActivity : AppCompatActivity() {
                 }
 
                 override fun onPostMedicineSuccess(medicine: Medicine) {
+                    medicine_id = medicine.id
                     Toast.makeText(
                         this@FreeRegisterPillActivity,
                         "약 추가 성공: ${medicine.name}",  // 이제 실제 name 값이 찍힙니다!
@@ -487,10 +491,16 @@ class  FreeRegisterPillActivity : AppCompatActivity() {
 //                }
 
                 // 약 이름이 중복되지 않으면 다음 화면으로 이동
-                val intent = Intent(this@FreeRegisterPillActivity, RegisterPillActivity::class.java)
-                intent.putExtra("FreeMedicineName", FreeMedicineName)
-                finish()
-                startActivity(intent)
+//                val intent = Intent(this@FreeRegisterPillActivity, RegisterPillActivity::class.java)
+//                intent.putExtra("FreeMedicineName", FreeMedicineName)
+//                finish()
+//                startActivity(intent)
+            val intent = Intent(this@FreeRegisterPillActivity, RegisterPillActivity::class.java)
+            intent.putExtra("FreeMedicineName", FreeMedicineName)
+            intent.putExtra("FreeMedicineId", medicine_id)
+            Log.d("medicine_id", "$medicine_id")
+            finish()
+            startActivity(intent)
             }
         }
 

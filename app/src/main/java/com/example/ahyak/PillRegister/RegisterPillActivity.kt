@@ -422,9 +422,9 @@ class RegisterPillActivity : AppCompatActivity(), OnItemRegisterClickListener, A
                     existingMedicineNames =
                         existingMedicineList2?.map { it.FreeMedicineName }.toString()
 
+                    //Free Medicine인지 확인
                     registerPillFree = existingMedicineNames.contains(registerPilltext)
 
-                    //Free Medicine인지 확인
                     if (dates != null) {
                         for (date in dates) {
                             val splitDate = date.split(".") // 날짜를 월과 일로 분리
@@ -751,6 +751,11 @@ class RegisterPillActivity : AppCompatActivity(), OnItemRegisterClickListener, A
             if (dates != null) {
                 for (date in dates) {
                     val splitDate = date.split(".") // 날짜를 월과 일로 분리
+
+                    if (splitDate.size < 3) {
+                        Log.w("RegisterPill", "잘못된 날짜 포맷 건너뜁니다: '$date'")
+                        continue
+                    }
                     val selectedMonth = splitDate[1].toInt()
                     val selectedDay = splitDate[2].toInt()
 
