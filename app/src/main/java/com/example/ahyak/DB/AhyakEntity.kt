@@ -47,6 +47,14 @@ data class Prescription(
     @SerializedName("__v") val __v: Int
 )
 
+data class ModifyPresRequest(
+    @SerializedName("name") val name: String,
+    @SerializedName("hospital") val hospital: String,
+    @SerializedName("start_date") val start_date: String,
+    @SerializedName("end_date") val end_date: String,
+    @SerializedName("prescription_id") val prescriptionId: String,
+)
+
 //DailyStatus
 // 조회(Request) - DailyStatus
 data class DailyStatusResponse(

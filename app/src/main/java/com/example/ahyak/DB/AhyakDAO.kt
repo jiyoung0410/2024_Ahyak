@@ -36,8 +36,8 @@ interface PrescriptionDAO {
     @Query("SELECT * FROM PrescriptionTable WHERE Month = :month AND Day = :day AND Slot = :slot")
     fun getPrescription(month: Int?, day: Int?, slot: String?): MutableList<PrescriptionEntity>
 
-    @Query("DELETE FROM PrescriptionTable WHERE Prescription = :prescription")
-    fun deletePrescription(prescription: String): Int
+    @Query("DELETE FROM PrescriptionTable WHERE PrescriptionId = :prescriptionId")
+    fun deletePrescription(prescriptionId: String): Int
 
     @Query("DELETE FROM PrescriptionTable")
     fun deleteAllPrescriptions(): Int

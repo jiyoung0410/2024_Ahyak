@@ -224,6 +224,31 @@ class AuthService(private val context: Context) {
             })
     }
 
+    fun modifyPrescription(name: String, hospital: String, startDate: String, endDate: String, prescriptionId: String) {
+        prescriptionView.PrescriptionModifyLoading()
+        val request = ModifyPresRequest(name,hospital,startDate,endDate,prescriptionId)
+        authService.modifyPrescription(request)
+            .enqueue(object : Callback<BaseResponse<MessageResponse>> {
+                override fun onResponse(
+                    call: Call<BaseResponse<MessageResponse>>,
+                    response: Response<BaseResponse<MessageResponse>>
+                ) {
+                    val resp = response.body()
+                    Log.d("Prescription Modify response body", resp.toString())
+                    //saveJwt(resp!!.result.jwt)
+                    if (resp!!.status == "success") {
+                        prescriptionView.PrescriptionModifySuccess(prescriptionId,name)
+                    } else {
+                        prescriptionView.PrescriptionModifyFailure()
+                    }
+                }
+
+                override fun onFailure(call: Call<BaseResponse<MessageResponse>>, t: Throwable) {
+                    Log.d("Prescription MOdify Failure",t.toString())
+                }
+            })
+    }
+
     //Daily Status - 조회
     fun getDailyStatus(date: String, callback: DailyStatusCallback) {
         authService.getDailyStatus(date)

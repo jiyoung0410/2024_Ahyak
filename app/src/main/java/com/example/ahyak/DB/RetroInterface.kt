@@ -5,6 +5,7 @@ import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -43,6 +44,11 @@ interface RetroInterface {
     fun registPrescription(
         @Body request: RegistPresRequest
     ) : Call<BaseResponse<RegistPresResponse>>
+
+    @PATCH("prescription")
+    fun modifyPrescription(
+        @Body request: ModifyPresRequest
+    ) : Call<BaseResponse<MessageResponse>>
 
     //Daily Status - 조회
     @GET("/dailyStatus")
