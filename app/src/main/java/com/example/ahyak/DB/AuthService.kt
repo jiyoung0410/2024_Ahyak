@@ -23,6 +23,17 @@ class AuthService(private val context: Context) {
     private lateinit var additionalMediView: AdditionalMediView
     private lateinit var homeStatusView: HomeStatusView
     private lateinit var prescriptionItemView: PrescriptionItemView
+    private lateinit var medicineView: MedicineCallback
+    private lateinit var postMedicineView: PostMedicineCallback
+
+    fun setPostMedicineView(view: PostMedicineCallback) {
+        this.postMedicineView = view
+    }
+
+
+    fun setMedicineView(medicineView: MedicineCallback) {
+        this.medicineView = medicineView
+    }
 
     fun setLoginView(loginView: LoginView) {
         this.loginView = loginView
@@ -340,7 +351,67 @@ class AuthService(private val context: Context) {
                 }
             })
     }
+    //Medicine > 약 정보 조회
+    fun getMedicines() {
+        medicineView.onGetMedicineLoading()
+        authService.getMedicines()
+            .enqueue(object : Callback<BaseResponse<MedicineResponse>> {
+                override fun onResponse(
+                    call: Call<BaseResponse<MedicineResponse>>,
+                    response: Response<BaseResponse<MedicineResponse>>
+                ) {
+                    if (response.isSuccessful) {
+                        val body = response.body()
+                        if (body?.status == "success") {
+                            val list = body.data.data.medicine    // ← 여기를 .data.data.medicine 으로
+                            medicineView.onGetMedicineSuccess(list)
+                        } else {
+                            medicineView.onGetMedicineFailure("서버 응답 오류: ${body?.status}")
+                        }
+                    } else {
+                        medicineView.onGetMedicineFailure("HTTP 오류: ${response.code()}")
+                    }
+                }
+
+                override fun onFailure(call: Call<BaseResponse<MedicineResponse>>, t: Throwable) {
+                    medicineView.onGetMedicineFailure("네트워크 오류: ${t.message}")
+                }
+            })
+    }
+    //Post Medicine
+    fun postMedicine(request: PostMedicineRequest) {
+        postMedicineView.onPostMedicineLoading()
+        authService.postMedicine(request)
+            .enqueue(object : Callback<PostMedicineResponse> {
+                override fun onResponse(
+                    call: Call<PostMedicineResponse>,
+                    response: Response<PostMedicineResponse>
+                ) {
+                    val body = response.body()
+                    if (response.isSuccessful && body?.status == "success") {
+                        val med = body.wrapper.medicine
+                                postMedicineView.onPostMedicineSuccess(med)
+                        if (med != null) {
+                            // 정상적으로 medicine 객체가 있을 때
+                            postMedicineView.onPostMedicineSuccess(med)
+                        } else {
+                            // medicine 필드가 null 일 때
+                            postMedicineView.onPostMedicineFailure("서버에서 약 정보를 받아올 수 없습니다.")
+                        }
+                    } else {
+                        // HTTP 에러 또는 status != success
+                        postMedicineView.onPostMedicineFailure("HTTP 오류: ${response.code()}")
+                    }
+                }
+
+                override fun onFailure(call: Call<PostMedicineResponse>, t: Throwable) {
+                    postMedicineView.onPostMedicineFailure("네트워크 오류: ${t.message}")
+                }
+            })
+    }
+
 }
+
 
 // DailyStatus - 조회 인터페이스
 interface DailyStatusCallback {
@@ -352,4 +423,18 @@ interface DailyStatusCallback {
 interface SymptomCallback {
     fun onSymptomSuccess(data: DailyStatus)
     fun onSymptomFailure(message: String)
+}
+
+// Medicine - 약 정보 조회
+interface MedicineCallback {
+    fun onGetMedicineLoading()
+    fun onGetMedicineSuccess(medicineList: List<Medicine>)
+    fun onGetMedicineFailure(message: String)
+}
+
+//PostMedicine - 모양으로 약 등록
+interface PostMedicineCallback {
+    fun onPostMedicineLoading()
+    fun onPostMedicineSuccess(medicine: Medicine)
+    fun onPostMedicineFailure(message: String)
 }

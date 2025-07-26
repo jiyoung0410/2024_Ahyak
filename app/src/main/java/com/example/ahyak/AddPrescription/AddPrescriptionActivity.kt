@@ -151,7 +151,8 @@ class AddPrescriptionActivity : AppCompatActivity(), PrescriptionView, DatePicke
         val todayYear = localDate.year
         StartMonth = localDate.monthValue
         StartDay = localDate.dayOfMonth
-        StartDate = todayYear.toString() + "-" + (StartMonth).toString() + "-" + StartDay.toString()
+        //StartDate = todayYear.toString() + "-" + (StartMonth).toString() + "-" + StartDay.toString()
+        StartDate = String.format("%04d-%02d-%02d", todayYear, StartMonth, StartDay)
 
         binding.addSymptomsStartdayTv.text = StartDate
 
@@ -168,7 +169,7 @@ class AddPrescriptionActivity : AppCompatActivity(), PrescriptionView, DatePicke
 
             val datePickerDialog = DatePickerDialog(this,
                 { _, year, month, day ->
-                StartDate = year.toString() + "-" + (month + 1).toString() + "-" + day.toString()
+                StartDate = String.format("%04d-%02d-%02d", year, month+1, day)
                 binding.addSymptomsStartdayTv.text = StartDate
                 StartMonth = month + 1
                 StartDay = day
@@ -200,7 +201,7 @@ class AddPrescriptionActivity : AppCompatActivity(), PrescriptionView, DatePicke
             val datePickerDialog = DatePickerDialog(this, { _, selectedYear, selectedMonth, selectedDay ->
 
                 // 선택한 종료일 저장
-                EndDate = "$selectedYear-${selectedMonth + 1}-$selectedDay"
+                EndDate = String.format("%04d-%02d-%02d", selectedYear, selectedMonth+1, selectedDay)
                 binding.addSymptomsEnddayTv.text = EndDate
 
                 // 버튼 활성화

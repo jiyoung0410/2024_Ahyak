@@ -73,4 +73,14 @@ interface RetroInterface {
         @Body request: SymptomRequest
     ): Call<DailyStatusResponse>
 
+    //Medicine > 약 정보 조회(모양으로 저장한 약 조회)
+    @GET("/medicine")
+    fun getMedicines(): Call<BaseResponse<MedicineResponse>>
+
+    //PostMedicine
+    @POST("/medicine")
+    fun postMedicine(
+        @Body request: PostMedicineRequest
+    ): Call<PostMedicineResponse>
+
 }
