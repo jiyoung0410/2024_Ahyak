@@ -24,6 +24,17 @@ data class RefreshTokenRequest(
     @SerializedName("refreshToken") val refreshToken: String
 )
 
+data class RegistMediRecRequest(
+    @SerializedName("medicine_id") val medicineId: String,
+    @SerializedName("medicine_name") val medicineName: String,
+    @SerializedName("dose") val dose: String,
+    @SerializedName("unit") val unit: String,
+    @SerializedName("frequency") val frequency: String,
+    @SerializedName("times") val times: String,
+    @SerializedName("start_date") val startDate: String,
+    @SerializedName("prescription_id") val prescriptionId: String,
+)
+
 
 data class RegistPresRequest(
     @SerializedName("name") val name: String,

@@ -11,7 +11,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
 import com.example.ahyak.R
 import com.example.ahyak.databinding.ActivitySearchPillBinding
-import com.example.ahyak.remote.AuthService
+import com.example.ahyak.remote.oldAuthService
 import com.example.ahyak.remote.DrugSearchNameView
 import com.example.ahyak.remote.DrugSearchShapeView
 import com.example.ahyak.remote.RESULT
@@ -40,7 +40,7 @@ class SearchPillActivity : AppCompatActivity(), DrugSearchNameView, DrugSearchSh
         PrescriptionName = sharedPref.getString("prescriptionName", "")!!
 
         //API 연결
-        val authService = AuthService(this@SearchPillActivity)
+        val oldAuthService = oldAuthService(this@SearchPillActivity)
 //        authService.setdrugSearchNameView(this)
 //        authService.drugSearchName("타이레놀")
 
@@ -237,9 +237,9 @@ class SearchPillActivity : AppCompatActivity(), DrugSearchNameView, DrugSearchSh
                     print_discrimination = "NULL"
                 }
 
-                authService.setdrugSearchShapeView(this)
+                oldAuthService.setdrugSearchShapeView(this)
                 Log.d("Send Shape", "$print_discrimination,$selectshape,$selectcolor,$selectformulation,$selectline")
-                authService.drugSearchShape("$print_discrimination",selectshape,selectcolor,selectformulation,selectline)
+                oldAuthService.drugSearchShape("$print_discrimination",selectshape,selectcolor,selectformulation,selectline)
             }
         }
 

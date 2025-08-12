@@ -39,6 +39,16 @@ interface RetroInterface {
         @Query("prescription_id") prescriptionId: String
     ) : Call<BaseResponse<MessageResponse>>
 
+    @DELETE("/prescription/medicine")
+    fun deleteMedicine(
+        @Query("userMedicine_id") userMedicineId: String
+    ) : Call<BaseResponse<MessageResponse>>
+
+    @POST("/medication/record")
+    fun registMediRecord(
+        @Body request: RegistMediRecRequest
+    ) : Call<BaseResponse<MessageResponse>>
+
     //처방 등록
     @POST("prescription")
     fun registPrescription(
@@ -75,7 +85,15 @@ interface RetroInterface {
 
     //Medicine > 약 정보 조회(모양으로 저장한 약 조회)
     @GET("/medicine")
-    fun getMedicines(): Call<BaseResponse<MedicineResponse>>
+    fun getMedicines(
+        @Query("medicineId") medicineId: String?,
+        @Query("name") name: String?,
+        @Query("text") text: String?,
+        @Query("shape") shape: String?,
+        @Query("color") color: String?,
+        @Query("type") type: String?,
+        @Query("line") line: String?
+    ): Call<BaseResponse<MedicineData>>
 
     //PostMedicine
     @POST("/medicine")

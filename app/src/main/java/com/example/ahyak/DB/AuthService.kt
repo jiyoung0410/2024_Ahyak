@@ -20,6 +20,8 @@ class AuthService(private val context: Context) {
     private lateinit var loginView: LoginView
     private lateinit var logoutView: LogoutView
     private lateinit var prescriptionView: PrescriptionView
+    private lateinit var medicineItemView: MedicineItemView
+    private lateinit var medicineRegistView: MedicineRegistView
     private lateinit var additionalMediView: AdditionalMediView
     private lateinit var homeStatusView: HomeStatusView
     private lateinit var prescriptionItemView: PrescriptionItemView
@@ -45,6 +47,14 @@ class AuthService(private val context: Context) {
 
     fun setPrescriptionView(prescriptionView: PrescriptionView) {
         this.prescriptionView = prescriptionView
+    }
+
+    fun setMedicineItemView(medicineItemView: MedicineItemView) {
+        this.medicineItemView = medicineItemView
+    }
+
+    fun setMedicineRegistView(medicineRegistView: MedicineRegistView) {
+        this.medicineRegistView = medicineRegistView
     }
 
     fun setAddtionalMediView(additionalMediView: AdditionalMediView) {
@@ -195,6 +205,54 @@ class AuthService(private val context: Context) {
 
                 override fun onFailure(call: Call<BaseResponse<MessageResponse>>, t: Throwable) {
                     Log.d("Prescription Delete Failure",t.toString())
+                }
+            })
+    }
+
+    fun deleteMedicine(userMedicineId: String) {
+        medicineItemView.DelMedicineLoading()
+        authService.deleteMedicine(userMedicineId)
+            .enqueue(object : Callback<BaseResponse<MessageResponse>> {
+                override fun onResponse(
+                    call: Call<BaseResponse<MessageResponse>>,
+                    response: Response<BaseResponse<MessageResponse>>
+                ) {
+                    val resp = response.body()
+                    Log.d("Medicince Delete response body", resp.toString())
+                    if (resp!!.status == "success") {
+                        medicineItemView.DelMedicineSuccess()
+                    } else {
+                        medicineItemView.DelMedicineFailure()
+                    }
+                }
+
+                override fun onFailure(call: Call<BaseResponse<MessageResponse>>, t: Throwable) {
+                    Log.d("Medicine Delete Failure",t.toString())
+                }
+            })
+    }
+
+    fun registMediRecord(medicineId: String, medicineName: String, dose: String, unit: String,
+                         frequency: String, times: String, startDate: String, prescriptionId: String) {
+        medicineRegistView.MedicineLoading()
+        val request = RegistMediRecRequest(medicineId,medicineName,dose,unit,frequency,times,startDate,prescriptionId)
+        authService.registMediRecord(request)
+            .enqueue(object : Callback<BaseResponse<MessageResponse>> {
+                override fun onResponse(
+                    call: Call<BaseResponse<MessageResponse>>,
+                    response: Response<BaseResponse<MessageResponse>>
+                ) {
+                    val resp = response.body()
+                    Log.d("Medicine Record Register response body", resp.toString())
+                    if (resp!!.status == "success") {
+                        medicineRegistView.MedicineSuccess()
+                    } else {
+                        medicineRegistView.MedicineFailure()
+                    }
+                }
+
+                override fun onFailure(call: Call<BaseResponse<MessageResponse>>, t: Throwable) {
+                    Log.d("Medicine Record Register Failure",t.toString())
                 }
             })
     }
@@ -352,18 +410,18 @@ class AuthService(private val context: Context) {
             })
     }
     //Medicine > 약 정보 조회
-    fun getMedicines() {
+    fun getMedicines(medicineId: String?, name: String?, text: String?, shape: String?, color: String?, type: String?, line: String?) {
         medicineView.onGetMedicineLoading()
-        authService.getMedicines()
-            .enqueue(object : Callback<BaseResponse<MedicineResponse>> {
+        authService.getMedicines(medicineId,name,text,shape,color,type,line)
+            .enqueue(object : Callback<BaseResponse<MedicineData>> {
                 override fun onResponse(
-                    call: Call<BaseResponse<MedicineResponse>>,
-                    response: Response<BaseResponse<MedicineResponse>>
+                    call: Call<BaseResponse<MedicineData>>,
+                    response: Response<BaseResponse<MedicineData>>
                 ) {
                     if (response.isSuccessful) {
                         val body = response.body()
                         if (body?.status == "success") {
-                            val list = body.data.data.medicine    // ← 여기를 .data.data.medicine 으로
+                            val list = body.data.medicine    // ← 여기를 .data.data.medicine 으로
                             medicineView.onGetMedicineSuccess(list)
                         } else {
                             medicineView.onGetMedicineFailure("서버 응답 오류: ${body?.status}")
@@ -373,7 +431,7 @@ class AuthService(private val context: Context) {
                     }
                 }
 
-                override fun onFailure(call: Call<BaseResponse<MedicineResponse>>, t: Throwable) {
+                override fun onFailure(call: Call<BaseResponse<MedicineData>>, t: Throwable) {
                     medicineView.onGetMedicineFailure("네트워크 오류: ${t.message}")
                 }
             })
@@ -390,7 +448,6 @@ class AuthService(private val context: Context) {
                     val body = response.body()
                     if (response.isSuccessful && body?.status == "success") {
                         val med = body.wrapper.medicine
-                                postMedicineView.onPostMedicineSuccess(med)
                         if (med != null) {
                             // 정상적으로 medicine 객체가 있을 때
                             postMedicineView.onPostMedicineSuccess(med)

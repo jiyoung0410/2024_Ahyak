@@ -19,19 +19,24 @@ import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ahyak.DB.AhyakDataBase
 import com.example.ahyak.DB.MedicineEntity
+import com.example.ahyak.DB.MedicineRegistView
 import com.example.ahyak.MainActivity
 import com.example.ahyak.OCR.OCRprescriptionActivity
 import com.example.ahyak.R
 import com.example.ahyak.RecordSymptoms.frequency.FrequencyTermActivity
 import com.example.ahyak.databinding.ActivityRegisterPillBinding
-import com.example.ahyak.remote.AuthService
+import com.example.ahyak.remote.oldAuthService
+import com.example.ahyak.DB.AuthService
+import com.example.ahyak.DB.Medicine
+import com.example.ahyak.DB.MedicineCallback
 import com.example.ahyak.remote.AutoCompleteView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class RegisterPillActivity : AppCompatActivity(), OnItemRegisterClickListener, AutoCompleteView, ModifyPillDialogInterface {
+class RegisterPillActivity : AppCompatActivity(), OnItemRegisterClickListener, AutoCompleteView,
+    MedicineRegistView, MedicineCallback, ModifyPillDialogInterface {
 
     private lateinit var binding: ActivityRegisterPillBinding
     var registerpillType: String = "mg"
@@ -143,8 +148,13 @@ class RegisterPillActivity : AppCompatActivity(), OnItemRegisterClickListener, A
         registerPillInit()
         initregisterPilladapter()
 
+        val oldAuthService = oldAuthService(this@RegisterPillActivity)
+        oldAuthService.setautoCompleteView(this)
+
         val authService = AuthService(this@RegisterPillActivity)
-        authService.setautoCompleteView(this)
+        authService.setMedicineRegistView(this)
+        authService.setMedicineView(this)
+
 
         //text에 밑줄 추가하는 코드
         binding.registerPillSearchShapeTv.paintFlags = Paint.UNDERLINE_TEXT_FLAG
@@ -187,7 +197,7 @@ class RegisterPillActivity : AppCompatActivity(), OnItemRegisterClickListener, A
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 // 텍스트가 변경될 때마다 실행할 작업
-                authService.autoComplete(s.toString())
+                oldAuthService.autoComplete(s.toString())
                 filterPillName(s.toString())
             }
 
@@ -411,6 +421,8 @@ class RegisterPillActivity : AppCompatActivity(), OnItemRegisterClickListener, A
                 //Take - 0
 
                 GlobalScope.launch(Dispatchers.IO) {
+                    authService.getMedicines(null,registerPilltext,null,null,null,null,null)
+
                     //데이터베이스 초기화
                     ahyakDatabase = AhyakDataBase.getInstance(this@RegisterPillActivity)
 
@@ -788,5 +800,25 @@ class RegisterPillActivity : AppCompatActivity(), OnItemRegisterClickListener, A
 
             finish()
         }
+    }
+
+    override fun MedicineLoading() {
+    }
+
+    override fun MedicineSuccess() {
+    }
+
+    override fun MedicineFailure() {
+    }
+
+    override fun onGetMedicineLoading() {
+    }
+
+    override fun onGetMedicineSuccess(medicineList: List<Medicine>) {
+        Log.d("Get Medicine", "약 정보 불러오기 성공")
+    }
+
+    override fun onGetMedicineFailure(message: String) {
+        Log.d("Get Medicine", "약 정보 불러오기 실패")
     }
 }

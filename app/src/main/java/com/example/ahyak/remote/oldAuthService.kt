@@ -7,7 +7,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class AuthService(private val context: Context) {
+class oldAuthService(private val context: Context) {
     private val authService = ApplicationClass.retrofit?.create(RetroInterface::class.java)
 
     private lateinit var drugSearchNameView: DrugSearchNameView

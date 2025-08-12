@@ -19,7 +19,7 @@ import com.example.ahyak.PillDetailGuide.DetailPillActivity
 import com.example.ahyak.PillRegister.RegisterPillActivity
 import com.example.ahyak.R
 import com.example.ahyak.databinding.ItemCalendarAddPillBinding
-import com.example.ahyak.remote.AuthService
+import com.example.ahyak.remote.oldAuthService
 import com.example.ahyak.remote.EffectInfoResponseResult
 import com.example.ahyak.remote.EffectInfoView
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -56,7 +56,7 @@ class MedicineAdapter() : RecyclerView.Adapter<MedicineAdapter.ViewHolder>() {
 
     inner class ViewHolder(val binding: ItemCalendarAddPillBinding, val context: Context) : RecyclerView.ViewHolder(binding.root), EffectInfoView{
 
-        val authService = AuthService(context)
+        val oldAuthService = oldAuthService(context)
 
         fun bind(addpill: MedicineEntity){
             binding.itemCalendarPillNameTv.text = addpill.MedicineName + " " + addpill.MedicineVolume.toString() + " " + addpill.MedicineType
@@ -249,8 +249,8 @@ class MedicineAdapter() : RecyclerView.Adapter<MedicineAdapter.ViewHolder>() {
                                 val pillName = addpillList[position].MedicineName // 현재 아이템의 약 이름 가져오기
                                 Log.d("pillName", "$pillName")
                                 SendpillName = pillName
-                                authService.seteffectInfoView(this@ViewHolder)
-                                authService.effectInfo(pillName)
+                                oldAuthService.seteffectInfoView(this@ViewHolder)
+                                oldAuthService.effectInfo(pillName)
                             }
                         }
                     }
