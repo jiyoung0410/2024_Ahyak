@@ -44,7 +44,7 @@ interface RetroInterface {
         @Query("userMedicine_id") userMedicineId: String
     ) : Call<BaseResponse<MessageResponse>>
 
-    @POST("/medication/record")
+    @POST("/prescription/medicine")
     fun registMediRecord(
         @Body request: RegistMediRecRequest
     ) : Call<BaseResponse<MessageResponse>>

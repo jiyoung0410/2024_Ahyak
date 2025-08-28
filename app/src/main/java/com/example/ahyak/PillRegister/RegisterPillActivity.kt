@@ -30,6 +30,7 @@ import com.example.ahyak.DB.AuthService
 import com.example.ahyak.DB.Medicine
 import com.example.ahyak.DB.MedicineCallback
 import com.example.ahyak.remote.AutoCompleteView
+import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -45,6 +46,7 @@ class RegisterPillActivity : AppCompatActivity(), OnItemRegisterClickListener, A
     var resultPillName: String = ""
     var registerPillFree: Boolean = false
     var searchPillName : String = ""
+    var pillStartDate : String = ""
 
     //자유기록인지 확인하기 위한 변수
     var existingMedicineNames: String = ""
@@ -54,6 +56,7 @@ class RegisterPillActivity : AppCompatActivity(), OnItemRegisterClickListener, A
 
     //선택된 처방 이름 Sharedpreference로 저장받을 변수 선언
     var PrescriptionName: String = ""
+    var prescriptionId: String = ""
 
     //데이터 베이스 객체
     var ahyakDatabase: AhyakDataBase? = null
@@ -64,12 +67,15 @@ class RegisterPillActivity : AppCompatActivity(), OnItemRegisterClickListener, A
 
     //빈도 text 설정하기 위함
     private var frequenctType : Int = -1
+    var pillFrequency: String = ""
 
     private val selectedTimes = mutableListOf<String>()
     var mdc_modify: String? = ""
     var type_modify: String? = ""
     var vol_modify: Float? = 0.0f
     var flag_modify = false
+
+    lateinit var authService: AuthService
 
     override fun onResume() {
         super.onResume()
@@ -84,14 +90,17 @@ class RegisterPillActivity : AppCompatActivity(), OnItemRegisterClickListener, A
         if(frequenctType == -1){
             binding.registerPillFrequencySelectTv.setText("선택")
         }else if(frequenctType == 0){
-            val frequenct = sharedPref.getInt("term", 0)!!
-            binding.registerPillFrequencySelectTv.setText("$frequenct 일 마다")
+            pillFrequency = sharedPref.getInt("term", 0)!!.toString()
+            binding.registerPillFrequencySelectTv.setText(pillFrequency + " 일 마다")
         }else if(frequenctType == 1){
-            val frequenct = sharedPref.getString("selectDay", "")!!
-            binding.registerPillFrequencySelectTv.setText("$frequenct 마다")
+            pillFrequency = sharedPref.getString("selectDay", "")!!
+            binding.registerPillFrequencySelectTv.setText(pillFrequency + " 마다")
         }else{
             binding.registerPillFrequencySelectTv.setText("필요시 투여")
         }
+
+        //복용 시작일 받아오기
+        pillStartDate = sharedPref.getString("start_Date","")!!
 
         mdc_modify = intent.getStringExtra("mdcmodify_medicine")
         type_modify = intent.getStringExtra("mdcmodify_type")
@@ -141,8 +150,9 @@ class RegisterPillActivity : AppCompatActivity(), OnItemRegisterClickListener, A
         val sharedPref = this.getSharedPreferences("myPref", Context.MODE_PRIVATE)
         val editor = sharedPref.edit()
 
-        //처방 이름 받아오기
+        //처방 이름 및 ID 받아오기
         PrescriptionName = sharedPref.getString("prescriptionName", "")!!
+        prescriptionId = sharedPref.getString("prescriptionId","")!!
 
         //약 자동완성 관련 초기화
         registerPillInit()
@@ -151,7 +161,7 @@ class RegisterPillActivity : AppCompatActivity(), OnItemRegisterClickListener, A
         val oldAuthService = oldAuthService(this@RegisterPillActivity)
         oldAuthService.setautoCompleteView(this)
 
-        val authService = AuthService(this@RegisterPillActivity)
+        authService = AuthService(this@RegisterPillActivity)
         authService.setMedicineRegistView(this)
         authService.setMedicineView(this)
 
@@ -407,7 +417,7 @@ class RegisterPillActivity : AppCompatActivity(), OnItemRegisterClickListener, A
             } else {
                 //처방 이름 - prescriptionName
                 //약 이름 가져오기
-                val registerPilltext = binding.registerPillNameInputEt.text.toString()
+                registerPillName = binding.registerPillNameInputEt.text.toString()
 
                 // 저장된 문자열을 dates 리스트로 변환하여 사용
                 val datesString = sharedPref.getString("dates", "") ?: ""
@@ -421,23 +431,23 @@ class RegisterPillActivity : AppCompatActivity(), OnItemRegisterClickListener, A
                 //Take - 0
 
                 GlobalScope.launch(Dispatchers.IO) {
-                    authService.getMedicines(null,registerPilltext,null,null,null,null,null)
+                    authService.getMedicines(null,registerPillName,null,null,null,null,null)
 
                     //데이터베이스 초기화
                     ahyakDatabase = AhyakDataBase.getInstance(this@RegisterPillActivity)
 
                     // 데이터베이스에서 해당 이름을 가진 자유기록 약이 있는지 불러오기
                     val existingMedicineList2 =
-                        ahyakDatabase!!.getFreeMedicineDao().getFreeMedicine(registerPilltext)
+                        ahyakDatabase!!.getFreeMedicineDao().getFreeMedicine(registerPillName)
 
                     // 약 이름만 추출
                     existingMedicineNames =
                         existingMedicineList2?.map { it.FreeMedicineName }.toString()
 
                     //Free Medicine인지 확인
-                    registerPillFree = existingMedicineNames.contains(registerPilltext)
+                    registerPillFree = existingMedicineNames.contains(registerPillName)
 
-                    if (dates != null) {
+                    if (dates.isNotEmpty()) {
                         for (date in dates) {
                             val splitDate = date.split(".") // 날짜를 월과 일로 분리
                             val selectedMonth = splitDate[1].toInt()
@@ -447,7 +457,7 @@ class RegisterPillActivity : AppCompatActivity(), OnItemRegisterClickListener, A
                                 // 약 추가
                                 ahyakDatabase!!.getMedicineDao().insertMedicine(
                                     MedicineEntity(
-                                        registerPilltext,
+                                        registerPillName,
                                         PrescriptionName,
                                         selectedMonth,
                                         selectedDay,
@@ -470,9 +480,9 @@ class RegisterPillActivity : AppCompatActivity(), OnItemRegisterClickListener, A
                     editor.putInt("type",-1)
                     editor.apply()
                 }
-                finish()
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
+//                finish()
+//                val intent = Intent(this, MainActivity::class.java)
+//                startActivity(intent)
             }
         }
         setContentView(binding.root)
@@ -735,7 +745,7 @@ class RegisterPillActivity : AppCompatActivity(), OnItemRegisterClickListener, A
         val editor = sharedPref.edit()
 
         //약 이름 가져오기
-        val registerPilltext = binding.registerPillNameInputEt.text.toString()
+        registerPillName = binding.registerPillNameInputEt.text.toString()
 
         // 저장된 문자열을 dates 리스트로 변환하여 사용
         val datesString = sharedPref.getString("dates", "") ?: ""
@@ -751,16 +761,16 @@ class RegisterPillActivity : AppCompatActivity(), OnItemRegisterClickListener, A
 
             // 데이터베이스에서 해당 이름을 가진 자유기록 약이 있는지 불러오기
             val existingMedicineList2 =
-                ahyakDatabase!!.getFreeMedicineDao().getFreeMedicine(registerPilltext)
+                ahyakDatabase!!.getFreeMedicineDao().getFreeMedicine(registerPillName)
 
             // 약 이름만 추출
             existingMedicineNames =
                 existingMedicineList2?.map { it.FreeMedicineName }.toString()
 
-            registerPillFree = existingMedicineNames.contains(registerPilltext)
+            registerPillFree = existingMedicineNames.contains(registerPillName)
 
             //Free Medicine인지 확인
-            if (dates != null) {
+            if (dates.isNotEmpty()) {
                 for (date in dates) {
                     val splitDate = date.split(".") // 날짜를 월과 일로 분리
 
@@ -775,7 +785,7 @@ class RegisterPillActivity : AppCompatActivity(), OnItemRegisterClickListener, A
                         // 약 추가
                         ahyakDatabase!!.getMedicineDao().insertMedicine(
                             MedicineEntity(
-                                registerPilltext,
+                                registerPillName,
                                 PrescriptionName,
                                 selectedMonth,
                                 selectedDay,
@@ -806,9 +816,14 @@ class RegisterPillActivity : AppCompatActivity(), OnItemRegisterClickListener, A
     }
 
     override fun MedicineSuccess() {
+        Log.d("Medicine register Success", "약 등록 성공")
+        finish()
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
     }
 
     override fun MedicineFailure() {
+        Log.d("Medicine register Failure", "약 등록 실패")
     }
 
     override fun onGetMedicineLoading() {
@@ -816,6 +831,70 @@ class RegisterPillActivity : AppCompatActivity(), OnItemRegisterClickListener, A
 
     override fun onGetMedicineSuccess(medicineList: List<Medicine>) {
         Log.d("Get Medicine", "약 정보 불러오기 성공")
+        lateinit var frequencyTypeString : String
+        if (frequenctType == 0) {
+            //빈도 : n일 간격, pillFrequency = 2와 같은 형식
+            frequencyTypeString = "interval"
+            authService.registMediRecord(
+                medicineList[0].id,
+                prescriptionId,
+                registerPillName,
+                registerPillVolume,
+                registerpillType,
+                frequencyTypeString,
+                null,
+                pillFrequency.toInt(),
+                selectedDays,
+                pillStartDate
+            )
+        } else if (frequenctType == 1) {
+            //빈도 : 지정된 요일마다, pillFrequency = [월, 수, 금]과 같은 형식
+            frequencyTypeString = "weekdays"
+            val parseDayList = pillFrequency.removeSurrounding("[","]").split(",").map { it.trim() }
+            val dayMap = mapOf("일" to 0, "월" to 1, "화" to 2, "수" to 3, "목" to 4, "금" to 5, "토" to 6)
+            val frequencyDayList = parseDayList.mapNotNull { dayMap[it] }
+            authService.registMediRecord(
+                medicineList[0].id,
+                prescriptionId,
+                registerPillName,
+                registerPillVolume,
+                registerpillType,
+                frequencyTypeString,
+                frequencyDayList,
+                null,
+                selectedDays,
+                pillStartDate
+            )
+        } else if (frequenctType == 2) {
+            //빈도 : 비정기적, 현재 UI상 미구현
+            frequencyTypeString = "custom"
+            authService.registMediRecord(
+                medicineList[0].id,
+                prescriptionId,
+                registerPillName,
+                registerPillVolume,
+                registerpillType,
+                frequencyTypeString,
+                null,
+                null,
+                selectedDays,
+                pillStartDate
+            )
+        } else {
+            frequencyTypeString = "null"
+            authService.registMediRecord(
+                medicineList[0].id,
+                prescriptionId,
+                registerPillName,
+                registerPillVolume,
+                registerpillType,
+                frequencyTypeString,
+                null,
+                null,
+                selectedDays,
+                pillStartDate
+            )
+        }
     }
 
     override fun onGetMedicineFailure(message: String) {

@@ -11,7 +11,7 @@ data class MessageResponse(
 )
 
 data class SignupRequest(
-    @SerializedName("nickName") val nickname : String,
+    @SerializedName("nickName") val nickName : String,
     @SerializedName("email") val email : String
 )
 
@@ -26,14 +26,30 @@ data class RefreshTokenRequest(
 
 data class RegistMediRecRequest(
     @SerializedName("medicine_id") val medicineId: String,
+    @SerializedName("prescription_id") val prescriptionId: String,
     @SerializedName("medicine_name") val medicineName: String,
     @SerializedName("dose") val dose: String,
     @SerializedName("unit") val unit: String,
-    @SerializedName("frequency") val frequency: String,
-    @SerializedName("times") val times: String,
-    @SerializedName("start_date") val startDate: String,
-    @SerializedName("prescription_id") val prescriptionId: String,
-)
+    @SerializedName("frequency_type") val frequencyType: String,
+    @SerializedName("frequency_weekdays") val frequencyWeekdays: List<Int>? = null,
+    @SerializedName("frequency_interval") val frequencyInterval: Int? = null,
+    @SerializedName("times") val times: MutableList<String>,
+    @SerializedName("start_date") val startDate: String
+) {
+    init {
+        when (frequencyType) {
+            "weekdays" -> require(!frequencyWeekdays.isNullOrEmpty() && frequencyInterval == null) {
+                "frequency_weekdays 사용"
+            }
+            "interval" -> require(frequencyInterval != null && frequencyWeekdays == null) {
+                "frequency_interval 사용"
+            }
+            "custom" -> require(frequencyWeekdays == null && frequencyInterval == null) {
+                "frequency_weekdays 및 frequency_interval 미사용"
+            }
+        }
+    }
+}
 
 
 data class RegistPresRequest(

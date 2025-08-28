@@ -154,6 +154,7 @@ class TodayRecordHomeFragment : Fragment(), HomeStatusView {
                 //약 추가하기 버튼 누르면 -> 새로운 약 추가 이벤트
                 val intent = Intent(requireContext(), RegisterPillActivity::class.java)
                 editor.putString("prescriptionName", symptom.Prescription)
+                editor.putString("prescriptionId",symptom.PrescriptionId)
                 editor.putString("endDate", symptom.End_Date)
                 editor.apply()
                 startActivity(intent)

@@ -161,9 +161,11 @@ class FrequencyTermActivity : AppCompatActivity() {
                     }
                     else -> emptyList()
                 }
+                val startDateString = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(start_Date.time)
                 withContext(Dispatchers.Main) {
                     editor.putString("dates", dates.joinToString(","))
                     editor.putInt("type", type)
+                    editor.putString("start_Date",startDateString)
                     editor.apply()
                     finish()
                 }

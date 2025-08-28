@@ -7,6 +7,7 @@ import android.widget.Toast
 import com.example.ahyak.DB.RetroInterface
 import com.example.ahyak.MainActivity
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.kakao.sdk.user.UserApiClient
 import retrofit2.Call
@@ -72,6 +73,7 @@ class AuthService(private val context: Context) {
     fun signup(nickname: String, email: String) {
         loginView.SignupLoading()
         val request = SignupRequest(nickname,email)
+        Log.d("Signup request body", request.toString())
         authService.signup(request)
             .enqueue(object : Callback<BaseResponse<MessageResponse>> {
                 override fun onResponse(
@@ -113,6 +115,7 @@ class AuthService(private val context: Context) {
                     response: Response<BaseResponse<LoginResponse>>
                 ) {
                     val resp = response.body()
+                    Log.d("Login request body", request.toString())
                     Log.d("Login response body", resp.toString())
                     if (response.isSuccessful) {
                         Toast.makeText(context, "로그인 성공", Toast.LENGTH_SHORT).show()
@@ -232,10 +235,24 @@ class AuthService(private val context: Context) {
             })
     }
 
-    fun registMediRecord(medicineId: String, medicineName: String, dose: String, unit: String,
-                         frequency: String, times: String, startDate: String, prescriptionId: String) {
+    fun registMediRecord(medicineId: String, prescriptionId: String, medicineName: String,
+                         dose: String, unit: String, frequencyType: String, frequencyWeekdays: List<Int>?,
+                         frequencyInterval: Int?, times: MutableList<String>, startDate: String) {
         medicineRegistView.MedicineLoading()
-        val request = RegistMediRecRequest(medicineId,medicineName,dose,unit,frequency,times,startDate,prescriptionId)
+        val request = when (frequencyType) {
+            "weekdays" -> RegistMediRecRequest(
+                medicineId,prescriptionId,medicineName,dose,unit,
+                "weekdays",frequencyWeekdays,null,times,startDate)
+            "interval" -> RegistMediRecRequest(
+                medicineId,prescriptionId,medicineName,dose,unit,
+                "interval",null,frequencyInterval,times,startDate)
+            "custom" -> RegistMediRecRequest(
+                medicineId,prescriptionId,medicineName,dose,unit,
+                "custom",null,null,times,startDate)
+            else -> throw IllegalArgumentException("잘못된 frequencyType: $frequencyType")
+        }
+        val gson = GsonBuilder().create()
+        Log.d("Medicine Record Register request body", gson.toJson(request))
         authService.registMediRecord(request)
             .enqueue(object : Callback<BaseResponse<MessageResponse>> {
                 override fun onResponse(
